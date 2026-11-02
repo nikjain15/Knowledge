@@ -1,0 +1,83 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&family=Mulish:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="styles.css?v=42"><link rel="stylesheet" href="story.css?v=42">
+<title>How it works · Close the gaps · Lakewell Knowledge</title>
+<style>
+.tabs5{grid-template-columns:repeat(5,minmax(0,1fr))}
+.docv{border:1px solid var(--line);border-radius:12px;background:#fff;padding:10px 14px;font-size:13.5px;max-height:330px;overflow:auto}
+.docv h5{margin:8px 0 2px;font-size:12px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}.docv p{margin:0 0 4px}
+.docv .hide{background:#fdf1dd;outline:2px dashed #e0a43a;border-radius:4px}.docv .junk{color:#9aa093}.docv .stale{background:#fdeceb}.docv .inj{background:#fdeceb;outline:2px dashed #c0504d;border-radius:4px}
+.units{display:grid;gap:8px}.unitc{border:1px solid var(--line);border-left:4px solid var(--green);border-radius:12px;padding:8px 12px;background:var(--panel);font-size:13.5px}
+.unitc .ut{font-weight:800}.unitc .um{font-size:12px;color:var(--muted)}.unitc.skip{border-left-color:#c9c9c0;color:var(--muted)}.unitc.flag{border-left-color:#c27c0e}.unitc.locked .lk{display:block;margin-top:4px;background:#f1f7e8;border:1px dashed #8fbd5a;border-radius:8px;padding:6px 8px;font-family:var(--mono);font-size:12.5px}
+</style></head><body>
+<main class="area" style="max-width:1280px">
+<div id="stepper"></div>
+<div class="hhead"><h1>How it works</h1><nav class="seg4" id="how4"></nav><span style="flex:1"></span><button class="icb primary" id="play" title="Watch it play" aria-label="Watch it play"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button><button class="icb" id="stop" title="Stop" aria-label="Stop"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></svg></button></div>
+<div class="subbar" id="tabs"></div>
+<div class="card howcard" id="stage"></div>
+</main>
+<script src="data.js?v=42"></script><script src="app.js?v=42"></script><script src="story-shared.js?v=42"></script>
+<script>
+nav("how3.html", "owner", { demo: true });
+const LOG = q => SEARCH_LOG.filter(l => l.expect === null && (!q || q(l)));
+const DENT = LOG(l => l.cluster === "Supplemental benefits"), DENT_N = DENT.reduce((a, l) => a + l.n, 0);
+const REJ = LOG(l => l.cluster === "Pharmacy claim rejects")[0] || { q: "refill too soon rejected at pharmacy", n: 13 };
+const SYN = SYNONYM_SUGGESTIONS, PIN = PIN_SUGGESTIONS[0];
+window.ACT = {
+  title: "Act 4 · Fill the gaps", nav: "act4.html", role: "owner",
+  approachNext: "See the future state: every gap becomes the next answer →", next: ["act5.html", "Next: Act 5 · Keep it current"],
+  take: {
+    today: { title: "Questions nobody answers, nobody hears about", lead: "When there's no answer, every channel fails quietly, so the gaps never close.", items: [
+      ["eyeoff", "Dead ends nobody records", "The phone bot loops; nobody learns what was asked."], ["search", "Members' words don't match the documents", "'OOP' and typos find nothing."],
+      ["copies", "Advocates write their own answers", "Dana keeps a private note, so the next advocate starts again."], ["send", "The question is the plan's own fault", "A rejection message causes 13 calls a week."], ["clock", "The top question gets a different answer each time", "No one pins the right one."]] },
+    new: { title: "Every gap becomes the next answer", lead: "Unanswered questions are recorded, grouped and turned into approved answers, or into process fixes.", items: [
+      ["inbox", "Every dead end is logged", "Grouped by topic, with how often it's asked."], ["spark", "The system learns members' words", "Synonyms and typos, confirmed by Renee."],
+      ["stamp", "Written once, approved, for everyone", "Priya drafts; the owner approves; every channel serves it."], ["shield", "Some gaps are process problems", "Renee sends them to the team that can fix the cause."], ["lock", "The top question gets one pinned answer", "Confirmed by Renee, still under every rule."]] }
+  },
+  channels: {
+    Voice: { who: "June asks the phone bot about the dental rider her neighbor mentioned.",
+      today: () => `${screen("Phone bot", ["<b>June:</b> Is the dental rider on my plan?", "<b>Bot:</b> Sorry, I didn't understand. Please say 'billing', 'pharmacy' or 'claims'.", "<b>June:</b> Dental.", "<b>Bot:</b> Sorry, I didn't understand…"], "June hangs up. Nothing records what she asked.")}${compare("I don't have an approved answer on the dental rider yet. I've passed your question to our team, and I can connect you with a person now.", "Sorry, I didn't understand.", "What the bot says", "A loop, then a hang-up; nobody hears about it", "What June should hear")}`,
+      issue: ["When the bot has no answer, it loops on a menu, and nothing records what June asked", "June hangs up without an answer and has to call again", "The plan never learns that " + DENT_N + " people asked about dental this week"],
+      path: [["QUESTION", "Dental rider?", "to the bot"], ["NO MATCH", "Nothing in its script", "no fallback"], ["LOOPS", "'I didn't understand'", "until she hangs up"], ["LOST", "Nobody records it", "no gap, no fix"]],
+      now: () => `${screen("Phone bot", ["<b>June:</b> Is the dental rider on my plan?", "<b>Bot:</b> I don't have an approved answer on the dental rider yet. I've passed your question to our team. Would you like me to connect you with a person?"], "Logged: 'dental rider', Supplemental benefits, no approved answer.")}`,
+      fix: ["When nothing approved answers, the bot says so, offers a person, and records the question", "June gets a straight answer and a person instead of a loop", "Every dead end becomes data the plan can act on"],
+      fixpath: [["QUESTION", "Dental rider?", "to the bot"], ["NO ANSWER", "Nothing approved", "says so"], ["LOGGED", "To the gap log", "grouped by topic"], ["HANDED OFF", "To a person", "no loop"]],
+      fix4: { line: "No answer, no guess, no loop. The bot says 'not yet', offers a person, and logs the question.", steps: [2], tech: ["Grounded generation with abstention", "Gap logging"], kind: "Rule", control: "Retrieval abstains when no approved topic answers; every abstention is written to the gap log with the question (personal details removed), role and channel.", who: "Priya sees it in her queue; Renee sees the backlog", proof: "Abstention when no topic answers (G6, G7, G8); every abstention logged (T3)." } },
+    "Member chat": { who: "Members type the way they talk: shorthand, typos and Lakewell's own jargon.",
+      today: () => `${screen("Member chat", ["<b>June:</b> whats my OOP max", "<b>Chat:</b> No results found.", "<b>June:</b> pricing disclamer", "<b>Chat:</b> No results found."], "The answers exist, but under 'out-of-pocket' and 'disclaimer'.")}${compare("Out-of-pocket maximum… (the approved answer)", "No results found.", "What the chat says", "The words didn't match the documents'", "What June should get")}`,
+      issue: ["Search only matches the documents' exact words, so 'OOP', 'nonformulary' and typos find nothing", "June gets 'no results' for questions the plan has already answered", "She calls instead, and the plan pays for a call it didn't need"],
+      path: [["QUESTION", "'OOP max'", "member shorthand"], ["EXACT MATCH", "Only document words", "no synonyms"], ["NO RESULTS", "Typos and jargon fail", "every time"], ["CALLS", "June phones instead", "avoidable call"]],
+      now: () => `${screen("Renee · synonyms learned from what people typed", SYN.map(x => `<b>${esc(x.from)}</b> → ${esc(x.to)} · seen ${x.seen} times · <span class="ok2">confirmed</span>`), "Built in: OOP → out-of-pocket; misspellings within two letters are read correctly.")}`,
+      fix: ["The system learns members' words from the search log, and Renee confirms each synonym before it's used", "June's shorthand and typos find the approved answer", "Fewer avoidable calls, and the plan learns how members actually talk"],
+      fixpath: [["QUESTION", "'OOP max'", "member shorthand"], ["LEARNED", "Synonyms from the log", "proposed by AI"], ["CONFIRMED", "By Renee", "before use"], ["FOUND", "The approved answer", "typos tolerated"]],
+      fix4: { line: "The system learns how members talk, and Renee confirms each new word before it's used.", steps: [2], tech: ["Synonym learning", "Fuzzy matching", "Hybrid retrieval"], kind: "AI recommends, a person confirms", control: "Synonyms and acronyms are mined from the search log and proposed; none goes live until Renee confirms it; misspellings within two letters are tolerated.", who: "Renee confirms every synonym", proof: "Misspelt and shorthand questions still find the one approved answer (G2)." } },
+    "Advocate desk": { who: "Dana gets asked about the dental rider several times a week.",
+      today: () => `${screen("Dana's search · 'dental rider'", ["No results."], "So Dana keeps her own sticky note: 'dental rider: I think $25/month?' Every advocate keeps a different one.")}${compare("A written, approved answer on the dental rider.", "A private sticky note: 'I think $25/month?'", "What Dana has", "Her own guess, different from the next advocate's", "What Dana should have")}`,
+      issue: ["Search finds nothing, so each advocate writes their own private answer", "June hears a guess, and a different guess from the next advocate", "The same question is asked " + DENT_N + " times a week, and nobody writes the real answer"],
+      path: [["QUESTION", "Dental rider?", "on a call"], ["NO RESULTS", "Nothing approved", "nothing logged"], ["STICKY NOTE", "Dana's own guess", "every advocate different"], ["REPEATS", DENT_N + " times a week", "never fixed"]],
+      now: () => `${screen("Priya's queue · Supplemental benefits", [`<b>${DENT_N} searches this week</b> · ${DENT.map(l => esc(l.q)).join(" · ")}`, "<b>Proposed topic:</b> " + esc(CLUSTERS["Supplemental benefits"].proposal), "<b>Draft:</b> " + esc(GAP_DRAFT.text), "<span class='ok2'>Sent to Renee for approval</span>"])}`,
+      fix: ["Unanswered questions are grouped by topic with how often they're asked; Priya writes the answer once, and the owner approves it", "Next time, Dana and every channel give June the same approved answer", "No more private notes: the plan's questions become its content backlog"],
+      fixpath: [["LOGGED", DENT_N + " dental questions", "grouped by AI"], ["PROPOSED", "A topic to write", "with a draft"], ["WRITTEN", "By Priya", "from the source"], ["APPROVED", "By Renee", "served everywhere"]],
+      fix4: { line: "The questions nobody could answer become the next answers to write, once, for everyone.", steps: [2, 1], tech: ["Gap clustering", "LLM-drafted answers", "Approval workflow"], kind: "AI groups and drafts, people write and approve", control: "The gap log groups unanswered questions into topics with counts and proposes a title and draft; the author writes it from a source; it goes through the same approval as everything else.", who: "Priya writes; Renee approves gap answers and decides what deserves one", proof: "After approval, the same questions are answered from the new topic (G8 after state)." } },
+    Outbound: { who: "Members who get a 'refill rejected' message call to ask why.",
+      today: () => `${screen("Pharmacy rejection message", ["REFILL REJECTED: CODE 79"], `'${esc(REJ.q)}' is asked ${REJ.n} times a week. The cause is the message itself: it never says when the next fill is allowed.`)}${compare("Your refill is too early. You can fill it from 14 Nov.", "REFILL REJECTED: CODE 79", "What the message says", "No date, no reason", "What it should say")}`,
+      issue: ["A pharmacy system message says 'REFILL REJECTED: CODE 79' with no reason or date", "June doesn't know why or when she can refill, so she calls", "The plan answers the same question " + REJ.n + " times a week because of its own message; no knowledge article fixes that"],
+      path: [["MESSAGE", "'Code 79'", "pharmacy system"], ["CONFUSION", "No date, no reason", "member calls"], ["ANSWERED", "One call at a time", "again and again"], ["NEVER FIXED", "Nobody owns the cause", REJ.n + " calls a week"]],
+      now: () => `${screen("Renee's backlog · Pharmacy claim rejects", [`<b>${esc(REJ.q)}</b> · ${REJ.n} a week`, "<b>AI reads this as a process problem:</b> " + esc(CLUSTERS["Pharmacy claim rejects"].processFix), "<b>Renee decided:</b> fix the process. Sent to Pharmacy Operations; no topic written."])}`,
+      fix: ["Renee sees the gap is caused by the plan's own message, and sends it to the team that owns the cause instead of writing more content", "June's message tells her the date she can refill", "The calls stop at the source, not one at a time"],
+      fixpath: [["LOGGED", REJ.n + " questions a week", "grouped"], ["DIAGNOSED", "A process problem", "AI suggests"], ["DECIDED", "Fix the process", "by Renee"], ["SENT", "To Pharmacy Operations", "the cause is fixed"]],
+      fix4: { line: "Not every gap needs content. Some are the plan's own process, and go to the team that owns it.", steps: [2], tech: ["Gap clustering", "Root-cause suggestion"], kind: "AI suggests, a person decides", control: "The gap log flags clusters that look like a process cause; deciding write-an-answer or fix-the-process is always a person's call.", who: "Renee decides write-it or fix-the-process (D42)", proof: "Every gap cluster carries a decision and an owner; volumes tracked week on week." } },
+    Website: { who: "The plan's website search gets the same question every day: the pricing disclaimer.",
+      today: () => `${screen("Website search · 'rx pricing disclaimer'", ["1. Member Benefits Quick Guide 2027", "2. Rx Education Script v3 (draft)", "3. Pharmacy Desk Cheat Sheet 2025"], `Asked ${PIN.seen} times this week. The top result changes with every page edit.`)}${compare("One approved answer, always first.", "Three documents, and the order changes week to week.", "What search returns", "The most-asked question has no fixed answer", "What it should return")}`,
+      issue: ["The most-asked question returns a list of documents, in whatever order the search engine picks that week", "June may open a draft or last year's sheet first", "The plan's most common question is also its least consistent"],
+      path: [["TOP QUESTION", "Rx pricing disclaimer", PIN.seen + " a week"], ["RANKED", "By the search engine", "order shifts"], ["DOCUMENTS", "Draft and stale copies", "near the top"], ["JUNE", "Opens the wrong one", "sometimes"]],
+      now: () => `${screen("Renee · pin a top question", [`<b>"${esc(PIN.q)}"</b> asked ${PIN.seen} times this week`, "<b>Pinned to:</b> " + esc((ALL_BASE().find(u => u.id === PIN.unit) || {}).title || PIN.unit), "<span class='ok2'>Confirmed by Renee</span> · still obeys every rule: approved, in date, scoped to the role"])}`,
+      fix: ["Renee pins the approved answer to the top question, so it always comes first", "June gets the approved answer first, every time", "The plan's most-asked question becomes its most consistent"],
+      fixpath: [["TOP QUESTION", "Rx pricing disclaimer", PIN.seen + " a week"], ["SUGGESTED", "Pin the approved topic", "by AI"], ["CONFIRMED", "By Renee", "under every rule"], ["FIRST", "Every time", "in every channel"]],
+      fix4: { line: "The most-asked question gets one pinned, approved answer, confirmed by a person.", steps: [2], tech: ["Pinned answers", "Hybrid retrieval"], kind: "AI recommends, a person confirms", control: "The system suggests a pinned answer for a top question; it goes live only when Renee confirms, and a pin still obeys every rule (approved, in date, role).", who: "Renee confirms every pin", proof: "A pinned answer is still served only if approved and in scope (S3.4, S7.5)." } }
+  }
+};
+
+ACT.lead = "Priya and Renee, the author and the owner"; ACT.steps = [["Voice", "Log every dead end"], ["Advocate desk", "Group, draft and approve"], ["Member chat", "Learn members' words"], ["Outbound", "Fix the process, not the content"], ["Website", "Pin the top answer"]]; ACT.howIndex = 2;
+</script>
+<script src="how-scenes.js?v=42"></script><script src="how-engine.js?v=42"></script></body></html>

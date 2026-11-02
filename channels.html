@@ -1,0 +1,56 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&family=Mulish:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="styles.css?v=23">
+<title>Channels · Lakewell Knowledge</title></head><body>
+<main class="area"><div class="phead"><div><p class="eyebrow">Deep dive · five channels, one unit</p><h1>Voice, chat, advocate assist, outbound and digital</h1><p>The brief's channels each read the same unit and version. Each renders it its own way, and the locked clause never changes.</p></div>
+<div class="right"><select id="unitsel" style="width:auto"></select><select id="asof" style="width:auto"></select></div></div><div id="view"></div></main>
+<script src="data.js?v=23"></script><script src="app.js?v=23"></script>
+<script>
+nav("channels.html", "owner");
+intro(null, "One approved unit as each of the brief's five channels shows it.", "Same version and same locked clause everywhere. Outbound texts a one-line summary and a link, never the wording itself, and STOP applies to that member's texts only.");
+let uid = QS.get("unit") || "KU-202", asOf = QS.get("asof") || PLAN.today, mWho = QS.get("m") || "June Halvorsen";
+const MEMBERS = ["June Halvorsen", "Walt Pemberton"]; /* invented members */
+function current(u) { return u.versions.filter(v => v.state === "approved" && inWindow(v, asOf)).slice(-1)[0]; }
+/* F18: opt-out is per member and per channel, with the date and how it arrived */
+const optedOut = (m, ch) => !!(((S().optOut || {})[m] || {})[ch]);
+const DIFF = { "Advocate desk": "Full topic, citation and trace", "Agent Assist": "Pops up beside the advocate on the call", "Member chat": "Member wording around the same clause; member-facing units only", "Voice": "Read aloud, clause word for word", "Outbound": "One-line summary and a link; consent and STOP", "Website": "Page block; version in the footer" };
+function draw() {
+  const all = units(), list = all.filter(u => current(u) && !u.synthetic);
+  if (!list.find(u => u.id === uid) && list[0]) uid = list[0].id;
+  /* F15: every approved unit, grouped member-facing and staff only, with how many channels it is on */
+  const opt = u => `<option value="${u.id}"${u.id === uid ? " selected" : ""}>${esc(u.title)} · ${u.channels.length + (u.channels.includes("Agent Assist") ? 0 : 1)} channels</option>`;
+  document.getElementById("unitsel").innerHTML = list.length ? `<optgroup label="Member-facing">${list.filter(u => u.memberFacing).map(opt).join("")}</optgroup><optgroup label="Staff only">${list.filter(u => !u.memberFacing).map(opt).join("")}</optgroup>` : "<option>Nothing approved yet</option>";
+  document.getElementById("asof").innerHTML = [PLAN.today, PLAN.next].map(d => `<option${d === asOf ? " selected" : ""}>${d}</option>`).join("");
+  const u = all.find(x => x.id === uid);
+  if (!u || !current(u)) { document.getElementById("view").innerHTML = `<div class="quiet">No approved unit yet. <a href="#" id="seed">Seed the gate</a> to see the channels.</div>`; document.getElementById("seed").onclick = e => { e.preventDefault(); store.up(ENSURE.gateDone); draw(); }; return; }
+  const v = current(u), c = v.clause, uu = Object.assign({}, u, { text: v.text, clause: c }), nx = nextAt(u, asOf);
+  const on = ch => u.channels.includes(ch.key) || ch.key === "Agent Assist";
+  const body = ch => {
+    if (!on(ch)) return `<div class="blocked">Not on this channel (${u.memberFacing ? "not on its list" : "staff-only unit, never shown to members"}).</div>`;
+    if (ch.key === "Voice") return `<p>${esc(render(uu, "Voice"))}</p><button class="btn sm primary" id="speak">Play the voice bot</button> <button class="btn sm" id="hush">Stop</button><p class="small" id="vnote"></p>`;
+    if (ch.key === "Outbound") { const ok = !optedOut(mWho, "Text");
+      return `<div class="acts" style="margin-bottom:6px"><select id="mem" style="width:auto">${MEMBERS.map(m => `<option${m === mWho ? " selected" : ""}>${m}</option>`).join("")}</select><div class="seg"><button aria-pressed="${ok}" id="consentOn">Texts on</button><button aria-pressed="${!ok}" id="consentOff">Replied STOP</button></div></div>`
+        + (ok ? `<div class="msg"><b>Text to ${esc(mWho.split(" ")[0])}:</b> ${esc(render(uu, "Outbound"))}</div><p class="small" style="margin-top:6px">The link opens the website block with the exact wording, version v${v.v}, fingerprint checked (D57).</p>`
+        : `<div class="blocked">${esc(mWho)} replied STOP on ${esc(((S().optOut || {})[mWho] || {}).Text.on)}. No text is sent to ${esc(mWho.split(" ")[0])}. Other members still get texts, and ${esc(mWho.split(" ")[0])}'s reminder calls are unchanged.</div>`); }
+    if (ch.key === "Website") return `<div class="paper"><p style="margin:0 0 6px">${esc(u.memberLead || v.text)}</p>${c ? `<p class="vline">${esc(c.text)}</p>` : ""}<p class="small" style="margin:0">v${v.v} · approved ${esc(v.approvedOn)} · page footer</p></div>`;
+    if (ch.key === "Member chat") return `<div class="msg">${esc(u.memberLead || v.text)}${c ? `<div class="locked" style="margin-top:6px;font-size:12.5px">${esc(c.text)}</div>` : ""}</div>`;
+    return `<p>${esc(v.text)}</p>${c ? `<div class="locked">${esc(c.text)}</div>` : ""}`;
+  };
+  /* UX 5: one master answer, then only what changes per channel */
+  document.getElementById("view").innerHTML = `<div class="card tint" style="margin-bottom:12px"><p class="eyebrow">The one approved answer</p><h3 style="margin:2px 0 6px">${esc(u.title)} ${ruleTag(u)}</h3><p>${esc(v.text)}</p>${c ? `<div class="locked">${esc(c.text)}</div>` : ""}
+    <p class="small" style="margin-top:6px">In force ${esc(v.effective)} to ${esc(v.expiry)} · approved by ${esc((v.approvedBy || "").split(",")[0])}${nx ? ` · next: ${esc(nx.state)}${nx.effective ? " for " + esc(nx.effective) : ""}` : ""}<span class="idonly"> · ${u.id} v${v.v}${c ? " · fingerprint " + fp(c.text) : ""}</span></p></div>
+    <p class="small">What changes per channel (open a tile to see it):</p>
+    <div class="chgrid">${CHANNELS.map(ch => `<details class="card chtile${on(ch) ? "" : " off"}"${ch.key === "Outbound" && (QS.get("m") || S().optOut) ? " open" : ""}><summary><b>${esc(ch.label)}</b><span class="small">${on(ch) ? esc(DIFF[ch.key]) : "not on this channel"}</span></summary>${body(ch)}</details>`).join("")}</div>`;
+  const sp = document.getElementById("speak"); if (sp) sp.onclick = () => { const n = document.getElementById("vnote");
+    if (!("speechSynthesis" in window)) { n.textContent = "This browser has no speech; the text above is what the bot reads."; return; }
+    speechSynthesis.cancel(); const ut = new SpeechSynthesisUtterance(render(uu, "Voice")); ut.rate = 0.95; speechSynthesis.speak(ut); n.textContent = "Speaking the approved words, locked clause verbatim (D49)."; store.up(x => { x.voicePlayed = true; }); };
+  const mem = document.getElementById("mem"); if (mem) mem.onchange = e => { mWho = e.target.value; draw(); };
+  const con = document.getElementById("consentOn"), coff = document.getElementById("consentOff");
+  if (con) con.onclick = () => { store.up(x => { const o = (x.optOut || {})[mWho]; if (o && o.Text) { delete o.Text; logEv(x, uid, "member", "re-consented to texts", mWho); } }); draw(); };
+  if (coff) coff.onclick = () => { store.up(x => { x.optOut = x.optOut || {}; x.optOut[mWho] = x.optOut[mWho] || {}; if (!x.optOut[mWho].Text) { x.optOut[mWho].Text = { on: PLAN.today, how: "STOP reply to a text" }; logEv(x, uid, "member", "opted out of texts", `${mWho}; texts only; date and STOP reply recorded`); } }); draw(); };
+  const hu = document.getElementById("hush"); if (hu) hu.onclick = () => window.speechSynthesis && speechSynthesis.cancel();
+}
+document.getElementById("unitsel").onchange = e => { uid = e.target.value; draw(); };
+document.getElementById("asof").onchange = e => { asOf = e.target.value; draw(); };
+draw();
+</script></body></html>

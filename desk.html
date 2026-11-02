@@ -1,0 +1,69 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&family=Mulish:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="styles.css?v=23">
+<title>Desk · Lakewell Knowledge</title></head><body>
+<main class="area"><div class="phead" id="head"></div><div class="desk"><div id="calls"></div><div id="work"></div></div></main>
+<script src="data.js?v=23"></script><script src="app.js?v=23"></script>
+<script>
+const ROLE = ["insurance", "pharmacy"].includes(QS.get("role")) ? QS.get("role") : "insurance";
+nav("desk.html", ROLE);
+let callId = QS.get("call"), asOf = QS.get("asof") || PLAN.today, q = "";
+const mineCalls = CALLS.filter(c => c.role === ROLE);
+if (!callId || !mineCalls.find(c => c.id === callId)) callId = mineCalls[0].id;
+const areasCan = [...new Set(units().filter(u => u.current && u.kbs.some(k => readsOf(ROLE).includes(k))).map(u => u.area))];
+/* UX 4: one "Viewing as" control (person, desk and date together) */
+const VIEWS = [["insurance", PLAN.today], ["insurance", PLAN.next], ["pharmacy", PLAN.today], ["pharmacy", PLAN.next]];
+document.getElementById("head").innerHTML = `<div><p class="eyebrow">Advocate desk</p><h1>${esc(P(ROLE))}</h1><p>Reads the ${readsOf(ROLE).join(" and ")} bases, checked with the identity provider on every question.</p></div>
+  <div class="right"><label class="small">Viewing as <select id="viewas" style="width:auto">${VIEWS.map(([r, d]) => `<option value="${r}|${d}"${r === ROLE && d === asOf ? " selected" : ""}>${ROLES[r].person.split(" ")[0]}, ${r} desk · ${d}${d === PLAN.today ? " (today)" : ""}</option>`).join("")}</select></label></div>`;
+document.getElementById("viewas").onchange = e => { const [r, d] = e.target.value.split("|"); if (r !== ROLE) location.href = `desk.html?role=${r}&asof=${encodeURIComponent(d)}`; else { asOf = d; work(); } };
+const SUGGEST = { insurance: ["rx pricing disclaimer", "dental rider included?", "star rating 2027"], pharmacy: ["formulary exception timeline", "Tier 3 copay 2027", "vision benefit limit"] };
+intro(null, "A live call. The member asks, the advocate searches, and one cited answer comes back.", "Search reads only approved units this role may read. If none answers, it says so and guesses nothing.");
+function calls() {
+  const byArea = {}; mineCalls.forEach(c => (byArea[c.area] = byArea[c.area] || []).push(c));
+  const first = mineCalls.filter(c => c.core).concat(mineCalls.filter(c => !c.core)).slice(0, 5), rest = mineCalls.filter(c => !first.includes(c));
+  const line = c => `<div class="line q${c.id === callId ? " on" : ""}" data-c="${c.id}" style="margin-bottom:6px"><span class="w">${c.id} · ${esc(c.area)}${c.core ? " · demo" : ""}</span>${esc(c.member)}</div>`;
+  document.getElementById("calls").innerHTML = `<div class="card"><h3>Callers waiting</h3>${first.map(line).join("")}<details class="more"${rest.some(c => c.id === callId) ? " open" : ""}><summary>${rest.length} more callers</summary>${rest.map(line).join("")}</details></div>
+    <details class="more card" style="margin-top:12px"><summary>Topics this desk can answer (${areasCan.length})</summary><div class="chips" style="margin-top:6px">${areasCan.map(a => `<span class="chip">${esc(a)}</span>`).join("")}</div></details>`;
+  document.querySelectorAll("[data-c]").forEach(el => el.onclick = () => { callId = el.dataset.c; q = ""; calls(); work(); });
+  return;
+  document.getElementById("calls").innerHTML = `<div class="card"><h3>Callers waiting</h3>${Object.entries(byArea).map(([a, cs]) => `<p class="eyebrow" style="margin-top:10px">${esc(a)}</p>${cs.map(c => `<div class="line q${c.id === callId ? " on" : ""}" data-c="${c.id}" style="margin-bottom:6px"><span class="w">${c.id}${c.core ? " · demo" : ""}</span>${esc(c.member)}</div>`).join("")}`).join("")}</div>
+    <div class="card" style="margin-top:12px"><h3>This desk can answer</h3><div class="chips">${areasCan.length ? areasCan.map(a => `<span class="chip">${esc(a)}</span>`).join("") : '<span class="small">Nothing approved yet.</span>'}</div></div>`;
+  document.querySelectorAll("[data-c]").forEach(el => el.onclick = () => { callId = el.dataset.c; q = ""; calls(); work(); });
+}
+function work() {
+  const c = CALLS.find(x => x.id === callId), query = q || c.q, r = answer(query, { role: ROLE, asOf });
+  const s = S(), flagged = (s.flags || []).some(f => f.q.toLowerCase() === query.toLowerCase());
+  store.up(x => { x.searches = (x.searches || 0) + 1; });
+  let out = "";
+  if (r.kind === "answer") {
+    const u = r.unit, v = r.version;
+    out = `<div class="answer"><div class="acts"><b>${esc(u.title)}</b>${statePill("approved")}${r.upcoming ? `<span class="pill lock">starts ${esc(r.upcoming)}</span>` : ""}${ruleTag(u)}${r.pending && !r.upcoming && nextAt(u, asOf) ? `<span class="pill warn">v${nextAt(u, asOf).v} ${esc(nextAt(u, asOf).state === "approved" ? "approved for " + nextAt(u, asOf).effective : nextAt(u, asOf).state)}; not served</span>` : ""}</div>
+      <p style="margin:8px 0">${esc(v.text)}</p>${v.clause ? `<div class="locked">${esc(v.clause.text)}</div>` : ""}${citeLine(u, v)}
+      <div class="acts" style="margin-top:10px"><button class="why" id="fullcite">Full citation</button><button class="why" id="why">Why this unit</button><a class="why" href="channels.html?unit=${u.id}">Where it is used</a></div>
+      <div id="more"></div></div>`;
+  } else if (r.kind === "scope") {
+    out = `<div class="answer none"><b>No answer in your bases.</b><p style="margin:6px 0">Your role does not read the base that holds this. Transfer to an Insurance advocate.</p><p class="small">Nothing outside your bases was searched, ranked or cited. Logged as an access refusal, not a content gap.</p><button class="why" id="why">Why</button><div id="more"></div></div>`;
+  } else {
+    if (r.route === "upcoming") { const uu = r.upcomingUnit, vv = r.upcomingVersion;
+      out = `<div class="answer none"><b>No answer in force today.</b><p style="margin:6px 0">An approved answer starts ${esc(vv.effective)}. Next-year benefits may be discussed from 1 October if the year is clear (R-81).</p></div>
+        <div class="answer" style="margin-top:10px"><div class="acts"><b>${esc(uu.title)}</b><span class="pill lock">starts ${esc(vv.effective)}</span></div><p style="margin:8px 0">From ${esc(vv.effective)}: ${esc(vv.text)}</p>${citeLine(uu, vv)}<div class="acts" style="margin-top:8px"><button class="why" id="why">Why</button></div><div id="more"></div></div>`;
+    } else {
+    const msg = { gap: "No approved answer.", translator: "No approved Spanish wording.", author: "This unit cannot be shown: a field is blank.", person: REFUSAL }[r.route] || "No approved answer.";
+    out = `<div class="answer none"><b>${esc(r.kind === "nearmiss" ? "No approved answer to that exact question." : msg)}</b><p style="margin:6px 0">${r.kind === "nearmiss" ? esc(r.why) + ". The system will not guess a number." : r.route === "translator" ? "The Spanish draft is a machine translation nobody qualified has checked. Sent to the translator queue." : r.route === "author" ? "Sent to Priya to fix the template." : r.route === "person" ? "" : "Nothing approved covers this. Say so to the member and offer a callback."}</p>
+      ${["gap"].includes(r.route) ? (flagged ? `<p class="ok">In Priya's queue.</p>` : `<button class="btn sm primary" id="sendgap">Send to Priya's queue</button>`) : ""}<button class="why" id="why" style="margin-left:10px">Why no answer</button><div id="more"></div></div>`;
+    }
+  }
+  document.getElementById("work").innerHTML = `<div class="phone"><div class="av">${c.member[0]}</div><div class="who"><b>Member on the line · ${c.id}</b><span>${esc(c.area)}</span></div><span class="t">00:${String(40 + c.id.length).padStart(2, "0")}</span></div>
+    <div class="transcript" style="margin:12px 0"><div class="line"><span class="w">Member</span>${esc(c.member)}</div></div>
+    <div class="searchbar"><input type="text" id="qbox" value="${esc(query)}"><button class="btn primary" id="go">Search</button></div><div class="small" style="margin-top:6px">Try: ${SUGGEST[ROLE].map(t => `<a href="#" class="chip" data-try="${esc(t)}">${esc(t)}</a>`).join(" ")}</div>
+    <p class="small" style="margin:6px 0 10px">Logged as typed, after redaction: <span class="mono">${esc(r.redacted)}</span> · ${esc(ROLES[ROLE].label)} · as of ${esc(asOf)}</p>${out}`;
+  document.getElementById("go").onclick = () => { q = document.getElementById("qbox").value; work(); };
+  document.getElementById("qbox").onkeydown = e => { if (e.key === "Enter") document.getElementById("go").click(); };
+  document.querySelectorAll("[data-try]").forEach(a => a.onclick = e => { e.preventDefault(); q = a.dataset.try; work(); });
+  const more = document.getElementById("more");
+  const fc = document.getElementById("fullcite"); if (fc) fc.onclick = () => more.innerHTML = `<div style="margin-top:10px">${citeHTML(r.unit, r.version)}</div>`;
+  const wy = document.getElementById("why"); if (wy) wy.onclick = () => more.innerHTML = `<div class="det">${traceHTML(r)}${rankHTML(r)}<p class="small" style="margin-top:6px">${who("AI")} blends keyword match (plan-speak expanded, misspellings tolerated) with text similarity, a stand-in for embeddings. It answers only at keyword 2 or more.</p></div>`;
+  const sg = document.getElementById("sendgap"); if (sg) sg.onclick = () => { store.up(x => { x.flags = x.flags || []; x.flags.push({ q: query, role: ROLE, on: PLAN.today }); logEv(x, "GAP", ROLE, "flagged unanswered question", r.redacted); notify(x, ["author", "owner"], `${ROLES[ROLE].person} flagged: "${r.redacted}"`, "author.html?tab=gaps&c=Supplemental%20benefits"); }); work(); };
+}
+calls(); work();
+</script></body></html>

@@ -1,0 +1,81 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&family=Mulish:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="styles.css?v=42"><link rel="stylesheet" href="story.css?v=42">
+<title>How it works · Govern and approve · Lakewell Knowledge</title>
+<style>
+.tabs5{grid-template-columns:repeat(5,minmax(0,1fr))}
+.docv{border:1px solid var(--line);border-radius:12px;background:#fff;padding:10px 14px;font-size:13.5px;max-height:330px;overflow:auto}
+.docv h5{margin:8px 0 2px;font-size:12px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}.docv p{margin:0 0 4px}
+.docv .hide{background:#fdf1dd;outline:2px dashed #e0a43a;border-radius:4px}.docv .junk{color:#9aa093}.docv .stale{background:#fdeceb}.docv .inj{background:#fdeceb;outline:2px dashed #c0504d;border-radius:4px}
+.units{display:grid;gap:8px}.unitc{border:1px solid var(--line);border-left:4px solid var(--green);border-radius:12px;padding:8px 12px;background:var(--panel);font-size:13.5px}
+.unitc .ut{font-weight:800}.unitc .um{font-size:12px;color:var(--muted)}.unitc.skip{border-left-color:#c9c9c0;color:var(--muted)}.unitc.flag{border-left-color:#c27c0e}.unitc.locked .lk{display:block;margin-top:4px;background:#f1f7e8;border:1px dashed #8fbd5a;border-radius:8px;padding:6px 8px;font-family:var(--mono);font-size:12.5px}
+</style></head><body>
+<main class="area" style="max-width:1280px">
+<div id="stepper"></div>
+<div class="hhead"><h1>How it works</h1><nav class="seg4" id="how4"></nav><span style="flex:1"></span><button class="icb primary" id="play" title="Watch it play" aria-label="Watch it play"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button><button class="icb" id="stop" title="Stop" aria-label="Stop"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></svg></button></div>
+<div class="subbar" id="tabs"></div>
+<div class="card howcard" id="stage"></div>
+</main>
+<script src="data.js?v=42"></script><script src="app.js?v=42"></script><script src="story-shared.js?v=42"></script>
+<script>
+nav("how2.html", "legal", { demo: true });
+const TIP = (MESSY_UNITS.find(u => u.id === "KU-224") || { versions: [{ text: "" }] }).versions[0].text;
+const chk = (items, done) => `<div class="docv">${items.map(([who, t, d], i) => `<p><span style="display:inline-block;width:18px">${i < done ? "☑" : "☐"}</span><b>${esc(t)}</b> <span class="small">${esc(who)} · ${esc(d)}</span></p>`).join("")}</div>`;
+window.ACT = {
+  title: "Act 2 · Check and approve, once", nav: "act2.html", role: "legal",
+  approachNext: "See the future state: approvals with Lakewell Knowledge →", next: ["day.html", "Next: Act 3 · June's day across five channels"],
+  take: {
+    today: { title: "Approvals nobody can trust", lead: "Content reaches June without a real check, a clear owner, or anyone noticing delays.", items: [
+      ["pencil", "Approving your own work", "The bot's script was signed off by its author."], ["shield", "Clinical advice, unchecked", "The chat gives a health tip no pharmacist reviewed."],
+      ["copies", "Two teams, two wordings", "Nobody has the authority to pick one."], ["send", "No real sign-off", "A text goes out on an email 'looks fine'."], ["clock", "Reviews that stall", "The website keeps old wording while a review sits unread."]] },
+    new: { title: "Approve once, with confidence", lead: "Every answer is checked by the right person, on time, and on record.", items: [
+      ["lock", "Separation of duties", "The author can never approve her own work."], ["shield", "Clinical eyes on clinical advice", "Pharmacist, then medical director."],
+      ["source", "One owner per decision", "Tom decides which wording holds."], ["stamp", "Approval is a gate", "AI checks; a person confirms; nothing else goes live."], ["calendar", "Clocks on every review", "Escalate, reassign, never stuck."]] }
+  },
+  channels: {
+    Voice: { who: "The phone bot's script was edited and then approved by the same person, two minutes apart.",
+      today: () => `${screen("Change log · phone bot script", ["<b>Edited by:</b> Priya Nandakumar · 3:02 PM", "<b>Approved by:</b> Priya Nandakumar · 3:04 PM"], "Same person, two minutes apart. Nothing stopped it.")}${compare("Written by one person, approved by another.", "Written and approved by the same person.", "What the log shows", "No second pair of eyes", "What should happen")}`,
+      issue: ["The person who wrote the bot's script also approved it, so nobody else ever checked it", "June hears whatever slipped past the author, read out by the bot to every caller", "It breaks a basic compliance control: separation of duties"],
+      path: [["WRITTEN", "By Priya", "3:02 PM"], ["SELF-APPROVED", "By Priya", "3:04 PM"], ["NO CHECK", "The tool allows it", "no second person"], ["BOT READS IT", "To every caller", "unreviewed"]],
+      now: () => `${screen("Approve · Pricing walk-through", ["<b>Priya Nandakumar</b> tried to approve her own change", '<span class="bad2">Refused: the author cannot approve her own work</span>', "Logged: Priya Nandakumar · 3:04 PM · KU-202 v2", "Sent to: <b>Grace Mbeki</b>, clinical pharmacist reviewer"])}`,
+      fix: ["The system itself refuses an approval from the author, and logs the attempt", "Everything the bot reads to June was checked by someone other than the person who wrote it", "Separation of duties holds even if a screen or a tool gets it wrong"],
+      fixpath: [["WRITTEN", "By Priya", "submitted"], ["CHECKED", "Who is approving?", "the author? refused"], ["LOGGED", "The attempt", "for audit"], ["APPROVED", "By another person", "the right type"]],
+      fix4: { line: "The author can never approve her own work. The system refuses it, not just the screen.", steps: [1], tech: ["Separation of duties", "Audit trail"], kind: "Rule", control: "The approval record itself rejects a signature from the topic's author, or a second signature from the same person, and logs the attempt.", who: "The approver for that content type; never the author", proof: "Author and same-person signatures refused at the data layer (D30, D74); every attempt logged (T3)." } },
+    "Member chat": { who: "The member chat can read the pharmacy desk's shared notes, including a statin tip.",
+      today: () => `${screen("Member chat", ["<b>June:</b> Should I take my statin in the morning or at night?", "<b>Chat:</b> " + esc(TIP)], "From a desk note nobody clinical ever reviewed.")}${compare("Reviewed by a clinical pharmacist, then signed off by the medical director.", "Never reviewed by anyone clinical.", "Who checked this tip", "Nobody qualified", "What should happen")}`,
+      issue: ["The chat repeats a health tip written on the desk, never reviewed by a pharmacist or doctor", "June gets health advice that nobody qualified ever checked", "Clinical advice without clinical review is a patient-safety and liability risk"],
+      path: [["WRITTEN", "On the desk", "by a non-clinician"], ["SAVED", "Shared notes", "no owner"], ["NO REVIEW", "No pharmacist, no doctor", "nobody checks"], ["CHAT SAYS IT", "To June", "as advice"]],
+      now: () => `${chk([["AI", "Routed by type: clinical guidance", "to Grace"], ["Grace Mbeki", "Pharmacist review", "signed 1 Nov"], ["Dr. Ruth Calloway", "Medical director, second sign-off", "signed 2 Nov"], ["Dr. Calloway", "Starts 1 Jan 2027", "scheduled"]], 4)}`,
+      fix: ["Clinical content goes to a clinical pharmacist, then the medical director signs off second, and it goes live only on the date they pick", "June only hears health advice two qualified people checked", "Extra sign-off only where it matters, so nothing else slows down"],
+      fixpath: [["FOUND", "A clinical tip", "at ingest"], ["ROUTED", "To Grace", "by content type"], ["TWO SIGNERS", "Grace, then Dr. Calloway", "clinical only"], ["SCHEDULED", "Live on their date", "not before"]],
+      fix4: { line: "Clinical advice gets clinical eyes: a pharmacist, then a medical director, and it goes live only on their date.", steps: [0, 1], tech: ["Content-type routing", "Two-person sign-off"], kind: "AI routes, two people approve", control: "Extraction classifies the content type; clinical guidance always goes to a clinical approver and needs a second signature from the medical director; a scheduled date is honoured.", who: "Grace signs first; Dr. Calloway signs second", proof: "Clinical routing check; a dated co-sign stays scheduled until its date (D53, D62)." } },
+    "Advocate desk": { who: "Dana finds two 'official' disclaimers: Legal's and Member Communications'.",
+      today: () => `${compare(PD["PD-A"], PD["PD-C"], "Member Communications' version", "In the Quick Guide; never approved by Legal")}${screen("Who decides?", ["Both teams think theirs is right. Nobody owns the decision, so both stay live."])}`,
+      issue: ["Two teams publish two wordings of the same legal line, and nobody has the authority to pick one", "Dana reads June whichever one she finds first", "Both stay live indefinitely, and the plan can't say which is official"],
+      path: [["TWO VERSIONS", "Legal's and Member Comms'", "both published"], ["NO OWNER", "Nobody's decision", "both stay live"], ["NO RESOLUTION", "Months of email", "or nothing"], ["DANA", "Picks one", "while June waits"]],
+      now: () => `${screen("Conflict of authority · Pricing disclaimer", ["<b>Legal (PD-A):</b> " + esc(PD["PD-A"]), "<b>Member Communications (PD-C):</b> " + esc(PD["PD-C"]), '<span class="ok2"><b>Tom Bexley decided:</b> Legal\'s wording holds. PD-C retired; the Quick Guide now points to the approved topic.</span>'])}`,
+      fix: ["The conflict goes to the one person with authority: Tom decides once which wording holds, and the other copy retires", "Dana sees one approved wording, so June hears the same legal words everywhere", "One decision, on record, ends the argument for good"],
+      fixpath: [["FOUND", "Two wordings of one clause", "by dedup"], ["RAISED", "As a conflict of authority", "to Tom"], ["DECIDED", "Legal's wording holds", "on record"], ["RETIRED", "The other copy", "points to it"]],
+      fix4: { line: "Conflicts of authority go to one named person. Tom decides once; the other copy retires.", steps: [1], tech: ["Conflict-of-authority workflow", "Knowledge graph"], kind: "A person decides", control: "The AI never resolves a conflict of authority; it raises it with both wordings side by side. Tom's decision retires the other copy and redirects it to the approved topic.", who: "Tom (Legal) holds authority over legal wording", proof: "Only one approved wording is ever served (G1, G2); the retired copy never returns." } },
+    Outbound: { who: "The reminder team gets a quick 'looks fine' by email and sends.",
+      today: () => `${screen("Email thread · 'refill reminder text, ok?'", ["<b>Reminder team:</b> New refill text attached, ok to send today?", "<b>Tom:</b> Looks fine at a glance, go ahead."], "Sent to 48,210 members that afternoon. No checklist, no record of what Tom checked (illustrative).")}${compare("Approved: checked against the source, dated, with Tom's name and the version on record.", "'Looks fine at a glance' in an email.", "What counts as approval", "Nothing records what was checked", "What a real approval looks like")}`,
+      issue: ["Approval is an email reply: no checklist, no record of what was checked, no start date", "June gets a text with wording nobody properly checked", "When an auditor asks who approved it and what they checked, there's no answer"],
+      path: [["DRAFT", "Reminder text", "by the team"], ["EMAIL", "'Ok to send?'", "to Tom"], ["NO GATE", "'Looks fine'", "nothing recorded"], ["SENT", "To 48,210 members", "no trail"]],
+      now: () => `${chk([["AI", "Text matches the approved source", "similarity 1.00"], ["AI", "Locked words character-exact", "fingerprint matches"], ["AI", "Dates, audience and channels set", "texts: link only"], ["Tom Bexley", "The answer is correct and complete", "only a person ticks this"]], 4)}<p class="small ok2"><b>Approved by Tom Bexley, 2 Nov 2026, version 2, in force from 1 Jan 2027.</b> Only now can a campaign use it.</p>`,
+      fix: ["Approval is a gate: the AI runs the checks, Tom confirms the answer is correct, and nothing can be sent until he does", "June only gets texts with wording Tom actually checked", "Every approval is on record with who, what, which version and when"],
+      fixpath: [["DRAFT", "Reminder line", "from an approved topic"], ["AI CHECKS", "Source, locked words, dates", "shown to Tom"], ["TOM CONFIRMS", "Correct and complete", "the one human tick"], ["RECORDED", "Approved with a date", "then it can be sent"]],
+      fix4: { line: "Approval is a gate, not an email. The AI checks; Tom confirms; nothing goes out until he does.", steps: [1], tech: ["Approval workflow", "AI-assisted checks"], kind: "AI checks, a person approves", control: "Only approved content can be read by any channel, reminders included; Approve stays locked until every check is ticked; each approval is an append-only event with actor, time and version.", who: "Tom approves legal wording; Grace pharmacy content; Renee operational content", proof: "Nothing unapproved is ever served (G11); every state change carries actor, time and version (T3)." } },
+    Website: { who: "An update to the website's appeal-deadline wording has been waiting in Tom's inbox. Tom is on holiday.",
+      today: () => `${screen("Tom's inbox", ["<b>Appeal deadline wording</b> · received 8 working days ago · unread"], "No deadline, no reminder, no backup. The website keeps the old wording meanwhile.")}${compare("Reviewed within 3 working days, or moved to a backup.", "Unread for 8 working days.", "What happens", "Nobody knows it's late", "What should happen")}`,
+      issue: ["Reviews have no deadline: an update sits unread for days while the approver is away, and nobody notices", "June reads the old wording on the website long after it should have changed", "Fixes pile up, and nobody can say how long anything takes to approve"],
+      path: [["SUBMITTED", "To Tom", "8 working days ago"], ["UNREAD", "Tom is away", "no backup"], ["NO CLOCK", "No reminder", "no escalation"], ["WEBSITE", "Keeps old wording", "nobody knows"]],
+      now: () => `${screen("Renee's queue · review clocks", ["<b>Appeal deadline wording</b> · Tom Bexley · <span class='bad2'>3 working days late</span>", "→ Moved to the backup compliance reviewer, who is notified; clock restarted", "<b>Insulin supply limit</b> · Grace Mbeki · due today · reminder sent"])}`,
+      fix: ["Every review has a clock in working days: a reminder, then escalation, then a backup, then the owner decides", "June reads the updated wording on time, even when someone is away", "The plan can see how long approvals take, and nothing waits forever"],
+      fixpath: [["SUBMITTED", "To Tom", "clock starts"], ["DUE", "Reminder", "day 3"], ["LATE", "Escalate, then backup", "day 4, then day 6"], ["DECIDED", "By the backup or Renee", "never stuck"]],
+      fix4: { line: "Every review has a clock. Late reviews escalate, move to a backup, and never wait forever.", steps: [1], tech: ["Service-level clocks", "Escalation ladder"], kind: "Rule", control: "Each review counts working days (weekends and US federal holidays skipped): due means a reminder, 1 day late escalates, 3 days late reassigns to a backup of the same type, and a late backup goes to Renee.", who: "Renee owns the queue; backups are the same type as the original approver", proof: "Clock and ladder rules (D58, D67, D68); 3 working days per signer, 6 end to end for two signers." } }
+  }
+};
+
+ACT.lead = "Tom, Grace and Dr. Calloway, the approvers"; ACT.steps = [["Outbound", "AI checks, a person approves"], ["Advocate desk", "Resolve conflicts of authority"], ["Member chat", "Clinical sign-off"], ["Voice", "Separation of duties"], ["Website", "Clocks on every review"]]; ACT.howIndex = 1;
+</script>
+<script src="how-scenes.js?v=42"></script><script src="how-engine.js?v=42"></script></body></html>
