@@ -95,10 +95,10 @@ async function gate(c) {
   c.beat(1, E.release ? "Release: Pass" : "Release: Blocked");
   c.push("System", "Verdict", `<div class="verdict ${E.release ? "pass" : "fail"}" style="margin:0"><div class="big">Release: ${E.release ? "Pass" : "Blocked"}</div></div><p class="prod">Not provable in a prototype, and named as such: a model judge checked against two human reviewers, real identity-provider revocation, the monthly redaction audit.</p>`); await c.T(1700);
   if (!E.release) return;
-  c.beat(2, "Renee signs the release");
+  c.beat(2, "Renee signs for Knowledge Operations");
   const d = c.push("Renee", "Reviews and decides", `<div class="dec"><button class="btn sm primary fakeb" tabindex="-1">Sign the release</button></div>`); await c.T(1100);
   d.querySelector(".fakeb").classList.add("press"); await c.T(450);
-  d.querySelector(".dec").innerHTML = `<span class="stampd">✓ Release signed</span><span class="small">Renee Caldwell · on record with the version and every result</span>`; await c.T(1300);
+  d.querySelector(".dec").innerHTML = `<span class="stampd">✓ Release signed</span><span class="small">Renee Caldwell, Knowledge Operations · on record with the version and every result · Legal and Engineering co-sign the monitoring plan</span>`; await c.T(1300);
 }
 /* What still fails, from this run, and what earlier runs found and how each was fixed (from the decision log) */
 const FIXED = [
@@ -164,7 +164,7 @@ function takeHTML() {
     ["search", "Tested by group, not on average", `${E.R.filter(x => x.pass).length} of ${E.R.length} labelled questions pass, for every role and channel.`],
     ["shield", "Tested by someone who never saw the rules", `${N} independent questions; every must-refuse refused.`],
     ["lock", "A sealed set nobody tuned to", `${E.H.filter(x => x.pass).length} of ${E.H.length}, run once, seal ${E.sealedOK ? "intact" : "not verified"}.`],
-    ["stamp", "One red row blocks the release", "Renee signs only when every rule row is green."],
+    ["stamp", "One red row blocks the release", "Renee signs for Knowledge Operations only when every rule row is green; Legal and Engineering co-sign the monitoring plan."],
     ["zap", "Every miss becomes a test", "A failure is added as a test row, never fixed silently."],
     ["calendar", "Run again before every release", "Same tests, same bars; the false-refusal bar tightens from 10% toward 2%."]];
   return `<div class="take new"><p class="eyebrow">Key takeaway</p><h2>Quality is proven before anything ships, and proven again every release.</h2><p class="big2">Every number here was computed in this browser just now, by the same code as the full runner.</p>

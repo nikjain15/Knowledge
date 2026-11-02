@@ -24,7 +24,7 @@ function beatsOf(s) {
   const sc = (SCENES[ACT.howIndex + ":" + s.key] || (() => ({})))(), st = sc.start || ["System", "event", s.label, ""], B = [];
   const verb = { upload: "adds a document", event: "", ask: "asks" }[st[1]];
   B.push({ k: "start", who: st[0], say: st[1] === "event" ? (st[0] === "System" ? st[2] : `${first(st[0])}: ${st[2]}`) : `${first(st[0])} ${verb}`, sc, st, label: st[1] === "upload" ? "Adds" : st[1] === "ask" ? "Asks" : "Trigger" });
-  const sys = /system checks|clock|reminder reads|diff|Drift|Only the approved|linked Spanish/.test(sc.ai || "");
+  const sys = /^Rule/i.test(((s.fix4 || {}).kind) || "") || /system checks|clock|reminder reads|diff|Drift|Only the approved|linked Spanish/.test(sc.ai || "");
   B.push({ k: "ai", who: sys ? "System" : "AI", say: sc.ai || "The AI proposes", sc, label: sys ? "Rules check" : "AI works" });
   (sc.decide || []).forEach(d => B.push({ k: "decide", who: d[0], say: `${first(d[0])} decides`, d, label: first(d[0]).replace(/^The b/, "B").replace(/^A q/, "Q") + " decides" }));
   B.push({ k: "end", who: "", say: "The result", label: "Result" });

@@ -49,7 +49,7 @@ const STEPS4 = [
     parts: [["Golden set", "21 questions with labelled answers, per role and channel", "Rule checks, human labels", "Labelled by the author, reviewed"],
       ["Adversarial probes", "621 questions from a writer who never saw the rules: personal data, cost, years, languages, roles, near-misses", "Rule", "Bars set by the owner"],
       ["Sealed holdout", "Written separately, hash-verified, never used for tuning", "Rule", "No one may open it"],
-      ["Release gate", "Any red rule row, on any group, blocks release; a model judge is validated against two human reviewers", "Rule + validated judge", "Renee signs the release"]],
+      ["Release gate", "Any red rule row, on any group, blocks release. In production a model judge is validated against two human reviewers; in this build humans label every answer", "Rule + judge (production)", "Renee signs for Knowledge Operations; Legal and Engineering co-sign the monitoring plan"]],
     proof: "100% of personal-data questions handed to a person; false refusals at most 10%, goal 2%; holdout run once per release" }
 ];
 let DETAIL = (() => { try { return localStorage.getItem("uc2detail") === "1"; } catch (e) { return false; } })();
