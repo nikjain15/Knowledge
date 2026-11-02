@@ -195,10 +195,12 @@ function spelledYears(q) { const out = [], re = /\b(?:twenty|two thousand(?: and
   while ((m = re.exec(q))) { const tens = m[1] ? (m[1].toLowerCase() === "twenty" ? 20 : 30) : 0, ones = m[2] ? ONES[m[2].toLowerCase()] : 0; if (tens || (m[0].toLowerCase().startsWith("two thousand") && m[2])) out.push(2000 + tens + ones); }
   return out; }
 /* The sentence that carries the question, or the last sentence */
-function lastAsk(q) { const parts = String(q).split(/(?<=[.?!])\s+/).filter(Boolean); return parts.filter(x => /\?\s*$/.test(x)).slice(-1)[0] || parts.slice(-1)[0] || ""; }
+/* Audit A-077: split after . ? ! without regex lookbehind, which Safari before 16.4 cannot parse */
+const sentences = t => String(t).replace(/([.?!])\s+/g, "$1\u0001").split("\u0001");
+function lastAsk(q) { const parts = sentences(q).filter(Boolean); return parts.filter(x => /\?\s*$/.test(x)).slice(-1)[0] || parts.slice(-1)[0] || ""; }
 function thirdParty(q) {
   if (!OTHER_RE.test(q)) return null;
-  const parts = String(q).split(/(?<=[.?!])\s+/).filter(Boolean), ask = parts.filter(x => /\?\s*$/.test(x)).slice(-1)[0] || parts.slice(-1)[0] || "";
+  const parts = sentences(q).filter(Boolean), ask = parts.filter(x => /\?\s*$/.test(x)).slice(-1)[0] || parts.slice(-1)[0] || "";
   if (OTHER_RE.test(ask)) { const rest = ask.replace(OTHER_RE, ""); if (THIRD_REC.test(rest)) return "records";
     return PLAN_ASK.test(rest) || /^\s*(can|could|may|does|do|is|are|how|will)\b/i.test(ask) ? "general" : "records"; }
   const before = parts.filter(x => x !== ask).join(" ");
@@ -288,7 +290,7 @@ function slotMiss(q, u) {
     const CLS = [[/\bsupply\b/i, /\bsupply\b/i], [/\b(ship|shipping|shipped|deliver\w*|arrive)\b/i, /\b(ship\w*|deliver\w*|arriv\w*)\b[^.]{0,30}\b(within|in)\b/i], [/\b(decid\w*|decision|process\w*)\b/i, /\b(decid\w*|decision)\b/i],
       [/\b(last|valid|expire\w*|good for)\b/i, /\b(valid|lasts?|expire\w*|good for)\b/i], [/\b(appeal|file)\b/i, /\bappeal\w*\b[^.]{0,40}\bwithin\b|\bwithin\b[^.]{0,40}\bappeal/i],
       [/\b(late|early)\b/i, /\b(late|early)\b/i], [/\broute\w*\b/i, /\broute\w*\b/i], [/\b(supply|cover|fill)\b/i, /\b(supply|fill)\b/i]];
-    const sents = t.split(/(?<=[.!?])\s+/).filter(x => DURATION.test(x)), cls = CLS.find(c => c[0].test(q));
+    const sents = sentences(t).filter(x => DURATION.test(x)), cls = CLS.find(c => c[0].test(q));
     if (!sents.length) return "a time frame";
     if (cls && !sents.some(x => cls[1].test(x))) return "the time frame asked about";
   }
