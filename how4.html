@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=3c4b3f9">
-<link rel="stylesheet" href="styles.css?v=3c4b3f9"><link rel="stylesheet" href="story.css?v=3c4b3f9">
+<link rel="stylesheet" href="fonts/fonts.css?v=9ac683c">
+<link rel="stylesheet" href="styles.css?v=9ac683c"><link rel="stylesheet" href="story.css?v=9ac683c">
 <title>How it works · Keep it current · Lakewell Knowledge</title>
 <style>
 .tabs5{grid-template-columns:repeat(5,minmax(0,1fr))}
@@ -16,7 +16,7 @@
 <div class="subbar" id="tabs"></div>
 <div class="card howcard" id="stage"></div>
 </main>
-<script src="data.js?v=3c4b3f9"></script><script src="app.js?v=3c4b3f9"></script><script src="story-shared.js?v=3c4b3f9"></script>
+<script src="data.js?v=9ac683c"></script><script src="app.js?v=9ac683c"></script><script src="story-shared.js?v=9ac683c"></script>
 <script>
 nav("how4.html", "legal", { demo: true });
 const PDB = PD_WORDINGS[1].text, ES = ((CORE_UNITS.find(u => u.id === "KU-202") || {}).translations || {}).es || {};
@@ -45,9 +45,9 @@ window.ACT = {
       issue: ["Every edit raises an alert, even fixing extra spaces, so the team gets dozens and stops reading them", "The real legal change to the disclaimer is ignored, and the chat keeps telling June the old wording", "Alert fatigue hides the one change that matters"],
       path: [["EDIT", "Extra spaces fixed", "no change in meaning"], ["ALERTS", "40 of them", "to the chat team"], ["IGNORED", "Inbox nobody reads", "alert fatigue"], ["MISSED", "The real change", "buried"]],
       now: () => `${screen("Drift check · Out-of-network wording", ["<b>Change found:</b> spacing only", '<span class="ok2"><b>No alert:</b> the meaning is the same</span>', "<b>Separately:</b> pricing disclaimer, meaning changed → one grouped alert to Tom"])}`,
-      fix: ["Formatting-only edits raise no alert; a change in meaning raises one grouped alert to the right approver", "The chat gets the real change in time, and June hears the current wording", "Few, meaningful alerts, so people read every one"],
+      fix: ["Formatting-only edits raise no alert; a change in the words raises one grouped alert to the right approver", "The chat gets the real change in time, and June hears the current wording", "Few, meaningful alerts, so people read every one"],
       fixpath: [["EDIT", "Extra spaces fixed", "in a source"], ["COMPARED", "Meaning, not formatting", "the same"], ["NO ALERT", "Nothing to do", "nobody bothered"], ["REAL CHANGE", "One alert", "to the right approver"]],
-      fix4: { line: "Alerts only when the meaning changes, and only one per change, so every alert gets read.", steps: [1], tech: ["Drift detection", "Semantic diff"], kind: "Rule", control: "The diff ignores formatting and compares meaning on tracked spans only; one grouped alert per source change goes to the approver for that content.", who: "The approver for that content type", proof: "A formatting-only edit raises no alert (T2); drift precision is measured." } },
+      fix4: { line: "Alerts only when the words change, and only one per change, so every alert gets read.", steps: [1], tech: ["Drift detection", "Normalised text diff"], kind: "Rule", control: "The diff ignores formatting and compares the normalised words on tracked spans only; one grouped alert per source change goes to the approver for that content.", who: "The approver for that content type", proof: "A formatting-only edit raises no alert (T2); drift precision is measured." } },
     "Advocate desk": { who: "Dana searches for the pricing disclaimer and opens the newest file in the folder.",
       today: () => `${screen("Dana's search · 'pricing disclaimer'", ["<b>Rx Education Script v3</b> · newest · shared drive", '<span class="small">A 2027 draft, still in review. Nothing says so.</span>'])}${compare(PD["PD-A"], PDB, "What Dana reads to June today", "Next year's draft, not yet approved", "What's approved for today (2026)")}`,
       issue: ["The newest file in the folder is next year's draft, still in review, and nothing marks it as a draft", "In November Dana reads June the 2027 wording as if it applies today", "A member is given terms that aren't in force yet, from wording nobody approved"],
@@ -77,4 +77,4 @@ window.ACT = {
 
 ACT.lead = "Tom, with drift alerts"; ACT.steps = [["Voice", "One alert finds every copy"], ["Member chat", "Meaning, not formatting"], ["Advocate desk", "Drafts never served"], ["Outbound", "Switch on the date"], ["Website", "Re-check translations"]]; ACT.howIndex = 3;
 </script>
-<script src="how-scenes.js?v=3c4b3f9"></script><script src="how-engine.js?v=3c4b3f9"></script></body></html>
+<script src="how-scenes.js?v=9ac683c"></script><script src="how-engine.js?v=9ac683c"></script></body></html>

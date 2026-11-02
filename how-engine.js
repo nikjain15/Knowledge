@@ -57,10 +57,10 @@ async function scene(fast) {
   shell(s, B);
   document.getElementById("replay").onclick = () => scene(false);
   document.getElementById("skip").onclick = () => scene(true);
-  const n = document.getElementById("nextch"); if (n) n.onclick = () => { cur++; draw(); scrollTo({ top: 0, behavior: "smooth" }); };
+  const n = document.getElementById("nextch"); if (n) n.onclick = () => { cur++; draw(); scrollTo({ top: 0, behavior: SMOOTH }); };
   const feed = document.getElementById("feed"), narr = document.getElementById("narr");
   const on = i => { document.querySelectorAll("[data-b]").forEach((x, j) => x.className = j < i ? "done" : j === i ? "on" : ""); narr.textContent = B[i].say; };
-  const down = () => feed.scrollTo({ top: feed.scrollHeight, behavior: fast ? "auto" : "smooth" });
+  const down = () => feed.scrollTo({ top: feed.scrollHeight, behavior: fast ? "auto" : SMOOTH });
   const push = html => { feed.insertAdjacentHTML("beforeend", html); const el = feed.lastElementChild; down(); return el; };
   const reveal = async el => { const rows = [...el.querySelectorAll(REVEAL)]; if (fast) return; rows.forEach(r => r.classList.add("rv")); for (const r of rows) { if (!live()) return; await wait(520); r.classList.add("in"); down(); } };
   for (let i = 0; i < B.length; i++) {
@@ -77,11 +77,11 @@ async function scene(fast) {
       await wait(T(1100)); if (!live()) return;
       el.querySelector(".fp").innerHTML = b.sc.show || (s.now ? s.now() : ""); down(); await reveal(el); await wait(T(700)); }
     if (b.k === "decide") { const [who, btn, out] = b.d, p = person(who);
-      const el = push(feedItem(who, "Reviews and decides", `<div class="dec"><button class="btn sm primary fakeb" tabindex="-1">${esc(btn)}</button><span class="cursor"></span></div>`));
+      const el = push(feedItem(who, "Reviews and decides", `<div class="dec"><button class="btn sm primary fakeb" tabindex="-1" aria-hidden="true">${esc(btn)}</button><span class="cursor"></span></div>`));
       await wait(T(1100)); if (!live()) return; el.querySelector(".fakeb").classList.add("press"); await wait(T(450));
       el.querySelector(".dec").innerHTML = `<span class="stampd">✓ ${esc(btn)}</span><span class="small">${esc(p[0])} · ${esc(out)}</span>`; await wait(T(1300)); }
     if (b.k === "end") { document.getElementById("endc").hidden = false; document.querySelectorAll("[data-b]").forEach(x => x.className = "done"); narr.textContent = "Done. " + ((s.fix || [])[1] || "");
-      if (!fast) document.getElementById("endc").scrollIntoView({ block: "nearest", behavior: "smooth" }); }
+      if (!fast) document.getElementById("endc").scrollIntoView({ block: "nearest", behavior: SMOOTH }); }
   }
   return my;
 }

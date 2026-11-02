@@ -3,6 +3,8 @@
 const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const QS = new URLSearchParams(typeof location !== "undefined" ? location.search : "");
 const KEY = "uc2lakewell1";
+/* Reduced motion: JS scrolls jump instead of gliding (audit A-087) */
+const SMOOTH = typeof matchMedia !== "undefined" && matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
 const store = {
   get() { try { const v = JSON.parse(localStorage.getItem(KEY) || "{}"); return v && typeof v === "object" && !Array.isArray(v) ? v : {}; } catch (e) { return {}; } },
   set(v) { try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (e) {} },
@@ -214,6 +216,8 @@ function redact(q) {
   let n = 0; const r = String(q)
     .replace(/\b\d{1,2}[A-Z][A-Z0-9]\d[ -]?[A-Z][A-Z0-9]\d[ -]?[A-Z]{2}\d{2}\b/gi, () => (n++, "[MBI]"))
     .replace(/\b(LW|CW)[ -]?\d{3}[ -]?\d{3}[ -]?\d{3}\b/gi, () => (n++, "[MEMBER ID]"))
+    /* Audit A-078: a bare run of 7 or more digits after "member", "ID", "number" or "account" is an identifier */
+    .replace(/(\b(?:member|id|number|no|account|policy)\b[^\d.?!]{0,20})\d(?:[ -]?\d){6,}\b/gi, (m, pre) => (n++, pre + "[MEMBER ID]"))
     .replace(/[\w.+-]+@[\w-]+(\.[\w-]+)+/g, () => (n++, "[EMAIL]"))
     .replace(/\b\d{3}[ -]\d{2}[ -]\d{4}\b/g, () => (n++, "[SSN]"))
     .replace(/(\+?1[ .-]?)?\(?\b\d{3}\)?[ .-]?\d{3}[ .-]?\d{4}\b/g, () => (n++, "[PHONE]"))
@@ -294,7 +298,7 @@ function slotMiss(q, u) {
   return null;
 }
 /* T13: members never see internal staff documents; the public benefit is offered instead */
-const STAFF_DOC = /\b(staff[- ]only|internal|advocate[- ]only|employee)\b[^.?!]{0,30}\b(documents?|docs?|policy|policies|procedures?|guides?|notes?|scripts?|manuals?|files?|says)\b|\b(staff|advocate)('s)? (documents?|scripts?|manuals?|notes?|guides?)\b/i;
+const STAFF_DOC = /\b(staff[- ]only|internal|advocate[- ]only|employee)\b[^.?!]{0,30}\b(documents?|docs?|policy|policies|procedures?|guides?|notes?|scripts?|manuals?|files?|says)\b|\b(staff|advocate)('s)? (documents?|scripts?|manuals?|notes?|guides?)\b|\b(training|team)('s)? (documents?|scripts?|manuals?|notes?|guides?)\b/i;
 /* answer(): the read contract every channel uses. Rules first (scope, state, window, render, language), ranking in the middle (model stand-in). */
 function answer(q, ctx) {
   const full = String(q == null ? "" : q); q = full.slice(0, 500);
@@ -314,7 +318,8 @@ function answer(q, ctx) {
   /* Audit A-009: naming a relative as background never switches off the personal-record check; it runs on the asked sentence */
   if (LOOKUP_REQ.test(q)) { trace.push("A look-up of a named person or an account: records are never in the knowledge layer, so it goes to a person (audit A-039)"); return Object.assign(res, { kind: "person", text: REFUSAL, route: "person", lookup: true }); }
   const askQ = third === "general" ? lastAsk(q) : q, genOK = third !== "general" || !PLAN_ASK.test(askQ);
-  if ((memberSide || !LEGAL_REQ.test(q)) && (genOK && (MEMBER_DATA.test(askQ) || (PERSONAL.test(askQ) && !GENERIC_MEMBER.test(askQ))) && !policyQ(askQ) || OWN_RECORD.test(askQ) && !policyQ(askQ))) { trace.push("Asks for one member's personal data: search cannot verify identity, so it hands to a person (R-83, SD-05; routing J)"); return Object.assign(res, { kind: "person", text: REFUSAL, route: "person" }); }
+  /* Audit A-080: a member asking for a staff document gets the staff-document refusal, not the personal-records one */
+  if (!(memberSide && STAFF_DOC.test(q)) && (memberSide || !LEGAL_REQ.test(q)) && (genOK && (MEMBER_DATA.test(askQ) || (PERSONAL.test(askQ) && !GENERIC_MEMBER.test(askQ))) && !policyQ(askQ) || OWN_RECORD.test(askQ) && !policyQ(askQ))) { trace.push("Asks for one member's personal data: search cannot verify identity, so it hands to a person (R-83, SD-05; routing J)"); return Object.assign(res, { kind: "person", text: REFUSAL, route: "person" }); }
   const all = units(s);
   const memberOnly = memberSide;
   if (memberSide && STAFF_DOC.test(q)) { res.staffDoc = true; if (!ctx.state) logEv(s, null, role, "ACCESS", "Staff-document request from a member channel, refused: " + res.redacted); trace.push("Asks for an internal staff document: never shown to members; the public benefit is offered instead and the attempt is logged (T13, J)"); }

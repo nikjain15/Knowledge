@@ -10,7 +10,8 @@ function run1(g0, st) {
   const g = keyFor(g0, st);
   const r = answer(g.q, { role: g.role, channel: g.channel, revoked: g.revoked, state: st });
   const gov = g.revoked ? ["Shared"] : GOV[g.role];
-  const touched = (r.cands || []).map(c => c.u).concat(r.unit ? [r.unit] : []);
+  /* Audit A-081: text offered on the staff-document path is checked by the same scope gate */
+  const touched = (r.cands || []).map(c => c.u).concat(r.unit ? [r.unit] : [], r.offered ? [r.offered] : []);
   const leak = touched.some(u => !u.kbs.some(k => gov.includes(k)));
   const answered = r.kind === "answer";
   const unitOK = !g.unit || (r.unit && r.unit.id === g.unit);

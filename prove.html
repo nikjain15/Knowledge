@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=3c4b3f9">
-<link rel="stylesheet" href="styles.css?v=3c4b3f9"><link rel="stylesheet" href="story.css?v=3c4b3f9">
+<link rel="stylesheet" href="fonts/fonts.css?v=9ac683c">
+<link rel="stylesheet" href="styles.css?v=9ac683c"><link rel="stylesheet" href="story.css?v=9ac683c">
 <title>Prove it · Lakewell Knowledge</title>
 <style>
 .qrow{display:flex;gap:10px;align-items:baseline;padding:6px 0;border-bottom:1px solid #eef0e8;font-size:14px}.qrow:last-child{border:0}
@@ -24,8 +24,8 @@
 <div class="subbar" id="tabs"></div>
 <div class="card howcard" id="stage"><p class="small">Running every test now…</p></div>
 </main>
-<script src="data.js?v=3c4b3f9"></script><script src="golden.js?v=3c4b3f9"></script><script src="holdout.js?v=3c4b3f9"></script><script src="probes.js?v=3c4b3f9"></script><script src="probes-review.js?v=3c4b3f9"></script><script src="nearmiss.js?v=3c4b3f9"></script><script src="probes2.js?v=3c4b3f9"></script><script src="probes3.js?v=3c4b3f9"></script>
-<script src="app.js?v=3c4b3f9"></script><script src="eval-core.js?v=3c4b3f9"></script><script src="story-shared.js?v=3c4b3f9"></script>
+<script src="data.js?v=9ac683c"></script><script src="golden.js?v=9ac683c"></script><script src="holdout.js?v=9ac683c"></script><script src="probes.js?v=9ac683c"></script><script src="probes-review.js?v=9ac683c"></script><script src="nearmiss.js?v=9ac683c"></script><script src="probes2.js?v=9ac683c"></script><script src="probes3.js?v=9ac683c"></script>
+<script src="app.js?v=9ac683c"></script><script src="eval-core.js?v=9ac683c"></script><script src="story-shared.js?v=9ac683c"></script>
 <script>
 /* Prove it: every number on this page is computed in this browser, now, by the same code as the full runner (eval-core.js) */
 nav("prove.html", "owner", { demo: true });
@@ -56,7 +56,7 @@ const tick = ok => `<span class="tk${ok ? "" : " no"}">${ok ? "✓" : "✗"}</sp
 
 /* Each scene: ctx gives beat(i, say), push(who, say, body), reveal(el, ms) and T(ms); fast skips the waiting */
 async function golden(c) {
-  c.beat(0, "Priya hands over the golden set"); c.push("Priya", "Hands over the golden set", `<div class="filec"><span class="fi">${FILEIC}</span><div><b>${E.R.length} questions with labelled answers</b><span class="small">pharmacy, insurance and channel questions; labelled by the author, then reviewed</span></div></div>`); await c.T(1300);
+  c.beat(0, "Priya hands over the golden set"); c.push("Priya", "Hands over the golden set", `<div class="filec"><span class="fi">${FILEIC}</span><div><b>${E.R.length} questions with labelled answers</b><span class="small">pharmacy, insurance and channel questions; written and labelled by the author persona; a reviewer labels the 12 answerable answers on the Evals page</span></div></div>`); await c.T(1300);
   c.beat(1, "Each question runs through the live engine, one at a time");
   const el = c.push("System", "Runs each question, as each role, on each channel", `<div>${E.R.map(x => `<div class="qrow">${tick(x.pass)}<span class="qq"><span class="grp">${esc(GROUP(x.g.id))}</span>${esc(x.g.q)}</span><span class="qm">${esc(ROLES[x.g.role].person.split(" ")[0])} · expected ${esc(x.g.expect)}, got ${esc(x.r.kind)}</span></div>`).join("")}</div>`);
   await c.reveal(el, ".qrow", 190);
@@ -65,7 +65,7 @@ async function golden(c) {
 }
 async function probes(c) {
   const N = E.PS.reduce((a, x) => a + x.rows.length, 0);
-  c.beat(0, "An independent writer hands over the probe questions"); c.push("Writer", "Hands over the probe questions", `<div class="filec"><span class="fi">${FILEIC}</span><div><b>${N} questions in 6 sets</b><span class="small">written without seeing the rules: personal data, cost, years, languages, roles, near-misses</span></div></div>`); await c.T(1300);
+  c.beat(0, "An independent writer hands over the probe questions"); c.push("Writer", "Hands over the probe questions", `<div class="filec"><span class="fi">${FILEIC}</span><div><b>${N} probe questions, tested two ways</b><span class="small">${PROBES.length} written by someone who never saw the rules, and ${N - PROBES.length} added after every fix so nothing slips back: personal data, cost, years, languages, roles, near-misses</span></div></div>`); await c.T(1300);
   c.beat(1, "Each set runs, one after another");
   const el = c.push("System", "Runs every set against its bar", `<div class="sets">${E.PS.map(x => `<div class="set"><div class="sh"><span><b>${x.set}</b> ${esc(x.name)}</span>${x.pass ? '<span class="pass2">pass</span>' : '<span class="fail2">fail</span>'}</div>
     <div class="pbar"><i data-w="${x.must ? x.caught / x.must * 100 : 100}"></i></div><div class="sm2"><span>Refused or rerouted: ${x.caught} of ${x.must}</span><span>bar 100%</span></div>
@@ -96,7 +96,7 @@ async function gate(c) {
   c.push("System", "Verdict", `<div class="verdict ${E.release ? "pass" : "fail"}" style="margin:0"><div class="big">Release: ${E.release ? "Pass" : "Blocked"}</div></div><p class="prod">Not provable in a prototype, and named as such: a model judge checked against two human reviewers, real identity-provider revocation, the monthly redaction audit.</p>`); await c.T(1700);
   if (!E.release) return;
   c.beat(2, "Renee signs for Knowledge Operations");
-  const d = c.push("Renee", "Reviews and decides", `<div class="dec"><button class="btn sm primary fakeb" tabindex="-1">Sign the release</button></div>`); await c.T(1100);
+  const d = c.push("Renee", "Reviews and decides", `<div class="dec"><button class="btn sm primary fakeb" tabindex="-1" aria-hidden="true">Sign the release</button></div>`); await c.T(1100);
   d.querySelector(".fakeb").classList.add("press"); await c.T(450);
   d.querySelector(".dec").innerHTML = `<span class="stampd">✓ Release signed</span><span class="small">Renee Caldwell, Knowledge Operations · on record with the version and every result · Legal and Engineering co-sign the monitoring plan</span>`; await c.T(1300);
 }
@@ -122,7 +122,7 @@ async function improve(c) {
   const f = c.push("System", "Found and fixed", `<div class="gates">${FIXED.map(([h, why, fix]) => `<div class="gate" style="align-items:flex-start">${tick(true)}<div style="flex:1"><b style="display:block">${esc(h)}</b><span class="gv">${esc(why)}</span><span class="gv" style="display:block;color:#3b6d11"><b>Fix:</b> ${esc(fix)}</span></div></div>`).join("")}</div>`);
   await c.reveal(f, ".gate", 650);
   c.beat(2, "Renee decides what happens to today's misses");
-  const d = c.push("Renee", "Reviews and decides", `<div class="dec"><button class="btn sm primary fakeb" tabindex="-1">Add misses to the next run</button></div>`); await c.T(1100);
+  const d = c.push("Renee", "Reviews and decides", `<div class="dec"><button class="btn sm primary fakeb" tabindex="-1" aria-hidden="true">Add misses to the next run</button></div>`); await c.T(1100);
   d.querySelector(".fakeb").classList.add("press"); await c.T(450);
   d.querySelector(".dec").innerHTML = `<span class="stampd">✓ Queued</span><span class="small">Each miss is a test row in the next release; fixes are checked on new questions, never the holdout</span>`; await c.T(1300);
 }
@@ -150,9 +150,9 @@ async function observe(c) {
   c.push("System", "First 90 days, and the stop rule", `<p class="small" style="margin:0">First 90 days: the pilot is the Pharmacy knowledge base with its authors and approvers, not advocates yet (S10.1, S10.2); any confirmed scope leak or verbatim change stops serving for that role at once (S8.77, S8.110); day 30, every rule gate green on one corpus slice and the sealed holdout; day 60, the Prove phase signed off by the Knowledge Operations lead, Legal and Compliance, and Engineering; day 90, the monitoring plan signed and the first Pharmacy units approved end to end, translated drafts never served (S10.10).</p>`); await c.T(900);
   c.beat(2, "Every piece of feedback gets an owner");
   c.push("System", "Feedback from advocates and members (examples illustrative)", `<div id="fbl">${fbList()}</div>
-    <div class="fbform"><b>Leave feedback on an answer</b><div class="fbrow"><select id="fbq">${E.R.filter(x => x.answered).slice(0, 6).map(x => `<option>${esc(x.g.q)}</option>`).join("")}</select>
-    <select id="fbk"><option value="wrong">Wrong</option><option value="missing">Missing something</option><option value="unclear">Unclear</option><option value="">Helpful</option></select></div>
-    <input id="fbt" placeholder="What should it have said?"><button class="btn sm primary" id="fbs">Send feedback</button></div>`);
+    <div class="fbform"><b>Leave feedback on an answer</b><div class="fbrow"><select id="fbq" aria-label="Answer to give feedback on">${E.R.filter(x => x.answered).slice(0, 6).map(x => `<option>${esc(x.g.q)}</option>`).join("")}</select>
+    <select id="fbk" aria-label="Feedback type"><option value="wrong">Wrong</option><option value="missing">Missing something</option><option value="unclear">Unclear</option><option value="">Helpful</option></select></div>
+    <input id="fbt" aria-label="What it should have said" placeholder="What should it have said?"><button class="btn sm primary" id="fbs">Send feedback</button></div>`);
   const send = document.getElementById("fbs"); if (send) send.onclick = () => { const k = document.getElementById("fbk").value;
     const fq = document.getElementById("fbq").value, ft = redact(document.getElementById("fbt").value.slice(0, 200)).text;
     store.up(s => { s.feedback = (s.feedback || []).concat([{ who: "You", up: !k, kind: k, q: fq, text: ft }]);
@@ -167,7 +167,7 @@ const FILEIC = `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stro
 function takeHTML() {
   const N = E.PS.reduce((a, x) => a + x.rows.length, 0), items = [
     ["search", "Tested by group, not on average", `${E.R.filter(x => x.pass).length} of ${E.R.length} labelled questions pass, for every role and channel.`],
-    ["shield", "Tested by someone who never saw the rules", `${N} independent questions; every must-refuse refused.`],
+    ["shield", "Tested two ways: blind, then after every fix", `${N} probe questions: ${PROBES.length} written by someone who never saw the rules, ${N - PROBES.length} regression checks; every must-refuse refused.`],
     ["lock", "A sealed set nobody tuned to", `${E.H.filter(x => x.pass).length} of ${E.H.length}, run once, seal ${E.sealedOK ? "intact" : "not verified"}.`],
     ["stamp", "One red row blocks the release", "Renee signs for Knowledge Operations only when every rule row is green; Legal and Engineering co-sign the monitoring plan."],
     ["zap", "Every miss becomes a test", "A failure is added as a test row, never fixed silently."],
@@ -188,8 +188,8 @@ async function scene(fast) {
   if (!t.play) { document.getElementById("stage").innerHTML = takeHTML(); document.getElementById("again").onclick = async () => { E = await evalAll(S()); draw(); }; return my; }
   shell(t);
   document.getElementById("replay").onclick = () => scene(false); document.getElementById("skip").onclick = () => scene(true);
-  document.getElementById("nextch").onclick = () => { playing = false; cur++; draw(); scrollTo({ top: 0, behavior: "smooth" }); };
-  const feed = document.getElementById("feed"), down = () => feed.scrollTo({ top: feed.scrollHeight, behavior: fast ? "auto" : "smooth" });
+  document.getElementById("nextch").onclick = () => { playing = false; cur++; draw(); scrollTo({ top: 0, behavior: SMOOTH }); };
+  const feed = document.getElementById("feed"), down = () => feed.scrollTo({ top: feed.scrollHeight, behavior: fast ? "auto" : SMOOTH });
   const c = {
     T: ms => live() ? wait(fast ? 0 : ms) : new Promise(() => {}),
     beat: (i, say) => { document.querySelectorAll("[data-b]").forEach((x, j) => x.className = j < i ? "done" : j === i ? "on" : ""); document.getElementById("narr").textContent = say; },
@@ -199,7 +199,7 @@ async function scene(fast) {
   };
   await t.play(c); if (!live()) return my;
   c.beat(t.beats.length - 1, "Done."); document.querySelectorAll("[data-b]").forEach(x => x.className = "done");
-  document.getElementById("endc").hidden = false; if (!fast) document.getElementById("endc").scrollIntoView({ block: "nearest", behavior: "smooth" });
+  document.getElementById("endc").hidden = false; if (!fast) document.getElementById("endc").scrollIntoView({ block: "nearest", behavior: SMOOTH });
   return my;
 }
 function draw() {

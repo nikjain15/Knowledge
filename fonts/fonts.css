@@ -1,7 +1,3 @@
-/* Self-hosted copies of the two open-licence (OFL) families the pages use, latin subset (audit A-060) */
-@font-face{font-family:'Manrope';font-style:normal;font-weight:700;font-display:swap;src:url(manrope-700.woff2) format('woff2')}
-@font-face{font-family:'Manrope';font-style:normal;font-weight:800;font-display:swap;src:url(manrope-800.woff2) format('woff2')}
-@font-face{font-family:'Mulish';font-style:normal;font-weight:400;font-display:swap;src:url(mulish-400.woff2) format('woff2')}
-@font-face{font-family:'Mulish';font-style:normal;font-weight:600;font-display:swap;src:url(mulish-600.woff2) format('woff2')}
-@font-face{font-family:'Mulish';font-style:normal;font-weight:700;font-display:swap;src:url(mulish-700.woff2) format('woff2')}
-@font-face{font-family:'Mulish';font-style:normal;font-weight:800;font-display:swap;src:url(mulish-800.woff2) format('woff2')}
+/* Self-hosted copies of the two open-licence (OFL) families the pages use, latin subset (audit A-060); one variable file per family (audit A-086) */
+@font-face{font-family:'Manrope';font-style:normal;font-weight:700 800;font-display:swap;src:url(manrope.woff2) format('woff2')}
+@font-face{font-family:'Mulish';font-style:normal;font-weight:400 800;font-display:swap;src:url(mulish.woff2) format('woff2')}

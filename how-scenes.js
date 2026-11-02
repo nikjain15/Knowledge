@@ -49,7 +49,7 @@ const SCENES = {
     ai: "Drift detection compares it with v2, and the graph lists every place the clause lives",
     decide: [["Tom", "Approve once", "Every channel switches to the 2027 wording on 1 Jan 2027"]] }),
   "3:Member chat": () => ({ start: ["System", "event", "Extra spaces fixed in the out-of-network line", "a formatting edit"],
-    ai: "The diff compares meaning, not spacing" }),
+    ai: "The diff compares words, not spacing" }),
   "3:Advocate desk": () => ({ start: ["Dana", "ask", "pricing disclaimer", "searched in Agent Assist"],
     ai: "Only the approved version in force today can be served; the 2027 draft stays hidden" }),
   "3:Outbound": () => ({ start: ["System", "event", "2 Jan 2027: refill reminders go out", "same template as December"],

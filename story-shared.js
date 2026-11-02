@@ -48,7 +48,7 @@ const STEPS4 = [
     proof: "Never answers outside the role (G9, G19); says 'not yet' instead of guessing (G6, G14); legal words verbatim in every channel (G16, G21)" },
   { n: "Keep it current", take: "Independent tests on every role and channel decide each release, and one red row blocks it.", takeB: [`What it does: runs the golden set, ${PROBE_N} probe questions and a sealed holdout before every release`, "Why it matters: quality is proven group by group, not assumed from an average", "How we know: release is blocked by any red rule row; the holdout is never used for tuning"], line: "Independent tests decide every release", icon: "check", cls: "s4",
     tags: ["Golden set", "Adversarial probe suites", "Sealed holdout", "Per-group release gates", "LLM-as-judge", "Recorded model runs"],
-    parts: [["Golden set", "21 questions with labelled answers, per role and channel", "Rule checks, human labels", "Labelled by the author, reviewed"],
+    parts: [["Golden set", "21 questions with labelled answers, per role and channel", "Rule checks, human labels", "Labelled by the author persona; a reviewer labels the answerable answers"],
       ["Adversarial probes", `${PROBE_N} questions: personal data, cost, years, languages, roles, near-misses (the first set written by a writer who never saw the rules)`, "Rule", "Bars set by the owner"],
       ["Sealed holdout", "Written separately; its hash was recorded before the first run and is checked every run; nobody tunes on it", "Rule", "The file is public; the screen shows counts only"],
       ["Release gate", "Any red rule row, on any group, blocks release. In production a model judge is validated against two human reviewers; in this build humans label every answer", "Rule + judge (production)", "Renee signs for Knowledge Operations; Legal and Engineering co-sign the monitoring plan"]],
@@ -76,7 +76,7 @@ function approachHTML(nextLabel) {
     <div class="loops"><div class="loop"><b>Feedback loop · content gaps</b> Unanswered questions go back to the author as the gap queue.</div><div class="loop"><b>Feedback loop · drift</b> When a source changes, one alert finds every copy and channel.</div></div>
     ${[...open].sort().map(i => stepDetail(STEPS4[i], i)).join("")}
     ${open.size ? "" : `<p class="small" style="margin-top:10px">Tap a step for its key takeaway.</p>`}
-    <p class="small" style="margin-top:10px">Built to run without a server or API key: text matching stands in for embeddings, and ingest replays a recorded model run.</p>
+    <p class="small" style="margin-top:10px">Built to run without a server or API key: text matching stands in for embeddings, semantic deduplication, hybrid and graph retrieval, and ingest replays a recorded model run.</p>
     <div class="acts" style="margin-top:22px"><button class="btn primary" id="toNew">${esc(nextLabel)}</button></div></div>`;
 }
 function bindApproach(redraw) {
