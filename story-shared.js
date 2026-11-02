@@ -82,21 +82,7 @@ function bindApproach(redraw) {
   document.querySelectorAll("[data-s4]").forEach(b => b.onclick = () => { const i = +b.dataset.s4; OPEN4.has(i) ? OPEN4.delete(i) : OPEN4.add(i); if (DETAIL) setDetail(false); redraw(); });
   bindDetail(redraw);
 }
-function detailSwitch() { return `<label class="dsw"><input type="checkbox" id="detailsw"${DETAIL ? " checked" : ""}> Detail</label>`; }
 function bindDetail(redraw) { const d = document.getElementById("detailsw"); if (d) d.onchange = e => { setDetail(e.target.checked); OPEN4 = new Set(); redraw(); }; }
-/* Control panel on each future-state tab: one line, the four steps with the working ones lit, then control, owner and evidence one tap away */
-function fixPanel4(c, f, mapHTML) {
-  const broke = c.path && c.path[2];
-  return `<div class="acts" style="justify-content:space-between"><h3 style="margin:0">Control</h3>${detailSwitch()}</div>
-    <p class="oneline">${esc(f.line)}</p>
-    <div class="mini4">${STEPS4.map((s, i) => `<span class="${f.steps.includes(i) ? "on" : ""}">${esc(s.n)}${f.steps.includes(i) ? " ★" : ""}</span>`).join("")}</div>
-    <div class="tags4 solid">${f.tech.map(x => `<span>${esc(x)}</span>`).join("")}</div>
-    <details class="why"${DETAIL ? " open" : ""}><summary>Control, owner and evidence</summary>
-      <div class="fx4"><div class="fx broke"><b>Root cause</b>${broke ? esc(broke[1]) + " (" + esc(broke[2]) + ")" : ""}</div>
-      <div class="fx ctl"><b>Control <em class="kind">${esc(f.kind)}</em></b>${esc(f.control)}</div>
-      <div class="fx"><b>Accountable owner</b>${esc(f.who)}</div><div class="fx"><b>Evidence</b>${esc(f.proof)}</div></div>
-      ${mapHTML || ""}</details>`;
-}
 
 /* ---------- The story stepper: the five parts of the demo, in order, on every page ---------- */
 const STORY5 = [["Current state", "day.html?mode=today"], ["Solution architecture", "day.html?mode=approach"], ["How it works", "how1.html"], ["Future state", "day.html?mode=new"], ["Prove it", "prove.html"]];

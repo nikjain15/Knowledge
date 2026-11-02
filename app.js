@@ -317,7 +317,7 @@ function answer(q, ctx) {
   if ((memberSide || !LEGAL_REQ.test(q)) && (genOK && (MEMBER_DATA.test(askQ) || (PERSONAL.test(askQ) && !GENERIC_MEMBER.test(askQ))) && !policyQ(askQ) || OWN_RECORD.test(askQ) && !policyQ(askQ))) { trace.push("Asks for one member's personal data: search cannot verify identity, so it hands to a person (R-83, SD-05; routing J)"); return Object.assign(res, { kind: "person", text: REFUSAL, route: "person" }); }
   const all = units(s);
   const memberOnly = memberSide;
-  if (memberSide && STAFF_DOC.test(q)) { res.staffDoc = true; trace.push("Asks for an internal staff document: never shown to members; the public benefit is offered instead and the attempt is logged (T13, J)"); }
+  if (memberSide && STAFF_DOC.test(q)) { res.staffDoc = true; if (!ctx.state) logEv(s, null, role, "ACCESS", "Staff-document request from a member channel, refused: " + res.redacted); trace.push("Asks for an internal staff document: never shown to members; the public benefit is offered instead and the attempt is logged (T13, J)"); }
   const nowY = asDate(asOf).getFullYear(), qYears = (q.match(/\b20\d\d\b/g) || []).map(Number);
   /* Audit A-037: spelled-out years ("twenty twenty-seven", "two thousand twenty-five") and "the new year" */
   spelledYears(q).forEach(y => qYears.push(y));
@@ -365,7 +365,7 @@ function answer(q, ctx) {
     const miss = slotMiss(q, u); if (miss) { trace.push(`${u.id} was retrieved but does not state ${miss}. It does not guess: near-miss abstention (D91)`); return Object.assign(res, { kind: "nearmiss", route: "gap", unit: null, near: u.id, why: `${u.title} does not state ${miss}` }); }
     if (COST.test(q) && !policyQ(q) && !costNamed(q, u)) { trace.push(`${u.id} was retrieved but holds no amount. It does not guess: near-miss abstention (rule J; N-38, R-84)`); return Object.assign(res, { kind: "nearmiss", route: "gap", unit: null, near: u.id, costMiss: true, why: `${u.title} does not state an amount` }); }
     if (u.clause && /\[[A-Z ]+\]/.test(u.clause.text)) { trace.push(`Render check failed: the locked clause has an unfilled field ${u.clause.text.match(/\[[A-Z ]+\]/)[0]}. Abstain; to the author`); return Object.assign(res, { kind: "abstain", route: "author", unit: null, near: u.id, why: "Template field left blank" }); }
-    if (u.injection) trace.push("Source carried a planted instruction; removed at ingest and logged; answer unaffected");
+    if (u.injection) { if (!ctx.state) logEv(s, u.id, role, "ACCESS", "Planted instruction in the source was found at ingest and never followed: " + res.redacted); trace.push("Source carried a planted instruction; removed at ingest and logged; answer unaffected"); }
     const nx = res.upcoming ? null : nextAt(u, asOf);
     if (nx) trace.push(`Version ${nx.v} is ${nx.state === "approved" ? "approved for " + nx.effective : nx.state}; its text is not served`);
     if (u.versions.some(v => v.state === "approved" && !inWindow(v, asOf) && dayOK(v.expiry) && asDate(v.expiry) < asDate(asOf))) trace.push("An older version expired by its window and is not served");
@@ -475,7 +475,7 @@ const ENSURE = {
 function nav(current, roleKey, opt) {
   opt = opt || {};
   const opts = Object.entries(ROLES).map(([k, r]) => `<option value="${k}"${k === roleKey ? " selected" : ""}>${r.person}, ${r.label}</option>`).join("");
-  const links = [["product.html", "Product"], ["day.html?mode=today", "Current state"], ["day.html?mode=approach", "Architecture"], ["how1.html", "How it works"], ["day.html?mode=new", "Future state"], ["journey.html", "Journey"], ["channels.html", "Channels"], ["evals.html", "Evals"]]
+  const links = [["product.html", "Product"], ["day.html?mode=today", "Current state"], ["day.html?mode=approach", "Solution architecture"], ["how1.html", "How it works"], ["day.html?mode=new", "Future state"], ["journey.html", "Journey"], ["channels.html", "Channels"], ["evals.html", "Evals"]]
     .map(([h, l]) => `<a href="${h}"${h === current ? ' aria-current="page"' : ""}>${l}</a>`).join("");
   const unread = roleKey ? (S().notes || []).filter(n => n.to === roleKey && !n.read).length : 0;
   document.body.insertAdjacentHTML("afterbegin",
@@ -483,7 +483,7 @@ function nav(current, roleKey, opt) {
      ${opt.demo ? "" : `<label class="small rolesw">You are <select id="rolesel"><option value="">choose a person</option>${opts}</select></label>`}
      ${opt.demo ? "" : `<nav class="links">${links}${roleKey && ROLES[roleKey] ? `<button class="bell" id="bell">Notifications${unread ? `<i>${unread}</i>` : ""}</button>` : ""}<label class="idtog small" title="Show internal IDs (the audit CSV always keeps them)"><input type="checkbox" id="idtog"${showIds() ? " checked" : ""}> IDs</label><a href="day.html?mode=today" class="demo">Start demo</a></nav>`}</header>`);
   /* Each tab is one person: the tab title and a chip say who this tab is signed in as */
-  if (roleKey && ROLES[roleKey] && !opt.demo) document.title = FIRST(roleKey) + " · " + document.title;
+  if (roleKey && ROLES[roleKey] && !opt.demo) { const f = FIRST(roleKey); if (!document.title.startsWith(f)) document.title = f + " · " + document.title; }
   /* UX 2: plain names first; internal IDs behind a toggle */
   document.body.classList.toggle("ids", showIds());
   const idt = document.getElementById("idtog"); if (idt) idt.onchange = e => { try { localStorage.setItem("uc2ids", e.target.checked ? "1" : ""); } catch (x) {} document.body.classList.toggle("ids", e.target.checked); };

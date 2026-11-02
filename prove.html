@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&family=Mulish:wght@400;600;700;800&display=swap">
-<link rel="stylesheet" href="styles.css?v=be06930"><link rel="stylesheet" href="story.css?v=be06930">
+<link rel="stylesheet" href="fonts/fonts.css?v=7e811e2">
+<link rel="stylesheet" href="styles.css?v=7e811e2"><link rel="stylesheet" href="story.css?v=7e811e2">
 <title>Prove it · Lakewell Knowledge</title>
 <style>
 .qrow{display:flex;gap:10px;align-items:baseline;padding:6px 0;border-bottom:1px solid #eef0e8;font-size:14px}.qrow:last-child{border:0}
@@ -24,8 +24,8 @@
 <div class="subbar" id="tabs"></div>
 <div class="card howcard" id="stage"><p class="small">Running every test now…</p></div>
 </main>
-<script src="data.js?v=be06930"></script><script src="golden.js?v=be06930"></script><script src="holdout.js?v=be06930"></script><script src="probes.js?v=be06930"></script><script src="probes-review.js?v=be06930"></script><script src="nearmiss.js?v=be06930"></script><script src="probes2.js?v=be06930"></script><script src="probes3.js?v=be06930"></script>
-<script src="app.js?v=be06930"></script><script src="eval-core.js?v=be06930"></script><script src="story-shared.js?v=be06930"></script>
+<script src="data.js?v=7e811e2"></script><script src="golden.js?v=7e811e2"></script><script src="holdout.js?v=7e811e2"></script><script src="probes.js?v=7e811e2"></script><script src="probes-review.js?v=7e811e2"></script><script src="nearmiss.js?v=7e811e2"></script><script src="probes2.js?v=7e811e2"></script><script src="probes3.js?v=7e811e2"></script>
+<script src="app.js?v=7e811e2"></script><script src="eval-core.js?v=7e811e2"></script><script src="story-shared.js?v=7e811e2"></script>
 <script>
 /* Prove it: every number on this page is computed in this browser, now, by the same code as the full runner (eval-core.js) */
 nav("prove.html", "owner", { demo: true });
@@ -102,14 +102,14 @@ async function gate(c) {
 }
 /* What still fails, from this run, and what earlier runs found and how each was fixed (from the decision log) */
 const FIXED = [
-  ["Cost questions slipped past the cost check", "Probes asked about what members are charged, owe or pay in fees", "The cost check now reads those words too, so the question goes to the gap queue instead of a guess"],
-  ["A sealed holdout question was answered when it should have said \"not yet\"", "Right topic found, but the asked fact was not in it", "Fixed against new questions of the same kind written outside the holdout; the holdout was then rerun once, never used to tune"],
-  ["The verdict could read Pass beside a red rule row", "The banner and the rule rows disagreed", "Any red rule row, on any set, now blocks the release"],
+  ["Cost questions slipped past the cost check", "Probes asked about what members are charged, owe or pay in fees", "The cost check now reads those words too, so the question goes to the gap queue instead of a guess (D66)"],
+  ["A sealed holdout question was answered when it should have said \"not yet\"", "Right topic found, but the asked fact was not in it", "Fixed against new questions of the same kind written outside the holdout; the holdout was then rerun once (D91), never used to tune"],
+  ["The verdict could read Pass beside a red rule row", "The banner and the rule rows disagreed", "Any red rule row, on any set, now blocks the release (D87)"],
   ["The redaction test could not fail", "It reused the redactor's own pattern, so it graded itself", "The leak check is now independent and covers the LW, CW and MBI-style formats in the seed (D88)"],
-  ["Price questions were wrongly refused", "\"Are prices final?\" was treated as a request for her records", "Price-policy questions are answered from the pricing disclaimer; her own records still go to a person"],
-  ["Questions mentioning another person needed a rule", "\"The dental thing my neighbor has\" risked sharing someone else's coverage", "A general answer, never the other person's coverage; their records go to a person"],
-  ["A member asking for the vision benefit was refused", "The probe said refuse; plans must disclose benefits to members", "Answered from the member-facing topic; the label was corrected in review, the probe file untouched"],
-  ["A deadline label said \"7 days\" without calendar or working", "The holdout label was ambiguous", "Ruled 7 calendar days, as the regulation says; every deadline label now names which"]
+  ["Price questions were wrongly refused", "\"Are prices final?\" was treated as a request for her records", "Price-policy questions are answered from the pricing disclaimer; her own records still go to a person (D99)"],
+  ["Questions mentioning another person needed a rule", "\"The dental thing my neighbor has\" risked sharing someone else's coverage", "A general answer, never the other person's coverage; their records go to a person (D107)"],
+  ["A member asking for the vision benefit was refused", "The probe said refuse; plans must disclose benefits to members", "Answered from the member-facing topic; the label was corrected in review, the probe file untouched (D82)"],
+  ["A deadline label said \"7 days\" without calendar or working", "The holdout label was ambiguous", "Ruled 7 calendar days, as the regulation says; every deadline label now names which (D90)"]
 ];
 async function improve(c) {
   const miss = E.PS.flatMap(x => x.misses.map(m => ({ set: x.set, m }))), disp = E.PS.flatMap(x => x.disputed), above = E.PS.filter(x => x.ok >= 59 && x.rate > 2), smallMiss = E.PS.filter(x => x.ok < 59 && x.falseN > 0);

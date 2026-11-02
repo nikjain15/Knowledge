@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&family=Mulish:wght@400;600;700;800&display=swap">
-<link rel="stylesheet" href="styles.css?v=be06930"><link rel="stylesheet" href="story.css?v=be06930">
+<link rel="stylesheet" href="fonts/fonts.css?v=7e811e2">
+<link rel="stylesheet" href="styles.css?v=7e811e2"><link rel="stylesheet" href="story.css?v=7e811e2">
 <title>June's day · Lakewell Knowledge</title>
 <style>
 .dhead{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:6px 0 12px}
@@ -100,10 +100,10 @@ mark.miss{background:#cfe7ad;color:#1f4a06;font-weight:800;border-radius:3px;pad
 <div class="tabs5" id="tabs"></div>
 <div class="day"><div class="card" id="stage"></div><div class="card graphcard" id="graphcard"></div></div>
 
-<p class="small" style="margin-top:8px">Synthetic voices · names invented, roles from the brief.</p>
+<p class="small" style="margin-top:8px">Everything on this page is fictional: plan, people, documents, counts and dates. Synthetic voices.</p>
 </main>
-<script src="data.js?v=be06930"></script><script src="app.js?v=be06930"></script><script src="model-run.js?v=be06930"></script><script src="probes.js?v=be06930"></script><script src="probes-review.js?v=be06930"></script><script src="nearmiss.js?v=be06930"></script><script src="probes2.js?v=be06930"></script><script src="probes3.js?v=be06930"></script>
-<script src="story-shared.js?v=be06930"></script>
+<script src="data.js?v=7e811e2"></script><script src="app.js?v=7e811e2"></script><script src="model-run.js?v=7e811e2"></script><script src="probes.js?v=7e811e2"></script><script src="probes-review.js?v=7e811e2"></script><script src="nearmiss.js?v=7e811e2"></script><script src="probes2.js?v=7e811e2"></script><script src="probes3.js?v=7e811e2"></script>
+<script src="story-shared.js?v=7e811e2"></script>
 <script>
 nav("day.html", "insurance", { demo: true });
 store.up(s => { if (!(s.approved || {})["KU-204"]) ENSURE.gateDone(s); const v2 = (s.approved || {})["KU-207@v2"]; if (v2 && v2.on === PLAN.today) v2.on = "8 Oct 2026"; });
@@ -140,8 +140,8 @@ const CH = [
     fix: ["The bot reads the approved out-of-network wording, exactly as written", "June learns the conditions before she goes to the pharmacy", "No surprise bill, and nothing the plan has to defend"],
     path: [["QUESTION", "Any pharmacy?", "asked at 9 PM"], ["BOT'S OWN SCRIPT", "Its own summary", "not the approved words"], ["REWORDS", "Drops the conditions", "no check against Legal"], ["SAYS", "'Any pharmacy you like'", "wrong"]],
     fixpath: [["QUESTION", "Any pharmacy?", "asked at 9 PM"], ["APPROVED SOURCE", "Out-of-network topic", "approved by Legal"], ["LOCKED WORDS", "Read exactly", "never reworded"], ["SAYS", "The approved conditions", "word for word"]],
-    today: () => `<div class="line june"><span class="num">1</span><span class="who">June</span><span class="say">Hi. Can I use any pharmacy, even one that isn't in your network?</span></div>
-      <div class="line bot"><span class="num">4</span><span class="who">Bot</span><span class="say">${esc(BOT_WRONG)}</span></div>
+    today: () => `<div class="line june"><span class="who">June</span><span class="say">Hi. Can I use any pharmacy, even one that isn't in your network?</span></div>
+      <div class="line bot"><span class="who">Bot</span><span class="say">${esc(BOT_WRONG)}</span></div>
       ${compare(OON_OK, BOT_WRONG, "What the bot said", "The bot's own paraphrase of the rule")}`,
     lines: [["bot", "bot1", "Thanks for calling Lakewell Advantage. I'm an automated assistant, and I can answer general questions about your plan. How can I help?"],
             ["june", "june1", "Hi. Can I use any pharmacy, even one that isn't in your network?", { q: "Can I use any pharmacy, even one that isn't in your network?", role: "member", channel: "Voice", read: "june1" }],
@@ -152,8 +152,8 @@ const CH = [
     fix: ["The chat answers only from approved words; with no approved 2027 copay, it says so and offers a person", "June is never given a number nobody approved", "Her question goes to Priya's list, so the figure is written and approved once, for every member"],
     path: [["QUESTION", "Tier 3 copay 2027?", "typed in chat"], ["RAW FILES", "Includes a 2027 draft", "no approval status"], ["AI PICKS", "The draft's number", "nobody signed it"], ["SAYS", "'$47'", "unapproved"]],
     fixpath: [["QUESTION", "Tier 3 copay 2027?", "typed in chat"], ["APPROVED SOURCE", "No approved 2027 figure", "the draft is not searchable"], ["THE RULE", "No approved answer, no answer", "nothing guessed"], ["SAYS", "'Not confirmed yet'", "offers a person; gap logged"]],
-    today: () => `<div class="line june"><span class="num">1</span><span class="who">June</span><span class="say">What's the Tier 3 copay for 2027?</span></div>
-      <div class="line bot"><span class="num">4</span><span class="who">Chat</span><span class="say">${esc(CHAT_WRONG)}</span></div>
+    today: () => `<div class="line june"><span class="who">June</span><span class="say">What's the Tier 3 copay for 2027?</span></div>
+      <div class="line bot"><span class="who">Chat</span><span class="say">${esc(CHAT_WRONG)}</span></div>
       ${compare(CHAT_OK, CHAT_WRONG, "What the chat said", "Taken from an unapproved planning file (illustrative figure)", "What June should be told")}
       <div class="box wrong"><span class="issue">And nobody hears about it</span><p style="margin:0">No one records that June's question had no approved answer, so no one ever writes the 2027 figure. The next member gets the same guess.</p></div>`,
     lines: [["june", null, "What is the Tier 3 copay for 2027?", { q: "What is the Tier 3 copay for 2027?", role: "member", channel: "Member chat", read: "chat1" }],
@@ -165,9 +165,9 @@ const CH = [
     fix: ["Agent Assist shows Dana the approved words and their source while June is still talking", "June gets the right answer straight away, with no hold", "One call instead of three, and Dana can trust what she reads"],
     path: [["QUESTION", "Is my price final?", "on a live call"], ["THREE TOOLS", "Script library, shared drive, intranet", "searched one by one"], ["RESULT", "Three wordings", "no version, no owner"], ["DANA", "Picks one", "while June waits"]],
     fixpath: [["QUESTION", "Is my price final?", "on a live call"], ["ONE SOURCE", "One approved pricing topic", "no second copy to find"], ["AGENT ASSIST", "Shows it while June talks", "with its source"], ["DANA READS", "The approved 2026 words", "in one call"]],
-    today: () => `<div class="line june"><span class="num">1</span><span class="who">June</span><span class="say">Is the price I was quoted for my medicine final?</span></div>
+    today: () => `<div class="line june"><span class="who">June</span><span class="say">Is the price I was quoted for my medicine final?</span></div>
       <div class="results"><div><b>Script library · Rx Education Script v2</b> <span class="small">the 2026 wording</span></div><div><b>Shared drive · Rx Education Script v3</b> <span class="small">a 2027 draft, not approved</span></div><div><b>Intranet · Pharmacy Desk Cheat Sheet 2025</b> <span class="small">last year's, still searchable</span></div></div>
-      <p class="small" style="margin:4px 0 0"><span class="num">4</span>Three results, three wordings, and nothing says which one Legal approved. Dana picks the cheat sheet she always uses:</p>
+      <p class="small" style="margin:4px 0 0">Three results, three wordings, and nothing says which one Legal approved. Dana picks the cheat sheet she always uses:</p>
       ${compare(PD["PD-A"], DESK_2025, "What Dana read to June", "From the 2025 cheat sheet")}
       <div class="box wrong"><span class="issue">Why the 2025 copy was still there</span><p style="margin:0">Legal updated this wording for 2026, but nobody knew the desk cheat sheet held a copy, so it was never changed.</p></div>`,
     lines: [["dana", "dana1", "Thank you for calling Lakewell Advantage, this is Dana. May I have your full name, please?"], ["june", "june2", "June Halvorsen."],
@@ -189,7 +189,7 @@ const CH = [
       ${compare(TEXT_OK, TEXT_WRONG, "What the text said", "None of Lakewell's pricing words, no link, no opt-out")}` },
   { key: "Website", icon: "web", tag: "The plan's public website", name: "Website", when: "Monday, 2:03 PM",
     who: "June checks the plan's Star Rating on its website while comparing plans during Medicare enrollment.",
-    issue: ["The website still shows the 2026 Star Rating after the 21-day switch-over window closed on 29 Oct", "June compares plans using last year's rating, during the very weeks she has to choose", "Plans have 21 days after the new ratings come out to switch; Lakewell missed it, and nobody knew, because the page has no end date"],
+    issue: ["The website still shows the 2026 Star Rating after the 21-calendar-day switch-over window closed on 29 Oct", "June compares plans using last year's rating, during the very weeks she has to choose", "Plans have 21 days after the new ratings come out to switch; Lakewell missed it, and nobody knew, because the page has no end date"],
     fix: ["The 2027 rating replaces the 2026 one automatically on its date, everywhere at once", "June compares plans on the current rating", "The plan meets the replacement deadline without anyone remembering to"],
     path: [["PAGE", "Star Rating page", "written for 2026"], ["NO EXPIRY", "No end date", "nobody owns it"], ["29 OCT", "Switch-over window closes", "page unchanged"], ["SHOWS", "2026 rating", "during enrollment"]],
     fixpath: [["PAGE", "Star Rating page", "reads the approved unit"], ["DATES", "Each version has a start and end", "2026 ends 29 Oct"], ["ON 29 OCT", "Swaps by itself", "no one has to remember"], ["SHOWS", "2027 rating", "in force from 8 Oct"]],
@@ -216,7 +216,7 @@ const TAKE = {
     ["stamp", "Nothing ships without sign-off", "Even a reminder text comes from an approved answer."],
     ["calendar", "Expired content leaves by itself", "On its end date, from every channel at once."],
     ["inbox", "Every gap becomes the next answer", "Unanswered questions go to the gap queue, the author's list."],
-    ["spark", "Safe to put AI in every channel", "AI can only say what Lakewell approved, so it adds speed, not risk."]] }
+    ["spark", "Safe to put AI in every channel", "AI can only say what Lakewell approved, so it adds speed without adding a new source of wrong answers."]] }
 };
 /* The knowledge map, left to right: question, topics considered, the one chosen, its legal words, version, source, channels. All from live data. */
 function graphSVG(r, stage, focus) {
@@ -356,7 +356,7 @@ function draw() {
     const b = document.getElementById("back1"); if (b) b.onclick = () => { cur = 0; draw(); scrollTo({ top: 0, behavior: "smooth" }); };
     return; }
   if (mode === "today") {
-    document.getElementById("stage").innerHTML = `<p class="when">${esc(c.when)} · ${esc(c.name)} · today</p><p class="who2"><span class="tic">${ICON[c.icon]}</span>${esc(c.who)}</p>${c.today()}${impactHTML(c, "today")}${nextHTML()}`;
+    document.getElementById("stage").innerHTML = `<p class="when">${esc(c.when)} · ${esc(c.name)}</p><p class="who2"><span class="tic">${ICON[c.icon]}</span>${esc(c.who)}</p>${c.today()}${impactHTML(c, "today")}${nextHTML()}`;
     document.getElementById("graphcard").innerHTML = `<h3>How ${esc(c.name.toLowerCase())} gets its answer today <span class="pill bad" style="font-size:11px">our assumption</span></h3>${todaySVG(c)}`;
     bindNext(); return;
   }

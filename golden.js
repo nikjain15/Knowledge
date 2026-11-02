@@ -44,4 +44,4 @@ const T4_SEEDS = (() => {
   return out;
 })();
 /* The prototype's human labels: one reviewer, the 12 answerable development questions (S8.50). Filled on the evals page. */
-const LABEL_NOTE = "One reviewer (Nik) labels the 12 answerable answers on screen. Production adds a second reviewer and a validated judge (S8.63 to S8.66).";
+const LABEL_NOTE = "One reviewer (the label owner) labels the 12 answerable answers on screen. Production adds a second reviewer and a validated judge (S8.63 to S8.66).";
