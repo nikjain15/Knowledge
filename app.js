@@ -426,7 +426,7 @@ function nav(current, roleKey, opt) {
   document.body.insertAdjacentHTML("afterbegin",
     `<header class="top"><a class="logo" href="index.html"><i></i>Lakewell Knowledge</a>
      ${opt.demo ? "" : `<label class="small rolesw">You are <select id="rolesel"><option value="">choose a person</option>${opts}</select></label>`}
-     ${opt.demo ? "" : `<nav class="links">${links}${roleKey && ROLES[roleKey] ? `<button class="bell" id="bell">Notifications${unread ? `<i>${unread}</i>` : ""}</button>` : ""}<label class="idtog small" title="Show internal IDs (the audit CSV always keeps them)"><input type="checkbox" id="idtog"${showIds() ? " checked" : ""}> IDs</label>${S().storyOn ? "" : `<a href="#" id="storybtn" class="demo">Start demo</a>`}</nav>`}</header>`);
+     ${opt.demo ? "" : `<nav class="links">${links}${roleKey && ROLES[roleKey] ? `<button class="bell" id="bell">Notifications${unread ? `<i>${unread}</i>` : ""}</button>` : ""}<label class="idtog small" title="Show internal IDs (the audit CSV always keeps them)"><input type="checkbox" id="idtog"${showIds() ? " checked" : ""}> IDs</label><a href="day.html?mode=today" class="demo">Start demo</a></nav>`}</header>`);
   /* Each tab is one person: the tab title and a chip say who this tab is signed in as */
   if (roleKey && ROLES[roleKey] && !opt.demo) document.title = ROLES[roleKey].person.split(" ")[0] + " · " + document.title;
   /* UX 2: plain names first; internal IDs behind a toggle */
@@ -438,55 +438,11 @@ function nav(current, roleKey, opt) {
     document.body.insertAdjacentHTML("beforeend", `<div class="notes"><p class="eyebrow" style="margin:4px 8px 6px">For ${esc(ROLES[roleKey].person)}</p>${mine.length ? mine.map(n => `<a href="${n.link || "#"}" class="${n.read ? "" : "unread"}">${esc(n.text)}<br><span class="small">today ${n.t}</span></a>`).join("") : '<div class="quiet">Nothing yet.</div>'}</div>`);
     store.up(s => (s.notes || []).forEach(n => { if (n.to === roleKey) n.read = true; })); const i = bell.querySelector("i"); if (i) i.remove(); };
   const rsel = document.getElementById("rolesel"); if (rsel) rsel.onchange = e => { if (e.target.value) location.href = ROLES[e.target.value].home; };
-  const sbtn = document.getElementById("storybtn"); if (sbtn) sbtn.onclick = e => { e.preventDefault(); store.reset(); goStory(0); };
   storyBar();
 }
 function showIds() { try { return localStorage.getItem("uc2ids") === "1"; } catch (e) { return false; } }
-function goStory(i, fresh) {
-  const st = STORY[i]; if (!st) return;
-  if (fresh) store.reset();
-  store.up(s => { s.storyOn = true; s.story = i; (st.ensure || []).forEach(k => ENSURE[k](s));
-    // seed what earlier steps would have done, so any step can be opened directly
-    const at = t => STORY.findIndex(x => x.title === t), past = t => i > at(t);
-    if (past("Priya turns Rx Script v2 into topics")) { s.extracted = Object.assign({ "DOC-RXV2": true }, s.extracted); s.ingested = Object.assign({ "DOC-RXV2": true }, s.ingested); }
-    if (past("And the messy shared-drive file")) { s.extracted = Object.assign({ "DOC-SD09": true }, s.extracted); s.ingested = Object.assign({ "DOC-SD09": true }, s.ingested); s.messy = s.messy || { M2: "split", M5: "merge" }; }
-    if (past("One clause in three places")) ENSURE.ingestAll(s);
-    if (past("Tom approves once")) ENSURE.tomDone(s);
-    if (past("Grace approves the pharmacy content")) ENSURE.gateDone(s);
-    if (past("No approved answer, said honestly")) { s.flags = s.flags || []; if (!s.flags.some(f => /dental rider/.test(f.q))) s.flags.push({ q: "dental rider included?", role: "insurance", on: PLAN.today }); }
-    if (past("Legal edits v3: approve once")) ENSURE.driftDone(s);
-  });
-  location.href = st.page;
-}
-function storyBar() {
-  const s = S(); if (!s.storyOn) return;
-  const i = s.story || 0, st = STORY[i], chapIdx = CHAPTERS.indexOf(st.chapter);
-  const chips = CHAPTERS.map((c, n) => { const first = STORY.findIndex(x => x.chapter === c);
-    return `<button class="chap${n === chapIdx ? " on" : n < chapIdx ? " done" : ""}" data-jump="${first}"><i>${n + 1}</i>${c}</button>`; }).join("");
-  /* UX 1: one slim bar. The step, its action and Next sit in the top bar; "What to say" opens on click */
-  document.querySelector("header.top").insertAdjacentHTML("beforeend", `<div class="hstep">
-    <select id="sbjump" class="small" title="Jump to a chapter">${CHAPTERS.map((c, n) => `<option value="${STORY.findIndex(x => x.chapter === c)}"${n === chapIdx ? " selected" : ""}>${n + 1}. ${c}</option>`).join("")}</select>
-    <span class="stepn">${i + 1}/${STORY.length}</span><b class="sbt" title="${esc(st.title)}">${esc(st.title)}</b>${st.act ? `<span class="sb-act">${esc(st.act)}</span>` : ""}
-    <details class="say"><summary title="What to say">i</summary><div>${esc(st.say)}</div></details>
-    <button class="btn sm" id="sbprev"${i === 0 ? " disabled" : ""}>Back</button><button class="btn sm primary" id="sbnext">${i === STORY.length - 1 ? "Finish" : "Next"}</button><button class="btn sm ghost" id="sbexit" title="Exit demo">Exit</button></div>`);
-  document.body.classList.add("storyon");
-  document.getElementById("sbprev").onclick = () => goStory(i - 1, true);
-  document.getElementById("sbnext").onclick = () => i === STORY.length - 1 ? (store.up(x => x.storyOn = false), location.href = "index.html") : goStory(i + 1);
-  document.getElementById("sbexit").onclick = () => { store.up(x => x.storyOn = false); location.reload(); };
-  document.getElementById("sbjump").onchange = e => goStory(+e.target.value, +e.target.value < i);
-  const nextBtn = document.getElementById("sbnext");
-  if (!st.target) { nextBtn.classList.add("spot"); return; }
-  const targets = [].concat(st.target), get = p => p.split(".").reduce((o, k) => o && o[k], S());
-  const isDone = () => st.done && st.done.every(p => get(p));
-  let clicked = false, last = null;
-  if (!st.done) document.addEventListener("click", e => { if (e.target.closest(targets.join(","))) clicked = true; }, true);
-  setInterval(() => {
-    document.querySelectorAll(".spot").forEach(x => x.classList.remove("spot"));
-    if (st.done ? isDone() : clicked) { nextBtn.classList.add("spot"); return; }
-    let t = null; for (const sel of targets) { t = [...document.querySelectorAll(sel)].find(x => !x.disabled && x.offsetParent !== null); if (t) break; }
-    if (t) { t.classList.add("spot"); if (t !== last) { t.scrollIntoView({ block: "center", behavior: "smooth" }); last = t; } }
-  }, 400);
-}
+/* The old 13-step guided story is retired: the demo is the five-step story bar (story-shared.js). Clears any story left on from before. */
+function storyBar() { if (S().storyOn) store.up(x => { x.storyOn = false; }); }
 /* full timeline of one unit */
 function timeline(u) {
   const base = [];
