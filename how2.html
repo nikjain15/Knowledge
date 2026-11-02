@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&family=Mulish:wght@400;600;700;800&display=swap">
-<link rel="stylesheet" href="styles.css?v=42"><link rel="stylesheet" href="story.css?v=42">
+<link rel="stylesheet" href="styles.css?v=be06930"><link rel="stylesheet" href="story.css?v=be06930">
 <title>How it works · Govern and approve · Lakewell Knowledge</title>
 <style>
 .tabs5{grid-template-columns:repeat(5,minmax(0,1fr))}
@@ -16,15 +16,14 @@
 <div class="subbar" id="tabs"></div>
 <div class="card howcard" id="stage"></div>
 </main>
-<script src="data.js?v=42"></script><script src="app.js?v=45"></script><script src="story-shared.js?v=42"></script>
+<script src="data.js?v=be06930"></script><script src="app.js?v=be06930"></script><script src="story-shared.js?v=be06930"></script>
 <script>
 nav("how2.html", "legal", { demo: true });
 const KU301 = slaStage(((units(S()).find(u => u.id === "KU-301") || {}).seed || {}).submitted || "28 Oct 2026", "legal"); /* the scene clock reads the same seed as the product (audit A-030) */
 const TIP = (MESSY_UNITS.find(u => u.id === "KU-224") || { versions: [{ text: "" }] }).versions[0].text;
 const chk = (items, done) => `<div class="docv">${items.map(([who, t, d], i) => `<p><span style="display:inline-block;width:18px">${i < done ? "☑" : "☐"}</span><b>${esc(t)}</b> <span class="small">${esc(who)} · ${esc(d)}</span></p>`).join("")}</div>`;
 window.ACT = {
-  title: "Act 2 · Check and approve, once", nav: "act2.html", role: "legal",
-  approachNext: "See the future state: approvals with Lakewell Knowledge →", next: ["day.html", "Next: Act 3 · June's day across five channels"],
+  title: "Act 2 · Check and approve, once", role: "legal",
   take: {
     today: { title: "Approvals nobody can trust", lead: "Content reaches June without a real check, a clear owner, or anyone noticing delays.", items: [
       ["pencil", "Approving your own work", "The bot's script was signed off by its author."], ["shield", "Clinical advice, unchecked", "The chat gives a health tip no pharmacist reviewed."],
@@ -79,4 +78,4 @@ window.ACT = {
 
 ACT.lead = "Tom, Grace and Dr. Calloway, the approvers"; ACT.steps = [["Outbound", "Rules check, a person approves"], ["Advocate desk", "Resolve conflicts of authority"], ["Member chat", "Clinical sign-off"], ["Voice", "Separation of duties"], ["Website", "Clocks on every review"]]; ACT.howIndex = 1;
 </script>
-<script src="how-scenes.js?v=42"></script><script src="how-engine.js?v=42"></script></body></html>
+<script src="how-scenes.js?v=be06930"></script><script src="how-engine.js?v=be06930"></script></body></html>

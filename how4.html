@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&family=Mulish:wght@400;600;700;800&display=swap">
-<link rel="stylesheet" href="styles.css?v=42"><link rel="stylesheet" href="story.css?v=42">
+<link rel="stylesheet" href="styles.css?v=be06930"><link rel="stylesheet" href="story.css?v=be06930">
 <title>How it works · Keep it current · Lakewell Knowledge</title>
 <style>
 .tabs5{grid-template-columns:repeat(5,minmax(0,1fr))}
@@ -16,14 +16,13 @@
 <div class="subbar" id="tabs"></div>
 <div class="card howcard" id="stage"></div>
 </main>
-<script src="data.js?v=42"></script><script src="app.js?v=45"></script><script src="story-shared.js?v=42"></script>
+<script src="data.js?v=be06930"></script><script src="app.js?v=be06930"></script><script src="story-shared.js?v=be06930"></script>
 <script>
 nav("how4.html", "legal", { demo: true });
 const PDB = PD_WORDINGS[1].text, ES = ((CORE_UNITS.find(u => u.id === "KU-202") || {}).translations || {}).es || {};
 const OONF = OON_FORMAT_EDIT, OON = (DOCS.find(d => d.id === "DOC-RXV2").sections.flatMap(s => s.blocks).find(b => b.verbatim && /network/.test(b.t || "")) || {}).t;
 window.ACT = {
-  title: "Act 5 · Keep it current", nav: "act5.html", role: "legal",
-  approachNext: "See the future state: one change, every channel, on the right day →", next: ["evals.html", "Next: Act 6 · Prove it"],
+  title: "Act 5 · Keep it current", role: "legal",
   take: {
     today: { title: "Knowledge that goes stale without anyone noticing", lead: "Legal changes one sentence, and the copies drift, the drafts leak, and the alerts are ignored.", items: [
       ["search", "One change never reaches every copy", "The phone bot keeps the old wording."], ["eyeoff", "Alerts on everything, so nobody looks", "A typo fix and a legal change look the same."],
@@ -78,4 +77,4 @@ window.ACT = {
 
 ACT.lead = "Tom, with drift alerts"; ACT.steps = [["Voice", "One alert finds every copy"], ["Member chat", "Meaning, not formatting"], ["Advocate desk", "Drafts never served"], ["Outbound", "Switch on the date"], ["Website", "Re-check translations"]]; ACT.howIndex = 3;
 </script>
-<script src="how-scenes.js?v=42"></script><script src="how-engine.js?v=42"></script></body></html>
+<script src="how-scenes.js?v=be06930"></script><script src="how-engine.js?v=be06930"></script></body></html>

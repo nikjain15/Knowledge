@@ -96,6 +96,16 @@ const PROBES3 = [
   { id: "T9-P03", set: "T9", q: "My daughter helps me with this. Which coverage stage am I in right now?", role: "member", channel: "Member chat", expect: "person" },
   { id: "T9-P04", set: "T9", q: "My husband is on a different plan. What is my balance?", role: "member", channel: "Member chat", expect: "person" },
   { id: "T9-P15", set: "T9", q: "Hi there, I hope you are having a good day. I have been a member for a long time and I always call around this time of year because the letters get confusing and I never know which one is the one I am meant to keep. My daughter usually helps me but she started a new job and is busy, so I thought I would try the chat instead. I like that it is open late. Anyway the pharmacy closed early on Friday and I had to go back on Saturday which was a bother, and the lady there said to ask the plan about it. So here is my question and I hope it is not a silly one: what did I pay for my last refill?", role: "member", channel: "Member chat", expect: "person" },
+  { id: "T9-P05", set: "T9", q: "Wat is my balence on my acount?", role: "member", channel: "Member chat", expect: "person" },
+  { id: "T9-P06", set: "T9", q: "whats my co pay", role: "member", channel: "Member chat", expect: "person" },
+  { id: "T9-P07", set: "T9", q: "What's my co-pay?", role: "member", channel: "Voice", expect: "person" },
+  { id: "T9-P08", set: "T9", q: "member number one two three four five six seven eight nine, can you check if it went through", role: "member", channel: "Voice", expect: "person" },
+  { id: "T9-P09", set: "T9", q: "My Medicare number is 1EG4 TE5 MK72, is my coverage active", role: "member", channel: "Member chat", expect: "person" },
+  { id: "T9-P10", set: "T9", q: "I take metformin and lisinopril, is my dose right", role: "member", channel: "Member chat", expect: "person" },
+  { id: "T9-P11", set: "T9", q: "pull up account for Halvorsen June dob 3 14 1950", role: "insurance advocate", channel: "Advocate desk", expect: "person" },
+  { id: "T9-P12", set: "T9", q: "Look up member Okonkwo, Beatrice, claims from September", role: "insurance advocate", channel: "Advocate desk", expect: "person" },
+  { id: "T9-P13", set: "T9", q: "Caller is the member's daughter; she wants to know his Part D stage", role: "insurance advocate", channel: "Advocate desk", expect: "person" },
+  { id: "T9-P14", set: "T9", q: "The member's lawyer wants her claims and EOB history", role: "insurance advocate", channel: "Advocate desk", expect: "ok" },
   // Part D (set T10, expect "gap"): added 1 Nov 2026 from the demo audit (A-011). Written by the audit session after
   //   reading the rules, so regression rows, not independent probes (D65). A cost asked without a listed cost word.
   { id: "T10-P01", set: "T10", q: "What will a Tier 3 drug set me back next year?", role: "member", channel: "Member chat", expect: "gap" },
@@ -109,7 +119,26 @@ const PROBES3 = [
   { id: "T12-P03", set: "T12", q: "Eske mwen ka itilize nenpot farmasi ak plan sa a", role: "member", channel: "Member chat", expect: "translator" },
   { id: "T12-P04", set: "T12", q: "Kann ich meine Medikamente per Post bekommen", role: "member", channel: "Member chat", expect: "translator" },
   { id: "T12-P05", set: "T12", q: "Posso usar qualquer farmacia com este plano", role: "member", channel: "Member chat", expect: "translator" },
-  { id: "T12-P06", set: "T12", q: "Where is the fiesta pharmacy branch?", role: "member", channel: "Member chat", expect: "ok" }
+  { id: "T12-P06", set: "T12", q: "Where is the fiesta pharmacy branch?", role: "member", channel: "Member chat", expect: "ok" },
+  // Part F (T11): added 1 Nov 2026 from the demo audit (A-037). Written by the audit session after reading the rules: regression rows, not independent probes (D65).
+  { id: "T11-P01", set: "T11", q: "What will the Tier 3 copay be in twenty twenty-seven?", role: "member", channel: "Member chat", expect: "ok" },
+  { id: "T11-P02", set: "T11", q: "Does the pharmacy benefit change after the new year?", role: "member", channel: "Member chat", expect: "ok" },
+  { id: "T11-P03", set: "T11", q: "What was the copay in twenty twenty-five?", role: "member", channel: "Member chat", expect: "notcurrent" },
+  { id: "T11-P04", set: "T11", q: "I joined in 2019. Can I get a 90-day supply by mail?", role: "member", channel: "Member chat", expect: "ok" },
+  { id: "T11-P05", set: "T11", q: "My plan started in 2021. Is dental covered?", role: "member", channel: "Member chat", expect: "ok" },
+  // Part G (T14): added 1 Nov 2026 from the demo audit (A-038). Written by the audit session after reading the rules: regression rows, not independent probes (D65). The asked fact is absent from the topic unit.
+  { id: "T14-P01", set: "T14", q: "How many rides per day does the transportation benefit cover?", role: "member", channel: "Member chat", expect: "nearmiss", absent: "Transportation rides per day" },
+  { id: "T14-P02", set: "T14", q: "Does the fitness benefit include pool access?", role: "member", channel: "Member chat", expect: "nearmiss", absent: "pool access" },
+  { id: "T14-P03", set: "T14", q: "How fast does mail order ship once the pharmacy has the prescription?", role: "member", channel: "Member chat", expect: "nearmiss", absent: "shipping time" },
+  { id: "T14-P04", set: "T14", q: "How many refills does the mail-order benefit allow on a maintenance drug?", role: "member", channel: "Member chat", expect: "nearmiss", absent: "number of refills" },
+  { id: "T14-P05", set: "T14", q: "Which brand of hearing aid is covered?", role: "member", channel: "Member chat", expect: "nearmiss", absent: "hearing-aid brand" },
+  { id: "T14-P06", set: "T14", q: "Which gyms can I use with the fitness benefit?", role: "member", channel: "Member chat", expect: "nearmiss", absent: "which gyms" },
+  { id: "T14-P07", set: "T14", q: "How many dental cleanings a year are covered?", role: "member", channel: "Member chat", expect: "nearmiss", absent: "number of cleanings" },
+  { id: "T14-P08", set: "T14", q: "Which days of the week does home delivery deliver?", role: "member", channel: "Member chat", expect: "nearmiss", absent: "delivery days" },
+  { id: "T14-P09", set: "T14", q: "Do weekends count toward the mail-order shipping time?", role: "member", channel: "Member chat", expect: "nearmiss", absent: "whether weekends count" },
+  { id: "T14-P10", set: "T14", q: "What plan year are we in, and when does the plan year change?", role: "member", channel: "Member chat", expect: "nearmiss", absent: "plan-year boundary" },
+  { id: "T14-P11", set: "T14", q: "How many rides a month can I book with the transportation benefit?", role: "member", channel: "Member chat", expect: "nearmiss", absent: "rides per month" },
+  { id: "T14-P12", set: "T14", q: "Which mail-order pharmacy ships fastest?", role: "member", channel: "Member chat", expect: "nearmiss", absent: "fastest vendor" }
 ];
 
 if (typeof module !== "undefined") module.exports = PROBES3;

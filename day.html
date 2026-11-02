@@ -1,13 +1,13 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&family=Mulish:wght@400;600;700;800&display=swap">
-<link rel="stylesheet" href="styles.css?v=42"><link rel="stylesheet" href="story.css?v=42">
+<link rel="stylesheet" href="styles.css?v=be06930"><link rel="stylesheet" href="story.css?v=be06930">
 <title>June's day · Lakewell Knowledge</title>
 <style>
 .dhead{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:6px 0 12px}
 .dhead h1{margin:0;font-size:24px;flex:1;min-width:240px}
 .mode{display:inline-flex;background:var(--panel-2);border-radius:999px;padding:3px}
 .mode button{font:inherit;font-weight:800;font-size:13px;border:0;background:transparent;border-radius:999px;padding:7px 14px;cursor:pointer;color:var(--muted)}
-.mode button[aria-pressed="true"].bad{background:#c27c0e;color:#fff}.mode button[aria-pressed="true"].good{background:var(--leaf);color:#fff}.mode button[aria-pressed="true"].appr{background:#2f3d2f;color:#fff}
+.mode button[aria-pressed="true"].bad{background:#9e6208;color:#fff}.mode button[aria-pressed="true"].good{background:var(--leaf);color:#fff}.mode button[aria-pressed="true"].appr{background:#2f3d2f;color:#fff}
 .tabs5{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;margin-bottom:12px}
 .tabs5 button{font:inherit;text-align:left;border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:8px 10px;cursor:pointer}
 .tabs5 button b{display:block;font-size:13.5px}.tabs5 button>span{display:block;font-size:12px;line-height:1.35;color:var(--muted);margin-top:3px;white-space:normal}
@@ -21,7 +21,7 @@
 .line.playing .say{outline:2px solid var(--brand)}
 .box{border:1px solid var(--line);border-left:4px solid var(--brand);border-radius:12px;padding:10px 12px;background:var(--panel);margin:8px 0}
 .box.quiet{border-left-color:#c9c9c9;color:var(--muted)}.box.wrong{border-left-color:#c27c0e;background:#fdf8ef}
-.issue{display:inline-block;background:#c27c0e;color:#fff;font-size:11.5px;font-weight:800;border-radius:999px;padding:2px 9px;margin-bottom:6px}
+.issue{display:inline-block;background:#9e6208;color:#fff;font-size:11.5px;font-weight:800;border-radius:999px;padding:2px 9px;margin-bottom:6px}
 .box h4{margin:0 0 4px;font-size:13px}
 .graphcard h3{margin:0}.legend{display:flex;gap:12px;font-size:11.5px;color:var(--muted);margin:4px 0 8px}
 .legend i{display:inline-block;width:18px;height:4px;border-radius:2px;vertical-align:middle;margin-right:4px}
@@ -73,7 +73,7 @@ mark.miss{background:#cfe7ad;color:#1f4a06;font-weight:800;border-radius:3px;pad
 .take li b{display:block;font-size:18px;line-height:1.3;margin:0 0 6px}.take li span{display:block;font-size:15px;line-height:1.55;color:var(--muted)}
 .take li.last{grid-column:1/-1;flex-direction:row;align-items:center;gap:20px;min-height:0;padding:24px 26px;background:#fdf6e8;border-color:#efd8a8}.take.new li.last{background:#eef6e3;border-color:#c5dda5}.take li.last b{font-size:21px}
 @media (max-width:900px){.take ol{grid-template-columns:1fr}}
-.num{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#c27c0e;color:#fff;font-size:11px;font-weight:800;flex:none;margin:6px 6px 0 0}
+.num{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#9e6208;color:#fff;font-size:11px;font-weight:800;flex:none;margin:6px 6px 0 0}
 .sic{flex:none;width:36px;height:36px;border-radius:10px;display:grid;place-items:center}
 .vflow li.st-q{background:#eef4fc;border-color:#a9c6ea}.st-q .sic{background:#d8e7f8;color:#1f5a9e}.st-q .vk{color:#1f5a9e!important}
 .vflow li.st-look{background:#f4f4f1;border-color:#d6d6cf}.st-look .sic{background:#e6e6e0;color:#55594f}.st-look .vk{color:#55594f!important}
@@ -102,8 +102,8 @@ mark.miss{background:#cfe7ad;color:#1f4a06;font-weight:800;border-radius:3px;pad
 
 <p class="small" style="margin-top:8px">Synthetic voices · names invented, roles from the brief.</p>
 </main>
-<script src="data.js?v=42"></script><script src="app.js?v=45"></script><script src="model-run.js?v=42"></script><script src="probes.js?v=45"></script><script src="probes-review.js?v=45"></script><script src="nearmiss.js?v=45"></script><script src="probes2.js?v=45"></script><script src="probes3.js?v=45"></script>
-<script src="story-shared.js?v=42"></script>
+<script src="data.js?v=be06930"></script><script src="app.js?v=be06930"></script><script src="model-run.js?v=be06930"></script><script src="probes.js?v=be06930"></script><script src="probes-review.js?v=be06930"></script><script src="nearmiss.js?v=be06930"></script><script src="probes2.js?v=be06930"></script><script src="probes3.js?v=be06930"></script>
+<script src="story-shared.js?v=be06930"></script>
 <script>
 nav("day.html", "insurance", { demo: true });
 store.up(s => { if (!(s.approved || {})["KU-204"]) ENSURE.gateDone(s); const v2 = (s.approved || {})["KU-207@v2"]; if (v2 && v2.on === PLAN.today) v2.on = "8 Oct 2026"; });

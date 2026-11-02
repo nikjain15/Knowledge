@@ -5,7 +5,7 @@ const CH_NAME = { Voice: "Phone bot", "Member chat": "Member chat", "Advocate de
 const PD = Object.fromEntries(PD_WORDINGS.map(w => [w.label, w.text]));
 const docOf = id => DOCS.find(d => d.id === id);
 const STEPS = ACT.steps.map(([k, label], i) => Object.assign({ key: k, label, n: i + 1 }, ACT.channels[k]));
-let cur = Math.max(0, STEPS.findIndex(s => s.n === +QS.get("s"))), playing = false, run = 0;
+let cur = Math.max(0, STEPS.findIndex(s => s.n === +QS.get("s"))), playing = false, run = 0, playFrom = cur; /* A-071: ?s=N&play=1 starts at N */
 
 function docView(d, mark) {
   return `<div class="docv"><p class="small" style="margin:0 0 6px"><b>${esc(d.title)}</b> · ${esc(d.tool || "")} · ${esc(d.short)}</p>${d.sections.map(s => `<h5>${esc(s.h)}</h5>${s.blocks.map(b => typeof b === "string" ? `<p class="small">${esc(b)}</p>` : `<p class="${(mark && mark(b)) || ""}">${esc(b.t || (b.table || []).map(r => r.join(" ")).join("; "))}</p>`).join("")}`).join("")}</div>`;
@@ -92,7 +92,7 @@ function draw() {
   document.querySelectorAll("[data-t]").forEach(b => b.onclick = () => { playing = false; cur = +b.dataset.t; draw(); });
   return scene(false);
 }
-document.getElementById("play").onclick = async () => { playing = true; cur = 0;
+document.getElementById("play").onclick = async () => { playing = true; cur = playFrom; playFrom = 0;
   while (playing) { const my = await draw(); if (!playing || my !== run) return; await wait(2500); if (!playing || my !== run) return;
     if (cur < STEPS.length - 1) cur++; else { const nx = HOW4[ACT.howIndex + 1]; location.href = nx ? nx[1] + "?play=1" : "day.html?mode=new"; return; } } };
 document.getElementById("stop").onclick = () => { playing = false; run++; };

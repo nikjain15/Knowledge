@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&family=Mulish:wght@400;600;700;800&display=swap">
-<link rel="stylesheet" href="styles.css?v=45"><link rel="stylesheet" href="story.css?v=45">
+<link rel="stylesheet" href="styles.css?v=be06930"><link rel="stylesheet" href="story.css?v=be06930">
 <title>Prove it · Lakewell Knowledge</title>
 <style>
 .qrow{display:flex;gap:10px;align-items:baseline;padding:6px 0;border-bottom:1px solid #eef0e8;font-size:14px}.qrow:last-child{border:0}
@@ -24,8 +24,8 @@
 <div class="subbar" id="tabs"></div>
 <div class="card howcard" id="stage"><p class="small">Running every test now…</p></div>
 </main>
-<script src="data.js?v=45"></script><script src="golden.js?v=45"></script><script src="holdout.js?v=45"></script><script src="probes.js?v=45"></script><script src="probes-review.js?v=45"></script><script src="nearmiss.js?v=45"></script><script src="probes2.js?v=45"></script><script src="probes3.js?v=45"></script>
-<script src="app.js?v=45"></script><script src="eval-core.js?v=45"></script><script src="story-shared.js?v=45"></script>
+<script src="data.js?v=be06930"></script><script src="golden.js?v=be06930"></script><script src="holdout.js?v=be06930"></script><script src="probes.js?v=be06930"></script><script src="probes-review.js?v=be06930"></script><script src="nearmiss.js?v=be06930"></script><script src="probes2.js?v=be06930"></script><script src="probes3.js?v=be06930"></script>
+<script src="app.js?v=be06930"></script><script src="eval-core.js?v=be06930"></script><script src="story-shared.js?v=be06930"></script>
 <script>
 /* Prove it: every number on this page is computed in this browser, now, by the same code as the full runner (eval-core.js) */
 nav("prove.html", "owner", { demo: true });
@@ -147,6 +147,7 @@ async function observe(c) {
   c.beat(1, "What we watch every week, against the same bars");
   const w = c.push("System", "Watched every week after launch", `<div class="gates">${W.map(([n, v, bar, g]) => `<div class="gate">${g === null ? '<span class="tk" style="background:#e6e6e0;color:#55594f">·</span>' : tick(g)}<b>${esc(n)}</b><span class="gv">now ${esc(v)} · target ${esc(bar)}</span></div>`).join("")}</div>`);
   await c.reveal(w, ".gate", 450);
+  c.push("System", "First 90 days, and the stop rule", `<p class="small" style="margin:0">First 90 days: the pilot is the Pharmacy knowledge base with its authors and approvers, not advocates yet (S10.1, S10.2); any confirmed scope leak or verbatim change stops serving for that role at once (S8.77, S8.110); day 30, every rule gate green on one corpus slice and the sealed holdout; day 60, the Prove phase signed off by the Knowledge Operations lead, Legal and Compliance, and Engineering; day 90, the monitoring plan signed and the first Pharmacy units approved end to end, translated drafts never served (S10.10).</p>`); await c.T(900);
   c.beat(2, "Every piece of feedback gets an owner");
   c.push("System", "Feedback from advocates and members (examples illustrative)", `<div id="fbl">${fbList()}</div>
     <div class="fbform"><b>Leave feedback on an answer</b><div class="fbrow"><select id="fbq">${E.R.filter(x => x.answered).slice(0, 6).map(x => `<option>${esc(x.g.q)}</option>`).join("")}</select>
@@ -207,7 +208,8 @@ function draw() {
   document.querySelectorAll("[data-t]").forEach(b => b.onclick = () => { playing = false; cur = +b.dataset.t; draw(); });
   return scene(false);
 }
-document.getElementById("play").onclick = async () => { playing = true; cur = 0;
+let playFrom = cur; /* audit A-071: ?s=N&play=1 starts at N; a replay starts from the top */
+document.getElementById("play").onclick = async () => { playing = true; cur = playFrom; playFrom = 0;
   while (playing) { const my = await draw(); if (!playing || my !== run) return; await wait(2500); if (!playing || my !== run) return; if (cur < TABS.length - 1) cur++; else { playing = false; return; } } };
 document.getElementById("stop").onclick = () => { playing = false; run++; };
 evalAll(S()).then(e => { E = e; if (QS.get("play") === "1") document.getElementById("play").click(); else draw(); });

@@ -2,7 +2,7 @@
    Paper #fbfbf8, ink #182218, green #72992e, deep green #2f4a1d, pale green #eef4e4. Light only. */
 :root{
   --bg:#fbfbf8; --bg-2:#f3f4ef; --panel:#ffffff; --panel-2:#eef4e4; --fg:#182218; --muted:#5b6660; --line:#e2e6df; --line-2:#cfd6c9;
-  --green:#72992e; --leaf:#2f4a1d; --brand:#8fbd38; --ink:#ffffff; --mint:#d9ef9a;
+  --green:#72992e; --green-ink:#54741e; --amber-ink:#9e6208; --leaf:#2f4a1d; --brand:#8fbd38; --ink:#ffffff; --mint:#d9ef9a;
   --good:#2e7d4f; --warn:#a86a00; --bad:#b23a3a; --good-bg:#e4f2e8; --warn-bg:#fbefd9; --bad-bg:#f8e1e1; --hl:#fff1a8;
   --display:"Manrope","Mulish","Helvetica Neue",Arial,sans-serif; --body:"Mulish","Helvetica Neue",Arial,sans-serif; --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
   --shadow:0 1px 2px rgba(24,34,24,.05),0 10px 30px rgba(24,34,24,.07); --r:14px; color-scheme:light;
@@ -39,7 +39,7 @@ code{background:var(--bg-2);padding:1px 5px;border-radius:5px}
 .stack{display:flex;flex-direction:column;gap:10px}
 /* buttons */
 .btn{font:inherit;font-family:var(--display);font-weight:700;font-size:14px;padding:8px 16px;border-radius:999px;border:2px solid var(--green);background:var(--panel);color:var(--green);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;line-height:1.2}
-.btn.primary{background:var(--green);color:var(--ink)}
+.btn.primary{background:var(--green-ink);color:var(--ink)}
 .btn.sm{font-size:12.5px;padding:5px 11px;border-width:1.5px}
 .btn.danger{border-color:var(--bad);color:var(--bad)}
 .btn.on{background:var(--good-bg);color:var(--good);border-color:transparent}
@@ -137,7 +137,7 @@ input[type=text],textarea,select{font:inherit;font-size:14px;padding:9px 12px;bo
 .chaps{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
 .chap{font:inherit;font-family:var(--display);font-weight:700;font-size:12.5px;border:1px solid var(--line);background:var(--panel);color:var(--muted);padding:4px 12px 4px 4px;border-radius:999px;cursor:pointer;display:flex;align-items:center;gap:6px}
 .chap i{font-style:normal;width:20px;height:20px;border-radius:50%;background:var(--bg-2);display:grid;place-items:center;font-size:11px}
-.chap.on{border-color:var(--green);color:var(--leaf)}.chap.on i{background:var(--green);color:#fff}
+.chap.on{border-color:var(--green);color:var(--leaf)}.chap.on i{background:var(--green-ink);color:#fff}
 .chap.done{color:var(--leaf)}.chap.done i{background:var(--good-bg);color:var(--good)}
 .stepline{display:flex;gap:12px;align-items:center;flex-wrap:wrap;background:var(--panel-2);border-radius:12px;padding:10px 14px}
 .stepline .stepn{font-family:var(--display);font-weight:800;font-size:12px;color:var(--leaf);white-space:nowrap}
@@ -146,7 +146,7 @@ input[type=text],textarea,select{font:inherit;font-size:14px;padding:9px 12px;bo
 .spot{outline:3px solid var(--brand)!important;outline-offset:3px;animation:pulse 1.4s ease-in-out infinite;position:relative;z-index:2}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(143,189,56,.55)}50%{box-shadow:0 0 0 10px rgba(143,189,56,0)}}
 @media (prefers-reduced-motion:reduce){.spot{animation:none}}
-.links a.demo{background:var(--green);color:#fff;margin-left:6px}.links a.demo:hover{background:var(--leaf);color:#fff}
+.links a.demo{background:var(--green-ink);color:#fff;margin-left:6px}.links a.demo:hover{background:var(--leaf);color:#fff}
 details.more{margin-top:10px}details.more>summary{cursor:pointer;font-size:13px;color:var(--leaf);font-weight:700;list-style:none}
 details.more>summary::before{content:"+ "}details.more[open]>summary::before{content:"- "}
 .citeline{font-size:13px;color:var(--muted);display:flex;gap:6px 14px;flex-wrap:wrap;align-items:center;margin-top:10px}

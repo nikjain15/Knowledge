@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&family=Mulish:wght@400;600;700;800&display=swap">
-<link rel="stylesheet" href="styles.css?v=42"><link rel="stylesheet" href="story.css?v=42">
+<link rel="stylesheet" href="styles.css?v=be06930"><link rel="stylesheet" href="story.css?v=be06930">
 <title>How it works · Ingest and structure · Lakewell Knowledge</title>
 <style>
 .tabs5{grid-template-columns:repeat(5,minmax(0,1fr))}
@@ -16,15 +16,14 @@
 <div class="subbar" id="tabs"></div>
 <div class="card howcard" id="stage"></div>
 </main>
-<script src="data.js?v=42"></script><script src="app.js?v=45"></script><script src="story-shared.js?v=42"></script>
+<script src="data.js?v=be06930"></script><script src="app.js?v=be06930"></script><script src="story-shared.js?v=be06930"></script>
 <script>
 nav("how1.html", "author", { demo: true });
 const RX = DOCS.find(d => d.id === "DOC-RXV2"), SD = DOCS.find(d => d.id === "DOC-SD09"), INJ = (CORE_UNITS.find(u => u.id === "KU-214") || {}).injection;
 const OON = (RX.sections.flatMap(s => s.blocks).find(b => b.verbatim && /network/.test(b.t || "")) || {}).t;
 const COPAY = (SD.sections.flatMap(s => s.blocks).find(b => b.s === "M3") || {}).t;
 window.ACT = {
-  title: "Act 1 · Priya turns documents into knowledge", nav: "act1.html", role: "author",
-  approachNext: "See the future state: Priya's documents, ready for every channel →", next: ["act2.html", "Next: Act 2 · Check and approve, once"],
+  title: "Act 1 · Priya turns documents into knowledge", role: "author",
   take: {
     today: { title: "What goes wrong before anyone answers a question", lead: "Every channel reads from documents nobody made ready: buried, messy, unsafe and duplicated.", items: [
       ["pencil", "Legal's words are buried", "The phone bot rewords what nothing marks as exact."], ["zap", "Sources can carry hidden orders", "The chat follows a line planted in a document."],
@@ -79,4 +78,4 @@ window.ACT = {
 
 ACT.lead = "Priya, the author"; ACT.steps = [["Voice", "Extract topics and lock legal words"], ["Advocate desk", "Sort the messy file"], ["Member chat", "Strip planted instructions"], ["Outbound", "Turn tables into dated facts"], ["Website", "Find every copy"]]; ACT.howIndex = 0;
 </script>
-<script src="how-scenes.js?v=42"></script><script src="how-engine.js?v=42"></script></body></html>
+<script src="how-scenes.js?v=be06930"></script><script src="how-engine.js?v=be06930"></script></body></html>

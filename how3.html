@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&family=Mulish:wght@400;600;700;800&display=swap">
-<link rel="stylesheet" href="styles.css?v=42"><link rel="stylesheet" href="story.css?v=42">
+<link rel="stylesheet" href="styles.css?v=be06930"><link rel="stylesheet" href="story.css?v=be06930">
 <title>How it works · Close the gaps · Lakewell Knowledge</title>
 <style>
 .tabs5{grid-template-columns:repeat(5,minmax(0,1fr))}
@@ -16,7 +16,7 @@
 <div class="subbar" id="tabs"></div>
 <div class="card howcard" id="stage"></div>
 </main>
-<script src="data.js?v=42"></script><script src="app.js?v=45"></script><script src="story-shared.js?v=42"></script>
+<script src="data.js?v=be06930"></script><script src="app.js?v=be06930"></script><script src="story-shared.js?v=be06930"></script>
 <script>
 nav("how3.html", "owner", { demo: true });
 const LOG = q => SEARCH_LOG.filter(l => l.expect === null && (!q || q(l)));
@@ -24,8 +24,7 @@ const DENT = LOG(l => l.cluster === "Supplemental benefits"), DENT_N = DENT.redu
 const REJ = LOG(l => l.cluster === "Pharmacy claim rejects")[0] || { q: "refill too soon rejected at pharmacy", n: 13 };
 const SYN = SYNONYM_SUGGESTIONS, PIN = PIN_SUGGESTIONS[0];
 window.ACT = {
-  title: "Act 4 · Fill the gaps", nav: "act4.html", role: "owner",
-  approachNext: "See the future state: every gap becomes the next answer →", next: ["act5.html", "Next: Act 5 · Keep it current"],
+  title: "Act 4 · Fill the gaps", role: "owner",
   take: {
     today: { title: "Questions nobody answers, nobody hears about", lead: "When there's no answer, every channel fails quietly, so the gaps never close.", items: [
       ["eyeoff", "Dead ends nobody records", "The phone bot loops; nobody learns what was asked."], ["search", "Members' words don't match the documents", "'OOP' and typos find nothing."],
@@ -80,4 +79,4 @@ window.ACT = {
 
 ACT.lead = "Priya and Renee, the author and the owner"; ACT.steps = [["Voice", "Log every dead end"], ["Advocate desk", "Group, draft and approve"], ["Member chat", "Learn members' words"], ["Outbound", "Fix the process, not the content"], ["Website", "Pin the top answer"]]; ACT.howIndex = 2;
 </script>
-<script src="how-scenes.js?v=42"></script><script src="how-engine.js?v=42"></script></body></html>
+<script src="how-scenes.js?v=be06930"></script><script src="how-engine.js?v=be06930"></script></body></html>

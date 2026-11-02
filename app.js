@@ -164,7 +164,7 @@ const priced = u => /\$\d|\d+%/.test((u.current || u.latest || {}).text || "");
    REFUSAL is the one standard member-data refusal, word for word the same everywhere (S8.114), so it hints at nothing. */
 const STAFF_REFUSAL = "That one's an internal staff document, so I can't share it.";
 const REFUSAL = "Good question! I can't see personal records in this chat, so please keep Member IDs and health details private here. A team member can look this up once they've checked it's you. Want me to connect you?";
-const MEMBER_DATA = /\bmy (copays?|claims?|bills?|balance|deductible|costs?|prescriptions?|account|records?|history|diagnos\w*|medications?|drugs?|refills?|plan details)\b|\b\d[A-Z][A-Z0-9]\d-?[A-Z][A-Z0-9]\d-?[A-Z]{2}\d{2}\b|\b(LW|CW)\d{9}\b|\b(this|the) (member|patient)'?s? (history|diagnos\w*|records?|medical|treatment|condition|claims?)|\bpatient\b|\b(her|his) (diagnos\w*|medical|condition|history|records?|treatment)\b|claim status for|\bssn\b|\d{3}-\d{2}-\d{4}|this member'?s? (diagnos|in a rehab|record|medical|treatment)|\brehab\b|diagnos/i;
+const MEMBER_DATA = /\bmy (co[- ]?pays?|claims?|bills?|balance|balence|deductible|costs?|prescriptions?|account|acount|bal|statement|records?|history|diagnos\w*|medications?|drugs?|refills?|dose|dosage|plan details|coverage|medicare (number|id)|member (number|id))\b|\bmember number\b|\bpick up my\b|\b\d[A-Z][A-Z0-9]\d-?[A-Z][A-Z0-9]\d-?[A-Z]{2}\d{2}\b|\b(LW|CW)\d{9}\b|\b(this|the) (member|patient)'?s? (history|diagnos\w*|records?|medical|treatment|condition|claims?)|\bpatient\b|\b(her|his) (diagnos\w*|medical|condition|history|records?|treatment)\b|claim status for|\bssn\b|\d{3}-\d{2}-\d{4}|this member'?s? (diagnos|in a rehab|record|medical|treatment)|\brehab\b|diagnos/i;
 /* Decision 3: a grammar, not a word list. A person (me, my, my mom, this member, she) paired with a record word means one person's data */
 const PERSON = String.raw`(?:\b(?:i|i'm|im|i've|ive|me|my|mine|myself|am i|do i|did i|have i|will i)\b|\bmy (?:mom|mother|dad|father|husband|wife|spouse|partner|son|daughter|kid|child|parent|grandma|grandmother|grandpa|grandfather|aunt|uncle|brother|sister|friend|neighbor)'?s?\b|\b(?:this|the|that) (?:member|patient|caller|person|beneficiary)'?s?\b|\b(?:she|he|they|her|his|their)\b)`;
 const RECORD = String.raw`(?:out[- ]of[- ]pocket (?:total|so far|spending)|explanation of benefits|allowance|remaining|shipped|delivered|arrived|(?:use|used) last|last (?:fill|refill|visit|order)|claims?|spent|spend|spending|paid|owe|owed|owing|balance|bills?|billed|statement|eob|deductible (?:met|left|status)|met (?:my|the|her|his) deductible|meds|medications?|medicines?|prescriptions?|scripts?|rx|refills?|pills|taking|on file|diagnos\w*|conditions?|visits?|appointments?|history|records?|chart|labs?|results?|status|account|enrolled|enrollment|eligib\w*|premium|id card|member id|authorizations? (?:status|approved|denied)|was (?:it|my \w+) (?:approved|denied|paid)|go through|went through|approved|denied|coverage for what)`;
@@ -183,10 +183,15 @@ const policyQ = q => POLICY.test(q) && !OWN_RECORD.test(q.replace(/^\s*why did i
 /* D107: a question that mentions another person. If the question itself asks about that person (their pay, claim, coverage, shipment),
    it is a third-party records request and goes to a person, who checks for a personal representative first (45 CFR 164.502(g), 164.510(b)).
    If the person is only background and the question asks how the plan works, it gets a general answer, never their coverage. */
-const OTHER = String.raw`\b(?:my|her|his|their|our|a|the)\s+(?:mom|mother|dad|father|husband|wife|spouse|partner|son|daughter|brother|sister|sister in law|brother in law|aunt|uncle|cousin|neighbou?r|friend|grandma|grandmother|grandpa|grandfather|grandson|granddaughter|caregiver)s?(?:'s)?\b`;
+const OTHER = String.raw`\b(?:my|her|his|their|our|a|the)\s+(?:member'?s?\s+|caller'?s?\s+)?(?:mom|mother|dad|father|husband|wife|spouse|partner|son|daughter|brother|sister|sister in law|brother in law|aunt|uncle|cousin|neighbou?r|friend|grandma|grandmother|grandpa|grandfather|grandson|granddaughter|caregiver)s?(?:'s)?\b`;
 const OTHER_RE = new RegExp(OTHER, "i"), PLAN_ASK = /\b(on my plan|my plan|this plan|the plan|our plans?|do we|does lakewell|members?|can i|do i|am i)\b/i;
-const THIRD_REC = /\b(enrolled|enrollment|paid|pay|pays|paying|owe|owes|claims?|copays?|covered|coverage|shipment|appeal|authorization|auth|recorded|file|status|pending|decided|approved|account|bills?|balance|deductible|spent|total|meds|medications?|prescriptions?|refills?|visits?|diagnos\w*|records?|taking|using|used|getting|allowance|member id|premium|explanation of benefits|eob|ride for|left)\b/i;
+const THIRD_REC = /\b(enrolled|enrollment|paid|pay|pays|paying|owe|owes|claims?|co[- ]?pays?|stage|dose|covered|coverage|shipment|appeal|authorization|auth|recorded|file|status|pending|decided|approved|account|bills?|balance|deductible|spent|total|meds|medications?|prescriptions?|refills?|visits?|diagnos\w*|records?|taking|using|used|getting|allowance|member id|premium|explanation of benefits|eob|ride for|left)\b/i;
 /* S8.143 to S8.145: whose information is the question about? The topic never makes a question personal. */
+/* Audit A-037: years written in words, 2020 to 2039 */
+const ONES = { zero: 0, one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10, eleven: 11, twelve: 12, thirteen: 13, fourteen: 14, fifteen: 15, sixteen: 16, seventeen: 17, eighteen: 18, nineteen: 19 };
+function spelledYears(q) { const out = [], re = /\b(?:twenty|two thousand(?: and)?)[ -](twenty|thirty)?(?:[ -]?(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen))?\b/gi; let m;
+  while ((m = re.exec(q))) { const tens = m[1] ? (m[1].toLowerCase() === "twenty" ? 20 : 30) : 0, ones = m[2] ? ONES[m[2].toLowerCase()] : 0; if (tens || (m[0].toLowerCase().startsWith("two thousand") && m[2])) out.push(2000 + tens + ones); }
+  return out; }
 /* The sentence that carries the question, or the last sentence */
 function lastAsk(q) { const parts = String(q).split(/(?<=[.?!])\s+/).filter(Boolean); return parts.filter(x => /\?\s*$/.test(x)).slice(-1)[0] || parts.slice(-1)[0] || ""; }
 function thirdParty(q) {
@@ -199,6 +204,10 @@ function thirdParty(q) {
 }
 const THIRD_LEAD = "I can't share another member's coverage, but here is how it works on our plans.";
 const LEGAL_REQ = /attorney|lawyer|subpoena|court order|legal request/i;
+/* Audit A-039: a look-up verb followed by a name or an account word is a records request, whoever it is for */
+const LOOKUP_REQ1 = /\b(look up|pull up|pull|bring up|open|find|check)\b[^.?!]{0,40}\b(member|account|claims?|dob|date of birth|record|file|eob)\b/i;
+const LOOKUP_REQ2 = /\b(?:[Ll]ook up|[Pp]ull up|[Pp]ull|[Bb]ring up|[Oo]pen|[Ff]ind|[Cc]heck)\b (?:the |a |an )?(?:member |account |file |record )?(?:for |of )?[A-Z][a-z]+(?:,? [A-Z][a-z]+)+/;
+const LOOKUP_REQ = { test: q => LOOKUP_REQ1.test(q) || LOOKUP_REQ2.test(q) };
 /* MBI-like (11 chars with dashes) and invented member IDs (CW + 9 digits); names and dates of birth are counted */
 function redact(q) {
   /* Audit A-012: spaces and hyphens inside an identifier are ignored, so "1EG4 TE5 MK72", "LW 123 456 789" and "123 45 6789" are masked; emails, phones, CW IDs and spelled dates too */
@@ -215,7 +224,7 @@ function redact(q) {
 const ES_W = new Set("puedo cómo como qué que cuál cuánto cuánta cuántos cuántas necesito quiero mi mis por para el la los las un una de del en sobre tengo hablar explícame farmacia farmacias correo días suministro cubre lentes mamá ayuda medicina medicinas pregunta tarda decisión excepción usar cualquier pido es hola".split(" "));
 const ES2_W = new Set("como puedo cual cuanto cuantos cuanta cuantas farmacia medicina medicinas espanol alguien hablar necesito quiero tengo pregunta dias explicame".split(" "));
 const FR_W = new Set("je vous nous est une des les pour avec pharmacie comment puis pouvez mon mes dans sur ordonnance medicament medicaments combien quel quelle".split(" "));
-const HT_W = new Set("mwen ou nou yo pou nan ki kijan kouman eske eske farmasi medikaman konbyen plan mwen gen bezwen".split(" "));
+const HT_W = new Set("mwen ou nou yo pou nan ki kijan kouman eske farmasi medikaman konbyen gen bezwen".split(" "));
 const DE_W = new Set("ich kann wie meine mein nicht und mit apotheke medikament medikamente wo wann wieviel welche bitte ist sind haben brauche".split(" "));
 const PT_W = new Set("eu posso como minha meu nao com farmacia remedio remedios onde quando quanto qual preciso quero tenho obrigado voce".split(" "));
 const TL_W = new Set("ba ako akong paano ilang puwede pwede ang sa ng gumamit anong hihingi kahit botika araw ko mo po".split(" "));
@@ -228,8 +237,9 @@ function langOf(q) {
   if (/[¿¡]/.test(t) || w.filter(x => ES_W.has(x)).length >= 2) return "es";
   if (w.filter(x => TL_W.has(x)).length >= 2) return "other";
   /* Audit A-036: unaccented Spanish and four more Latin-script languages by two or more function words each; one borrowed word stays English */
-  if (w.filter(x => ES2_W.has(x)).length >= 2) return "es";
-  if ([FR_W, HT_W, DE_W, PT_W].some(S => w.filter(x => S.has(x)).length >= 2)) return "other";
+  const distinct = S => new Set(w.filter(x => S.has(x))).size;
+  if (distinct(ES2_W) >= 2) return "es";
+  if ([FR_W, HT_W, DE_W, PT_W].some(S => distinct(S) >= 2)) return "other";
   return null;
 }
 /* Cost rule (Nik, 1 Nov 2026): a cost question is answered only when the unit names that exact cost; "covered at $0" alone does not count */
@@ -253,11 +263,23 @@ const SLOTS = [
   { name: "a second or extra fill", q: /\b(second|another|extra|additional)\b/i, t: /\b(second|another|extra|additional)\b/i },
   { name: "named providers", q: /\bwhich (eye )?(doctors?|providers?|pharmacies|dentists?|specialists?|hospitals?)\b/i, t: /\b(in-network|network) (providers?|doctors?) (include|are)\b/i },
   { name: "how to replace it", q: /\b(replace\w*|lost|lose|losing|new card)\b/i, t: /\b(replace\w*|new card|order (a|another) card|request (a|another) card)\b/i },
-  { name: "a drug-specific limit", q: /\b(specific|particular) (drug|medicine|medication)\b/i, t: /$^/ }
+  { name: "a drug-specific limit", q: /\b(specific|particular) (drug|medicine|medication)\b/i, t: /$^/ },
+  /* Audit A-038: count or frequency, shipping time, a brand or a named vendor, weekends, the plan-year boundary */
+  { name: "a count or frequency", q: /\bhow many (times|rides|trips|cleanings|visits|refills|fills|days a|per)\b|\b(per|a|each) (day|week|month|year)\b|\bhow often\b/i, t: /\b(\d+|one|two|three|four|five|six|ten|twelve) (times?|rides?|trips?|cleanings?|visits?|refills?|fills?)\b|\b(per|a|each) (day|week|month|year)\b|\bunlimited\b/i },
+  { name: "a shipping time", q: /\b(ship\w*|deliver\w*|arriv\w*)\b[^?]{0,30}\b(fast\w*|soon\w*|quick\w*|how long|days)\b|\bhow (long|fast|soon)\b[^?]{0,30}\b(ship\w*|deliver\w*|arriv\w*)\b|\bships? fastest\b/i, t: /\b(ship\w*|deliver\w*|arriv\w*)\b[^.]{0,30}\b(within|in) \d/i },
+  { name: "a brand, vendor or named location", q: /\b(which|what) (brand|make|model|company|vendor|gyms?|clubs?|pharmacy ships|pools?)\b|\bbrand\b/i, t: /\b(brand|model)\b[^.]{0,20}\b[A-Z][a-z]+/ },
+  { name: "whether weekends count", q: /\bweekends?\b|\b(saturday|sunday)s?\b/i, t: /\bweekends?\b|\b(calendar|business|working) days\b/i },
+  { name: "the days of the week", q: /\b(which|what) days?\b/i, t: /\b(monday|tuesday|wednesday|thursday|friday|weekdays?|every day|daily)\b/i },
+  { name: "access to a pool or facility", q: /\b(pool|sauna|spa|classes)\b/i, t: /\b(pool|sauna|spa|classes)\b/i },
+  { name: "the plan-year boundary", q: /\bplan year\b[^?]{0,40}\b(change|changes|start|starts|begin|begins|end|ends|run|runs)\b|\b(which|what) plan year\b/i, t: /\bplan year\b[^.]{0,40}\b(january|jan|1 jan|december|dec)\b/i }
 ];
 function slotMiss(q, u) {
   const t = String((u.current || u.latest || {}).text || "") + " " + (((u.current || u.latest || {}).clause || {}).text || "");
   const hit = SLOTS.find(x => x.q.test(q) && !x.t.test(t)); if (hit) return hit.name;
+  /* Audit A-038: a count asked per day, week, month or year is stated only if the unit gives that same period */
+  const per = q.match(/\b(?:per|a|each|every) (day|week|month|year)\b|\b(daily|weekly|monthly|yearly|annual\w*)\b/i);
+  if (per && /\bhow many\b|\bhow often\b|\b(limit|maximum|max)\b/i.test(q)) { const p = (per[1] || per[2]).toLowerCase().replace(/^(daily)$/, "day").replace(/^(weekly)$/, "week").replace(/^(monthly)$/, "month").replace(/^(yearly|annual\w*)$/, "year");
+    if (!new RegExp(String.raw`\b(?:per|a|each|every) ${p}\b|\b${p}ly\b|\bannual`, "i").test(t)) return `a limit per ${p}`; }
   if (/\bhow (long|fast|soon|quickly)\b|\bhow many (days|hours|weeks|months)\b|\b(timeframe|time frame|deadline)\b|\bwhen does [^?]* (end|expire)\b/i.test(q)) {
     const CLS = [[/\bsupply\b/i, /\bsupply\b/i], [/\b(ship|shipping|shipped|deliver\w*|arrive)\b/i, /\b(ship\w*|deliver\w*|arriv\w*)\b[^.]{0,30}\b(within|in)\b/i], [/\b(decid\w*|decision|process\w*)\b/i, /\b(decid\w*|decision)\b/i],
       [/\b(last|valid|expire\w*|good for)\b/i, /\b(valid|lasts?|expire\w*|good for)\b/i], [/\b(appeal|file)\b/i, /\bappeal\w*\b[^.]{0,40}\bwithin\b|\bwithin\b[^.]{0,40}\bappeal/i],
@@ -290,16 +312,23 @@ function answer(q, ctx) {
   const lang = langOf(q);
   if (lang && !/\b(in|en) (spanish|espa\w*)\b/i.test(q)) { trace.push(`Written in ${lang === "es" ? "Spanish" : "another language"}: handed to the translator queue (or a bilingual person), never a machine guess`); return Object.assign(res, { kind: "abstain", route: "translator", unit: null, why: "Not in English" }); }
   /* Audit A-009: naming a relative as background never switches off the personal-record check; it runs on the asked sentence */
+  if (LOOKUP_REQ.test(q)) { trace.push("A look-up of a named person or an account: records are never in the knowledge layer, so it goes to a person (audit A-039)"); return Object.assign(res, { kind: "person", text: REFUSAL, route: "person", lookup: true }); }
   const askQ = third === "general" ? lastAsk(q) : q, genOK = third !== "general" || !PLAN_ASK.test(askQ);
   if ((memberSide || !LEGAL_REQ.test(q)) && (genOK && (MEMBER_DATA.test(askQ) || (PERSONAL.test(askQ) && !GENERIC_MEMBER.test(askQ))) && !policyQ(askQ) || OWN_RECORD.test(askQ) && !policyQ(askQ))) { trace.push("Asks for one member's personal data: search cannot verify identity, so it hands to a person (R-83, SD-05; routing J)"); return Object.assign(res, { kind: "person", text: REFUSAL, route: "person" }); }
   const all = units(s);
   const memberOnly = memberSide;
   if (memberSide && STAFF_DOC.test(q)) { res.staffDoc = true; trace.push("Asks for an internal staff document: never shown to members; the public benefit is offered instead and the attempt is logged (T13, J)"); }
   const nowY = asDate(asOf).getFullYear(), qYears = (q.match(/\b20\d\d\b/g) || []).map(Number);
+  /* Audit A-037: spelled-out years ("twenty twenty-seven", "two thousand twenty-five") and "the new year" */
+  spelledYears(q).forEach(y => qYears.push(y));
+  if (/\b(after|in|into|from) the new year\b/i.test(q)) qYears.push(nowY + 1);
   /* F7: years in words count the same as digits */
   if (/\b(year after next|two years from now|in two years)\b/i.test(q)) qYears.push(nowY + 2); else if (/\b(next|coming|upcoming) (plan )?year\b/i.test(q)) qYears.push(nowY + 1);
   if (/\b(last|previous|prior) (plan )?year'?s?\b/i.test(q)) qYears.push(nowY - 1);
   if (/\bthis (plan )?year\b/i.test(q)) qYears.push(nowY);
+  /* Audit A-037: a past year named only as background ("I joined in 2019. Can I ...?") does not make the question about that year */
+  { const askS = lastAsk(q), askY = (askS.match(/\b20\d\d\b/g) || []).map(Number).concat(spelledYears(askS)), bg = qYears.filter(y => y < nowY && !askY.includes(y) && !/\b(last|previous|prior) (plan )?year\b/i.test(askS));
+    if (bg.length && /\?\s*$/.test(askS) && !/\b(was|were|did|had)\b/i.test(askS)) { trace.push(`Past year ${bg.join(", ")} named as background only; the question is about now (audit A-037)`); bg.forEach(y => { const i = qYears.indexOf(y); if (i >= 0) qYears.splice(i, 1); }); } }
   /* F6: a year before this one is never answered with another year's wording */
   if (qYears.some(y => y < nowY)) { trace.push(`The question asks about ${qYears.filter(y => y < nowY).join(", ")}. Past-year wording is not served, and another year's wording is never served in its place (D60)`); return Object.assign(res, { kind: "abstain", route: "year", unit: null, why: "Asks about a past plan year" }); }
   const eligible = (u, rd) => u.current && u.kbs.some(k => rd.includes(k)) && (!memberOnly || u.memberFacing) && (u.channels.includes(channel) || channel === "Agent Assist")
@@ -315,6 +344,8 @@ function answer(q, ctx) {
   if (pin && pool.find(u => u.id === pin)) { trace.push("Pinned answer for this question (confirmed by Renee)"); ranked = [score(pool.find(u => u.id === pin), tk)].concat(ranked.filter(r => r.u.id !== pin)); ranked[0].pinned = true; }
   res.cands = ranked.filter(r => r.blend > 0).slice(0, 3);
   let top = ranked[0];
+  /* Audit A-039: a request from a lawyer, a subpoena or a court order is routed by rule to the records-request procedure, never ranked */
+  if (!memberSide && LEGAL_REQ.test(q)) { const lu = pool.find(u => u.id === "KU-154"); if (lu) { top = score(lu, tk); top.kw = Math.max(top.kw, 2); top.legal = true; trace.push("Request on behalf of a lawyer, subpoena or court order: routed by rule to the records-request procedure (KU-154)"); } }
   /* D59: next-year units. A question naming a later year is answered from the unit in force that year, labelled with its start date. */
   const futureOf = u => u.versions.filter(v => v.state === "approved" && dayOK(v.effective) && asDate(v.effective) > asDate(asOf)).slice(-1)[0] || null;
   const futPool = all.filter(u => futureOf(u) && u.kbs.some(k => reads.includes(k)) && (!memberOnly || u.memberFacing));
@@ -331,7 +362,7 @@ function answer(q, ctx) {
     const u = top.u; res.unit = u; res.version = u.current;
     trace.push(`Top match ${u.id} "${u.title}" (keyword ${top.kw}, similarity ${top.sim}); answers only at keyword 2 or more`);
     if (lang) { const tr = (u.translations || {})[lang]; if (!tr || tr.state !== "approved") { trace.push("Spanish asked; the Spanish version is a machine draft no qualified translator has checked. Never served"); return Object.assign(res, { kind: "abstain", route: "translator", unit: null, why: "Spanish wording not approved" }); } }
-    const miss = slotMiss(q, u); if (miss && !res.upcoming) { trace.push(`${u.id} was retrieved but does not state ${miss}. It does not guess: near-miss abstention (D91)`); return Object.assign(res, { kind: "nearmiss", route: "gap", unit: null, near: u.id, why: `${u.title} does not state ${miss}` }); }
+    const miss = slotMiss(q, u); if (miss) { trace.push(`${u.id} was retrieved but does not state ${miss}. It does not guess: near-miss abstention (D91)`); return Object.assign(res, { kind: "nearmiss", route: "gap", unit: null, near: u.id, why: `${u.title} does not state ${miss}` }); }
     if (COST.test(q) && !policyQ(q) && !costNamed(q, u)) { trace.push(`${u.id} was retrieved but holds no amount. It does not guess: near-miss abstention (rule J; N-38, R-84)`); return Object.assign(res, { kind: "nearmiss", route: "gap", unit: null, near: u.id, costMiss: true, why: `${u.title} does not state an amount` }); }
     if (u.clause && /\[[A-Z ]+\]/.test(u.clause.text)) { trace.push(`Render check failed: the locked clause has an unfilled field ${u.clause.text.match(/\[[A-Z ]+\]/)[0]}. Abstain; to the author`); return Object.assign(res, { kind: "abstain", route: "author", unit: null, near: u.id, why: "Template field left blank" }); }
     if (u.injection) trace.push("Source carried a planted instruction; removed at ingest and logged; answer unaffected");
