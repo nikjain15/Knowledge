@@ -80,9 +80,9 @@ async function holdout(c) {
   c.push("System", "Checks the seal", `<div class="seal"><span>Written in a separate context and hashed before the first run</span><div>expected ${SEALED.slice(0, 20)}…</div><div>found&nbsp;&nbsp;&nbsp; ${(E.hh || "not available").slice(0, 20)}…</div><b style="color:${E.sealedOK ? "#3b6d11" : "#a3261b"}">${E.sealedOK ? "✓ Seal intact: nobody has changed it" : "✗ Seal not verified"}</b></div>`); await c.T(1800);
   c.beat(1, "It runs once, for this release");
   const el = c.push("System", "Runs it once", `<div class="think"><i></i><i></i><i></i></div>`); await c.T(1400);
-  el.querySelector(".fp").innerHTML = `<div class="bigv">${E.H.filter(x => x.pass).length} of ${E.H.length}</div><p class="small" style="margin:0">Every rule row holds on the holdout too${E.H.some(x => x.ruling) ? `. One label read under a recorded ruling (${esc(E.H.filter(x => x.ruling).map(x => x.g.id).join(", "))})` : ""}.</p>`; await c.T(1200);
-  c.beat(2, "Only counts are shown; the questions stay sealed");
-  c.push("System", "Shows counts, never the questions", `<p class="small" style="margin:0">A count, not a rate, at this size. The holdout is never used to tune anything.</p>`); await c.T(1500);
+  el.querySelector(".fp").innerHTML = `<div class="bigv">${E.H.filter(x => x.pass).length} of ${E.H.length}</div><p class="small" style="margin:0">Every rule row holds on the holdout too${E.H.some(x => x.ruling) ? `. Against the original keys: ${E.H.filter(x => x.rawPass !== false).length} of ${E.H.length}; ${esc(E.H.filter(x => x.ruling).map(x => x.g.id).join(", "))} passes on the accepted alternate key, ${esc(E.H.filter(x => x.altKey).map(x => x.altKey).join(", ") || "none matched")} (D90)` : ""}.</p>`; await c.T(1200);
+  c.beat(2, "Counts only; nobody tunes on it");
+  c.push("System", "Shows counts only", `<p class="small" style="margin:0">A count, not a rate, at this size. Nobody tunes on it: its hash was recorded before the first run and is checked every run. The file is public; the screen shows counts only.</p>`); await c.T(1500);
 }
 async function gate(c) {
   const G = [["No answer outside the role", "0 scope leaks", !E.R.some(x => x.leak) && !E.H.some(x => x.leak)], ["Says 'not yet' when nothing approved answers", "every abstention case", E.abs(E.R).every(x => !x.answered)],
@@ -112,11 +112,11 @@ const FIXED = [
   ["A deadline label said \"7 days\" without calendar or working", "The holdout label was ambiguous", "Ruled 7 calendar days, as the regulation says; every deadline label now names which"]
 ];
 async function improve(c) {
-  const miss = E.PS.flatMap(x => x.misses.map(m => ({ set: x.set, m }))), disp = E.PS.flatMap(x => x.disputed), above = E.PS.filter(x => x.rate > 2);
+  const miss = E.PS.flatMap(x => x.misses.map(m => ({ set: x.set, m }))), disp = E.PS.flatMap(x => x.disputed), above = E.PS.filter(x => x.ok >= 59 && x.rate > 2), smallMiss = E.PS.filter(x => x.ok < 59 && x.falseN > 0);
   c.beat(0, "Still failing in this run");
   const el = c.push("System", `${miss.length} probe questions still go wrong, all inside the release bar`, `<div>${miss.map(({ set, m }) => `<div class="qrow">${tick(false)}<span class="qq"><span class="grp">${esc(set)}</span>${esc(m.p.q)}</span><span class="qm">expected ${esc(m.p.expect === "ok" ? "an answer" : m.p.expect)}, got ${esc(m.r.kind === "person" ? "handed to a person" : m.r.kind === "nearmiss" ? "\"not yet\"" : m.r.kind)}</span></div>`).join("")}
     ${disp.map(d => `<div class="qrow"><span class="tk" style="background:#f9dfb2;color:#9a5a00">?</span><span class="qq">${esc(d.p.q)}</span><span class="qm">label disputed, not counted until ruled</span></div>`).join("")}</div>
-    <p class="small" style="margin:8px 0 0">${above.length ? `Wrong refusals are above the 2% goal in ${above.map(x => `${x.set} (${x.falseN} of ${x.ok} general questions, ${x.rate}%)`).join(", ")}. That is inside the 10% launch bar, not yet where we want it.` : "Every set is at or under the 2% goal."} In production a money-intent classifier replaces the cost word list (D66, audit A-011).</p>`);
+    <p class="small" style="margin:8px 0 0">${above.length ? `Wrong refusals are above the 2% goal in ${above.map(x => `${x.set} (${x.falseN} of ${x.ok} general questions, ${x.rate}%)`).join(", ")}. That is inside the 10% launch bar, not yet where we want it.` : "Every set large enough to rate is at or under the 2% goal."}${smallMiss.length ? ` Counts only below 59 questions (S8.99): ${smallMiss.map(x => `${x.set} ${x.falseN} of ${x.ok}`).join(", ")}.` : " Sets under 59 questions show counts, not rates (S8.99)."} In production a money-intent classifier replaces the cost word list (D66, audit A-011).</p>`);
   await c.reveal(el, ".qrow", 380);
   c.beat(1, "What earlier runs caught, and how each was fixed");
   const f = c.push("System", "Found and fixed", `<div class="gates">${FIXED.map(([h, why, fix]) => `<div class="gate" style="align-items:flex-start">${tick(true)}<div style="flex:1"><b style="display:block">${esc(h)}</b><span class="gv">${esc(why)}</span><span class="gv" style="display:block;color:#3b6d11"><b>Fix:</b> ${esc(fix)}</span></div></div>`).join("")}</div>`);
@@ -153,7 +153,11 @@ async function observe(c) {
     <select id="fbk"><option value="wrong">Wrong</option><option value="missing">Missing something</option><option value="unclear">Unclear</option><option value="">Helpful</option></select></div>
     <input id="fbt" placeholder="What should it have said?"><button class="btn sm primary" id="fbs">Send feedback</button></div>`);
   const send = document.getElementById("fbs"); if (send) send.onclick = () => { const k = document.getElementById("fbk").value;
-    store.up(s => { s.feedback = (s.feedback || []).concat([{ who: "You", up: !k, kind: k, q: document.getElementById("fbq").value, text: document.getElementById("fbt").value.slice(0, 200) }]); });
+    const fq = document.getElementById("fbq").value, ft = redact(document.getElementById("fbt").value.slice(0, 200)).text;
+    store.up(s => { s.feedback = (s.feedback || []).concat([{ who: "You", up: !k, kind: k, q: fq, text: ft }]);
+      /* D120, audit A-032: feedback is routed, not just stored. "Missing" joins the gap queue; "wrong" becomes a proposed test row for the label owner */
+      if (k === "missing") { s.flags = s.flags || []; s.flags.push({ q: fq, role: "insurance", on: PLAN.today, source: "feedback", note: ft }); logEv(s, "GAP", "feedback", "flagged from feedback", fq); }
+      if (k === "wrong") { s.testRows = s.testRows || []; s.testRows.push({ q: fq, note: ft, on: PLAN.today }); logEv(s, "EVAL", "feedback", "proposed test row", fq); } });
     document.getElementById("fbl").innerHTML = fbList(); document.getElementById("fbt").value = ""; };
   await c.T(2200);
 }

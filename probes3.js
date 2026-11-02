@@ -103,6 +103,13 @@ const PROBES3 = [
   { id: "T10-P03", set: "T10", q: "What is the bill for a 90-day mail order supply?", role: "member", channel: "Member chat", expect: "gap" },
   { id: "T10-P04", set: "T10", q: "Is a brand drug pricey on this plan?", role: "member", channel: "Member chat", expect: "gap" },
   { id: "T10-P05", set: "T10", q: "What amount do I owe at the pharmacy for a tier 2 drug?", role: "member", channel: "Member chat", expect: "gap" },
+  // Part E (T12): added 1 Nov 2026 from the demo audit (A-036). Written by the audit session after reading the rules: regression rows, not independent probes (D65, D164).
+  { id: "T12-P01", set: "T12", q: "Como puedo hablar con alguien en espanol", role: "member", channel: "Member chat", expect: "translator" },
+  { id: "T12-P02", set: "T12", q: "Je voudrais savoir si ma pharmacie est dans le reseau", role: "member", channel: "Member chat", expect: "translator" },
+  { id: "T12-P03", set: "T12", q: "Eske mwen ka itilize nenpot farmasi ak plan sa a", role: "member", channel: "Member chat", expect: "translator" },
+  { id: "T12-P04", set: "T12", q: "Kann ich meine Medikamente per Post bekommen", role: "member", channel: "Member chat", expect: "translator" },
+  { id: "T12-P05", set: "T12", q: "Posso usar qualquer farmacia com este plano", role: "member", channel: "Member chat", expect: "translator" },
+  { id: "T12-P06", set: "T12", q: "Where is the fiesta pharmacy branch?", role: "member", channel: "Member chat", expect: "ok" }
 ];
 
 if (typeof module !== "undefined") module.exports = PROBES3;

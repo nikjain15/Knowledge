@@ -213,6 +213,11 @@ function redact(q) {
 }
 /* T12: language detection. Non-Latin scripts and Vietnamese marks; Spanish and Tagalog by two or more function words, so a borrowed word ("fiesta") stays English */
 const ES_W = new Set("puedo cómo como qué que cuál cuánto cuánta cuántos cuántas necesito quiero mi mis por para el la los las un una de del en sobre tengo hablar explícame farmacia farmacias correo días suministro cubre lentes mamá ayuda medicina medicinas pregunta tarda decisión excepción usar cualquier pido es hola".split(" "));
+const ES2_W = new Set("como puedo cual cuanto cuantos cuanta cuantas farmacia medicina medicinas espanol alguien hablar necesito quiero tengo pregunta dias explicame".split(" "));
+const FR_W = new Set("je vous nous est une des les pour avec pharmacie comment puis pouvez mon mes dans sur ordonnance medicament medicaments combien quel quelle".split(" "));
+const HT_W = new Set("mwen ou nou yo pou nan ki kijan kouman eske eske farmasi medikaman konbyen plan mwen gen bezwen".split(" "));
+const DE_W = new Set("ich kann wie meine mein nicht und mit apotheke medikament medikamente wo wann wieviel welche bitte ist sind haben brauche".split(" "));
+const PT_W = new Set("eu posso como minha meu nao com farmacia remedio remedios onde quando quanto qual preciso quero tenho obrigado voce".split(" "));
 const TL_W = new Set("ba ako akong paano ilang puwede pwede ang sa ng gumamit anong hihingi kahit botika araw ko mo po".split(" "));
 function langOf(q) {
   const t = String(q);
@@ -222,6 +227,9 @@ function langOf(q) {
   const w = t.toLowerCase().replace(/[¿¡?.,!:;]/g, " ").split(/\s+/).filter(Boolean);
   if (/[¿¡]/.test(t) || w.filter(x => ES_W.has(x)).length >= 2) return "es";
   if (w.filter(x => TL_W.has(x)).length >= 2) return "other";
+  /* Audit A-036: unaccented Spanish and four more Latin-script languages by two or more function words each; one borrowed word stays English */
+  if (w.filter(x => ES2_W.has(x)).length >= 2) return "es";
+  if ([FR_W, HT_W, DE_W, PT_W].some(S => w.filter(x => S.has(x)).length >= 2)) return "other";
   return null;
 }
 /* Cost rule (Nik, 1 Nov 2026): a cost question is answered only when the unit names that exact cost; "covered at $0" alone does not count */
@@ -444,7 +452,7 @@ function nav(current, roleKey, opt) {
      ${opt.demo ? "" : `<label class="small rolesw">You are <select id="rolesel"><option value="">choose a person</option>${opts}</select></label>`}
      ${opt.demo ? "" : `<nav class="links">${links}${roleKey && ROLES[roleKey] ? `<button class="bell" id="bell">Notifications${unread ? `<i>${unread}</i>` : ""}</button>` : ""}<label class="idtog small" title="Show internal IDs (the audit CSV always keeps them)"><input type="checkbox" id="idtog"${showIds() ? " checked" : ""}> IDs</label><a href="day.html?mode=today" class="demo">Start demo</a></nav>`}</header>`);
   /* Each tab is one person: the tab title and a chip say who this tab is signed in as */
-  if (roleKey && ROLES[roleKey] && !opt.demo) document.title = ROLES[roleKey].person.split(" ")[0] + " · " + document.title;
+  if (roleKey && ROLES[roleKey] && !opt.demo) document.title = FIRST(roleKey) + " · " + document.title;
   /* UX 2: plain names first; internal IDs behind a toggle */
   document.body.classList.toggle("ids", showIds());
   const idt = document.getElementById("idtog"); if (idt) idt.onchange = e => { try { localStorage.setItem("uc2ids", e.target.checked ? "1" : ""); } catch (x) {} document.body.classList.toggle("ids", e.target.checked); };

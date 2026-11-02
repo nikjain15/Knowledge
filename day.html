@@ -166,8 +166,8 @@ const CH = [
     path: [["QUESTION", "Is my price final?", "on a live call"], ["THREE TOOLS", "Script library, shared drive, intranet", "searched one by one"], ["RESULT", "Three wordings", "no version, no owner"], ["DANA", "Picks one", "while June waits"]],
     fixpath: [["QUESTION", "Is my price final?", "on a live call"], ["ONE SOURCE", "One approved pricing topic", "no second copy to find"], ["AGENT ASSIST", "Shows it while June talks", "with its source"], ["DANA READS", "The approved 2026 words", "in one call"]],
     today: () => `<div class="line june"><span class="num">1</span><span class="who">June</span><span class="say">Is the price I was quoted for my medicine final?</span></div>
-      <div class="results"><div><b>Script library · Rx Education Script v2</b> <span class="small">the 2026 wording</span></div><div><b>Shared drive · Rx Education Script v3</b> <span class="small">a 2027 draft, not approved</span></div><div><b>Intranet · Member Benefits Quick Guide 2027</b> <span class="small">a wording Legal never approved</span></div><div><b>Intranet · Pharmacy Desk Cheat Sheet 2025</b> <span class="small">last year's, still searchable</span></div></div>
-      <p class="small" style="margin:4px 0 0"><span class="num">4</span>Four results, three wordings, and nothing says which one Legal approved. Dana picks the cheat sheet she always uses:</p>
+      <div class="results"><div><b>Script library · Rx Education Script v2</b> <span class="small">the 2026 wording</span></div><div><b>Shared drive · Rx Education Script v3</b> <span class="small">a 2027 draft, not approved</span></div><div><b>Intranet · Pharmacy Desk Cheat Sheet 2025</b> <span class="small">last year's, still searchable</span></div></div>
+      <p class="small" style="margin:4px 0 0"><span class="num">4</span>Three results, three wordings, and nothing says which one Legal approved. Dana picks the cheat sheet she always uses:</p>
       ${compare(PD["PD-A"], DESK_2025, "What Dana read to June", "From the 2025 cheat sheet")}
       <div class="box wrong"><span class="issue">Why the 2025 copy was still there</span><p style="margin:0">Legal updated this wording for 2026, but nobody knew the desk cheat sheet held a copy, so it was never changed.</p></div>`,
     lines: [["dana", "dana1", "Thank you for calling Lakewell Advantage, this is Dana. May I have your full name, please?"], ["june", "june2", "June Halvorsen."],
@@ -215,7 +215,7 @@ const TAKE = {
     ["shield", "No answer without approval", "No approved answer? It says so and finds a person."],
     ["stamp", "Nothing ships without sign-off", "Even a reminder text comes from an approved answer."],
     ["calendar", "Expired content leaves by itself", "On its end date, from every channel at once."],
-    ["inbox", "Every gap becomes the next answer", "Unanswered questions go to the author's list."],
+    ["inbox", "Every gap becomes the next answer", "Unanswered questions go to the gap queue, the author's list."],
     ["spark", "Safe to put AI in every channel", "AI can only say what Lakewell approved, so it adds speed, not risk."]] }
 };
 /* The knowledge map, left to right: question, topics considered, the one chosen, its legal words, version, source, channels. All from live data. */

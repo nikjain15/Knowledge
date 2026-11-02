@@ -32,7 +32,8 @@ const cell = (n, d, good) => d === 0 ? "" : `<span class="${good ? "ok" : "no"}"
 async function holdoutHash() { try { const t = await (await fetch("holdout.js", { cache: "no-store" })).text(); const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(t)); return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, "0")).join(""); } catch (e) { return null; } }
 async function evalAll(st) {
   const R = GOLDEN.map(g => run1(g, st)), by = id => R.find(x => x.g.id === id), col = k => COLS[k].map(by);
-  const hh = await holdoutHash(), sealedOK = hh === SEALED, H = HOLDOUT.map(g => { const x = run1(g, st), rl = HOLDOUT_RULINGS[g.id]; return rl ? Object.assign(x, { pass: true, keyOK: true, ruling: rl.note }) : x; });
+  const hh = await holdoutHash(), sealedOK = hh === SEALED, /* D90, D163: a ruling is an accepted alternate key checked against the answer text; the raw result against the original key is kept as rawPass */
+  H = HOLDOUT.map(g => { const x = run1(g, st), rl = HOLDOUT_RULINGS[g.id]; if (!rl) return x; const alt = x.answered && (rl.accept || []).some(k => (x.r.text || "").includes(k)); return Object.assign(x, { rawPass: x.pass, pass: x.pass || alt, keyOK: x.keyOK || alt, ruling: rl.note, altKey: alt ? rl.accept.join(", ") : null }); });
   // T tests
   const t1 = dupCheck(ALL_BASE().find(u => u.id === T1_PAIR[0]).versions[0].text, ALL_BASE().find(u => u.id === T1_PAIR[1]).versions[0].text, false);
   const pdFound = PD_WORDINGS.slice(1).every(w => dupCheck(PD_WORDINGS[0].text, w.text, true).dup);

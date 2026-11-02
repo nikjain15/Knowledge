@@ -59,8 +59,8 @@ const SCENES = {
     decide: [["Translator", "Approve the Spanish", "Served only after a person checks it; an interpreter is offered until then"]] })
 };
 const PEOPLE = {
-  Priya: ["Priya Nandakumar", "Author", "PN", "p"], Tom: ["Tom Bexley", "Legal reviewer", "TB", "p"], Grace: ["Grace Mbeki", "Clinical pharmacist", "GM", "p"],
-  Calloway: ["Dr. Ruth Calloway", "Medical director", "RC", "p"], Renee: ["Renee Caldwell", "Knowledge owner", "RC", "p"], Backup: ["Backup reviewer", "Medicare Compliance", "BR", "p"],
+  Priya: ["Priya Nandakumar", "Author", "PN", "p"], Tom: ["Tom Bexley", ROLES.legal.label, "TB", "p"], Grace: ["Grace Mbeki", "Clinical pharmacist", "GM", "p"],
+  Calloway: ["Dr. Ruth Calloway", ROLES.medical.label, "RC", "p"], Renee: ["Renee Caldwell", ROLES.owner.label, "RC", "p"], Backup: ["Backup reviewer", "Medicare Compliance", "BR", "p"],
   Translator: ["Qualified translator", "Spanish", "QT", "p"], June: ["June Halvorsen", "Member", "JH", "m"], Dana: ["Dana Okafor", "Insurance advocate", "DO", "m"],
   AI: ["Lakewell Knowledge AI", "", "AI", "ai"], System: ["Lakewell Knowledge", "", "LK", "sys"]
 };

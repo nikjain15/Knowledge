@@ -7,17 +7,17 @@ const KBS = ["Pharmacy", "Insurance", "Shared"];
 
 /* People (strategy S4.5). home = their workspace. reads = knowledge bases, checked on every query (D31). */
 const ROLES = {
-  insurance: { label: "Insurance advocate", person: "Dana Okafor", home: "desk.html?role=insurance", reads: ["Insurance", "Shared"], channel: "Advocate desk", main: true },
-  pharmacy:  { label: "Pharmacy advocate", person: "Luis Ferreira", home: "desk.html?role=pharmacy", reads: ["Pharmacy", "Shared"], channel: "Advocate desk" },
-  author:    { label: "Author, Knowledge Operations", person: "Priya Nandakumar", home: "author.html" },
-  legal:     { label: "Medicare Compliance reviewer", person: "Tom Bexley", home: "review.html?as=legal" },
-  clinical:  { label: "Clinical pharmacist reviewer", person: "Grace Mbeki", home: "review.html?as=clinical" },
-  owner:     { label: "Knowledge owner", person: "Renee Caldwell", home: "owner.html" },
-  medical:   { label: "Medical director (second sign-off, J)", person: "Dr. Ruth Calloway", home: "review.html?as=medical" },
-  member:    { label: "Member, self-service chat", person: "June Halvorsen", home: "chat.html", reads: ["Pharmacy", "Insurance", "Shared"], channel: "Member chat", memberOnly: true }
+  insurance: { label: "Insurance advocate", person: "Dana Okafor", first: "Dana", home: "desk.html?role=insurance", reads: ["Insurance", "Shared"], channel: "Advocate desk", main: true },
+  pharmacy:  { label: "Pharmacy advocate", person: "Luis Ferreira", first: "Luis", home: "desk.html?role=pharmacy", reads: ["Pharmacy", "Shared"], channel: "Advocate desk" },
+  author:    { label: "Author, Knowledge Operations", person: "Priya Nandakumar", first: "Priya", home: "author.html" },
+  legal:     { label: "Medicare Compliance reviewer", person: "Tom Bexley", first: "Tom", home: "review.html?as=legal" },
+  clinical:  { label: "Clinical pharmacist reviewer", person: "Grace Mbeki", first: "Grace", home: "review.html?as=clinical" },
+  owner:     { label: "Knowledge Operations lead", person: "Renee Caldwell", first: "Renee", home: "owner.html" },
+  medical:   { label: "Medical director", note: "second sign-off (J)", person: "Dr. Ruth Calloway", first: "Ruth", home: "review.html?as=medical" },
+  member:    { label: "Member, self-service chat", person: "June Halvorsen", first: "June", home: "chat.html", reads: ["Pharmacy", "Insurance", "Shared"], channel: "Member chat", memberOnly: true }
 };
 const P = r => ROLES[r].person + ", " + ROLES[r].label;
-const FIRST = r => ROLES[r].person.split(" ")[0];
+const FIRST = r => ROLES[r].first || ROLES[r].person.split(" ")[0];
 
 /* Who approves what (D30): by content type; the proposer never confirms. */
 const APPROVER_RULE = [
@@ -199,7 +199,7 @@ const QUEUE_SEED = [
   Q("KU-307", "Blood pressure check reminder", "clinical", "26 Oct 2026", "Remind members with high blood pressure to check it at each pharmacy visit.", "28 Oct 2026"),
   Q("KU-308", "Flu shot timing tip", "clinical", "22 Oct 2026", "Members can get a flu shot at an in-network pharmacy from September.", "27 Oct 2026")
 ];
-const RULE_KEYS = { "KU-123": "R-75", "KU-131": "R-78", "KU-140": "R-76", "KU-141": "R-77" }; /* real-world rules behind these fictional plan units, keyed in out/uc2-citations.md */
+const RULE_KEYS = { "KU-123": "R-75", "KU-131": "R-78", "KU-140": "R-76", "KU-141": "R-77", "KU-301": "R-93", "KU-221": "R-94", "KU-222": "R-94", "KU-153": "R-95", "KU-142": "R-96" }; /* real-world rules behind these fictional plan units, keyed in out/uc2-citations.md */
 const BREADTH_UNITS = [
   B("KU-120", "Part D pharmacy", "Step therapy", "DOC-RX03", "S20", ["Pharmacy"], "clinical", { strong: ["step", "therapy"], normal: ["lower-cost", "first", "try"], not: ["b"] }),
   B("KU-121", "Part D pharmacy", "Quantity limits", "DOC-RX03", "S21", ["Pharmacy"], "clinical", { strong: ["quantity"], normal: ["limit", "pill", "tablet", "more", "60"] }),
@@ -397,7 +397,7 @@ const STORY = [
   { chapter: "Gap", page: "author.html?tab=gaps", title: "Priya's queue: the empty search is the next task", say: "The question lands in Priya's author queue with a proposed unit title and how often it was asked. Search logs are the content backlog.", act: "Open the dental rider item", target: ["[data-gap=\"Supplemental benefits\"]"], done: ["gapOpened"] },
   { chapter: "Drift", page: "drift.html", title: "Legal edits v3: approve once", say: "First a formatting-only edit: no alert. Then Legal's real edit to the disclaimer in v3: one grouped alert lists every place the clause lives and proposes the change. Tom approves PD-B once, effective 1 Jan 2027.", act: "Save both edits, then approve", target: ["#fmtEdit", "#legalEdit", "#approveDrift"], done: ["fmtEdit", "driftApproved"] },
   { chapter: "Channels", page: "chat.html", title: "Member chat and Agent Assist read the same unit", say: "June asks the member chat about an out-of-network pharmacy. The answer is the same unit, the locked clause word for word, with member wording around it. Agent Assist shows the same words to the advocate.", act: "Ask the question", target: ["#ask"], done: ["chatAsked"] },
-  { chapter: "Evals", page: "evals.html", title: "A number decides the release", say: "Press Run. Twenty-one questions, tests T1 to T13 (430 probe questions) and the sealed holdout run live, per role and channel. Rule rows are exact; model rows are counts, not rates.", act: "Run the evals", target: ["#run"], done: ["evalRan"] }
+  { chapter: "Evals", page: "evals.html", title: "A number decides the release", say: "Press Run. Twenty-one questions, tests T1 to T14 (the probe questions, counted live) and the sealed holdout run live, per role and channel. Rule rows are exact; model rows are counts, not rates.", act: "Run the evals", target: ["#run"], done: ["evalRan"] }
 ];
 const DEEP_DIVES = [
   { t: "Five channels, one unit", page: "channels.html?unit=KU-202", d: "Voice speaks it, outbound will not text it, the website shows the version." },
