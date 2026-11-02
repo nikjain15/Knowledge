@@ -96,6 +96,13 @@ const PROBES3 = [
   { id: "T9-P03", set: "T9", q: "My daughter helps me with this. Which coverage stage am I in right now?", role: "member", channel: "Member chat", expect: "person" },
   { id: "T9-P04", set: "T9", q: "My husband is on a different plan. What is my balance?", role: "member", channel: "Member chat", expect: "person" },
   { id: "T9-P15", set: "T9", q: "Hi there, I hope you are having a good day. I have been a member for a long time and I always call around this time of year because the letters get confusing and I never know which one is the one I am meant to keep. My daughter usually helps me but she started a new job and is busy, so I thought I would try the chat instead. I like that it is open late. Anyway the pharmacy closed early on Friday and I had to go back on Saturday which was a bother, and the lady there said to ask the plan about it. So here is my question and I hope it is not a silly one: what did I pay for my last refill?", role: "member", channel: "Member chat", expect: "person" },
+  // Part D (set T10, expect "gap"): added 1 Nov 2026 from the demo audit (A-011). Written by the audit session after
+  //   reading the rules, so regression rows, not independent probes (D65). A cost asked without a listed cost word.
+  { id: "T10-P01", set: "T10", q: "What will a Tier 3 drug set me back next year?", role: "member", channel: "Member chat", expect: "gap" },
+  { id: "T10-P02", set: "T10", q: "How many dollars is a tier 3 drug in 2027", role: "member", channel: "Member chat", expect: "gap" },
+  { id: "T10-P03", set: "T10", q: "What is the bill for a 90-day mail order supply?", role: "member", channel: "Member chat", expect: "gap" },
+  { id: "T10-P04", set: "T10", q: "Is a brand drug pricey on this plan?", role: "member", channel: "Member chat", expect: "gap" },
+  { id: "T10-P05", set: "T10", q: "What amount do I owe at the pharmacy for a tier 2 drug?", role: "member", channel: "Member chat", expect: "gap" },
 ];
 
 if (typeof module !== "undefined") module.exports = PROBES3;

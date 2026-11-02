@@ -63,7 +63,7 @@ function work() {
   const more = document.getElementById("more");
   const fc = document.getElementById("fullcite"); if (fc) fc.onclick = () => more.innerHTML = `<div style="margin-top:10px">${citeHTML(r.unit, r.version)}</div>`;
   const wy = document.getElementById("why"); if (wy) wy.onclick = () => more.innerHTML = `<div class="det">${traceHTML(r)}${rankHTML(r)}<p class="small" style="margin-top:6px">${who("AI")} blends keyword match (plan-speak expanded, misspellings tolerated) with text similarity, a stand-in for embeddings. It answers only at keyword 2 or more.</p></div>`;
-  const sg = document.getElementById("sendgap"); if (sg) sg.onclick = () => { store.up(x => { x.flags = x.flags || []; x.flags.push({ q: query, role: ROLE, on: PLAN.today }); logEv(x, "GAP", ROLE, "flagged unanswered question", r.redacted); notify(x, ["author", "owner"], `${ROLES[ROLE].person} flagged: "${r.redacted}"`, "author.html?tab=gaps&c=Supplemental%20benefits"); }); work(); };
+  const sg = document.getElementById("sendgap"); if (sg) sg.onclick = () => { store.up(x => { x.flags = x.flags || []; x.flags.push({ q: r.redacted, role: ROLE, on: PLAN.today }); logEv(x, "GAP", ROLE, "flagged unanswered question", r.redacted); notify(x, ["author", "owner"], `${ROLES[ROLE].person} flagged: "${r.redacted}"`, "author.html?tab=gaps&c=Supplemental%20benefits"); }); work(); };
 }
 calls(); work();
 </script></body></html>

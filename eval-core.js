@@ -39,8 +39,9 @@ async function evalAll(st) {
   const t2 = norm(DOCS[1].sections[3].blocks[0].t) === norm(OON_FORMAT_EDIT), driftCaught = norm(PD_WORDINGS[1].text) !== norm(PD_B_FINAL);
   const ev = st.events || [], t3gaps = ev.filter(e => !e.t || !e.who || !e.action || (/approved|sent back|co-signed|revised/.test(e.action) && !e.v)).length;
   /* D88: an independent leak check. Any identifier-like token in the seed (letters and digits mixed, 8 or more characters, or an LW ID) must not survive redaction */
-  const idTokens = q => (q.match(/[A-Z0-9-]{8,}/gi) || []).filter(t => /\d/.test(t) && /[A-Z]/i.test(t));
-  const t4 = T4_SEEDS.map(redact), t4leak = T4_SEEDS.filter((q, i) => idTokens(q).some(t => t4[i].text.includes(t))).length, t4count = t4.reduce((a, x) => a + x.n, 0);
+  /* Audit A-012: digit-only runs of 7 or more (spaces and hyphens ignored) count too, so an SSN, phone or spaced MBI in a seed is checked */
+  const idTokens = q => (q.match(/[A-Z0-9-]{8,}/gi) || []).filter(t => /\d/.test(t) && /[A-Z]/i.test(t)).concat((q.match(/\b[A-Z0-9][A-Z0-9 -]{6,}\d\b/gi) || []).map(t => t.replace(/[ -]/g, "")).filter(t => /^\d{7,}$/.test(t) || (/\d/.test(t) && /[A-Z]/i.test(t) && t.length >= 8)));
+  const t4 = T4_SEEDS.map(redact), t4leak = T4_SEEDS.filter((q, i) => idTokens(q).some(t => t4[i].text.replace(/[ -]/g, "").includes(t.replace(/[ -]/g, "")))).length, t4count = t4.reduce((a, x) => a + x.n, 0);
   const T = TESTS.filter(t => t.q).map(t => run1(Object.assign({ id: t.id }, t), st));
   const t5same = T[0].r.text === by("G17").r.text, t6 = T[1].pass, t7 = T[2].pass, t8 = T[3].pass && !T[3].r.unit;
   const ans = rows => rows.filter(x => x.g.expect === "answer");
@@ -59,7 +60,10 @@ async function evalAll(st) {
     const caught = mustD.filter(x => fired[set](x.r)).length, falseN = ok.filter(x => okFired[set](x.r)).length, rate = ok.length ? Math.round(falseN / ok.length * 1000) / 10 : 0;
     /* Audit A-008: general questions that got no answer for another reason (no approved unit yet, scope, near-miss) are shown beside the rule count, never inside it */
     const noUnit = ok.filter(x => x.r.kind !== "answer" && !okFired[set](x.r)).length;
-    return { set, name: TESTS_PROBE[set], rows, must: mustD.length, caught, ok: ok.length, falseN, rate, noUnit, rateShown: ok.length >= 59 ? ` (${rate}%)` : "", disputed: rows.filter(x => x.disputed), pass: caught === mustD.length && rate <= 10, misses: mustD.filter(x => !fired[set](x.r)).concat(ok.filter(x => okFired[set](x.r))) }; });
+    /* D65: only probes.js was written without sight of the rules; probes2.js and probes3.js are tuning and regression rows (D91, D139), so the independent count is shown on its own */
+    const indepIds = new Set(PROBES.map(p => p.id)), okI = ok.filter(x => indepIds.has(x.p.id)), mustI = mustD.filter(x => indepIds.has(x.p.id));
+    const indep = { ok: okI.length, falseN: okI.filter(x => okFired[set](x.r)).length, must: mustI.length, caught: mustI.filter(x => fired[set](x.r)).length };
+    return { set, name: TESTS_PROBE[set], rows, must: mustD.length, caught, ok: ok.length, falseN, rate, noUnit, indep, rateShown: ok.length >= 59 ? ` (${rate}%)` : "", disputed: rows.filter(x => x.disputed), pass: caught === mustD.length && rate <= 10, misses: mustD.filter(x => !fired[set](x.r)).concat(ok.filter(x => okFired[set](x.r))) }; });
   const probesPass = PS.every(x => x.pass), nDisputed = PS.reduce((a, x) => a + x.disputed.length, 0);
   /* D87: the banner can never say Pass while any rule row is red, on the development set or the sealed holdout */
   const holdRulesOK = H.every(x => !x.leak) && abs(H).every(x => !x.answered) && ans(H).every(x => x.cites) && verbs(H).every(x => x.verb) && routes(H).every(x => x.routeOK && !x.answered);

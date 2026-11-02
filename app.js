@@ -149,13 +149,15 @@ const VOCAB = () => [...new Set(ALL_BASE().concat([U(Object.assign(clone(GAP_DRA
 function fuzz(tk) { const V = VOCAB(); return tk.map(w => { if (V.includes(w) || w.length < 6) return { w, fixed: null }; const hit = V.find(k => k[0] === w[0] && Math.abs(k.length - w.length) <= 2 && lev(k, w) <= 2); return hit ? { w: hit, fixed: w } : { w, fixed: null }; }); }
 function score(u, tk) {
   const st = u.kw.strong.map(stem), no = u.kw.normal.map(stem);
-  let kw = 0; for (const w of tk) { if (st.includes(w)) kw += 2; else if (no.includes(w)) kw += 1; }
+  /* Audit A-010: each distinct keyword counts once, and a one-word question needs two matching keywords; "year year" never reaches the bar */
+  let kw = 0, hits = 0; for (const w of new Set(tk)) { if (st.includes(w)) { kw += 2; hits++; } else if (no.includes(w)) { kw += 1; hits++; } }
+  if (new Set(tk).size < 2 && hits < 2) kw = Math.min(kw, 1);
   if ((u.kw.not || []).map(stem).some(w => tk.includes(w))) kw = 0;
   const words = new Set(tokens(u.text + " " + u.title + " " + ((u.clause || {}).text || "")));
   const sim = tk.length ? tk.filter(w => words.has(w)).length / tk.length : 0; // stand-in for embedding similarity
   return { u, kw, sim: Math.round(sim * 100) / 100, blend: Math.round((kw + sim) * 100) / 100 };
 }
-const COST = /copays?|co-pays?|coinsurance|cost[- ]shar\w*|\bcosts?\b|\bcosting\b|\bprices?\b|\bpriced\b|\bpay\b|\bpaying\b|\bcharges?\b|\bcharged\b|\bowe\b|\bfees?\b|\bexpensive\b|\bcheap\w*\b|\$|\bhow much (?:is|are|does|do|will|would|for|to|money|it|they|i|we|the)\b(?![^?]*\b(?:supply|supplies|days?|pills?|tablets?|refills?|time|long|many|medicine|drug|quantity)\b)/i;
+const COST = /copays?|co-pays?|coinsurance|cost[- ]shar\w*|\bcosts?\b|\bcosting\b|\bprices?\b|\bpriced\b|\bpay\b|\bpaying\b|\bcharges?\b|\bcharged\b|\bowe\b|\bfees?\b|\bexpensive\b|\bcheap\w*\b|\$|\bdollars?\b|\bdamage\b|\bwallet\b|\bpricey\b|\bbills?\b|\brates?\b|\bamounts?\b|\bset (me|us) back\b|\bfork (out|over)\b|\bhow much\?|\bhow much (?:is|are|does|do|will|would|for|to|money|it|they|i|we|the)\b(?![^?]*\b(?:supply|supplies|days?|pills?|tablets?|refills?|time|long|many|medicine|drug|quantity)\b)/i;
 /* A unit is priced only if its approved text states an amount; a pricing script without a figure is a near-miss (decision 5) */
 const priced = u => /\$\d|\d+%/.test((u.current || u.latest || {}).text || "");
 /* Member voice (verified writing rules, out/uc2-voice-research.md): warm, plain, answer first, never guess, always offer a person.
@@ -199,7 +201,14 @@ const THIRD_LEAD = "I can't share another member's coverage, but here is how it 
 const LEGAL_REQ = /attorney|lawyer|subpoena|court order|legal request/i;
 /* MBI-like (11 chars with dashes) and invented member IDs (CW + 9 digits); names and dates of birth are counted */
 function redact(q) {
-  let n = 0; const r = String(q).replace(/\b\d{1,2}[A-Z][A-Z0-9]\d-?[A-Z][A-Z0-9]\d-?[A-Z]{2}\d{2}\b/gi, () => (n++, "[MBI]")).replace(/\bLW\d{9}\b/gi, () => (n++, "[MEMBER ID]")).replace(/\b\d{3}-\d{2}-\d{4}\b/g, () => (n++, "[SSN]")).replace(/\b\d{1,2}\/\d{1,2}\/\d{2,4}\b/g, () => (n++, "[DATE]"));
+  /* Audit A-012: spaces and hyphens inside an identifier are ignored, so "1EG4 TE5 MK72", "LW 123 456 789" and "123 45 6789" are masked; emails, phones, CW IDs and spelled dates too */
+  let n = 0; const r = String(q)
+    .replace(/\b\d{1,2}[A-Z][A-Z0-9]\d[ -]?[A-Z][A-Z0-9]\d[ -]?[A-Z]{2}\d{2}\b/gi, () => (n++, "[MBI]"))
+    .replace(/\b(LW|CW)[ -]?\d{3}[ -]?\d{3}[ -]?\d{3}\b/gi, () => (n++, "[MEMBER ID]"))
+    .replace(/[\w.+-]+@[\w-]+(\.[\w-]+)+/g, () => (n++, "[EMAIL]"))
+    .replace(/\b\d{3}[ -]\d{2}[ -]\d{4}\b/g, () => (n++, "[SSN]"))
+    .replace(/(\+?1[ .-]?)?\(?\b\d{3}\)?[ .-]?\d{3}[ .-]?\d{4}\b/g, () => (n++, "[PHONE]"))
+    .replace(/\b\d{1,2}[\/ ]\d{1,2}[\/ ]\d{2,4}\b/g, () => (n++, "[DATE]"));
   return { text: r, n };
 }
 /* T12: language detection. Non-Latin scripts and Vietnamese marks; Spanish and Tagalog by two or more function words, so a borrowed word ("fiesta") stays English */
