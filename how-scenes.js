@@ -11,7 +11,7 @@ const SCENES = {
   "0:Outbound": () => ({ start: ["Priya", "upload", "FINAL_v1 (2).docx · copay table", "no year in the heading, no owner"], src: screen("Copay table, as found", [esc(COPAY)]),
     ai: "The AI reads the table into a dated fact: which year, who owns it, when it ends", decide: [["Grace", "Approve 2026 copays", "Served from 1 Jan to 31 Dec 2026, and never after"]] }),
   "0:Website": () => ({ start: ["Priya", "upload", "3 documents", "Rx Script v2 and v3, Member Quick Guide"],
-    ai: "The AI finds the same clause in three places and compares them word by word; it never merges", decide: [["Tom", "Keep Legal's 2026 wording", "The Quick Guide copy retires and points to the approved topic"]] }),
+    ai: "The AI finds the same clause in three places and compares them word by word; it never merges", decide: [["Priya", "Raise to Tom", "Two official wordings of one clause: sent to Tom, who alone can rule. He decides in Govern"]] }),
 
   "1:Outbound": () => ({ start: ["Priya", "event", "Submitted for approval", "Refill reminder text, version 2 (2027)"],
     ai: "The rules run the checks a machine can do: exact text, locked words, dates", show: chk([["Rule", "Text matches the approved source", "similarity 1.00"], ["Rule", "Locked words character-exact", "fingerprint matches"], ["Rule", "Dates, audience and channels set", "texts: link only"]], 3),

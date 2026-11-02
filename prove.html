@@ -32,7 +32,7 @@ nav("prove.html", "owner", { demo: true });
 store.up(s => { if (!units(s).find(u => u.id === "KU-202" && u.current)) ENSURE.driftDone(s); });
 const PEOPLE = { June: ["June Halvorsen", "Member", "JH", "m"], Dana: ["Dana Okafor", "Insurance advocate", "DO", "m"], Luis: ["Luis Ferreira", "Pharmacy advocate", "LF", "m"], Renee: ["Renee Caldwell", "Knowledge owner", "RC", "p"], Priya: ["Priya Nandakumar", "Author", "PN", "p"], Writer: ["Independent test writer", "never saw the rules", "IW", "p"], System: ["Lakewell Knowledge", "release check", "LK", "sys"] };
 const GROUP = id => Object.keys(COLS).find(k => COLS[k].includes(id)) || "";
-const SLOW = 1.4, wait = ms => new Promise(r => setTimeout(r, ms * SLOW));
+const SLOW = 2.0, wait = ms => new Promise(r => setTimeout(r, ms * SLOW));
 let E = null, cur = Math.max(0, +(QS.get("s") || 1) - 1), run = 0, playing = false;
 
 const TABS = [
@@ -73,7 +73,7 @@ async function probes(c) {
   await c.reveal(el, ".set", 900, r => r.querySelectorAll("[data-w]").forEach(i => i.style.width = Math.min(100, +i.dataset.w) + "%"));
   c.beat(2, "Checked against the bars the owner set");
   const d = E.PS.flatMap(x => x.disputed);
-  c.push("System", `${E.PS.filter(x => x.pass).length} of 6 sets meet the bar`, `<p class="small" style="margin:0">Every miss becomes a test row, never a silent fix.${d.length ? ` ${d.length} label${d.length > 1 ? "s" : ""} disputed and set aside for a ruling, not counted.` : ""}</p>`); await c.T(1500);
+  c.push("System", `${E.PS.filter(x => x.pass).length} of ${E.PS.length} sets meet the bar`, `<p class="small" style="margin:0">Every miss becomes a test row, never a silent fix.${d.length ? ` ${d.length} label${d.length > 1 ? "s" : ""} disputed and set aside for a ruling, not counted.` : ""}</p>`); await c.T(1500);
 }
 async function holdout(c) {
   c.beat(0, "Before it runs, the seal is checked");
@@ -87,8 +87,8 @@ async function holdout(c) {
 async function gate(c) {
   const G = [["No answer outside the role", "0 scope leaks", !E.R.some(x => x.leak) && !E.H.some(x => x.leak)], ["Says 'not yet' when nothing approved answers", "every abstention case", E.abs(E.R).every(x => !x.answered)],
     ["Every answer cites an approved source", `${E.ans(E.R).filter(x => x.cites).length} of ${E.ans(E.R).length}`, E.ans(E.R).every(x => x.cites)], ["Legal's words exact", "0 changed characters", E.verbs(E.R).every(x => x.verb)],
-    ["Routed to the right person or queue", "gap, author, translator, person", E.routes(E.R).every(x => x.routeOK && !x.answered)], ["Identifiers redacted (T4)", `${E.t4leak} of 50 leaked`, E.t4leak === 0],
-    ["Audit trail complete (T3)", `${E.t3gaps} gaps in ${E.ev.length} events`, E.t3gaps === 0], ["Probe sets meet their bars", `${E.PS.filter(x => x.pass).length} of 6`, E.probesPass], ["Holdout sealed and green", `${E.H.filter(x => x.pass).length} of ${E.H.length}`, E.sealedOK && E.holdRulesOK]];
+    ["Routed to the right person or queue", "gap, author, translator, person", E.routes(E.R).every(x => x.routeOK && !x.answered)], ["Identifiers redacted (T4)", `${E.t4leak} of ${T4_SEEDS.length} leaked`, E.t4leak === 0],
+    ["Audit trail complete (T3)", `${E.t3gaps} gaps in ${E.ev.length} events`, E.t3gaps === 0], ["Probe sets meet their bars", `${E.PS.filter(x => x.pass).length} of ${E.PS.length}`, E.probesPass], ["Holdout sealed and green", `${E.H.filter(x => x.pass).length} of ${E.H.length}`, E.sealedOK && E.holdRulesOK]];
   c.beat(0, "Each rule is checked; any red row blocks the release");
   const el = c.push("System", "Checks every rule row", `<div class="gates">${G.map(([n, v, ok]) => `<div class="gate">${tick(ok)}<b>${esc(n)}</b><span class="gv">${esc(v)}</span></div>`).join("")}</div>`);
   await c.reveal(el, ".gate", 420);

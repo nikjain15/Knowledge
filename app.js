@@ -79,7 +79,7 @@ function units(st) {
       const ap = approval(s, u.id, u.versions.length > 1 ? v.v : null) || u.seedSign || null, co = ap && needsCosign(u) ? cosignOf(s, u, ap) : null;
       v.state = ap ? (needsCosign(u) && !co ? "awaiting co-sign" : "approved") : "in review";
       /* decision 1: a co-sign publish date is honoured; a dated co-sign makes the version scheduled until that date */
-      if (ap && v.state === "approved") Object.assign(v, { approvedBy: P(ap.by), approvedOn: ap.on, effective: co && dayOK(co.when) ? co.when : laterOf(ap.eff || v.effective, ap.on), expiry: ap.exp || v.expiry, publish: co ? co.when : undefined });
+      if (ap && v.state === "approved") Object.assign(v, { approvedBy: P(ap.by), approvedOn: ap.on, shownFrom: co && dayOK(co.when) ? co.when : (ap.eff || v.effective), effective: co && dayOK(co.when) ? co.when : laterOf(ap.eff || v.effective, ap.on), expiry: ap.exp || v.expiry, publish: co ? co.when : undefined }); /* audit A-023 (B): screens show the version's own start date (shownFrom); serving keeps the approval-bounded window */
       if (ap && v.state === "awaiting co-sign") v.firstSign = ap;
     });
     if (u.id === "KU-202") pdVersions(u, s);
@@ -384,7 +384,7 @@ function citeHTML(u, v) {
     ${v.clause ? `<dt>Locked clause</dt><dd>${esc(v.clause.label)} · fingerprint <span class="mono">${fp(v.clause.text)}</span></dd>` : ""}
     <dt>Approved by</dt><dd>${esc(v.approvedBy || "not approved")}</dd>
     <dt>On</dt><dd>${esc(v.approvedOn || "")}</dd>
-    <dt>In force</dt><dd>${esc(v.effective)} to ${esc(v.expiry)}</dd>
+    <dt>In force</dt><dd>${esc(v.shownFrom || v.effective)} to ${esc(v.expiry)}</dd>
     <dt>Base</dt><dd>${u.kbs.join(", ")}</dd>
     <dt>Channels</dt><dd>${u.channels.join(", ")}</dd>
     <dt>Tags</dt><dd>${esc(tagLine(u))}</dd>${typeof RULE_KEYS !== "undefined" && RULE_KEYS[u.id] ? `<dt>Real-world rule</dt><dd>${RULE_KEYS[u.id]}</dd>` : ""}</dl></div>`;

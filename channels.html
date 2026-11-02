@@ -38,7 +38,7 @@ function draw() {
   };
   /* UX 5: one master answer, then only what changes per channel */
   document.getElementById("view").innerHTML = `<div class="card tint" style="margin-bottom:12px"><p class="eyebrow">The one approved answer</p><h3 style="margin:2px 0 6px">${esc(u.title)} ${ruleTag(u)}</h3><p>${esc(v.text)}</p>${c ? `<div class="locked">${esc(c.text)}</div>` : ""}
-    <p class="small" style="margin-top:6px">In force ${esc(v.effective)} to ${esc(v.expiry)} · approved by ${esc((v.approvedBy || "").split(",")[0])}${nx ? ` · next: ${esc(nx.state)}${nx.effective ? " for " + esc(nx.effective) : ""}` : ""}<span class="idonly"> · ${u.id} v${v.v}${c ? " · fingerprint " + fp(c.text) : ""}</span></p></div>
+    <p class="small" style="margin-top:6px">In force ${esc(v.shownFrom || v.effective)} to ${esc(v.expiry)} · approved by ${esc((v.approvedBy || "").split(",")[0])}${nx ? ` · next: ${esc(nx.state)}${nx.effective ? " for " + esc(nx.effective) : ""}` : ""}<span class="idonly"> · ${u.id} v${v.v}${c ? " · fingerprint " + fp(c.text) : ""}</span></p></div>
     <p class="small">What changes per channel (open a tile to see it):</p>
     <div class="chgrid">${CHANNELS.map(ch => `<details class="card chtile${on(ch) ? "" : " off"}"${ch.key === "Outbound" && (QS.get("m") || S().optOut) ? " open" : ""}><summary><b>${esc(ch.label)}</b><span class="small">${on(ch) ? esc(DIFF[ch.key]) : "not on this channel"}</span></summary>${body(ch)}</details>`).join("")}</div>`;
   const sp = document.getElementById("speak"); if (sp) sp.onclick = () => { const n = document.getElementById("vnote");

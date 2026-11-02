@@ -102,7 +102,8 @@ mark.miss{background:#cfe7ad;color:#1f4a06;font-weight:800;border-radius:3px;pad
 
 <p class="small" style="margin-top:8px">Synthetic voices · names invented, roles from the brief.</p>
 </main>
-<script src="data.js?v=42"></script><script src="app.js?v=45"></script><script src="model-run.js?v=42"></script><script src="story-shared.js?v=42"></script>
+<script src="data.js?v=42"></script><script src="app.js?v=45"></script><script src="model-run.js?v=42"></script><script src="probes.js?v=45"></script><script src="probes-review.js?v=45"></script><script src="nearmiss.js?v=45"></script><script src="probes2.js?v=45"></script><script src="probes3.js?v=45"></script>
+<script src="story-shared.js?v=42"></script>
 <script>
 nav("day.html", "insurance", { demo: true });
 store.up(s => { if (!(s.approved || {})["KU-204"]) ENSURE.gateDone(s); const v2 = (s.approved || {})["KU-207@v2"]; if (v2 && v2.on === PLAN.today) v2.on = "8 Oct 2026"; });
@@ -174,6 +175,8 @@ const CH = [
             ["dana", "dana3", "Thanks, you're all verified. How can I help you today?"],
             ["june", "june4", "Well, the chat couldn't tell me. Is the price I was quoted for my medicine final?", { q: "Is the price I was quoted for my medicine final?", role: "insurance", channel: "Agent Assist", read: "june4", assist: true }],
             ["dana", "dana4", "Good question. I'm required to read you this exactly: " + PD["PD-A"]],
+            ["june", "june5", "Oh, and that dental thing my neighbour has, is that on my plan?", { q: "Oh, and that dental thing my neighbour has, is that on my plan?", role: "insurance", channel: "Agent Assist", read: "june5", assist: true }],
+            ["dana", "dana5", "Let me check that for you. I don't have an approved answer on the dental rider yet. I've flagged it for our team, and I can have someone call you back once it's confirmed.", { q: "dental rider", role: "insurance", channel: "Agent Assist", read: "dana5", assist: true }],
             ["june", "june6", "That would be lovely. Thank you, Dana."]] },
   { key: "Outbound", icon: "sms", tag: "Reminder texts the plan sends", name: "Text", when: "Monday, 2:00 PM",
     who: "That afternoon the plan's reminder system texts June, as it does for every member with a refill due.",
@@ -280,7 +283,7 @@ function ragFlow(c, r, readKey) {
     st.push(["Says \"not yet\" instead of guessing", "check", "Offers a person; logs the question", "Lands in Priya's gap queue to be written", "ROUTED"]); }
   else {
     st.push(["Walks the knowledge graph", "folder", "Found: " + u.title, others ? `${others} other topic${others > 1 ? "s" : ""} considered, lower match` : "One approved topic, no copies", "CHOSEN TOPIC"]);
-    st.push(["Checks the approved version", "stamp", `Version ${v.v}, approved by ${(v.approvedBy || "").split(",")[0]}`, `In force ${v.effective} to ${v.expiry}`, "VERSION"]);
+    st.push(["Checks the approved version", "stamp", `Version ${v.v}, approved by ${(v.approvedBy || "").split(",")[0]}`, `In force ${v.shownFrom || v.effective} to ${v.expiry}`, "VERSION"]);
     if (v.clause || u.clause) st.push(["Inserts Legal's words exactly", "lock", "Word for word, never reworded", "Locked; fingerprint checked before it goes out", "LEGAL WORDS"]);
     st.push(["Answers, and shows its source", "check", "Same words on every channel", "Source: " + ((doc(u.doc) || {}).short || ""), "CHANNEL"]); }
   const fixAt = Math.max(0, st.findIndex(x => x[4] === f.focus)), I = k => `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${SICON[k] || TICON[k] && TICON[k].replace(/^<svg[^>]*>|<\/svg>$/g, "") || SICON.check}</svg>`;

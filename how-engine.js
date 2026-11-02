@@ -35,7 +35,7 @@ function feedItem(who, say, body, cls) {
   return `<div class="fe ${p[3]} ${cls || ""}"><span class="av">${p[3] === "ai" ? `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></svg>` : esc(p[2])}</span>
     <div class="fb"><p class="fh"><b>${esc(p[0])}</b>${p[1] ? ` · ${esc(p[1])}` : ""}</p><p class="fs">${esc(say)}</p>${body ? `<div class="fp">${body}</div>` : ""}</div></div>`;
 }
-const SLOW = 1.4, wait = ms => new Promise(r => setTimeout(r, ms * SLOW));
+const SLOW = 2.0, wait = ms => new Promise(r => setTimeout(r, ms * SLOW));
 const REVEAL = ".unitc, .docv > p, .docv > h5, .results > div, .cmp > div, .match, .chips2 span, .phone .sms";
 
 function shell(s, B) {
