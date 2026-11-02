@@ -1,0 +1,60 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="fonts/fonts.css?v=3c4b3f9">
+<link rel="stylesheet" href="styles.css?v=3c4b3f9"><link rel="stylesheet" href="story.css?v=3c4b3f9">
+<title>PRD · Lakewell Knowledge</title>
+<style>
+.prd{display:grid;grid-template-columns:240px minmax(0,1fr);gap:22px;align-items:start}
+.toc{position:sticky;top:76px;max-height:calc(100vh - 90px);overflow:auto;font-size:13px}
+.toc a{display:block;padding:5px 10px;border-left:3px solid transparent;color:var(--muted);text-decoration:none;line-height:1.3}
+.toc a:hover,.toc a.on{color:var(--fg);border-left-color:var(--leaf);background:var(--panel-2)}
+.toc a i{font-style:normal;display:inline-block;width:22px;color:var(--leaf);font-weight:800}
+.toc .tg{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:12px 10px 4px}
+.sec{margin-bottom:22px;scroll-margin-top:76px}
+.sec h2{margin:0 0 6px;font-size:21px}.sec h2 i{font-style:normal;color:var(--leaf);margin-right:8px}
+.sec .intro{margin:0 0 12px;color:var(--muted);font-size:14.5px;max-width:78ch}
+.tw{overflow-x:auto;margin:6px 0 14px;-webkit-overflow-scrolling:touch}.sec table{margin:0;min-width:560px;font-size:13.5px}.sec th{text-align:left;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:6px 8px;border-bottom:2px solid var(--line)}
+.sec td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.4}.sec td:first-child{font-weight:700}
+.sec caption{text-align:left;font-weight:800;font-size:13.5px;padding:4px 0 6px;caption-side:top}
+.sec .pref{background:var(--good-bg);color:var(--good);font-weight:800;border-radius:999px;padding:2px 9px;font-size:11.5px;white-space:nowrap}
+.sec .after p{margin:4px 0;font-size:14px}.sec .after b{color:var(--fg)}
+.sec ul{margin:6px 0 0 18px;font-size:14px}.sec li{margin:3px 0}
+.live{font-weight:800;color:#3b6d11}.live.no{color:#a3261b}.live.wait{color:var(--muted);font-weight:600}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;margin:14px 0 0}.meta div{background:var(--panel-2);border-radius:12px;padding:8px 12px;font-size:13px}.meta b{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.rowid{font-family:var(--mono);font-size:12px;color:var(--muted)}
+@media (max-width:900px){.prd{grid-template-columns:1fr}.toc{position:static;max-height:none;display:flex;flex-wrap:wrap;gap:2px}.toc .tg{display:none}}
+@media print{.top,.toc,.acts{display:none}.prd{grid-template-columns:1fr}.sec{break-inside:avoid}}
+</style></head><body>
+<main class="area" style="max-width:1280px"><div id="view"></div></main>
+<script src="data.js?v=3c4b3f9"></script><script src="golden.js?v=3c4b3f9"></script><script src="holdout.js?v=3c4b3f9"></script><script src="probes.js?v=3c4b3f9"></script><script src="probes-review.js?v=3c4b3f9"></script><script src="nearmiss.js?v=3c4b3f9"></script><script src="probes2.js?v=3c4b3f9"></script><script src="probes3.js?v=3c4b3f9"></script>
+<script src="app.js?v=3c4b3f9"></script><script src="eval-core.js?v=3c4b3f9"></script><script src="prd-data.js?v=3c4b3f9"></script>
+<script>
+nav("prd.html", "");
+/* Row ids and keys get a monospace mark; "Preferred" gets a pill; {{live}} cells are filled by the eval runner */
+const mark = s => esc(s).replace(/\b(S\d{1,2}\.\d{1,3}|D\d{1,3}|G\d{1,2}|T\d{1,2}|H\d|FR-\d{1,2}|M\d|\[[A-Z]{1,3}-[A-Z]?-?\d+\])\b/g, '<span class="rowid">$1</span>');
+const cellHTML = c => c === "Preferred" ? '<span class="pref">Preferred</span>' : /^\{\{\w+\}\}$/.test(c) ? `<span class="live wait" data-live="${c.slice(2, -2)}">computing…</span>` : mark(c);
+const table = t => `<div class="tw"><table>${t.caption ? `<caption>${esc(t.caption)}</caption>` : ""}<thead><tr>${t.cols.map(c => `<th>${esc(c)}</th>`).join("")}</tr></thead><tbody>${t.rows.map(r => `<tr>${r.map(cellHTML).map(h => `<td>${h}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+const sec = s => `<section class="sec card" id="${s.id}"><h2><i>${s.n}</i>${esc(s.title)}</h2>${s.intro ? `<p class="intro">${mark(s.intro)}</p>` : ""}${(s.tables || []).map(table).join("")}${s.after ? `<div class="after">${s.after.map(([b, p]) => `<p><b>${esc(b)}.</b> ${mark(p)}</p>`).join("")}</div>` : ""}${s.bullets ? `<ul>${s.bullets.map(b => `<li>${mark(b)}</li>`).join("")}</ul>` : ""}</section>`;
+const groups = [["Read first", [0, 1, 2, 3, 4, 5]], ["Build from", [6, 7, 8, 9, 10, 11, 12]], ["Govern and ship", [13, 14, 15, 16]], ["Judge it", [17, 18, 19, 20, 21]]];
+document.getElementById("view").innerHTML = `<div class="hero"><p class="eyebrow">Product requirements · ${esc(PLAN.name)} (fictional) · v${esc(PRD.version)} · ${esc(PRD.date)}</p>
+  <h1>${esc(PRD.title)}: the PRD</h1><p class="lead">${esc(PRD.subtitle)}. ${esc(PRD.audience)}</p>
+  <div class="meta"><div><b>Owner</b>${esc(PRD.owner)}</div><div><b>Status</b>${esc(PRD.status)}</div><div><b>Built from</b>uc2-strategy.md (18 sections), uc2-decision-log.md (D1 to D194), uc2-citations.md (863 keyed rows)</div><div><b>Also as</b>Markdown, out/uc2-prd.md, rendered from the same data</div></div></div>
+  <div class="prd" style="margin-top:18px"><nav class="toc" id="toc">${groups.map(([g, ids]) => `<div class="tg">${g}</div>` + ids.map(i => PRD.sections[i]).map(s => `<a href="#${s.id}" data-id="${s.id}"><i>${s.n}</i>${esc(s.title)}</a>`).join("")).join("")}</nav>
+  <div>${PRD.sections.map(sec).join("")}<p class="foot">Everything here is fictional: the plan, the people, the documents and every figure. Real-world facts carry keys from the citations register. Built from out/uc2-strategy.md; decision D194.</p></div></div>`;
+/* TOC highlight */
+const links = [...document.querySelectorAll("#toc a")];
+new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) links.forEach(a => a.classList.toggle("on", a.dataset.id === e.target.id)); }), { rootMargin: "-70px 0px -70% 0px" }).observe && document.querySelectorAll(".sec").forEach(el => new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) links.forEach(a => a.classList.toggle("on", a.dataset.id === e.target.id)); }), { rootMargin: "-70px 0px -70% 0px" }).observe(el));
+/* Live numbers: the same runner Prove it uses, on a copy of the demo state brought to its post-drift point, so this page never changes the demo */
+(async () => {
+  const set = (k, text, ok) => document.querySelectorAll(`[data-live="${k}"]`).forEach(el => { el.textContent = text; el.className = "live" + (ok === false ? " no" : ""); });
+  try {
+    const st = JSON.parse(JSON.stringify(S())); if (!units(st).find(u => u.id === "KU-202" && u.current)) ENSURE.driftDone(st);
+    const E = await evalAll(st);
+    const gp = E.R.filter(x => x.pass).length; set("golden", `${gp} of ${E.R.length} pass (live)`, gp === E.R.length);
+    const must = E.PS.reduce((a, x) => a + x.must, 0), caught = E.PS.reduce((a, x) => a + x.caught, 0), ok = E.PS.reduce((a, x) => a + x.ok, 0), fn = E.PS.reduce((a, x) => a + x.falseN, 0), rows = E.PS.reduce((a, x) => a + x.rows.length, 0);
+    set("probes", `${rows} rows: ${caught} of ${must} must-refuse caught; ${fn} of ${ok} general questions wrongly routed by a rule (live)`, E.probesPass);
+    const hp = E.H.filter(x => x.pass).length, hr = E.H.filter(x => x.rawPass === undefined ? x.pass : x.rawPass).length; set("holdout", `${hp} of ${E.H.length} earned, ${hr} of ${E.H.length} on the original keys; seal ${E.sealedOK ? "intact" : "BROKEN"} (live)`, E.holdRulesOK && E.sealedOK);
+    set("redact", `${E.t4leak} of ${E.t4.length} seeds leaked; ${E.t4count} identifiers redacted (live)`, E.t4leak === 0);
+    set("release", E.release ? "Pass: every rule row green on the development set and the sealed holdout (live)" : "Blocked: a rule row is red (live)", E.release);
+  } catch (e) { document.querySelectorAll("[data-live]").forEach(el => { el.textContent = "could not run here: see Prove it"; el.className = "live wait"; }); console.error(e); }
+})();
+</script></body></html>

@@ -475,7 +475,7 @@ const ENSURE = {
 function nav(current, roleKey, opt) {
   opt = opt || {};
   const opts = Object.entries(ROLES).map(([k, r]) => `<option value="${k}"${k === roleKey ? " selected" : ""}>${r.person}, ${r.label}</option>`).join("");
-  const links = [["product.html", "Product"], ["day.html?mode=today", "Current state"], ["day.html?mode=approach", "Solution architecture"], ["how1.html", "How it works"], ["day.html?mode=new", "Future state"], ["journey.html", "Journey"], ["channels.html", "Channels"], ["evals.html", "Evals"]]
+  const links = [["product.html", "Product"], ["day.html?mode=today", "Current state"], ["day.html?mode=approach", "Solution architecture"], ["how1.html", "How it works"], ["day.html?mode=new", "Future state"], ["journey.html", "Journey"], ["channels.html", "Channels"], ["evals.html", "Evals"], ["prd.html", "PRD"]]
     .map(([h, l]) => `<a href="${h}"${h === current ? ' aria-current="page"' : ""}>${l}</a>`).join("");
   const unread = roleKey ? (S().notes || []).filter(n => n.to === roleKey && !n.read).length : 0;
   document.body.insertAdjacentHTML("afterbegin",

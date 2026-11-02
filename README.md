@@ -12,7 +12,7 @@ Live: https://nikjain15.github.io/Knowledge/ (case-sensitive)
 4. Future state: `day.html?mode=new`
 5. Prove it: `prove.html`
 
-Deep dives: `product.html`, `author.html`, `review.html`, `owner.html`, `desk.html`, `chat.html`, `channels.html`, `drift.html`, `evals.html`, `journey.html`, `roadmap.html`, `tradeoff.html`.
+Deep dives: `product.html`, `author.html`, `review.html`, `owner.html`, `desk.html`, `chat.html`, `channels.html`, `drift.html`, `evals.html`, `journey.html`, `roadmap.html`, `tradeoff.html`, `prd.html` (the PRD, also rendered as Markdown in the private repo).
 
 ## Run locally
 
