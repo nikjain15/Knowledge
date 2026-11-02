@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=7e811e2">
-<link rel="stylesheet" href="styles.css?v=7e811e2"><link rel="stylesheet" href="story.css?v=7e811e2">
+<link rel="stylesheet" href="fonts/fonts.css?v=5691a8c">
+<link rel="stylesheet" href="styles.css?v=5691a8c"><link rel="stylesheet" href="story.css?v=5691a8c">
 <title>June's day · Lakewell Knowledge</title>
 <style>
 .dhead{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:6px 0 12px}
@@ -102,8 +102,8 @@ mark.miss{background:#cfe7ad;color:#1f4a06;font-weight:800;border-radius:3px;pad
 
 <p class="small" style="margin-top:8px">Everything on this page is fictional: plan, people, documents, counts and dates. Synthetic voices.</p>
 </main>
-<script src="data.js?v=7e811e2"></script><script src="app.js?v=7e811e2"></script><script src="model-run.js?v=7e811e2"></script><script src="probes.js?v=7e811e2"></script><script src="probes-review.js?v=7e811e2"></script><script src="nearmiss.js?v=7e811e2"></script><script src="probes2.js?v=7e811e2"></script><script src="probes3.js?v=7e811e2"></script>
-<script src="story-shared.js?v=7e811e2"></script>
+<script src="data.js?v=5691a8c"></script><script src="app.js?v=5691a8c"></script><script src="model-run.js?v=5691a8c"></script><script src="probes.js?v=5691a8c"></script><script src="probes-review.js?v=5691a8c"></script><script src="nearmiss.js?v=5691a8c"></script><script src="probes2.js?v=5691a8c"></script><script src="probes3.js?v=5691a8c"></script>
+<script src="story-shared.js?v=5691a8c"></script>
 <script>
 nav("day.html", "insurance", { demo: true });
 store.up(s => { if (!(s.approved || {})["KU-204"]) ENSURE.gateDone(s); const v2 = (s.approved || {})["KU-207@v2"]; if (v2 && v2.on === PLAN.today) v2.on = "8 Oct 2026"; });
@@ -253,7 +253,7 @@ const FIX4 = {
     control: "Locked words are stored once in the governance store and inserted by template; the model never edits them, and a fingerprint check runs before anything is spoken.", who: "Tom (Legal) approves the wording once", proof: "Verbatim check, 0 changes allowed (G3, G16, G21); any failure blocks release.", focus: "LEGAL WORDS" },
   "Member chat": { steps: [2, 3], tech: ["Grounded generation with abstention", "Gap clustering"], kind: "Rule", line: "No approved answer, no answer. The chat says 'not yet', finds a person, and logs the gap.",
     control: "Only approved content is searchable, so the draft is never seen. If no approved topic states the figure, the answer is 'not yet', never a guess, and the question lands in the author's queue. The model only ranks.", who: "Priya writes the missing answer; Renee decides it's worth writing", proof: "No-answer and exact-cost checks (G6, G14, T10, T14): 100% of must-refuse questions refused.", focus: "ROUTED" },
-  "Advocate desk": { steps: [0, 1, 2], tech: ["Semantic deduplication", "GraphRAG", "Drift detection"], kind: "AI proposes, a person decides", line: "One approved wording, found once. Every copy points to it, and Agent Assist shows it as June talks.",
+  "Advocate desk": { steps: [0, 1, 2], tech: ["Semantic deduplication", "Knowledge graph retrieval", "Drift detection"], kind: "AI proposes, a person decides", line: "One approved wording, found once. Every copy points to it, and Agent Assist shows it as June talks.",
     control: "At ingest the AI finds the same disclaimer in three documents and proposes one; Legal picks the wording that stands; the other copies retire and point to it. Retrieval walks the graph to that one topic; when Legal changes it, one alert lists every place it lives.", who: "Tom decides which wording holds", proof: "Search returns one result, not three (G1, G2); a different wording is never merged (T1).", focus: "CHOSEN TOPIC" },
   Outbound: { steps: [1, 2], tech: ["Read contract", "Role-based pre-filter"], kind: "Rule", line: "Only approved lines reach a member, and only members who agreed to texts.",
     control: "Every channel, reminders included, reads approved content only through the read contract. The text carries a summary and a link, and consent is checked for each member before sending.", who: "An approver signs the content before any campaign can use it", proof: "Approval gate, nothing unapproved served; every send logged with who and which version (T3).", focus: "CHANNEL" },
@@ -273,7 +273,7 @@ function ragFlow(c, r, readKey) {
   if (!r) return "";
   const f = FIX4[c.key] || {}, m = typeof MODEL_RUN !== "undefined" && readKey && MODEL_RUN.lines[readKey], who = ROLES[r.role] || {};
   const u = r.unit || (r.near ? unit(r.near) : null), v = r.version || (u && (u.current || u.latest)), others = (r.cands || []).filter(x => !u || x.u.id !== u.id).length;
-  const st = [["Understands the question", "bubble", (r.redacted || r.q).replace(/^(oh, and |well, )/i, ""), m ? m.intent : "Intent and topic read by the model", ""]];
+  const st = [["Understands the question", "bubble", (r.redacted || r.q).replace(/^(oh, and |well, )/i, ""), m ? m.intent + " (recorded run, " + MODEL_RUN.recordedOn + ")" : "Intent and topic read by the model", ""]];
   if (c.key === "Outbound") st[0] = ["Reads the campaign's request", "bubble", "The pricing line for a refill reminder", "The reminder tool asks; it never writes its own", ""];
   st.push(["Scopes before it searches", "lock", `Only what ${who.person ? who.label.split(",")[0].toLowerCase() + "s" : "this role"} may read`, `In force on ${r.asOf}; nothing else is searched`, ""]);
   if (r.kind === "person") { st.push(["Spots personal data", "warn", "Her own records are never read here", "No search runs on personal questions", "ROUTED"]); st.push(["Hands over to a person", "check", "A person checks her identity first", "Then answers from her records", ""]); }

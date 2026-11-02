@@ -38,7 +38,7 @@ const STEPS4 = [
     contract: ["Approved topics only", "In force on the date asked", "Only what the asker's role may read", "Locked words exactly as written", "Always cite the topic and version"],
     proof: "Only approved, in-date content is served (G4, G10, G11, G20); a formatting-only edit raises no alert (T2)" },
   { n: "Close the gaps", take: "Every channel gets the same approved answer, scoped to the asker, with Legal's words exact, or says \"not yet\" and logs the gap.", takeB: ["What it does: finds the approved topic for the question, checks the role and date, and inserts locked words exactly", "Why it matters: June hears one answer whether she calls, chats, texts or reads the website", "How we know: no answer outside the role; no guesses; the legal words never change"], line: "Every channel reads it, or says it doesn't know", icon: "bubble", cls: "s3",
-    tags: ["GraphRAG", "Hybrid retrieval", "Role-based pre-filter", "Grounded generation with abstention", "Constrained rendering", "Gap clustering", "Synthetic voice"],
+    tags: ["Knowledge graph retrieval", "Hybrid retrieval", "Role-based pre-filter", "Grounded generation with abstention", "Constrained rendering", "Gap clustering", "Synthetic voice"],
     parts: [["Retrieval", "Walks the knowledge graph from the question to the approved topic; scopes to the role before ranking; inserts locked words by template; says 'not yet' when nothing approved answers", "Rules filter, model ranks", "No one: automatic"],
       ["Consumers", "Phone bot, member chat, Agent Assist and search, texts and website all read the same topics through the read contract", "Rule per channel", "No one: automatic"],
       ["Gap queue", "Every unanswered question is recorded and grouped into a queue for the author", "Rule logs, model groups", "Priya writes; Renee decides write-it or fix-the-process"]],
@@ -76,6 +76,7 @@ function approachHTML(nextLabel) {
     <div class="loops"><div class="loop"><b>Feedback loop · content gaps</b> Unanswered questions go back to the author as the gap queue.</div><div class="loop"><b>Feedback loop · drift</b> When a source changes, one alert finds every copy and channel.</div></div>
     ${[...open].sort().map(i => stepDetail(STEPS4[i], i)).join("")}
     ${open.size ? "" : `<p class="small" style="margin-top:10px">Tap a step for its key takeaway.</p>`}
+    <p class="small" style="margin-top:10px">In this build: keyword and text overlap stand in for embeddings, semantic deduplication and knowledge graph retrieval; ingest scenes replay a recorded model run; FNV-1a here, SHA-256 in production.</p>
     <div class="acts" style="margin-top:22px"><button class="btn primary" id="toNew">${esc(nextLabel)}</button></div></div>`;
 }
 function bindApproach(redraw) {
