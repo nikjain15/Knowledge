@@ -76,7 +76,7 @@ function approachHTML(nextLabel) {
     <div class="loops"><div class="loop"><b>Feedback loop · content gaps</b> Unanswered questions go back to the author as the gap queue.</div><div class="loop"><b>Feedback loop · drift</b> When a source changes, one alert finds every copy and channel.</div></div>
     ${[...open].sort().map(i => stepDetail(STEPS4[i], i)).join("")}
     ${open.size ? "" : `<p class="small" style="margin-top:10px">Tap a step for its key takeaway.</p>`}
-    <p class="small" style="margin-top:10px">In this build: keyword and text overlap stand in for embeddings, semantic deduplication and knowledge graph retrieval; ingest scenes replay a recorded model run; FNV-1a here, SHA-256 in production.</p>
+    <p class="small" style="margin-top:10px">Built to run without a server or API key: text matching stands in for embeddings, and ingest replays a recorded model run.</p>
     <div class="acts" style="margin-top:22px"><button class="btn primary" id="toNew">${esc(nextLabel)}</button></div></div>`;
 }
 function bindApproach(redraw) {
