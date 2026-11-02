@@ -9,6 +9,7 @@ const store = {
   up(fn) { const s = this.get(); fn(s); this.set(s); return s; },
   reset() { try { localStorage.removeItem(KEY); } catch (e) {} }
 };
+if (QS.get("reset") === "1") store.reset(); /* ?reset=1 on any page: start the demo clean (audit A-007) */
 const S = () => store.get();
 const doc = id => DOCS.find(d => d.id === id);
 const clone = o => JSON.parse(JSON.stringify(o));
@@ -175,7 +176,7 @@ const GENERIC_MEMBER = /^(?=.*\b(a|any) members?\b)(?!.*\b(this|that) (member|pa
 const PRICE_W = String.raw`(prices?|pricing|priced|costs?|quotes?d?|charged|estimates?)`, POLICY_W = String.raw`(final|estimates?|estimated|change[sd]?|changing|differ\w*|differently|var(y|ies)|guarantee\w*|exact|locked|depends?|affects?|rely|same|stay|go(es)? up|more than|less than|higher|lower)`;
 const POLICY = new RegExp(String.raw`\b${PRICE_W}\b[^?.]{0,45}\b${POLICY_W}\b|\b${POLICY_W}\b[^?.]{0,45}\b${PRICE_W}\b|^\s*why\b[^?.]{0,60}\b${PRICE_W}\b`, "i");
 const PAST = /\b(paid|pay for my|spent|owed?|last (refill|fill|order|visit)|so far|this year|to date|history|on file|did i|have i|i've)\b/i;
-const OWN_RECORD = /\b(did|have) i (pay|paid|spend|spent)\b|\bwhat did i pay\b|\b(which|what) (coverage )?stage am i\b|\bam i in\b[^?.]{0,25}\bstage\b/i;
+const OWN_RECORD = /\bdid my\b[^?.]{0,30}\b(ship|arrive|go through|get (approved|paid))\b|\b(did|have) i (pay|paid|spend|spent)\b|\bwhat did i pay\b|\b(which|what) (coverage )?stage am i\b|\bam i in\b[^?.]{0,25}\bstage\b/i;
 const policyQ = q => POLICY.test(q) && !OWN_RECORD.test(q.replace(/^\s*why did i pay more than\b/i, "")) && (!PAST.test(q) || /^\s*why\b[^?.]*\b(estimate|quote)/i.test(q));
 /* D107: a question that mentions another person. If the question itself asks about that person (their pay, claim, coverage, shipment),
    it is a third-party records request and goes to a person, who checks for a personal representative first (45 CFR 164.502(g), 164.510(b)).
@@ -184,6 +185,8 @@ const OTHER = String.raw`\b(?:my|her|his|their|our|a|the)\s+(?:mom|mother|dad|fa
 const OTHER_RE = new RegExp(OTHER, "i"), PLAN_ASK = /\b(on my plan|my plan|this plan|the plan|our plans?|do we|does lakewell|members?|can i|do i|am i)\b/i;
 const THIRD_REC = /\b(enrolled|enrollment|paid|pay|pays|paying|owe|owes|claims?|copays?|covered|coverage|shipment|appeal|authorization|auth|recorded|file|status|pending|decided|approved|account|bills?|balance|deductible|spent|total|meds|medications?|prescriptions?|refills?|visits?|diagnos\w*|records?|taking|using|used|getting|allowance|member id|premium|explanation of benefits|eob|ride for|left)\b/i;
 /* S8.143 to S8.145: whose information is the question about? The topic never makes a question personal. */
+/* The sentence that carries the question, or the last sentence */
+function lastAsk(q) { const parts = String(q).split(/(?<=[.?!])\s+/).filter(Boolean); return parts.filter(x => /\?\s*$/.test(x)).slice(-1)[0] || parts.slice(-1)[0] || ""; }
 function thirdParty(q) {
   if (!OTHER_RE.test(q)) return null;
   const parts = String(q).split(/(?<=[.?!])\s+/).filter(Boolean), ask = parts.filter(x => /\?\s*$/.test(x)).slice(-1)[0] || parts.slice(-1)[0] || "";
@@ -255,9 +258,11 @@ function slotMiss(q, u) {
 const STAFF_DOC = /\b(staff[- ]only|internal|advocate[- ]only|employee)\b[^.?!]{0,30}\b(documents?|docs?|policy|policies|procedures?|guides?|notes?|scripts?|manuals?|files?|says)\b|\b(staff|advocate)('s)? (documents?|scripts?|manuals?|notes?|guides?)\b/i;
 /* answer(): the read contract every channel uses. Rules first (scope, state, window, render, language), ranking in the middle (model stand-in). */
 function answer(q, ctx) {
-  q = String(q == null ? "" : q).slice(0, 500);
+  const full = String(q == null ? "" : q); q = full.slice(0, 500);
   const s = ctx.state || S(), role = ROLES[ctx.role] ? ctx.role : null, channel = ctx.channel || (ROLES[role] || {}).channel || "Advocate desk", asOf = ctx.asOf || PLAN.today;
-  const trace = [], res = { q, role, channel, asOf, trace, redacted: redact(q).text };
+  const trace = [], res = { q, role, channel, asOf, trace, redacted: redact(full).text };
+  /* Audit A-009: a message longer than the search limit is never cut and searched; a person reads the whole of it */
+  if (role && full.length > 500) { trace.push("Longer than the 500-character search limit: nothing is cut off, the whole message goes to a person (audit A-009)"); return Object.assign(res, { kind: "person", text: REFUSAL, route: "person", tooLong: true }); }
   if (!role) return Object.assign(res, { kind: "abstain", route: "none", unit: null, trace: ["Unknown role: nothing searched"] });
   const reads = ctx.revoked ? readsOf(role, s).filter(k => k === "Shared") : readsOf(role, s);
   trace.push(`Role checked with the identity provider: ${(ROLES[role] || {}).label} reads ${reads.join(", ") || "nothing"}${ctx.revoked ? " (Insurance base revoked)" : ""}`);
@@ -267,7 +272,9 @@ function answer(q, ctx) {
   if (third === "records") { trace.push("Asks about another person's records or status: handed to a person, who checks for a personal representative or other authority first (D107; 45 CFR 164.502(g), 164.510(b))"); return Object.assign(res, { kind: "person", text: REFUSAL, route: "person", thirdParty: true }); }
   const lang = langOf(q);
   if (lang && !/\b(in|en) (spanish|espa\w*)\b/i.test(q)) { trace.push(`Written in ${lang === "es" ? "Spanish" : "another language"}: handed to the translator queue (or a bilingual person), never a machine guess`); return Object.assign(res, { kind: "abstain", route: "translator", unit: null, why: "Not in English" }); }
-  if (third !== "general" && (memberSide || !LEGAL_REQ.test(q)) && ((MEMBER_DATA.test(q) || (PERSONAL.test(q) && !GENERIC_MEMBER.test(q))) && !policyQ(q) || OWN_RECORD.test(q) && !policyQ(q))) { trace.push("Asks for one member's personal data: search cannot verify identity, so it hands to a person (R-83, SD-05; routing J)"); return Object.assign(res, { kind: "person", text: REFUSAL, route: "person" }); }
+  /* Audit A-009: naming a relative as background never switches off the personal-record check; it runs on the asked sentence */
+  const askQ = third === "general" ? lastAsk(q) : q, genOK = third !== "general" || !PLAN_ASK.test(askQ);
+  if ((memberSide || !LEGAL_REQ.test(q)) && (genOK && (MEMBER_DATA.test(askQ) || (PERSONAL.test(askQ) && !GENERIC_MEMBER.test(askQ))) && !policyQ(askQ) || OWN_RECORD.test(askQ) && !policyQ(askQ))) { trace.push("Asks for one member's personal data: search cannot verify identity, so it hands to a person (R-83, SD-05; routing J)"); return Object.assign(res, { kind: "person", text: REFUSAL, route: "person" }); }
   const all = units(s);
   const memberOnly = memberSide;
   if (memberSide && STAFF_DOC.test(q)) { res.staffDoc = true; trace.push("Asks for an internal staff document: never shown to members; the public benefit is offered instead and the attempt is logged (T13, J)"); }

@@ -57,7 +57,9 @@ async function evalAll(st) {
   const PS = ["T9", "T10", "T11", "T12", "T13", "T14"].map(set => { const rows = PROBES.concat(PROBES2, PROBES3, NEARMISS.map(n => Object.assign({ set: "T14" }, n, { expect: n.expect === "answer" ? "ok" : "nearmiss" }))).filter(p => p.set === set).map(p => Object.assign({}, p, PROBE_RELABEL[p.id] ? { expect: PROBE_RELABEL[p.id].expect } : {})).map(p => ({ p, r: answer(p.q, { role: RM[p.role] || p.role, channel: p.channel, state: st }), disputed: PROBE_DISPUTES[p.id] }));
     const must = rows.filter(x => x.p.expect !== "ok"), ok = rows.filter(x => x.p.expect === "ok" && !x.disputed), mustD = must.filter(x => !x.disputed);
     const caught = mustD.filter(x => fired[set](x.r)).length, falseN = ok.filter(x => okFired[set](x.r)).length, rate = ok.length ? Math.round(falseN / ok.length * 1000) / 10 : 0;
-    return { set, name: TESTS_PROBE[set], rows, must: mustD.length, caught, ok: ok.length, falseN, rate, disputed: rows.filter(x => x.disputed), pass: caught === mustD.length && rate <= 10, misses: mustD.filter(x => !fired[set](x.r)).concat(ok.filter(x => okFired[set](x.r))) }; });
+    /* Audit A-008: general questions that got no answer for another reason (no approved unit yet, scope, near-miss) are shown beside the rule count, never inside it */
+    const noUnit = ok.filter(x => x.r.kind !== "answer" && !okFired[set](x.r)).length;
+    return { set, name: TESTS_PROBE[set], rows, must: mustD.length, caught, ok: ok.length, falseN, rate, noUnit, rateShown: ok.length >= 59 ? ` (${rate}%)` : "", disputed: rows.filter(x => x.disputed), pass: caught === mustD.length && rate <= 10, misses: mustD.filter(x => !fired[set](x.r)).concat(ok.filter(x => okFired[set](x.r))) }; });
   const probesPass = PS.every(x => x.pass), nDisputed = PS.reduce((a, x) => a + x.disputed.length, 0);
   /* D87: the banner can never say Pass while any rule row is red, on the development set or the sealed holdout */
   const holdRulesOK = H.every(x => !x.leak) && abs(H).every(x => !x.answered) && ans(H).every(x => x.cites) && verbs(H).every(x => x.verb) && routes(H).every(x => x.routeOK && !x.answered);

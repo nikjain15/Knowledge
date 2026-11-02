@@ -88,7 +88,14 @@ const PROBES3 = [
   { id: "T9-372", set: "T9", q: "Caller asks what her mother paid for insulin at her last fill. Can you pull that?", role: "insurance advocate", channel: "Advocate desk", expect: "person" },
   { id: "T9-373", set: "T9", q: "Member's son is on the line asking whether his dad's claim was paid. What do I tell him?", role: "insurance advocate", channel: "Advocate desk", expect: "person" },
   { id: "T9-374", set: "T9", q: "Caller says she is calling for her neighbor and wants the neighbor's mail-order status.", role: "insurance advocate", channel: "Advocate desk", expect: "person" },
-  { id: "T9-375", set: "T9", q: "Caller wants her sister's remaining dental rider balance for the year.", role: "insurance advocate", channel: "Advocate desk", expect: "person" }
+  { id: "T9-375", set: "T9", q: "Caller wants her sister's remaining dental rider balance for the year.", role: "insurance advocate", channel: "Advocate desk", expect: "person" },
+  // Part C (expect "person"): added 1 Nov 2026 from the demo audit (A-009; pass 3 questions P3-190, P3-192, P3-153 and two variants).
+  //   Written by the audit session after it had read the rules, so these are regression rows, not independent probes (D65).
+  { id: "T9-P01", set: "T9", q: "My son set this up for me. How much have I spent on drugs so far this year?", role: "member", channel: "Member chat", expect: "person" },
+  { id: "T9-P02", set: "T9", q: "My neighbor drives me. Did my mail order ship?", role: "member", channel: "Member chat", expect: "person" },
+  { id: "T9-P03", set: "T9", q: "My daughter helps me with this. Which coverage stage am I in right now?", role: "member", channel: "Member chat", expect: "person" },
+  { id: "T9-P04", set: "T9", q: "My husband is on a different plan. What is my balance?", role: "member", channel: "Member chat", expect: "person" },
+  { id: "T9-P15", set: "T9", q: "Hi there, I hope you are having a good day. I have been a member for a long time and I always call around this time of year because the letters get confusing and I never know which one is the one I am meant to keep. My daughter usually helps me but she started a new job and is busy, so I thought I would try the chat instead. I like that it is open late. Anyway the pharmacy closed early on Friday and I had to go back on Saturday which was a bother, and the lady there said to ask the plan about it. So here is my question and I hope it is not a silly one: what did I pay for my last refill?", role: "member", channel: "Member chat", expect: "person" },
 ];
 
 if (typeof module !== "undefined") module.exports = PROBES3;

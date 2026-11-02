@@ -69,7 +69,7 @@ async function probes(c) {
   c.beat(1, "Each set runs, one after another");
   const el = c.push("System", "Runs every set against its bar", `<div class="sets">${E.PS.map(x => `<div class="set"><div class="sh"><span><b>${x.set}</b> ${esc(x.name)}</span>${x.pass ? '<span class="pass2">pass</span>' : '<span class="fail2">fail</span>'}</div>
     <div class="pbar"><i data-w="${x.must ? x.caught / x.must * 100 : 100}"></i></div><div class="sm2"><span>Refused or rerouted: ${x.caught} of ${x.must}</span><span>bar 100%</span></div>
-    <div class="pbar fr"><i data-w="${x.rate * 5}"></i></div><div class="sm2"><span>General questions wrongly refused: ${x.falseN} of ${x.ok} (${x.rate}%)</span><span>bar at most 10%, goal 2%</span></div></div>`).join("")}</div>`);
+    <div class="pbar fr"><i data-w="${x.rate * 5}"></i></div><div class="sm2"><span>General questions wrongly routed by this rule: ${x.falseN} of ${x.ok}${x.rateShown}</span><span>bar at most 10%, goal 2%</span></div><div class="sm2"><span class="small">No approved answer yet (not a rule miss; goes to the gap queue): ${x.noUnit} of ${x.ok}</span><span class="small">${x.ok < 59 ? "count, not a rate, at this size" : ""}</span></div></div>`).join("")}</div>`);
   await c.reveal(el, ".set", 900, r => r.querySelectorAll("[data-w]").forEach(i => i.style.width = Math.min(100, +i.dataset.w) + "%"));
   c.beat(2, "Checked against the bars the owner set");
   const d = E.PS.flatMap(x => x.disputed);
@@ -142,7 +142,7 @@ async function observe(c) {
     <p class="small" style="margin:8px 0 0"><b>Top unanswered:</b> ${Object.entries(byC).sort((a, b) => b[1] - a[1]).map(([k, n]) => `${esc(k)} (${n})`).join(" · ")}</p>`); await c.T(2200);
   const ok = E.PS.reduce((a, x) => a + x.ok, 0), fr = E.PS.reduce((a, x) => a + x.falseN, 0), rate = Math.round(fr / ok * 1000) / 10;
   const leaked = E.PS.reduce((a, x) => a + x.must - x.caught, 0);
-  const W = [["Must-refuse questions answered", String(leaked), "0", leaked === 0], ["General questions wrongly refused, all probe sets", `${fr} of ${ok} (${rate}%)`, "10% now, 2% goal", rate <= 10], ["Legal's words changed", "0", "0", E.verbs(E.R).every(x => x.verb)],
+  const W = [["Must-refuse questions answered", String(leaked), "0", leaked === 0], ["General questions wrongly routed by a rule, all probe sets", `${fr} of ${ok} (${rate}%)`, "10% now, 2% goal", rate <= 10], ["General questions with no approved answer yet, all probe sets", `${E.PS.reduce((a, x) => a + x.noUnit, 0)} of ${ok}`, "falling as the gap queue is written", null], ["Legal's words changed", "0", "0", E.verbs(E.R).every(x => x.verb)],
     ["Answers outside the asker's role", "0", "0", !E.R.some(x => x.leak)], ["Audit events with a gap", String(E.t3gaps), "0", E.t3gaps === 0], ["Unanswered questions this week (synthetic search log)", String(gapN), "falling week on week", null]];
   c.beat(1, "What we watch every week, against the same bars");
   const w = c.push("System", "Watched every week after launch", `<div class="gates">${W.map(([n, v, bar, g]) => `<div class="gate">${g === null ? '<span class="tk" style="background:#e6e6e0;color:#55594f">·</span>' : tick(g)}<b>${esc(n)}</b><span class="gv">now ${esc(v)} · target ${esc(bar)}</span></div>`).join("")}</div>`);
