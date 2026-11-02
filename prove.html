@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&family=Mulish:wght@400;600;700;800&display=swap">
-<link rel="stylesheet" href="styles.css?v=43"><link rel="stylesheet" href="story.css?v=43">
+<link rel="stylesheet" href="styles.css?v=45"><link rel="stylesheet" href="story.css?v=45">
 <title>Prove it · Lakewell Knowledge</title>
 <style>
 .qrow{display:flex;gap:10px;align-items:baseline;padding:6px 0;border-bottom:1px solid #eef0e8;font-size:14px}.qrow:last-child{border:0}
@@ -24,8 +24,8 @@
 <div class="subbar" id="tabs"></div>
 <div class="card howcard" id="stage"><p class="small">Running every test now…</p></div>
 </main>
-<script src="data.js?v=43"></script><script src="golden.js?v=43"></script><script src="holdout.js?v=43"></script><script src="probes.js?v=43"></script><script src="probes-review.js?v=43"></script><script src="nearmiss.js?v=43"></script><script src="probes2.js?v=43"></script><script src="probes3.js?v=43"></script>
-<script src="app.js?v=44"></script><script src="eval-core.js?v=43"></script><script src="story-shared.js?v=43"></script>
+<script src="data.js?v=45"></script><script src="golden.js?v=45"></script><script src="holdout.js?v=45"></script><script src="probes.js?v=45"></script><script src="probes-review.js?v=45"></script><script src="nearmiss.js?v=45"></script><script src="probes2.js?v=45"></script><script src="probes3.js?v=45"></script>
+<script src="app.js?v=45"></script><script src="eval-core.js?v=45"></script><script src="story-shared.js?v=45"></script>
 <script>
 /* Prove it: every number on this page is computed in this browser, now, by the same code as the full runner (eval-core.js) */
 nav("prove.html", "owner", { demo: true });
@@ -169,7 +169,7 @@ function takeHTML() {
     ["calendar", "Run again before every release", "Same tests, same bars; the false-refusal bar tightens from 10% toward 2%."]];
   return `<div class="take new"><p class="eyebrow">Key takeaway</p><h2>Quality is proven before anything ships, and proven again every release.</h2><p class="big2">Every number here was computed in this browser just now, by the same code as the full runner.</p>
     <ol>${items.map(([ic, h, d], i) => `<li class="${i === items.length - 1 ? "last" : ""}"><span class="ticn">${TICON[ic] || ""}</span><div><b>${esc(h)}</b><span>${esc(d)}</span></div></li>`).join("")}</ol>
-    <div class="acts" style="margin-top:28px"><a class="btn primary" href="evals.html">Open the full live runner →</a><button class="btn" id="again">Run every test again</button></div></div>`;
+    <div class="acts" style="margin-top:28px"><a class="btn primary" href="evals.html">Open the full live runner →</a><a class="btn" href="product.html">Open the product, by person →</a><button class="btn" id="again">Run every test again</button></div></div>`;
 }
 function shell(t) {
   const n = cur + 1, next = TABS[cur + 1];

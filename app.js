@@ -420,11 +420,11 @@ const ENSURE = {
 function nav(current, roleKey, opt) {
   opt = opt || {};
   const opts = Object.entries(ROLES).map(([k, r]) => `<option value="${k}"${k === roleKey ? " selected" : ""}>${r.person}, ${r.label}</option>`).join("");
-  const links = [["index.html", "Home"], ["day.html?mode=today", "Current state"], ["day.html?mode=approach", "Architecture"], ["how1.html", "How it works"], ["day.html?mode=new", "Future state"], ["journey.html", "Journey"], ["channels.html", "Channels"], ["evals.html", "Evals"]]
+  const links = [["product.html", "Product"], ["day.html?mode=today", "Current state"], ["day.html?mode=approach", "Architecture"], ["how1.html", "How it works"], ["day.html?mode=new", "Future state"], ["journey.html", "Journey"], ["channels.html", "Channels"], ["evals.html", "Evals"]]
     .map(([h, l]) => `<a href="${h}"${h === current ? ' aria-current="page"' : ""}>${l}</a>`).join("");
   const unread = roleKey ? (S().notes || []).filter(n => n.to === roleKey && !n.read).length : 0;
   document.body.insertAdjacentHTML("afterbegin",
-    `<header class="top"><a class="logo" href="index.html"><i></i>Lakewell Knowledge</a>
+    `<header class="top"><a class="logo" href="${opt.demo ? "day.html?mode=today" : "product.html"}"><i></i>Lakewell Knowledge</a>
      ${opt.demo ? "" : `<label class="small rolesw">You are <select id="rolesel"><option value="">choose a person</option>${opts}</select></label>`}
      ${opt.demo ? "" : `<nav class="links">${links}${roleKey && ROLES[roleKey] ? `<button class="bell" id="bell">Notifications${unread ? `<i>${unread}</i>` : ""}</button>` : ""}<label class="idtog small" title="Show internal IDs (the audit CSV always keeps them)"><input type="checkbox" id="idtog"${showIds() ? " checked" : ""}> IDs</label><a href="day.html?mode=today" class="demo">Start demo</a></nav>`}</header>`);
   /* Each tab is one person: the tab title and a chip say who this tab is signed in as */

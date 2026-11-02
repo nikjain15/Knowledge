@@ -1,0 +1,27 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&family=Mulish:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="styles.css?v=44">
+<title>Product · Lakewell Knowledge</title></head><body>
+<main class="area" style="max-width:1180px"><div id="view"></div></main>
+<script src="data.js?v=44"></script><script src="app.js?v=45"></script>
+<script>
+nav("product.html", "");
+const DEMO5 = [["Current state", "day.html?mode=today", "6 min", "June's day today, across five channels"], ["Solution architecture", "day.html?mode=approach", "4 min", "The governed knowledge layer, in four steps"],
+  ["How it works", "how1.html", "9 min", "Each step played as it happens, people and AI"], ["Future state", "day.html?mode=new", "6 min", "June's same day with Lakewell Knowledge"], ["Prove it", "prove.html", "5 min", "Every test run live, and what still fails"]];
+const ini = n => n.split(" ").map(x => x[0]).join("");
+document.getElementById("view").innerHTML = `<div class="hero"><p class="eyebrow">Use Case 2 · Knowledge &amp; Search · ${esc(PLAN.name)} (fictional)</p>
+  <h1>The approved source every channel, human or AI, reads from.</h1>
+  <p class="lead">Author knowledge once. Every channel and every search gives the same correct, cited, current answer, scoped to what the asker may read. Questions it cannot answer go to the author's queue.</p>
+  <div class="acts" style="margin-top:16px"><a class="btn primary lg" href="#" id="start">Start the 30-minute demo</a><button class="btn sm" id="reset" style="margin-left:auto">Reset demo data</button></div></div>
+  <div class="card tint" style="margin-top:22px"><h3 style="margin:0 0 4px">Show it with real people, live</h3><p class="small" style="margin:0 0 8px">Open each person in their own tab, or hand a laptop to someone in the room. When Priya submits or Tom approves in one tab, the other tabs update within a second.</p>
+    <div class="acts">${["author", "legal", "clinical", "medical", "insurance", "member", "owner"].map(k => `<button class="btn sm" data-tab="${k}">Open ${esc(ROLES[k].person.split(" ")[0])}</button>`).join("")}</div></div>
+  <h2 style="margin-top:22px">The product, by person <span class="small">(for questions after the demo)</span></h2><div class="grid3">${Object.entries(ROLES).map(([k, r]) => `<a class="rolecard" href="${r.home}"><span class="av">${ini(r.person)}</span><span><b>${esc(r.person)}${r.main ? ' <span class="pill leaf">main user</span>' : ""}</b><span class="small">${esc(r.label)}</span></span></a>`).join("")}</div>
+  <div class="two" style="margin-top:22px"><div><h2>The demo, 30 minutes</h2><ol class="core">${DEMO5.map(([t, h, m, d], i) => `<li><i>${i + 1}</i><a href="${h}"><b>${esc(t)}</b><br><span class="small">${esc(d)}</span></a><span class="small" style="margin-left:auto">${m}</span></li>`).join("")}</ol></div>
+  <div><h2>Deep dives, if the panel asks</h2><div class="deep">${DEEP_DIVES.map(d => `<a href="${d.page}"><b>${esc(d.t)}</b><span class="small">${esc(d.d)}</span></a>`).join("")}</div>
+  <h2 style="margin-top:18px">The deliverables</h2><div class="deep"><a href="journey.html"><b>Service design</b></a><a href="#" id="start2"><b>Working prototype</b></a><a href="roadmap.html"><b>Roadmap</b></a><a href="tradeoff.html"><b>Key tradeoff</b></a></div></div></div>
+  <p class="foot">Everything here is fictional: the plan, the people, the documents and every figure. Real-world facts carry keys from the citations register. Built to out/uc2-strategy.md section 18.</p>`;
+const start = e => { e.preventDefault(); store.reset(); location.href = "day.html?mode=today"; };
+document.getElementById("start").onclick = start; document.getElementById("start2").onclick = start;
+document.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => window.open(ROLES[b.dataset.tab].home, "lw-" + b.dataset.tab));
+document.getElementById("reset").onclick = () => { store.reset(); location.reload(); };
+</script></body></html>
