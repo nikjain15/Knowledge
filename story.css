@@ -293,3 +293,4 @@ details.why{margin-top:10px}details.why>summary{cursor:pointer;font-weight:800;c
 .rs-row.auto .rs-txt::after{content:none}.rs-row.auto{opacity:.85}
 .rs-row.crisis{cursor:pointer;opacity:1}.rs-row.crisis:hover{background:#fdf4ec}
 .rs-row:not(.on):not(.done):not(.played):not(.auto) .rs-txt::after{content:none}.rs-row:not(.on):not(.done):not(.played):not(.auto) .fm-who::after{content:"Play ▸";display:block;margin-top:6px;font-size:10.5px;color:var(--leaf,#5f8a26);letter-spacing:0;text-transform:none}
+.runside .rs-key{margin:12px 0 0;padding-top:10px;border-top:1px solid #eef0e8}
