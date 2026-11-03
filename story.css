@@ -321,3 +321,4 @@ details.why{margin-top:10px}details.why>summary{cursor:pointer;font-weight:800;c
 .cast-row{grid-template-columns:repeat(4,minmax(0,1fr))}.cp{align-items:center}.cp small{display:inline}.cp div>span{display:inline}.cp div>span:after{content:" · "}.cp .cpi{display:grid!important}
 .cp{opacity:.35;background:#f6f6f2;border-color:#eef0e8}.cp.act{opacity:1;background:#fff;border:2px solid #2b2f27}.cp.act .cpi{background:#2b2f27;color:#fff}.cp.main{border-color:#eef0e8}
 .fm-wrap.showpanel .fm-panel{opacity:1!important}
+.rs-more{margin-top:10px;padding-top:8px;border-top:1px solid #eef0e8}.rs-more summary{cursor:pointer;font-weight:800;font-size:13px;color:var(--green-ink,#54741e)}
