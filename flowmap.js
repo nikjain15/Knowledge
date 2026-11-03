@@ -2,7 +2,7 @@
    Top to bottom: named sources, three jobs, the test gate as a bar, six channels. One topic travels the map;
    each beat moves it one stop or lights one row of "how it runs". Content from strategy S3, S6, S7; the AI
    levels are the brief's three: AI decides (inside rules), AI recommends (a person confirms), only a person. */
-const FM_SOURCES = [["Plan policies", "Renee Caldwell, Knowledge Operations lead"], ["Knowledge articles", "desk content, Priya"], ["Legal wording", "Tom Bexley, Legal and Compliance"], ["Clinical guidance", "Grace Mbeki, then Dr. Ruth Calloway"], ["Priya's drafts", "Priya Nandakumar, author"]];
+const FM_SOURCES = [["Plan policies", "Renee Caldwell, Knowledge Operations lead"], ["Knowledge articles", "Priya Nandakumar, author"], ["Legal wording", "Tom Bexley, Legal and Compliance"], ["Clinical guidance", "Grace Mbeki, then Dr. Ruth Calloway"], ["Drafts in progress", "Priya's new answers, not yet approved"]];
 const FM_CHANNELS = [["Phone bot", "June Halvorsen, calling at night"], ["Member chat", "member website chat, June"], ["Agent Assist", "beside Dana and Luis"], ["Advocate search", "Dana Okafor and Luis Ferreira"], ["Texts and calls", "outbound to June"], ["Member website", "plan pages June reads"]];
 const FM_JOBS = [
   { n: "Ingest and structure", line: "documents become topics", take: "Every document is split into topics. Legal's sentences are marked as exact wording, to be quoted word for word and never reworded, and nothing is readable until a person approves it.",
