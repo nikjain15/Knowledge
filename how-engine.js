@@ -39,7 +39,7 @@ const person = k => PEOPLE[k] || [k, "", k.slice(0, 2).toUpperCase(), "p"];
 const SHORT = { Calloway: "Ruth", Backup: "The backup reviewer", Translator: "A qualified translator", System: "The system" };
 const first = k => SHORT[k] || person(k)[0].split(" ")[0];
 
-const ownerOf = B => { const d = B.find(b => b.k === "decide"); return d ? person(d.who)[0].split(" ")[0] + (d.who === "Calloway" ? "" : "") : "The system"; };
+const ownerOf = B => { const d = B.find(b => b.k === "decide"); if (d) return person(d.who)[0].split(" ")[0]; const a = B.find(b => b.k === "ai"); return a && a.who === "AI" ? "The AI, inside rules" : "The system"; };
 /* Which "How it runs" row (Solution architecture) plays which step group here; null = a row that runs inside every step */
 const RUNMAP = [[null, 0, 1, 2, 3, 4], [0, 1, 2, 3, 4, null], [null, 0, 1, 2, 3, 4]];
 const litAuto = (k, on) => { const r = document.querySelectorAll(".rs-row")[k]; if (r) { r.classList.toggle("on", on); if (!on) r.classList.add("played"); } };
