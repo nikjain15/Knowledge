@@ -3,8 +3,8 @@
    (defaults to the sub-step's screen); decide = the people who decide, in order. */
 /* At most five steps per page; a step with several parts plays them back to back. Indices are positions in ACT.steps. */
 const HOW_GROUPS = {
-  1: [["Rules check; a person other than the author approves", [0, 1]], ["Clinical sign-off", [2]], ["Resolve conflicts of authority", [3]], ["Clocks on every review", [4]], ["One alert finds every copy", [5, 6, 7]]],
-  2: [["One answer, cited", [0, 5]], ["Scoped to the role and the date", [1, 2]], ["Say not yet, log the gap", [3]], ["Group, draft, approve or fix the process", [4, 6]], ["Pin the top answer", [7]]]
+  1: [["Rules check", [0, 1]], ["Clinical sign-off", [2]], ["Resolve conflicts", [3]], ["Review clocks", [4]], ["Catch drift", [5, 6, 7]]],
+  2: [["One cited answer", [0, 5]], ["Scope and date", [1, 2]], ["Say not yet", [3]], ["Close the gaps", [4, 6]], ["Pin the top answer", [7]]]
 };
 const SCENES = {
   "0:Voice": () => ({ start: ["Priya", "upload", "Rx Education Script v2.docx", "9 sections · from the script library"], src: docView(RX, b => b.verbatim ? "hide" : ""),
