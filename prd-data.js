@@ -9,12 +9,12 @@ const GAPS_ROWS = [
   ["The north star has no baseline or target (S9.25)", "gate V", "Baseline one-contact resolution from the first four pilot weeks; target set with the plan after the baseline", "Client"],
   ["Kill switch has no named owner, no test and no restart criteria (S8.110)", "gate D", "Owner: the knowledge owner or the Engineering on-call may pull it per unit, knowledge base, role or channel; exercised in staging each release; restart after the fix ships with a new test and the S10.1 signers agree", "Nik (J), client confirms"],
   ["Build, buy or partner was one call with a flip condition, not an option table (S11.8)", "gate A", "Closed in this PRD, section 15", "Closed"],
-  ["Governance was not answered gate by gate in question, answer, status form, with no log of who closes each open row", "governance", "Closed in this PRD, section 13; the governance log is in out/uc2-gaps.md", "Closed"],
+  ["Governance was not answered gate by gate in question, answer, status form, with no log of who closes each open row", "governance", "Closed in this PRD, section 13; open governance rows are tracked in the gaps review", "Closed"],
   ["The read contract names fields but no transport, schema, abstention enum, auth or error model (S3.8)", "builder", "M4 delivers an API spec: request and response schema, abstention_reasons enum from S7.13, error codes, service auth per channel, contract version", "Engineering"],
   ["Latency, availability and degraded mode are undefined until after the pilot (S8.22)", "builder", "Proposed values in section 12 (J); on any outage a channel abstains and offers the human path, never an unapproved source", "Client sets after pilot"],
   ["Environments, CI custody of the sealed holdout, shadow mode and feature flags are unspecified", "builder", "M8: dev, staging, production; synthetic data below production; the holdout readable only by the pipeline; a model-version change blocks merge until the paired rerun passes", "Engineering"],
   ["Identity provider, channel system targets and document connectors are unnamed (S12.11, S14.19)", "builder", "Discovery list with owners: the identity provider and its group schema, the agent-assist and chat platforms, the script library and shared drive connectors", "Client (IT)"],
-  ["The live site says less than, or differs from, the strategy in 20 places, for example \"664 independent questions\" where only the first set was written blind, merge confirmation routed to one person instead of by content type, and three of five production-only controls named", "drift", "Listed in out/uc2-gaps.md with a fix per row; fixes agreed with Nik before any page changes", "Nik"]
+  ["The live site says less than, or differs from, the strategy in 20 places, for example \"664 independent questions\" where only the first set was written blind, merge confirmation routed to one person instead of by content type, and three of five production-only controls named", "drift", "Listed in the gaps review with a fix per row; every fix agreed with Nik before the page changed", "Nik"]
 ];
 const PRD = {
   title: "Lakewell Knowledge",
@@ -300,7 +300,7 @@ const PRD = {
       ["Production-only controls cannot run in days", "A promise can be heard as a result", "Named production-only on Prove it", "S15.10"]
     ] }] },
 
-  { id: "gaps", n: 19, title: "Gaps found in this review, and open items", intro: "Four checks run on 2 Nov 2026: the strategy against the six VALUED gates and governance; the live site against the strategy; the PRD against what a coding agent needs; and the strategy's own open items. Full tables in out/uc2-gaps.md.",
+  { id: "gaps", n: 19, title: "Gaps found in this review, and open items", intro: "Four checks run on 2 Nov 2026: the strategy against the six VALUED gates and governance; the live site against the strategy; the PRD against what a coding agent needs; and the strategy's own open items. The gaps review holds the full tables.",
     tables: [{ caption: "Gaps a builder or a panel would notice", cols: ["Gap", "Kind", "Proposed close", "Owner"], rows: GAPS_ROWS }, { caption: "Open items for the client", cols: ["Item", "Why it is the client's", "Where it lands"], rows: [
       ["Any eval bar to move before presenting it as the client's own", "Thresholds are human judgment by design", "S8.1 to S8.22, S17.3"],
       ["Outbound link method", "Medicare Compliance confirms the link method; J until then", "S17.8, S8.139, D57"],

@@ -226,3 +226,4 @@ details.why{margin-top:10px}details.why>summary{cursor:pointer;font-weight:800;c
 .lv-icb{width:26px;height:26px;padding:0;display:inline-grid;place-items:center;color:#55594f}
 
 .story5 a.prd5{margin-left:auto;background:#fff;border:1px solid var(--line);color:var(--fg);font-size:14px;padding:6px 12px}
+.story5 a.prd5.on{background:var(--fg);color:#fff;border-color:var(--fg)}
