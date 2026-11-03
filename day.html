@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=22f3dfc">
-<link rel="stylesheet" href="styles.css?v=22f3dfc"><link rel="stylesheet" href="story.css?v=22f3dfc">
+<link rel="stylesheet" href="fonts/fonts.css?v=96cfc43">
+<link rel="stylesheet" href="styles.css?v=96cfc43"><link rel="stylesheet" href="story.css?v=96cfc43">
 <title>June's day · Lakewell Knowledge</title>
 <style>
 .dhead{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:6px 0 12px}
@@ -102,8 +102,8 @@ mark.miss{background:#cfe7ad;color:#1f4a06;font-weight:800;border-radius:3px;pad
 
 <p class="small" style="margin-top:8px">All fictional, synthetic voices. Runs in your browser; AI steps scripted, simple matching stands in for search.</p>
 </main>
-<script src="data.js?v=22f3dfc"></script><script src="app.js?v=22f3dfc"></script><script src="model-run.js?v=22f3dfc"></script><script src="probes.js?v=22f3dfc"></script><script src="probes-review.js?v=22f3dfc"></script><script src="nearmiss.js?v=22f3dfc"></script><script src="probes2.js?v=22f3dfc"></script><script src="probes3.js?v=22f3dfc"></script>
-<script src="story-shared.js?v=22f3dfc"></script><script src="vendors.js?v=22f3dfc"></script><script src="flowmap.js?v=22f3dfc"></script>
+<script src="data.js?v=96cfc43"></script><script src="app.js?v=96cfc43"></script><script src="model-run.js?v=96cfc43"></script><script src="probes.js?v=96cfc43"></script><script src="probes-review.js?v=96cfc43"></script><script src="nearmiss.js?v=96cfc43"></script><script src="probes2.js?v=96cfc43"></script><script src="probes3.js?v=96cfc43"></script>
+<script src="story-shared.js?v=96cfc43"></script><script src="vendors.js?v=96cfc43"></script><script src="flowmap.js?v=96cfc43"></script>
 <script>
 nav("day.html", "insurance", { demo: true });
 store.up(s => { if (!(s.approved || {})["KU-204"]) ENSURE.gateDone(s); const v2 = (s.approved || {})["KU-207@v2"]; if (v2 && v2.on === PLAN.today) v2.on = "8 Oct 2026"; });
@@ -201,21 +201,19 @@ const CH = [
 
 /* The sixth tab: the takeaway, as problems (Today) or as what changes (With Lakewell) */
 const TAKE = {
-  today: { title: "What went wrong today", lead: "One member, five channels, five ways the answer went wrong, and nobody could see it happening.", items: [
-    ["copies", "No single source of truth", "Every channel keeps its own copy."],
-    ["pencil", "Legal's words get reworded", "The bot copied one version, then dropped Legal's conditions."],
-    ["clock", "Drafts and out-of-date content reach members", "A draft 2027 copay in chat; last year's Star Rating, never flagged."],
-    ["send", "Messages go out from private copies", "A price from a team spreadsheet, texted to thousands, unsigned."],
-    ["search", "Nobody can find every copy", "One disclaimer, four wordings, and no way to find and fix them all."],
-    ["eyeoff", "Unanswered questions stay invisible", "June's question goes unlogged, so the 2027 figure never gets written."],
+  today: { title: "What went wrong today", lead: "Five things broke, one at each stage of an answer's life: how many copies exist, who approves it, how long it lasts, how it is said, and what happens when it is missing.", items: [
+    ["copies", "Too many copies", "Every team keeps its own: four wordings of one disclaimer, a price in a spreadsheet."],
+    ["stamp", "No approval gate", "Unapproved content reaches members: a draft $47 copay, a text sent unsigned."],
+    ["clock", "Nothing expires", "Old versions stay live: a 2025 cheat sheet, last year's 4-star rating."],
+    ["pencil", "Legal's words get changed", "A channel rewords what Legal approved: the bot dropped the conditions."],
+    ["eyeoff", "Gaps stay invisible", "No one logs unanswered questions, so the missing answer is never written."],
     ["zap", "AI on these documents won't fix this. It will copy it.", "Retrieval over today's copies finds the wrong one, and an assistant repeats it to every member, instantly and confidently. Fix the knowledge first, and AI helps do that."]] },
-  new: { title: "What changes with Lakewell Knowledge", lead: "The same five channels, and now one answer, the approved one, everywhere.", items: [
-    ["source", "One approved source", "Every channel, human or AI, reads the same answer."],
-    ["lock", "Legal's words, exactly", "Exact wording is read as written, never reworded."],
-    ["shield", "No answer without approval", "No approved answer? It says so and finds a person."],
-    ["stamp", "Nothing ships without sign-off", "Even a reminder text comes from an approved answer."],
-    ["calendar", "Expired content leaves by itself", "On its end date, from every channel at once."],
-    ["inbox", "Every gap becomes the next answer", "Unanswered questions go to Priya's list of answers to write."],
+  new: { title: "What changes with Lakewell Knowledge", lead: "The same five stages, each fixed once, for every channel.", items: [
+    ["source", "One approved source", "Copies are found and retired; every channel reads the same answer."],
+    ["shield", "Approval before anything ships", "The right person signs; with no approved answer, it says 'not yet'."],
+    ["calendar", "Every version has dates", "The old one leaves and the new one arrives on its date, everywhere at once."],
+    ["lock", "Legal's words, exactly", "Inserted by template and fingerprint-checked; never reworded."],
+    ["inbox", "Every gap becomes the next answer", "Unanswered questions go to Priya's list, most-asked first."],
     ["spark", "Safe to put AI in every channel", "AI can only say what Lakewell approved, so it adds speed without adding a new source of wrong answers."]] }
 };
 /* Plain words for internal codes on screen */
