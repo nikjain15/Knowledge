@@ -1,10 +1,10 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=159ad3d">
-<link rel="stylesheet" href="styles.css?v=159ad3d"><link rel="stylesheet" href="story.css?v=159ad3d">
+<link rel="stylesheet" href="fonts/fonts.css?v=3cf838a">
+<link rel="stylesheet" href="styles.css?v=3cf838a"><link rel="stylesheet" href="story.css?v=3cf838a">
 <title>Trade-offs · Lakewell Knowledge</title>
 <style>
 .tos{display:grid;gap:12px;margin-top:16px}
-.to{border:1px solid #e4e6dc;border-radius:14px;background:#fff;padding:14px 16px;display:grid;grid-template-columns:32px 1.2fr 1fr 1fr 1.2fr;gap:8px 18px;align-items:start;opacity:0;transform:translateY(8px);animation:toin .5s ease forwards}
+.to{border:1px solid #e4e6dc;border-radius:14px;background:#fff;padding:14px 16px;display:grid;grid-template-columns:32px 1.1fr .9fr 1fr 1.1fr 1.1fr;gap:8px 18px;align-items:start;opacity:0;transform:translateY(8px);animation:toin .5s ease forwards}
 .to .n{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-family:Manrope,sans-serif;font-weight:800;font-size:13px;background:#2b2f27;color:#fff}
 .to h3{margin:0;font-family:Manrope,sans-serif;font-weight:800;font-size:15.5px;line-height:1.35}
 .to dl{margin:0}.to dt{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}.to dd{margin:0;font-size:13.5px;line-height:1.45}
@@ -13,29 +13,30 @@
 @keyframes toin{to{opacity:1;transform:none}}
 @media (max-width:900px){.to{grid-template-columns:32px 1fr}.to .flip{grid-column:1 / -1}.to dl{grid-column:2}}
 @media (prefers-reduced-motion:reduce){.to{animation:none;opacity:1;transform:none}}
+.to .fut{background:#f6f6f2;border-radius:8px;padding:6px 8px}
 </style></head><body>
 <main class="area" style="max-width:1280px">
 <div id="stepper"></div>
 <div class="hhead"><h1>Trade-offs</h1></div>
 <div class="card howcard" id="stage"></div>
 </main>
-<script src="data.js?v=159ad3d"></script><script src="app.js?v=159ad3d"></script><script src="story-shared.js?v=159ad3d"></script>
+<script src="data.js?v=3cf838a"></script><script src="app.js?v=3cf838a"></script><script src="story-shared.js?v=3cf838a"></script>
 <script>
 /* The trade-offs we made, what each costs and how we handle it (PRD section 17; D23, D31, D53, D78, S5.3, S8; Prove it counts). */
 nav("choices.html", "", { demo: true });
 document.getElementById("stepper").innerHTML = storyStepper(5);
 const TO = [
-  ["We store answers as short topics, with Legal's sentences locked inside", "Chopping documents into fixed-size chunks, the common search approach", "Every document has to be split into topics, and Legal's sentences marked, before anyone can search it", "The AI does the split and marks the sentences; Priya only accepts. When Legal changes one sentence, only the topic it sits in goes back for approval, not the whole document"],
-  ["The AI never merges duplicates on its own", "Auto-merging copies that look nearly the same", "A person has to rule on each conflict, and until they do, the old copies stay in place", "The AI shows the word-by-word difference, so a ruling takes minutes; one ruling retires every copy; a late review moves to a backup reviewer"],
-  ["No approved answer means 'not yet', never a guess", "Letting the AI answer from whatever it finds", "At launch, 107 of 253 test questions get 'not yet' instead of an answer", "Every one goes on Priya's list, most-asked first: 33 dental questions became one answer to write. Coverage is reported every week"],
-  ["Strict rules for personal and cost questions", "Letting the AI judge each question on its own", "Some ordinary questions are refused by mistake: 4 of 253 in testing (3.3%), such as 'How do I appeal a denied exception?'", "Allowed up to 10% at launch, target 2%; every mistake becomes a new test; a trained classifier replaces the word list in production"],
-  ["Staff first, members last", "Starting with member chat, where most questions come from", "Members wait until the last phase to get the benefit", "Advocates prove the answers first; members then get the same approved answers, with stricter rules because no person checks first"],
-  ["The user's role is checked on every question", "Checking it once, at sign-in", "Every search makes one extra check, so it is slightly slower", "The delay is measured in the pilot, and the check is relaxed only if it slows calls down"]
+  ["No approved answer means 'not yet', never a guess", "Let the AI answer from whatever it finds", "At launch, 107 of 253 test questions get 'not yet' instead of an answer", "Every one goes on Priya's list, most-asked first: 33 dental questions became one answer to write; coverage reported weekly", "The AI drafts the missing answer from approved sources for Priya to approve, so gaps close in days, not weeks"],
+  ["Staff first, members last", "Start with member chat, where most questions come from", "Members get the benefit last", "Advocates prove the answers first; members then get the same approved answers, with stricter rules", "Member chat widens step by step as each measured gate holds: a small group, then more, then everyone"],
+  ["Answers stored as short topics, with Legal's sentences locked inside", "Chop documents into fixed-size chunks", "Every document must be split into topics, and Legal's sentences marked, before it can be searched", "The AI does the split and marks the sentences; Priya only accepts; a change re-opens only the topic it touches", "The AI learns from Priya's edits, and templates for common document types cut the set-up time"],
+  ["The AI never merges duplicates on its own", "Auto-merge copies that look nearly the same", "A person rules on each conflict, and old copies stay until they do", "Word-by-word differences make each ruling quick; one ruling retires every copy; late reviews move to a backup", "Once its proposals are proven right, low-risk duplicates that are not legal wording merge automatically, with an undo; legal wording always needs a person"],
+  ["Strict rules for personal and cost questions", "Let the AI judge each question on its own", "Some ordinary questions are refused by mistake: 4 of 253 in testing (3.3%), such as 'How do I appeal a denied exception?'", "Up to 10% allowed at launch, target 2%; every mistake becomes a new test", "A trained classifier replaces the word list, and verified sign-in lets members get their own answers instead of a hand-off"],
+  ["The user's role is checked on every question", "Check it once, at sign-in", "Every search makes one extra check, so it is slightly slower", "The delay is measured in the pilot", "Roles are cached briefly once the identity system can revoke access instantly"]
 ];
 document.getElementById("stage").innerHTML = `<p class="eyebrow">Trade-offs</p>
-  <h2 class="hl">Six times we chose safety over speed. Here is what each choice costs, and how we keep the cost small.</h2>
+  <h2 class="hl">Six times we chose safety over speed: what each costs today, how we keep it small, and how later builds remove it.</h2>
   
-  <div class="tos">${TO.map((t, i) => `<div class="to" style="animation-delay:${(i * 0.16).toFixed(2)}s"><span class="n">${i + 1}</span><h3>${esc(t[0])}${i === 0 ? ` <span class="thr-pill" style="background:#f1f1ec;color:#2b2f27">Key trade-off</span>` : ""}</h3><dl><dt>We did not</dt><dd>${esc(t[1])}</dd></dl><dl class="cost"><dt>The cost</dt><dd>${esc(t[2])}</dd></dl><dl class="fix"><dt>How we keep it small</dt><dd>${esc(t[3])}</dd></dl></div>`).join("")}</div>
+  <div class="tos">${TO.map((t, i) => `<div class="to" style="animation-delay:${(i * 0.16).toFixed(2)}s"><span class="n">${i + 1}</span><h3>${esc(t[0])}</h3><dl><dt>The usual way</dt><dd>${esc(t[1])}</dd></dl><dl class="cost"><dt>The cost today</dt><dd>${esc(t[2])}</dd></dl><dl class="fix"><dt>How we keep it small now</dt><dd>${esc(t[3])}</dd></dl><dl class="fut"><dt>How later builds fix it</dt><dd>${esc(t[4])}</dd></dl></div>`).join("")}</div>
   <div class="foot" style="margin-top:18px"><a class="btn" href="prd.html#decisions">All decisions in the PRD</a><a class="btn primary" href="prd.html">Next: the PRD →</a></div>`;
 document.querySelector("main").insertAdjacentHTML("beforeend", `<p class="small" style="margin-top:14px">From the PRD, section 17, and the Prove it results.</p>`);
 </script></body></html>
