@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=25a6536">
-<link rel="stylesheet" href="styles.css?v=25a6536"><link rel="stylesheet" href="story.css?v=25a6536">
+<link rel="stylesheet" href="fonts/fonts.css?v=14b65ed">
+<link rel="stylesheet" href="styles.css?v=14b65ed"><link rel="stylesheet" href="story.css?v=14b65ed">
 <title>Prove it · Lakewell Knowledge</title>
 <style>
 .qrow{display:flex;gap:10px;align-items:baseline;padding:6px 0;border-bottom:1px solid #eef0e8;font-size:14px}.qrow:last-child{border:0}
@@ -47,8 +47,8 @@
 <div class="subbar" id="tabs"></div>
 <div class="card howcard" id="stage"><p class="small">Running every test now…</p></div>
 </main>
-<script src="data.js?v=25a6536"></script><script src="golden.js?v=25a6536"></script><script src="holdout.js?v=25a6536"></script><script src="probes.js?v=25a6536"></script><script src="probes-review.js?v=25a6536"></script><script src="nearmiss.js?v=25a6536"></script><script src="probes2.js?v=25a6536"></script><script src="probes3.js?v=25a6536"></script>
-<script src="app.js?v=25a6536"></script><script src="eval-core.js?v=25a6536"></script><script src="story-shared.js?v=25a6536"></script>
+<script src="data.js?v=14b65ed"></script><script src="golden.js?v=14b65ed"></script><script src="holdout.js?v=14b65ed"></script><script src="probes.js?v=14b65ed"></script><script src="probes-review.js?v=14b65ed"></script><script src="nearmiss.js?v=14b65ed"></script><script src="probes2.js?v=14b65ed"></script><script src="probes3.js?v=14b65ed"></script>
+<script src="app.js?v=14b65ed"></script><script src="eval-core.js?v=14b65ed"></script><script src="story-shared.js?v=14b65ed"></script>
 <script>
 /* Prove it: every number on this page is computed in this browser, now, by the same code as the full runner (eval-core.js) */
 nav("prove.html", "owner", { demo: true });
@@ -190,7 +190,7 @@ async function observe(c) {
   await c.beat(1, "What we watch every week, against the same bars");
   const w = c.push("System", "Watched every week after launch", `<div class="gates">${W.map(([n, v, bar, g]) => `<div class="gate${g === "am" || g === null ? " am" : ""}">${g === null || g === "am" ? '<span class="tk am">!</span>' : tick(g)}<b>${esc(n)}</b><span class="gv">now ${esc(v)} · target ${esc(bar)}</span></div>`).join("")}</div><p class="small" style="margin:8px 0 0">Green: at target. Amber: inside the bar, still to improve. Red: stops serving.</p>`);
   await c.reveal(w, ".gate", 450);
-  c.push("System", "First 90 days, and the stop rule", `<p class="small" style="margin:0">First 90 days: the pilot is the Pharmacy knowledge base with its authors and approvers, not advocates yet; any confirmed scope leak or verbatim change stops serving for that role at once; day 30, every rule gate green on one corpus slice and the sealed holdout; day 60, the Prove phase signed off by the Knowledge Operations lead, Legal and Compliance, and Engineering; day 90, the monitoring plan signed and the first Pharmacy answers approved end to end, translated drafts never served.</p>`); await c.T(900);
+  c.push("System", "First 90 days, and the stop rule", `<p class="small" style="margin:0">First 90 days: the pilot is the Pharmacy knowledge base with its authors and approvers, not advocates yet; any confirmed scope leak or verbatim change stops serving for that role at once; day 30, every rule gate green on one corpus slice and the sealed holdout; day 60, the Pilot knowledge base phase signed off by the Knowledge Operations lead, Legal and Compliance, and Engineering; day 90, the monitoring plan signed and the first Pharmacy answers approved end to end, translated drafts never served.</p>`); await c.T(900);
   /* D211: what else is watched after launch, in plain words */
   c.push("System", "Also watched after launch", `<ul class="small" style="margin:0;padding-left:18px"><li><b>North star:</b> the member's question settled on the first contact. Early signs: how often advocates override an answer, and how long gap-queue items wait. Guardrails: answers outside the role 0, Legal's words changed 0.</li><li><b>Human check every week:</b> 30 answers per role plus every escalation. We also watch how often advocates override answers (a falling override rate with a steady error rate means nobody is checking) and what share of the errors we find they had already flagged (below half means feedback misses errors).</li><li><b>Member chat, where no person reads first, has stricter bars:</b> near-miss abstention 99%, false refusals under 15%, claims supported and answers correct 98%, and only exact wording and single facts are served.</li><li><b>Speed and cost:</b> time to first result (p95) and cost per answer are logged on every answer; targets are set after the pilot month.</li><li><b>Two false-refusal bars:</b> the answer key questions under 5% in production (10% allowed in pilot month one); probe sets at most 10%, goal 2%. They count different questions, so both are shown.</li><li><b>Every leak is graded:</b> level 0 to 4, each with its own stop and notice clock; a confirmed leak stops serving for that role at once.</li><li><b>A model judge grades answers only after:</b> it is checked against two human reviewers, catches seeded bad answers, and runs on a different model family. Until then, people label.</li></ul>`); await c.T(900);
   await c.beat(2, "Every piece of feedback gets an owner");
