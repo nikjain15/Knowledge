@@ -14,7 +14,7 @@ const SCENES = {
     ai: "The AI finds the same clause in three places and compares them word by word; it never merges", decide: [["Priya", "Raise to Tom", "Two official wordings of one clause: sent to Tom, who alone can rule. He decides in Govern"]] }),
 
   "1:Outbound": () => ({ start: ["Priya", "event", "Submitted for approval", "Refill reminder text, version 2 (2027)"],
-    ai: "The rules run the checks a machine can do: exact text, exact wording, dates", show: chk([["Rule", "Text matches the approved source", "similarity 1.00"], ["Rule", "Exact wording character-exact", "fingerprint matches"], ["Rule", "Dates, audience and channels set", "texts: link only"]], 3),
+    ai: "The rules run the checks a machine can do: approved text, exact wording, dates", show: chk([["Rule", "Text matches the approved source", "similarity 1.00"], ["Rule", "Exact wording character-exact", "fingerprint matches"], ["Rule", "Dates, audience and channels set", "texts: link only"]], 3),
     decide: [["Tom", "Tick: correct and complete", "Approved, version 2, in force from 1 Jan 2027. Only now can a campaign use it"]] }),
   "1:Advocate desk": () => ({ start: ["System", "event", "Two 'official' wordings for one disclaimer", "Legal (PD-A) and Member Communications (PD-C)"],
     ai: "The AI puts both side by side and raises it to the one person with authority; it never picks", show: compare(PD["PD-A"], PD["PD-C"], "Member Communications' copy", "Raised to Tom", "Legal's wording"),
