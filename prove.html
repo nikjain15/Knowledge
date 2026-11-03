@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=1539d04">
-<link rel="stylesheet" href="styles.css?v=1539d04"><link rel="stylesheet" href="story.css?v=1539d04">
+<link rel="stylesheet" href="fonts/fonts.css?v=a0fe317">
+<link rel="stylesheet" href="styles.css?v=a0fe317"><link rel="stylesheet" href="story.css?v=a0fe317">
 <title>Prove it · Lakewell Knowledge</title>
 <style>
 .qrow{display:flex;gap:10px;align-items:baseline;padding:6px 0;border-bottom:1px solid #eef0e8;font-size:14px}.qrow:last-child{border:0}
@@ -24,8 +24,8 @@
 <div class="subbar" id="tabs"></div>
 <div class="card howcard" id="stage"><p class="small">Running every test now…</p></div>
 </main>
-<script src="data.js?v=1539d04"></script><script src="golden.js?v=1539d04"></script><script src="holdout.js?v=1539d04"></script><script src="probes.js?v=1539d04"></script><script src="probes-review.js?v=1539d04"></script><script src="nearmiss.js?v=1539d04"></script><script src="probes2.js?v=1539d04"></script><script src="probes3.js?v=1539d04"></script>
-<script src="app.js?v=1539d04"></script><script src="eval-core.js?v=1539d04"></script><script src="story-shared.js?v=1539d04"></script>
+<script src="data.js?v=a0fe317"></script><script src="golden.js?v=a0fe317"></script><script src="holdout.js?v=a0fe317"></script><script src="probes.js?v=a0fe317"></script><script src="probes-review.js?v=a0fe317"></script><script src="nearmiss.js?v=a0fe317"></script><script src="probes2.js?v=a0fe317"></script><script src="probes3.js?v=a0fe317"></script>
+<script src="app.js?v=a0fe317"></script><script src="eval-core.js?v=a0fe317"></script><script src="story-shared.js?v=a0fe317"></script>
 <script>
 /* Prove it: every number on this page is computed in this browser, now, by the same code as the full runner (eval-core.js) */
 nav("prove.html", "owner", { demo: true });
@@ -42,7 +42,7 @@ const TABS = [
   { label: "Accuracy: golden set and held-out test", line: () => "It gives the right answer to every question we wrote the answer for, for every role and channel.", without: "A golden set is the answer key, written before building. A held-out test set is kept locked away and run once, so nobody can tune to it.",
     beats: ["Answer key", "Runs each question", "By group", "Checks the seal", "Held-out run", "Counts only", "Result"], play: both(golden, holdout, 3) },
   { label: "Red-team testing", line: () => "We tried to break it with trick questions. It refused every question it must refuse, and every mistake became a new test.", without: "Red-team testing means trying to make the system fail on purpose. Here, someone who never saw the rules wrote the questions; regression tests re-check every past fix.",
-    beats: ["Trick questions", "Runs each set", "Against target", "Still failing", "What testing caught", "Renee decides", "Result"], play: both(probes, improve, 3) },
+    beats: ["Trick questions", "Runs each set", "Against target", "What testing caught", "Still failing", "Renee decides", "Result"], play: both(probes, improve, 3) },
   { label: "Release gate and monitoring", line: () => "If any safety rule fails, nothing ships, even if everything else passes.", without: "A release gate is the go or no-go check before launch. Post-launch monitoring runs the same checks every week, so quality cannot quietly slip.",
     beats: ["Each safety rule", "Go or no-go", "Renee signs", "A week of use", "What we monitor", "Feedback", "Result"], play: both(gate, observe, 3) }
 ];
@@ -120,14 +120,14 @@ const FIXED = [
 ];
 async function improve(c) {
   const miss = E.PS.flatMap(x => x.misses.map(m => ({ set: x.set, name: x.name, m }))), disp = E.PS.flatMap(x => x.disputed), above = E.PS.filter(x => x.ok >= 59 && x.rate > 2), smallMiss = E.PS.filter(x => x.ok < 59 && x.falseN > 0);
-  c.beat(0, "Still failing in this run");
+  c.beat(0, "What earlier runs caught, and how each was fixed");
+  const f = c.push("System", "What testing caught", `<div class="gates">${FIXED.map(([h, why, fix]) => `<div class="gate" style="align-items:flex-start">${tick(true)}<div style="flex:1"><b style="display:block">${esc(h)}</b><span class="gv">${esc(why)}</span><span class="gv" style="display:block;color:#3b6d11"><b>Fix:</b> ${esc(fix)}</span></div></div>`).join("")}</div>`);
+  await c.reveal(f, ".gate", 650);
+  c.beat(1, "Still failing in this run");
   const el = c.push("System", `${miss.length} probe questions still go wrong, all inside the release bar`, `<div>${miss.map(({ set, name, m }) => `<div class="qrow">${tick(false)}<span class="qq"><span class="grp">${esc(PLAIN(name))}</span>${esc(m.p.q)}</span><span class="qm">expected ${esc(OUT(m.p.expect))}, got ${esc(OUT(m.r.kind))}</span></div>`).join("")}
     ${disp.map(d => `<div class="qrow"><span class="tk" style="background:#f9dfb2;color:#9a5a00">?</span><span class="qq">${esc(d.p.q)}</span><span class="qm">label disputed, not counted until ruled</span></div>`).join("")}</div>
     <p class="small" style="margin:8px 0 0">${above.length ? `Wrong refusals are above the 2% goal in ${above.map(x => `${esc(PLAIN(x.name))} (${x.falseN} of ${x.ok} general questions, ${x.rate}%)`).join(", ")}. That is inside the 10% launch bar, not yet where we want it.` : "Every set large enough to rate is at or under the 2% goal."}${smallMiss.length ? ` Counts only below 59 questions: ${smallMiss.map(x => `${esc(PLAIN(x.name))} ${x.falseN} of ${x.ok}`).join(", ")}.` : " Sets under 59 questions show counts, not rates."} In production a money-intent classifier replaces the cost word list.</p>`);
   await c.reveal(el, ".qrow", 380);
-  c.beat(1, "What earlier runs caught, and how each was fixed");
-  const f = c.push("System", "What testing caught", `<div class="gates">${FIXED.map(([h, why, fix]) => `<div class="gate" style="align-items:flex-start">${tick(true)}<div style="flex:1"><b style="display:block">${esc(h)}</b><span class="gv">${esc(why)}</span><span class="gv" style="display:block;color:#3b6d11"><b>Fix:</b> ${esc(fix)}</span></div></div>`).join("")}</div>`);
-  await c.reveal(f, ".gate", 650);
   c.beat(2, "Renee decides what happens to today's misses");
   const d = c.push("Renee", "Reviews and decides", `<div class="dec"><button class="btn sm primary fakeb" tabindex="-1" aria-hidden="true">Add misses to the next run</button></div>`); await c.T(1100);
   d.querySelector(".fakeb").classList.add("press"); await c.T(450);
