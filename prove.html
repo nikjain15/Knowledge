@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=229886a">
-<link rel="stylesheet" href="styles.css?v=229886a"><link rel="stylesheet" href="story.css?v=229886a">
+<link rel="stylesheet" href="fonts/fonts.css?v=2026-11-02">
+<link rel="stylesheet" href="styles.css?v=2026-11-02"><link rel="stylesheet" href="story.css?v=2026-11-02">
 <title>Prove it · Lakewell Knowledge</title>
 <style>
 .qrow{display:flex;gap:10px;align-items:baseline;padding:6px 0;border-bottom:1px solid #eef0e8;font-size:14px}.qrow:last-child{border:0}
@@ -24,8 +24,8 @@
 <div class="subbar" id="tabs"></div>
 <div class="card howcard" id="stage"><p class="small">Running every test now…</p></div>
 </main>
-<script src="data.js?v=229886a"></script><script src="golden.js?v=229886a"></script><script src="holdout.js?v=229886a"></script><script src="probes.js?v=229886a"></script><script src="probes-review.js?v=229886a"></script><script src="nearmiss.js?v=229886a"></script><script src="probes2.js?v=229886a"></script><script src="probes3.js?v=229886a"></script>
-<script src="app.js?v=229886a"></script><script src="eval-core.js?v=229886a"></script><script src="story-shared.js?v=229886a"></script>
+<script src="data.js?v=2026-11-02"></script><script src="golden.js?v=2026-11-02"></script><script src="holdout.js?v=2026-11-02"></script><script src="probes.js?v=2026-11-02"></script><script src="probes-review.js?v=2026-11-02"></script><script src="nearmiss.js?v=2026-11-02"></script><script src="probes2.js?v=2026-11-02"></script><script src="probes3.js?v=2026-11-02"></script>
+<script src="app.js?v=2026-11-02"></script><script src="eval-core.js?v=2026-11-02"></script><script src="story-shared.js?v=2026-11-02"></script>
 <script>
 /* Prove it: every number on this page is computed in this browser, now, by the same code as the full runner (eval-core.js) */
 nav("prove.html", "owner", { demo: true });
@@ -62,6 +62,9 @@ async function golden(c) {
   await c.reveal(el, ".qrow", 190);
   c.beat(2, "Counted by group, never as one average");
   c.push("System", "Counts by group", `<div class="tiles" style="margin:0">${["Pharmacy", "Insurance", "Channel"].map(k => { const rows = E.col(k), n = rows.filter(x => x.pass).length; return `<div class="tile${n === rows.length ? "" : " bad"}"><div class="small">${k} questions</div><div class="n">${n} of ${rows.length}</div></div>`; }).join("")}</div>`); await c.T(1500);
+  /* D209: the two human-judged metrics (S8.13, S8.14) as counts on the labels entered on the Evals page; bars are production */
+  const hl = E.ans(E.R).filter(x => !x.g.labelledBy), lab = hl.filter(x => E.L[x.g.id]), yes = lab.filter(x => E.L[x.g.id] === "yes");
+  c.push("System", "Two metrics only a person can label", `<div class="qrow"><span class="qq"><b>Claim supported and answer correct</b>, human label: ${lab.length} of ${hl.length} answers labelled so far${lab.length ? `, ${yes.length} labelled supported and correct` : ""}; one reviewer in this prototype</span><span class="qm">production bar: at least 95% on a labelled sample in advocate channels, 98% in member chat (S8.13, S8.14)</span></div>`); await c.T(1200);
 }
 async function probes(c) {
   const N = E.PS.reduce((a, x) => a + x.rows.length, 0);
@@ -77,7 +80,7 @@ async function probes(c) {
 }
 async function holdout(c) {
   c.beat(0, "Before it runs, the seal is checked");
-  c.push("System", "Checks the seal", `<div class="seal"><span>Written in a separate context and hashed before the first run</span><div>expected ${SEALED.slice(0, 20)}…</div><div>found&nbsp;&nbsp;&nbsp; ${(E.hh || "not available").slice(0, 20)}…</div><b style="color:${E.sealedOK ? "#3b6d11" : "#a3261b"}">${E.sealedOK ? "✓ Seal intact: nobody has changed it" : "✗ Seal not verified"}</b></div>`); await c.T(1800);
+  c.push("System", "Checks the seal", `<div class="seal"><span>Written in a separate context and hashed before the first run. Separated, not independent: the same model family wrote both sets in the same few days, and in this prototype the writer's key grades the writer's answers; a second reviewer applies in production (S8.48)</span><div>expected ${SEALED.slice(0, 20)}…</div><div>found&nbsp;&nbsp;&nbsp; ${(E.hh || "not available").slice(0, 20)}…</div><b style="color:${E.sealedOK ? "#3b6d11" : "#a3261b"}">${E.sealedOK ? "✓ Seal intact: nobody has changed it" : "✗ Seal not verified"}</b></div>`); await c.T(1800);
   c.beat(1, "It runs once, for this release");
   const el = c.push("System", "Runs it once", `<div class="think"><i></i><i></i><i></i></div>`); await c.T(1400);
   el.querySelector(".fp").innerHTML = `<div class="bigv">${E.H.filter(x => x.pass).length} of ${E.H.length}</div><p class="small" style="margin:0">Every rule row holds on the holdout too${E.H.some(x => x.ruling) ? `. Against the original keys: ${E.H.filter(x => x.rawPass !== false).length} of ${E.H.length}; ${esc(E.H.filter(x => x.ruling).map(x => x.g.id).join(", "))} passes on the accepted alternate key, ${esc(E.H.filter(x => x.altKey).map(x => x.altKey).join(", ") || "none matched")} (D90)` : ""}.</p>`; await c.T(1200);
@@ -105,7 +108,7 @@ const FIXED = [
   ["Cost questions slipped past the cost check", "Probes asked about what members are charged, owe or pay in fees", "The cost check now reads those words too, so the question goes to the gap queue instead of a guess (D66)"],
   ["A sealed holdout question was answered when it should have said \"not yet\"", "Right topic found, but the asked fact was not in it", "Fixed against new questions of the same kind written outside the holdout; the holdout was then rerun once (D91), never used to tune"],
   ["The verdict could read Pass beside a red rule row", "The banner and the rule rows disagreed", "Any red rule row, on any set, now blocks the release (D87)"],
-  ["The redaction test could not fail", "It reused the redactor's own pattern, so it graded itself", "The leak check is now independent and covers the LW, CW and MBI-style formats in the seed (D88)"],
+  ["The redaction test could not fail", "It reused the redactor's own pattern, so it graded itself", "The leak check is now independent and covers the LW and MBI-style formats in the seed (D88)"],
   ["Price questions were wrongly refused", "\"Are prices final?\" was treated as a request for her records", "Price-policy questions are answered from the pricing disclaimer; her own records still go to a person (D99)"],
   ["Questions mentioning another person needed a rule", "\"The dental thing my neighbor has\" risked sharing someone else's coverage", "A general answer, never the other person's coverage; their records go to a person (D107)"],
   ["A member asking for the vision benefit was refused", "The probe said refuse; plans must disclose benefits to members", "Answered from the member-facing topic; the label was corrected in review, the probe file untouched (D82)"],

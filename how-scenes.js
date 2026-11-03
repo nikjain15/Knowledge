@@ -1,6 +1,11 @@
 /* How it works, played as it happens: what a person does, what the AI does, what a person decides. One scene per sub-step,
    keyed "<step index>:<channel>". start = the trigger; src = what the AI reads; ai = what the AI does; show = what it produces
    (defaults to the sub-step's screen); decide = the people who decide, in order. */
+/* At most five steps per page; a step with several parts plays them back to back. Indices are positions in ACT.steps. */
+const HOW_GROUPS = {
+  1: [["Rules check; a person other than the author approves", [0, 1]], ["Clinical sign-off", [2]], ["Resolve conflicts of authority", [3]], ["Clocks on every review", [4]], ["One alert finds every copy", [5, 6, 7]]],
+  2: [["One answer, cited", [0, 5]], ["Scoped to the role and the date", [1, 2]], ["Say not yet, log the gap", [3]], ["Group, draft, approve or fix the process", [4, 6]], ["Pin the top answer", [7]]]
+};
 const SCENES = {
   "0:Voice": () => ({ start: ["Priya", "upload", "Rx Education Script v2.docx", "9 sections · from the script library"], src: docView(RX, b => b.verbatim ? "hide" : ""),
     ai: "The AI splits it into short topics and finds the lines marked 'Verbatim (Legal)'", decide: [["Priya", "Accept 4 topics", "Sent for approval: exact wording to Tom, pharmacy content to Grace"]] }),
@@ -29,7 +34,7 @@ const SCENES = {
     ai: "The clock counts working days: reminder, then escalate, then reassign to a backup",
     decide: [["Backup", "Approve", "The website shows the updated wording on time"]] }),
 
-  "2:Answer": () => ({ start: ["June", "ask", "whats the rx pricing disclamer", "typed in the member chat, at night"],
+  "2:Answer": () => ({ start: ["June", "ask", (typeof LIVE_Q !== "undefined" && LIVE_Q) || "whats the rx pricing disclamer", "typed in the member chat, at night"],
     ai: "Only the approved, in-date topics June's role may read are searched; the AI ranks them, and the exact wording is rendered with its citation" }),
   "2:Voice": () => ({ start: ["June", "ask", "Is the dental rider on my plan?", "on the phone bot"],
     ai: "Nothing approved answers it, so the bot says 'not yet', offers a person and logs the question",

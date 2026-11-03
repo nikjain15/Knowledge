@@ -24,7 +24,7 @@ const APPROVER_RULE = [
   ["CMS-controlled or legal wording (exact wording, appeals, disclosures)", "legal", "Tom Bexley"],
   ["Pharmacy and clinical content", "clinical", "Grace Mbeki"],
   ["Operational content (greetings, contact, ID card, process)", "owner", "Renee Caldwell"],
-  ["Merges proposed by Priya", "owner", "Renee Caldwell, with Tom for exact wording"]
+  ["Merges proposed by Priya", "owner", "Confirmed by the approver for that content (Tom, Grace or Renee), never by Priya; exact wording is never merged, only identical copies"]
 ];
 
 /* Source documents. Blocks: string = not knowledge (stage direction); {s, t, verbatim, junk, stale, table, hidden} = a span. */

@@ -277,9 +277,7 @@ const SLOTS = [
   { name: "whether weekends count", q: /\bweekends?\b|\b(saturday|sunday)s?\b/i, t: /\bweekends?\b|\b(calendar|business|working) days\b/i },
   { name: "the days of the week", q: /\b(which|what) days?\b/i, t: /\b(monday|tuesday|wednesday|thursday|friday|weekdays?|every day|daily)\b/i },
   { name: "access to a pool or facility", q: /\b(pool|sauna|spa|classes)\b/i, t: /\b(pool|sauna|spa|classes)\b/i },
-  { name: "the plan-year boundary", q: /\bplan year\b[^?]{0,40}\b(change|changes|start|starts|begin|begins|end|ends|run|runs)\b|\b(which|what) plan year\b/i, t: /\bplan year\b[^.]{0,40}\b(january|jan|1 jan|december|dec)\b/i },
-  /* Audit A-083: asking how to lower a cost needs a unit that says how; a pricing disclaimer alone is not that answer */
-  { name: "ways to lower the cost", q: /\b(lower|reduce|cut|save on|save money on|pay less for)\b[^.?!]{0,30}\b(costs?|bills?|copays?|prices?|premiums?)\b/i, t: /\b(lower|reduce|save|savings|extra help|assistance|generic)\b/i }
+  { name: "the plan-year boundary", q: /\bplan year\b[^?]{0,40}\b(change|changes|start|starts|begin|begins|end|ends|run|runs)\b|\b(which|what) plan year\b/i, t: /\bplan year\b[^.]{0,40}\b(january|jan|1 jan|december|dec)\b/i }
 ];
 function slotMiss(q, u) {
   const t = String((u.current || u.latest || {}).text || "") + " " + (((u.current || u.latest || {}).clause || {}).text || "");

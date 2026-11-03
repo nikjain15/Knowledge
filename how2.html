@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=229886a">
-<link rel="stylesheet" href="styles.css?v=229886a"><link rel="stylesheet" href="story.css?v=229886a">
+<link rel="stylesheet" href="fonts/fonts.css?v=2026-11-02">
+<link rel="stylesheet" href="styles.css?v=2026-11-02"><link rel="stylesheet" href="story.css?v=2026-11-02">
 <title>How it works · Job 2 · Govern and approve · Lakewell Knowledge</title>
 <style>
 .tabs5{grid-template-columns:repeat(5,minmax(0,1fr))}
@@ -17,7 +17,7 @@
 <div class="subbar" id="tabs"></div>
 <div class="card howcard" id="stage"></div>
 </main>
-<script src="data.js?v=229886a"></script><script src="app.js?v=229886a"></script><script src="story-shared.js?v=229886a"></script>
+<script src="data.js?v=2026-11-02"></script><script src="app.js?v=2026-11-02"></script><script src="story-shared.js?v=2026-11-02"></script>
 <script>
 nav("how2.html", "legal", { demo: true });
 const KU301 = slaStage(((units(S()).find(u => u.id === "KU-301") || {}).seed || {}).submitted || "28 Oct 2026", "legal"); /* the scene clock reads the same seed as the product (audit A-030) */
@@ -49,7 +49,7 @@ window.ACT = {
       issue: ["The chat repeats a health tip written on the desk, never reviewed by a pharmacist or doctor", "June gets health advice that nobody qualified ever checked", "Clinical advice without clinical review is a patient-safety and liability risk"],
       path: [["WRITTEN", "On the desk", "by a non-clinician"], ["SAVED", "Shared notes", "no owner"], ["NO REVIEW", "No pharmacist, no doctor", "nobody checks"], ["CHAT SAYS IT", "To June", "as advice"]],
       now: () => `${chk([["AI", "Routed by type: clinical guidance", "to Grace"], ["Grace Mbeki", "Pharmacist review", "signed 1 Nov"], ["Dr. Ruth Calloway", "Medical director, second sign-off", "signed 2 Nov"], ["Dr. Calloway", "Starts 1 Jan 2027", "scheduled"]], 4)}`,
-      fix: ["Clinical content goes to a clinical pharmacist, then the medical director signs off second, and it goes live only on the date they pick", "June only hears health advice two qualified people checked", "Extra sign-off only where it matters, so nothing else slows down"],
+      fix: ["Clinical content goes to a clinical pharmacist, then the medical director signs off second, and it goes live on the medical director's publish date (1 Jan 2027 here)", "June only hears health advice two qualified people checked", "Extra sign-off only where it matters, so nothing else slows down"],
       fixpath: [["FOUND", "A clinical tip", "at ingest"], ["ROUTED", "To Grace", "by content type"], ["TWO SIGNERS", "Grace, then Dr. Calloway", "clinical only"], ["SCHEDULED", "Live on their date", "not before"]],
       fix4: { line: "Clinical advice gets clinical eyes: a pharmacist, then a medical director, and it goes live only on their date.", steps: [0, 1], tech: ["Content-type routing", "Two-person sign-off"], kind: "AI routes, two people approve", control: "Extraction classifies the content type; clinical guidance always goes to a clinical approver and needs a second signature from the medical director; a scheduled date is honoured.", who: "Grace signs first; Dr. Calloway signs second", proof: "Clinical routing check; a dated co-sign stays scheduled until its date (D53, D62)." } },
     "Advocate desk": { who: "Dana finds two 'official' disclaimers: Legal's and Member Communications'.",
@@ -129,4 +129,4 @@ window.ACT = {
 
 ACT.lead = "Tom, Grace and Dr. Calloway, the approvers"; ACT.steps = [["Outbound", "Rules check, a person approves"], ["Voice", "Separation of duties"], ["Member chat", "Clinical sign-off"], ["Advocate desk", "Resolve conflicts of authority"], ["Website", "Clocks on every review"], ["Voice", "One alert finds every copy", "Drift"], ["Member chat", "Meaning, not formatting", "Format"], ["Website", "Re-check translations", "Translation"]]; ACT.howIndex = 1;
 </script>
-<script src="how-scenes.js?v=229886a"></script><script src="how-engine.js?v=229886a"></script></body></html>
+<script src="how-scenes.js?v=2026-11-02"></script><script src="how-engine.js?v=2026-11-02"></script></body></html>
