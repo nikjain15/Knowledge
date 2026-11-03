@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=9f53868">
-<link rel="stylesheet" href="styles.css?v=9f53868"><link rel="stylesheet" href="story.css?v=9f53868">
+<link rel="stylesheet" href="fonts/fonts.css?v=34a3b20">
+<link rel="stylesheet" href="styles.css?v=34a3b20"><link rel="stylesheet" href="story.css?v=34a3b20">
 <title>Roadmap · Lakewell Knowledge</title>
 <style>
 .rule3{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0 18px}.rule3 span{font-family:Manrope,sans-serif;font-weight:800;font-size:14px;padding:7px 12px;border-radius:99px;background:#f1f1ec;color:#2b2f27;border:1px solid #e2e3db}.rule3 i{font-style:normal;color:var(--muted)}
@@ -45,7 +45,7 @@
 <div class="hhead"><h1>Roadmap</h1></div>
 <div class="card howcard" id="stage"></div>
 </main>
-<script src="data.js?v=9f53868"></script><script src="app.js?v=9f53868"></script><script src="story-shared.js?v=9f53868"></script>
+<script src="data.js?v=34a3b20"></script><script src="app.js?v=34a3b20"></script><script src="story-shared.js?v=34a3b20"></script>
 <script>
 /* How we build it, in order (PRD section 14, strategy S10, D78, D180). Plain words; no durations on screen (they are placeholders). */
 nav("plan.html", "", { demo: true });
@@ -88,7 +88,7 @@ document.getElementById("stage").innerHTML = `<p class="eyebrow">Plan to build t
 let cur = 0;
 function card(i) { const r = STEPS_R[i], x = EXTRA[i], j = JOBS_P[i];
   return `<div class="pc-top"><div><small>Phase ${i + 1} of ${STEPS_R.length}</small><h3>${esc(r[0])}</h3><p>${esc(r[1])}</p></div><div class="ph-jobs">${j.length ? j.map(t => `<span>Builds ${esc(t)}</span>`).join("") : `<span class="pre">Before any build</span>`}</div></div>
-  <div class="pc-grid"><div class="pc-b"><b>What we do</b><ul>${r[2].map(t => `<li>${esc(t)}</li>`).join("")}</ul></div><div class="pc-b ok"><b>Success looks like</b><ul class="tk">${r[3].map(t => `<li>${esc(t)}</li>`).join("")}</ul></div><div class="pc-b"><b>Delivers</b><p>${esc(x[0])}</p></div><div class="pc-b risk"><b>Biggest risk, and how we handle it</b><p>${esc(x[1])}</p></div><div class="pc-b"><b>Techniques we use</b><ul>${TT[i][0].map(t => `<li>${esc(t)}</li>`).join("")}</ul></div><div class="pc-b"><b>Tools, and build or buy</b><ul class="tt">${TT[i][1].map(([t, b, why]) => `<li class="${b === "build" ? "isb" : ""}">${esc(t)} <em class="${b === "build" ? "bd" : "by"}">${esc(b)}</em>${why ? `<small>Why we build: ${esc(why)}</small>` : ""}</li>`).join("")}</ul></div></div>${FR_P[i].length ? `<div class="pc-fr"><b>Requirements it delivers</b>${FR_P[i].map(([id, n]) => `<a href="prd.html#fr">${esc(id)} ${esc(n)}</a>`).join("")}<span>See how each is built and accepted in the PRD →</span></div>` : `<div class="pc-fr"><b>Requirements it delivers</b><span>None yet: discovery confirms them before any build</span></div>`}`; }
+  <div class="pc-grid"><div class="pc-b"><b>What we do</b><ul>${r[2].map(t => `<li>${esc(t)}</li>`).join("")}</ul></div><div class="pc-b ok"><b>Success looks like</b><ul class="tk">${r[3].map(t => `<li>${esc(t)}</li>`).join("")}</ul></div><div class="pc-b"><b>Delivers</b><p>${esc(x[0])}</p></div><div class="pc-b risk"><b>Biggest risk, and how we handle it</b><p>${esc(x[1])}</p></div><div class="pc-b"><b>Techniques we use</b><ul>${TT[i][0].map(t => `<li>${esc(t)}</li>`).join("")}</ul></div><div class="pc-b"><b>Tools, and build or buy</b><ul class="tt">${TT[i][1].map(([t, b, why]) => `<li class="${b === "build" ? "isb" : ""}">${esc(t)} <em class="${b === "build" ? "bd" : "by"}">${esc(b)}</em></li>`).join("")}</ul></div></div>${FR_P[i].length ? `<div class="pc-fr"><b>Requirements it delivers</b>${FR_P[i].map(([id, n]) => `<a href="prd.html#fr">${esc(id)} ${esc(n)}</a>`).join("")}<span>See how each is built and accepted in the PRD →</span></div>` : `<div class="pc-fr"><b>Requirements it delivers</b><span>None yet: discovery confirms them before any build</span></div>`}`; }
 function go(i) { cur = Math.max(0, Math.min(STEPS_R.length - 1, i)); const c = document.getElementById("phcard"); c.classList.remove("in"); void c.offsetWidth; c.innerHTML = card(cur); c.classList.add("in");
   document.querySelectorAll(".tl-n").forEach((b, k) => { b.classList.toggle("on", k === cur); b.classList.toggle("done", k < cur); });
   document.getElementById("tlfill").style.width = (cur / (STEPS_R.length - 1) * 100) + "%";
