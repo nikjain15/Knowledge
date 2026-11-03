@@ -96,4 +96,6 @@ document.getElementById("play").onclick = async () => { playing = true; cur = pl
   while (playing) { const my = await draw(); if (!playing || my !== run) return; await wait(2500); if (!playing || my !== run) return;
     if (cur < STEPS.length - 1) cur++; else { const nx = HOW4[ACT.howIndex + 1]; location.href = nx ? nx[1] + "?play=1" : "day.html?mode=new"; return; } } };
 document.getElementById("stop").onclick = () => { playing = false; run++; };
+/* Audit A-072: the same stand-in line as Solution architecture, always shown under How it works */
+document.querySelector("main").insertAdjacentHTML("beforeend", `<p class="small" style="margin-top:14px">Built to run without a server or API key: text matching stands in for embeddings, semantic deduplication, hybrid and graph retrieval, and ingest replays a recorded model run. The AI steps on these pages are scripted.</p>`);
 if (QS.get("play") === "1") document.getElementById("play").click(); else draw();
