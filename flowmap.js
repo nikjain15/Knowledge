@@ -81,13 +81,13 @@ function flowMount() {
    <defs><marker id="fmM" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0 0 9 4.5 0 9z" fill="#cfd6c9"/></marker><marker id="fmG" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0 0 9 4.5 0 9z" fill="#72992e"/></marker></defs>
    <text class="fm-col" x="40" y="${g.SY - 16}">SOURCES · WHAT GOES IN, AND WHO OWNS IT</text>
    <text class="fm-col" x="40" y="${g.CY + g.CH + 24}">CHANNELS · WHO READS IT</text>
-   ${g.srcPaths.map(d => `<path class="fm-p k-src" d="${d}" marker-end="url(#fmM)"/>`).join("")}
+   ${g.srcPaths.map((d, i) => `<path class="fm-p k-src${i === 4 ? " k-draft" : ""}" d="${d}" marker-end="url(#fmM)"/>`).join("")}
    <path class="fm-p k-j12" d="${g.j12}" marker-end="url(#fmM)"/><path class="fm-p k-j23" d="${g.j23}" marker-end="url(#fmM)"/><path class="fm-p k-j3g" d="${g.j3g}" marker-end="url(#fmM)"/>
    ${g.chPaths.map(d => `<path class="fm-p k-ch" d="${d}" marker-end="url(#fmM)"/>`).join("")}
    <path class="fm-loop k-gap" d="${g.gapLoop}" marker-end="url(#fmG)"/><path class="fm-loop k-drift" d="${g.driftLoop}" marker-end="url(#fmG)"/>
    <text class="fm-looplbl k-gap" x="${g.jX(2) + g.JW + 10}" y="${g.JY - 60}" text-anchor="end">content gaps: unanswered questions go back to Priya ↑</text>
    <text class="fm-looplbl k-drift" x="${g.sX(2) + g.SW - 10}" y="${g.SY + g.SH + 34}">drift: when a source changes, one alert finds every copy</text>
-   ${FM_SOURCES.map((s, i) => fmTile(g.sX(i), g.SY, g.SW, g.SH, s[0], s[1], "k-sbox")).join("")}
+   ${FM_SOURCES.map((s, i) => fmTile(g.sX(i), g.SY, g.SW, g.SH, s[0], s[1], i === 4 ? "k-sbox k-draft" : "k-sbox")).join("")}
    ${FM_CHANNELS.map((c, i) => fmTile(g.cX(i), g.CY, g.CW, g.CH, c[0], c[1], "k-cbox")).join("")}
    ${[0, 1, 2].map(fmJob).join("")}${fmGate()}
    <g id="fmTrav" class="fm-trav"><circle class="fm-halo" r="11"><animate attributeName="r" values="9;14;9" dur="1.8s" repeatCount="indefinite"/></circle><circle class="fm-core" r="5.5"/></g></svg>`;
