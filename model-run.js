@@ -8,7 +8,7 @@ const MODEL_RUN = { recordedOn: "1 Nov 2026", lines: {
     confidence: "high: clear, single plain question",
     best_unit: "KU-205",
     answerable_from_unit: "yes",
-    rationale: "KU-205's locked clause says pharmacies outside the Lakewell network need not serve members except in an emergency and may cost more, which answers 'any pharmacy' directly."
+    rationale: "The out-of-network pharmacy topic's exact wording says pharmacies outside the Lakewell network need not serve members except in an emergency and may cost more, which answers 'any pharmacy' directly."
   },
   chat1: {
     intent: "get the 2027 Tier 3 copay",
@@ -18,7 +18,7 @@ const MODEL_RUN = { recordedOn: "1 Nov 2026", lines: {
     confidence: "high: tier and year are explicit",
     best_unit: "none",
     answerable_from_unit: "no",
-    rationale: "KU-223 gives a Tier 3 copay only for 2026 and KU-210 covers 2027 without any dollar amounts, so no approved unit states the 2027 Tier 3 copay and quoting the 2026 figure would be wrong."
+    rationale: "The Tier 3 copay topic gives a figure only for 2026 and the 2027 drug list topic covers 2027 without any dollar amounts, so no approved unit states the 2027 Tier 3 copay and quoting the 2026 figure would be wrong."
   },
   chat2: {
     intent: "list member's current medications",
@@ -38,7 +38,7 @@ const MODEL_RUN = { recordedOn: "1 Nov 2026", lines: {
     confidence: "high: matches the pricing disclaimer",
     best_unit: "KU-202",
     answerable_from_unit: "yes",
-    rationale: "KU-202's locked clause says quoted prices are estimates that may change with pharmacy, tier or coverage stage and that the Evidence of Coverage is the final word, so the answer is no, it is not final; the member also signals a failed chat contact first."
+    rationale: "The pricing disclaimer's exact wording says quoted prices are estimates that may change with pharmacy, tier or coverage stage and that the Evidence of Coverage is the final word, so the answer is no, it is not final; the member also signals a failed chat contact first."
   },
   june5: {
     intent: "ask if plan includes a dental benefit",
@@ -58,7 +58,7 @@ const MODEL_RUN = { recordedOn: "1 Nov 2026", lines: {
     confidence: "medium: two keywords, goal implied",
     best_unit: "none",
     answerable_from_unit: "no",
-    rationale: "No approved core, messy or breadth unit mentions a dental rider; the advocate should get an honest no-approved-answer result and the search should feed the gap queue."
+    rationale: "No approved core, messy or breadth unit mentions a dental rider; the advocate should get an honest no-approved-answer result and the search should go on Priya's list of answers to write."
   },
   web1: {
     intent: "get the plan's Star Rating",
@@ -68,7 +68,7 @@ const MODEL_RUN = { recordedOn: "1 Nov 2026", lines: {
     confidence: "high: direct factual question",
     best_unit: "KU-207",
     answerable_from_unit: "yes",
-    rationale: "KU-207's current version (effective 8 Oct 2026, Website channel) states Lakewell Advantage was rated 4 out of 5 stars for the 2027 plan year; the 2026 3.5-star version expired 29 Oct 2026 and must not be served, and the KU-208 disclaimer should precede it."
+    rationale: "The Star Rating topic's current version (effective 8 Oct 2026, website) states Lakewell Advantage was rated 4 out of 5 stars for the 2027 plan year; the 2026 3.5-star version expired 29 Oct 2026 and must not be served, and the Star Ratings disclaimer should precede it."
   }
 } };
 if (typeof module !== "undefined") module.exports = MODEL_RUN;

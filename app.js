@@ -159,7 +159,7 @@ function score(u, tk) {
   const sim = tk.length ? tk.filter(w => words.has(w)).length / tk.length : 0; // stand-in for embedding similarity
   return { u, kw, sim: Math.round(sim * 100) / 100, blend: Math.round((kw + sim) * 100) / 100 };
 }
-const COST = /copays?|co-pays?|coinsurance|cost[- ]shar\w*|\bcosts?\b|\bcosting\b|\bprices?\b|\bpriced\b|\bpay\b|\bpaying\b|\bcharges?\b|\bcharged\b|\bowe\b|\bfees?\b|\bexpensive\b|\bcheap\w*\b|\$|\bdollars?\b|\bdamage\b|\bwallet\b|\bpricey\b|\bbills?\b|\brates?\b|\bamounts?\b|\bset (me|us) back\b|\bfork (out|over)\b|\bhow much\?|\bhow much (?:is|are|does|do|will|would|for|to|money|it|they|i|we|the)\b(?![^?]*\b(?:supply|supplies|days?|pills?|tablets?|refills?|time|long|many|medicine|drug|quantity)\b)/i;
+const COST = /copays?|co-pays?|coinsurance|cost[- ]shar\w*|\bcosts?\b|\bcosting\b|\bprices?\b|\bpriced\b|\bpay\b|\bpaying\b|\bcharges?\b|\bcharged\b|\bowe\b|\bfees?\b|\bexpensive\b|\bcheap\w*\b|\$|\bdollars?\b|\bdamage\b|\bwallet\b|\bpricey\b|\bbills?\b|\brates?\b|\bamounts?\b|\bset (me|us) back\b|\bfork (out|over)\b|\bhow much\?|\bhow much (?:is|are|does|do|will|would|for|to|money|it|they|i|we|the)\b(?![^?]*\b(?:supply|supplies|days?|pills?|tablets?|refills?|time|long|many|quantity)\b)/i;
 /* A unit is priced only if its approved text states an amount; a pricing script without a figure is a near-miss (decision 5) */
 const priced = u => /\$\d|\d+%/.test((u.current || u.latest || {}).text || "");
 /* Member voice (verified writing rules, out/uc2-voice-research.md): warm, plain, answer first, never guess, always offer a person.
@@ -277,7 +277,9 @@ const SLOTS = [
   { name: "whether weekends count", q: /\bweekends?\b|\b(saturday|sunday)s?\b/i, t: /\bweekends?\b|\b(calendar|business|working) days\b/i },
   { name: "the days of the week", q: /\b(which|what) days?\b/i, t: /\b(monday|tuesday|wednesday|thursday|friday|weekdays?|every day|daily)\b/i },
   { name: "access to a pool or facility", q: /\b(pool|sauna|spa|classes)\b/i, t: /\b(pool|sauna|spa|classes)\b/i },
-  { name: "the plan-year boundary", q: /\bplan year\b[^?]{0,40}\b(change|changes|start|starts|begin|begins|end|ends|run|runs)\b|\b(which|what) plan year\b/i, t: /\bplan year\b[^.]{0,40}\b(january|jan|1 jan|december|dec)\b/i }
+  { name: "the plan-year boundary", q: /\bplan year\b[^?]{0,40}\b(change|changes|start|starts|begin|begins|end|ends|run|runs)\b|\b(which|what) plan year\b/i, t: /\bplan year\b[^.]{0,40}\b(january|jan|1 jan|december|dec)\b/i },
+  /* Audit A-083: asking how to lower a cost needs a unit that says how; a pricing disclaimer alone is not that answer */
+  { name: "ways to lower the cost", q: /\b(lower|reduce|cut|save on|save money on|pay less for)\b[^.?!]{0,30}\b(costs?|bills?|copays?|prices?|premiums?)\b/i, t: /\b(lower|reduce|save|savings|extra help|assistance|generic)\b/i }
 ];
 function slotMiss(q, u) {
   const t = String((u.current || u.latest || {}).text || "") + " " + (((u.current || u.latest || {}).clause || {}).text || "");
@@ -301,30 +303,34 @@ function slotMiss(q, u) {
 }
 /* T13: members never see internal staff documents; the public benefit is offered instead */
 const STAFF_DOC = /\b(staff[- ]only|internal|advocate[- ]only|employee)\b[^.?!]{0,30}\b(documents?|docs?|policy|policies|procedures?|guides?|notes?|scripts?|manuals?|files?|says)\b|\b(staff|advocate)('s)? (documents?|scripts?|manuals?|notes?|guides?)\b|\b(training|team)('s)? (documents?|scripts?|manuals?|notes?|guides?)\b/i;
+/* Audit A-257: an emergency or a crisis is never searched; it gets 911 or 988 and a person, before any other rule */
+const CRISIS = /\b(kill(ing)? myself|suicid\w*|end my life|end it all|want to die|hurt(ing)? myself|harm(ing)? myself|self[- ]harm\w*|overdos(e|ed|ing)|(having|had|have) a (stroke|heart attack|seizure)|chest pains?\b[^.?!]{0,30}\b(now|right now|bad|severe)|can'?t breathe|trouble breathing|not breathing|passed out|unconscious|bleeding (badly|heavily|a lot))\b/i;
+const CRISIS_TEXT = "If this is an emergency, call 911 now. If you are thinking about suicide or hurting yourself, call or text 988, the Suicide and Crisis Lifeline. I'm connecting you with a person right now.";
 /* answer(): the read contract every channel uses. Rules first (scope, state, window, render, language), ranking in the middle (model stand-in). */
 function answer(q, ctx) {
   const full = String(q == null ? "" : q); q = full.slice(0, 500);
   const s = ctx.state || S(), role = ROLES[ctx.role] ? ctx.role : null, channel = ctx.channel || (ROLES[role] || {}).channel || "Advocate desk", asOf = ctx.asOf || PLAN.today;
   const trace = [], res = { q, role, channel, asOf, trace, redacted: redact(full).text };
+  if (CRISIS.test(full)) { trace.push("Emergency or crisis words: nothing is searched; 911 and 988 are given and a person takes over now"); return Object.assign(res, { kind: "person", text: CRISIS_TEXT, route: "person", urgent: true }); }
   /* Audit A-009: a message longer than the search limit is never cut and searched; a person reads the whole of it */
-  if (role && full.length > 500) { trace.push("Longer than the 500-character search limit: nothing is cut off, the whole message goes to a person (audit A-009)"); return Object.assign(res, { kind: "person", text: REFUSAL, route: "person", tooLong: true }); }
+  if (role && full.length > 500) { trace.push("Longer than the 500-character search limit: nothing is cut off, the whole message goes to a person"); return Object.assign(res, { kind: "person", text: REFUSAL, route: "person", tooLong: true }); }
   if (!role) return Object.assign(res, { kind: "abstain", route: "none", unit: null, trace: ["Unknown role: nothing searched"] });
   const reads = ctx.revoked ? readsOf(role, s).filter(k => k === "Shared") : readsOf(role, s);
-  trace.push(`Role checked with the identity provider: ${(ROLES[role] || {}).label} reads ${reads.join(", ") || "nothing"}${ctx.revoked ? " (Insurance base revoked)" : ""}`);
+  trace.push(ROLES[role].memberOnly ? "Signed in as a member: sees member-facing answers only" : `Signed in as ${(ROLES[role] || {}).label}: sees ${reads.join(", ") || "no"} answers${ctx.revoked ? " (Insurance access removed)" : ""}`);
   if (!role || !q.trim()) { trace.push(!role ? "Unknown role: nothing searched" : "Empty question"); return Object.assign(res, { kind: "abstain", route: "none", unit: null }); }
-  const memberSide = ["Member chat", "Voice", "Outbound", "Website"].includes(channel) || !!ROLES[role].memberOnly;
+  const memberSide = !!ROLES[role].memberOnly || (!ROLES[role].reads && ["Member chat", "Voice", "Outbound", "Website"].includes(channel)); /* A-269: staff roles decided by role, not channel */
   const third = thirdParty(q);
-  if (third === "records") { trace.push("Asks about another person's records or status: handed to a person, who checks for a personal representative or other authority first (D107; 45 CFR 164.502(g), 164.510(b))"); return Object.assign(res, { kind: "person", text: REFUSAL, route: "person", thirdParty: true }); }
+  if (third === "records") { trace.push("Asks about another person's records or status: handed to a person, who checks for a personal representative or other authority first"); return Object.assign(res, { kind: "person", text: REFUSAL, route: "person", thirdParty: true }); }
   const lang = langOf(q);
   if (lang && !/\b(in|en) (spanish|espa\w*)\b/i.test(q)) { trace.push(`Written in ${lang === "es" ? "Spanish" : "another language"}: handed to the translator queue (or a bilingual person), never a machine guess`); return Object.assign(res, { kind: "abstain", route: "translator", unit: null, why: "Not in English" }); }
   /* Audit A-009: naming a relative as background never switches off the personal-record check; it runs on the asked sentence */
-  if (LOOKUP_REQ.test(q)) { trace.push("A look-up of a named person or an account: records are never in the knowledge layer, so it goes to a person (audit A-039)"); return Object.assign(res, { kind: "person", text: REFUSAL, route: "person", lookup: true }); }
+  if (LOOKUP_REQ.test(q)) { trace.push("A look-up of a named person or an account: records are never in the knowledge layer, so it goes to a person"); return Object.assign(res, { kind: "person", text: REFUSAL, route: "person", lookup: true }); }
   const askQ = third === "general" ? lastAsk(q) : q, genOK = third !== "general" || !PLAN_ASK.test(askQ);
   /* Audit A-080: a member asking for a staff document gets the staff-document refusal, not the personal-records one */
-  if (!(memberSide && STAFF_DOC.test(q)) && (memberSide || !LEGAL_REQ.test(q)) && (genOK && (MEMBER_DATA.test(askQ) || (PERSONAL.test(askQ) && !GENERIC_MEMBER.test(askQ))) && !policyQ(askQ) || OWN_RECORD.test(askQ) && !policyQ(askQ))) { trace.push("Asks for one member's personal data: search cannot verify identity, so it hands to a person (R-83, SD-05; routing J)"); return Object.assign(res, { kind: "person", text: REFUSAL, route: "person" }); }
+  if (!(memberSide && STAFF_DOC.test(q)) && (memberSide || !LEGAL_REQ.test(q)) && (genOK && (MEMBER_DATA.test(askQ) || (PERSONAL.test(askQ) && !GENERIC_MEMBER.test(askQ))) && !policyQ(askQ) || OWN_RECORD.test(askQ) && !policyQ(askQ))) { trace.push("Asks for one member's personal data: search cannot verify identity, so it hands to a person"); return Object.assign(res, { kind: "person", text: REFUSAL, route: "person" }); }
   const all = units(s);
   const memberOnly = memberSide;
-  if (memberSide && STAFF_DOC.test(q)) { res.staffDoc = true; if (!ctx.state) logEv(s, null, role, "ACCESS", "Staff-document request from a member channel, refused: " + res.redacted); trace.push("Asks for an internal staff document: never shown to members; the public benefit is offered instead and the attempt is logged (T13, J)"); }
+  if (memberSide && STAFF_DOC.test(q)) { res.staffDoc = true; if (!ctx.state) logEv(s, null, role, "ACCESS", "Staff-document request from a member channel, refused: " + res.redacted); trace.push("Asks for an internal staff document: never shown to members; the public benefit is offered instead and the attempt is logged"); }
   const nowY = asDate(asOf).getFullYear(), qYears = (q.match(/\b20\d\d\b/g) || []).map(Number);
   /* Audit A-037: spelled-out years ("twenty twenty-seven", "two thousand twenty-five") and "the new year" */
   spelledYears(q).forEach(y => qYears.push(y));
@@ -335,15 +341,15 @@ function answer(q, ctx) {
   if (/\bthis (plan )?year\b/i.test(q)) qYears.push(nowY);
   /* Audit A-037: a past year named only as background ("I joined in 2019. Can I ...?") does not make the question about that year */
   { const askS = lastAsk(q), askY = (askS.match(/\b20\d\d\b/g) || []).map(Number).concat(spelledYears(askS)), bg = qYears.filter(y => y < nowY && !askY.includes(y) && !/\b(last|previous|prior) (plan )?year\b/i.test(askS));
-    if (bg.length && /\?\s*$/.test(askS) && !/\b(was|were|did|had)\b/i.test(askS)) { trace.push(`Past year ${bg.join(", ")} named as background only; the question is about now (audit A-037)`); bg.forEach(y => { const i = qYears.indexOf(y); if (i >= 0) qYears.splice(i, 1); }); } }
+    if (bg.length && /\?\s*$/.test(askS) && !/\b(was|were|did|had)\b/i.test(askS)) { trace.push(`Past year ${bg.join(", ")} named as background only; the question is about now`); bg.forEach(y => { const i = qYears.indexOf(y); if (i >= 0) qYears.splice(i, 1); }); } }
   /* F6: a year before this one is never answered with another year's wording */
-  if (qYears.some(y => y < nowY)) { trace.push(`The question asks about ${qYears.filter(y => y < nowY).join(", ")}. Past-year wording is not served, and another year's wording is never served in its place (D60)`); return Object.assign(res, { kind: "abstain", route: "year", unit: null, why: "Asks about a past plan year" }); }
+  if (qYears.some(y => y < nowY)) { trace.push(`The question asks about ${qYears.filter(y => y < nowY).join(", ")}. Past-year wording is not served, and another year's wording is never served in its place`); return Object.assign(res, { kind: "abstain", route: "year", unit: null, why: "Asks about a past plan year" }); }
   const eligible = (u, rd) => u.current && u.kbs.some(k => rd.includes(k)) && (!memberOnly || u.memberFacing) && (u.channels.includes(channel) || channel === "Agent Assist")
     && (!qYears.length || qYears.every(y => u.versions.some(v => (v === u.current || (!u.yearBound && v.state !== "retired")) && dayOK(v.effective) && asDate(v.effective).getFullYear() <= y && y <= asDate(v.expiry).getFullYear())));
   // effective window as of the requested date
   all.forEach(u => { const c = u.versions.filter(v => v.state === "approved" && inWindow(v, asOf)).slice(-1)[0] || null; u.current = c; if (c) { u.text = c.text; u.clause = c.clause || null; u.version = c.v; } });
   const pool = all.filter(u => eligible(u, reads));
-  trace.push(`${pool.length} approved, in-window units searched as of ${asOf}; drafts, reviews and expired versions excluded${memberOnly ? "; member channel: member-facing units only (rule J; R-84)" : ""}`);
+  trace.push(`${pool.length} approved, current answers searched as of ${asOf}; drafts, reviews and expired versions left out${memberOnly ? "; member-safe answers only" : ""}`);
   const fz = fuzz(tokens(q, s)), tk = fz.map(x => x.w);
   fz.filter(x => x.fixed).forEach(x => trace.push(`Misspelling tolerated: "${x.fixed}" read as "${x.w}"`));
   const pin = (s.pins || {})[q.toLowerCase().trim()];
@@ -362,15 +368,15 @@ function answer(q, ctx) {
     if (fr && fr.kw >= 2 && (!top || fr.kw >= top.kw)) { const v = futureOf(fr.u);
       /* F14: a question naming this year and a later one gets both, each labelled */
       if (qYears.includes(nowY) && fr.u.current && fr.u.current !== v) res.also = { version: fr.u.current, unit: fr.u }; fr.u.current = v; fr.u.text = v.text; fr.u.clause = v.clause || null; fr.u.version = v.v; top = fr; res.upcoming = v.effective;
-      trace.push(`The question names ${futY.join(", ")}: answered from the version in force then, labelled "starts ${v.effective}" (D59, R-81)`); }
+      trace.push(`The question names ${futY.join(", ")}: answered from the version in force then, labelled "starts ${v.effective}"`); }
   }
   if (lang && !(top && top.kw >= 2 && ((top.u.translations || {})[lang] || {}).state === "approved")) { trace.push(`Written in ${lang === "es" ? "Spanish" : "another language"}; no approved translation for it, so it goes to the translator queue, never a machine guess`); return Object.assign(res, { kind: "abstain", route: "translator", unit: null, why: "No approved translation" }); }
   if (top && (top.kw >= 2 || top.pinned)) {
     const u = top.u; res.unit = u; res.version = u.current;
     trace.push(`Top match ${u.id} "${u.title}" (keyword ${top.kw}, similarity ${top.sim}); answers only at keyword 2 or more`);
     if (lang) { const tr = (u.translations || {})[lang]; if (!tr || tr.state !== "approved") { trace.push("Spanish asked; the Spanish version is a machine draft no qualified translator has checked. Never served"); return Object.assign(res, { kind: "abstain", route: "translator", unit: null, why: "Spanish wording not approved" }); } }
-    const miss = slotMiss(q, u); if (miss) { trace.push(`${u.id} was retrieved but does not state ${miss}. It does not guess: near-miss abstention (D91)`); return Object.assign(res, { kind: "nearmiss", route: "gap", unit: null, near: u.id, why: `${u.title} does not state ${miss}` }); }
-    if (COST.test(q) && !policyQ(q) && !costNamed(q, u)) { trace.push(`${u.id} was retrieved but holds no amount. It does not guess: near-miss abstention (rule J; N-38, R-84)`); return Object.assign(res, { kind: "nearmiss", route: "gap", unit: null, near: u.id, costMiss: true, why: `${u.title} does not state an amount` }); }
+    const miss = slotMiss(q, u); if (miss) { trace.push(`${u.id} was retrieved but does not state ${miss}. It does not guess: near-miss abstention`); return Object.assign(res, { kind: "nearmiss", route: "gap", unit: null, near: u.id, why: `${u.title} does not state ${miss}` }); }
+    if (COST.test(q) && !policyQ(q) && !costNamed(q, u)) { trace.push(`${u.id} was retrieved but holds no amount. It does not guess: near-miss abstention`); return Object.assign(res, { kind: "nearmiss", route: "gap", unit: null, near: u.id, costMiss: true, why: `${u.title} does not state an amount` }); }
     if (u.clause && /\[[A-Z ]+\]/.test(u.clause.text)) { trace.push(`Render check failed: the exact wording has an unfilled field ${u.clause.text.match(/\[[A-Z ]+\]/)[0]}. Abstain; to the author`); return Object.assign(res, { kind: "abstain", route: "author", unit: null, near: u.id, why: "Template field left blank" }); }
     if (u.injection) { if (!ctx.state) logEv(s, u.id, role, "ACCESS", "Planted instruction in the source was found at ingest and never followed: " + res.redacted); trace.push("Source carried a planted instruction; removed at ingest and logged; answer unaffected"); }
     const nx = res.upcoming ? null : nextAt(u, asOf);
@@ -379,18 +385,18 @@ function answer(q, ctx) {
     if (res.staffDoc) { const pub = u.memberFacing ? render(u, channel) : ""; return Object.assign(res, { kind: "scope", route: "access", unit: null, offered: u.memberFacing ? u : null,
       text: STAFF_REFUSAL + (pub ? " Here's what your plan covers: " + pub : "") + " If you'd like to check your own records, a team member can help once they've confirmed it's you." }); }
     res.kind = "answer"; res.pending = !!nx; res.text = render(u, channel);
-    if (third === "general" && memberSide) { res.text = THIRD_LEAD + " " + res.text; trace.push("Mentions another person only as background: general answer, never their coverage (D107)"); }
+    if (third === "general" && memberSide) { res.text = THIRD_LEAD + " " + res.text; trace.push("Mentions another person only as background: general answer, never their coverage"); }
     if (res.also) { const c = res.also.version; res.text = `For ${asDate(c.effective).getFullYear()}: ${render(Object.assign({}, u, { text: c.text, clause: c.clause || null }), channel)} | Starts ${u.current.effective}: ${res.text}`; trace.push(`Both years asked: ${asDate(c.effective).getFullYear()} and ${asDate(u.current.effective).getFullYear()} served, each labelled`); }
-    if (channel === "Outbound") { res.link = { unit: u.id, v: u.current.v, fp: u.clause ? fp(u.clause.text) : null }; trace.push(`Outbound: one-line summary plus a link to ${u.id} v${u.current.v}; the exact wording is on the linked page, word for word (D57)`); }
+    if (channel === "Outbound") { res.link = { unit: u.id, v: u.current.v, fp: u.clause ? fp(u.clause.text) : null }; trace.push(`Outbound: one-line summary plus a link to ${u.id} v${u.current.v}; the exact wording is on the linked page, word for word`); }
     return res;
   }
   // nothing in scope: is there an answer the role may not read?
   const coversYears = v => !qYears.length || qYears.every(y => asDate(v.effective).getFullYear() <= y && y <= asDate(v.expiry).getFullYear());
   const up = futPool.filter(u => coversYears(futureOf(u))).map(u => score(u, tk)).sort((x, y) => y.blend - x.blend)[0];
-  if (up && up.kw >= 2) { const v = futureOf(up.u); trace.push(`No answer in force today. ${up.u.id} starts ${v.effective}; shown beside, labelled, never as today's answer (D59)`); return Object.assign(res, { kind: "abstain", route: "upcoming", unit: null, upcomingUnit: up.u, upcomingVersion: v }); }
+  if (up && up.kw >= 2) { const v = futureOf(up.u); trace.push(`No answer in force today. ${up.u.id} starts ${v.effective}; shown beside, labelled, never as today's answer`); return Object.assign(res, { kind: "abstain", route: "upcoming", unit: null, upcomingUnit: up.u, upcomingVersion: v }); }
   const outside = all.filter(u => u.current && !u.kbs.some(k => reads.includes(k)) && !(COST.test(q) && !priced(u))).map(u => score(u, tk)).sort((a, b) => b.kw - a.kw)[0];
   if (outside && outside.kw >= 2) { trace.push("A unit outside this role's bases would match. It was never searched or cited; logged as an access refusal, not routed to an author"); return Object.assign(res, { kind: "scope", route: "access", unit: null, base: outside.u.kbs.join(", ") }); }
-  if (memberSide && third !== "general" && LOOKUP.test(q)) { trace.push("Member channel, first-person question, no approved unit: handed to a person rather than a general answer (decision 3, safety net)"); return Object.assign(res, { kind: "person", text: REFUSAL, route: "person" }); }
+  if (memberSide && third !== "general" && LOOKUP.test(q)) { trace.push("Member channel, first-person question, no approved unit: handed to a person rather than a general answer"); return Object.assign(res, { kind: "person", text: REFUSAL, route: "person" }); }
   trace.push(top ? `Best candidate scored keyword ${top.kw}, below the bar. No approved unit answers this` : "No candidate");
   return Object.assign(res, { kind: "abstain", route: "gap", unit: null });
 }

@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=2026-11-02">
-<link rel="stylesheet" href="styles.css?v=2026-11-02"><link rel="stylesheet" href="story.css?v=2026-11-02">
+<link rel="stylesheet" href="fonts/fonts.css?v=05713f1">
+<link rel="stylesheet" href="styles.css?v=05713f1"><link rel="stylesheet" href="story.css?v=05713f1">
 <title>How it works · Job 1 · Ingest and structure · Lakewell Knowledge</title>
 <style>
 .tabs5{grid-template-columns:repeat(5,minmax(0,1fr))}
@@ -17,7 +17,7 @@
 <div class="subbar" id="tabs"></div>
 <div class="card howcard" id="stage"></div>
 </main>
-<script src="data.js?v=2026-11-02"></script><script src="app.js?v=2026-11-02"></script><script src="story-shared.js?v=2026-11-02"></script>
+<script src="data.js?v=05713f1"></script><script src="app.js?v=05713f1"></script><script src="story-shared.js?v=05713f1"></script>
 <script>
 nav("how1.html", "author", { demo: true });
 const RX = DOCS.find(d => d.id === "DOC-RXV2"), SD = DOCS.find(d => d.id === "DOC-SD09"), INJ = (CORE_UNITS.find(u => u.id === "KU-214") || {}).injection;
@@ -39,9 +39,9 @@ window.ACT = {
       issue: ["Legal's exact words are buried in a long script, and nothing marks them as exact", "The bot sums them up in its own words, so June never hears the conditions Legal requires", "Every channel words the disclaimer its own way, which is how June ends up hearing five versions"],
       path: [["DOCUMENT", "Rx Education Script v2", "9 sections"], ["SAVED", "In the script library", "as one file"], ["NOT MARKED", "Legal's words unflagged", "inside section 4"], ["BOT", "Summarises them", "in its own words"]],
       now: () => `<div class="units">${unitCard("Pricing walk-through", "topic with exact wording · approver: Tom")}${unitCard("Pricing disclaimer", "Legal's exact wording · approver: Tom", "locked", PD["PD-A"])}${unitCard("Out-of-network pharmacies", "Legal's exact wording · approver: Tom", "locked", OON)}${unitCard("Spanish draft of the disclaimer", "machine translated: held for a qualified translator, never served", "flag")}</div>`,
-      fix: ["The AI splits the script into short topics and marks the 'Verbatim (Legal)' lines as exact wording", "The bot reads the exact wording as written, so June hears them as Legal wrote them", "Nothing is searchable until the right approver says yes"],
+      fix: ["The AI splits the script into short topics and marks the 'Verbatim (Legal)' lines as exact wording", "The bot reads the exact wording as written, so June hears it as Legal wrote them", "Nothing is searchable until the right approver says yes"],
       fixpath: [["DOCUMENT", "Rx Education Script v2", "added by Priya"], ["TOPICS", "Split into short topics", "with source and tags"], ["EXACT", "Legal's exact wording", "read exactly"], ["QUEUED", "Sent to the right approver", "Tom or Grace"]],
-      fix4: { line: "Legal's exact wording is found and marked once, so every channel reads them exactly.", steps: [0, 1], tech: ["LLM-based extraction", "Constrained rendering"], kind: "AI proposes, a person decides", control: "Extraction splits the document into topics and marks candidate exact wording; matching a known legal clause is a rule. Nothing is searchable until approved.", who: "Priya accepts or edits each topic; Tom approves exact wording, Grace pharmacy content", proof: "Exact wording checked character for character against the source (golden questions 1 and 3)." } },
+      fix4: { line: "Legal's exact wording is found and marked once, so every channel reads it exactly.", steps: [0, 1], tech: ["LLM-based extraction", "Constrained rendering"], kind: "AI proposes, a person decides", control: "Extraction splits the document into topics and marks candidate exact wording; matching a known legal clause is a rule. Nothing is searchable until approved.", who: "Priya accepts or edits each topic; Tom approves exact wording, Grace pharmacy content", proof: "Exact wording checked character for character against the source (golden questions 1 and 3)." } },
     "Member chat": { who: "The member chat answers from whatever documents it can read, including the Member Benefits Quick Guide.",
       today: () => `<div class="docv"><p class="small"><b>Member Benefits Quick Guide 2027</b> · Claims coverage summary</p><p>Most covered services are paid after your deductible.</p><p class="inj">${esc(INJ)}</p></div>${compare("Claims are covered according to your plan's Evidence of Coverage.", "Every claim is covered.", "What the chat tells June", "It followed the hidden line (illustrative)")}`,
       issue: ["A sentence inside a source is written as an order to the AI: '" + INJ + "'", "The chat follows it and tells June every claim is covered", "Members are promised coverage that doesn't exist, from text nobody approved"],
@@ -79,4 +79,4 @@ window.ACT = {
 
 ACT.lead = "Priya, the author"; ACT.steps = [["Voice", "Extract topics"], ["Advocate desk", "Sort the file"], ["Member chat", "Block hidden instructions"], ["Outbound", "Date the facts"], ["Website", "Find every copy"]]; ACT.howIndex = 0;
 </script>
-<script src="how-scenes.js?v=2026-11-02"></script><script src="how-engine.js?v=2026-11-02"></script></body></html>
+<script src="how-scenes.js?v=05713f1"></script><script src="how-engine.js?v=05713f1"></script></body></html>

@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=2026-11-02">
-<link rel="stylesheet" href="styles.css?v=2026-11-02"><link rel="stylesheet" href="story.css?v=2026-11-02">
+<link rel="stylesheet" href="fonts/fonts.css?v=05713f1">
+<link rel="stylesheet" href="styles.css?v=05713f1"><link rel="stylesheet" href="story.css?v=05713f1">
 <title>PRD · Lakewell Knowledge</title>
 <style>
 .prd{display:grid;grid-template-columns:240px minmax(0,1fr);gap:22px;align-items:start}
@@ -20,13 +20,13 @@
 .sec ul{margin:6px 0 0 18px;font-size:14px}.sec li{margin:3px 0}
 .live{font-weight:800;color:#3b6d11}.live.no{color:#a3261b}.live.wait{color:var(--muted);font-weight:600}
 .meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;margin:14px 0 0}.meta div{background:var(--panel-2);border-radius:12px;padding:8px 12px;font-size:13px}.meta b{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.rowid{font-family:var(--mono);font-size:12px;color:var(--muted)}
-@media (max-width:900px){.prd{grid-template-columns:1fr}.toc{position:static;max-height:none;display:flex;flex-wrap:wrap;gap:2px}.toc .tg{display:none}}
+.codekey{margin:10px 0 0;font-size:13px;color:var(--muted)}pre{white-space:pre-wrap;word-break:break-word}.rowid{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.prd>div{min-width:0}@media (max-width:900px){.prd{grid-template-columns:minmax(0,1fr)}.toc{position:static;max-height:none;display:flex;flex-wrap:wrap;gap:2px}.toc .tg{display:none}}
 @media print{.top,.toc,.acts{display:none}.prd{grid-template-columns:1fr}.sec{break-inside:avoid}}
 </style></head><body>
 <main class="area" style="max-width:1280px"><div id="stepper"></div><div id="view"></div></main>
-<script src="data.js?v=2026-11-02"></script><script src="golden.js?v=2026-11-02"></script><script src="holdout.js?v=2026-11-02"></script><script src="probes.js?v=2026-11-02"></script><script src="probes-review.js?v=2026-11-02"></script><script src="nearmiss.js?v=2026-11-02"></script><script src="probes2.js?v=2026-11-02"></script><script src="probes3.js?v=2026-11-02"></script>
-<script src="app.js?v=2026-11-02"></script><script src="story-shared.js?v=2026-11-02"></script><script src="eval-core.js?v=2026-11-02"></script><script src="prd-data.js?v=2026-11-02"></script>
+<script src="data.js?v=05713f1"></script><script src="golden.js?v=05713f1"></script><script src="holdout.js?v=05713f1"></script><script src="probes.js?v=05713f1"></script><script src="probes-review.js?v=05713f1"></script><script src="nearmiss.js?v=05713f1"></script><script src="probes2.js?v=05713f1"></script><script src="probes3.js?v=05713f1"></script>
+<script src="app.js?v=05713f1"></script><script src="story-shared.js?v=05713f1"></script><script src="eval-core.js?v=05713f1"></script><script src="prd-data.js?v=05713f1"></script>
 <script>
 nav("prd.html", "", { demo: true });
 document.getElementById("stepper").innerHTML = storyStepper(5);
@@ -38,7 +38,7 @@ const sec = s => `<section class="sec card" id="${s.id}"><h2><i>${s.n}</i>${esc(
 const groups = [["Read first", [0, 1, 2, 3, 4, 5]], ["Build from", [6, 7, 8, 9, 10, 11, 12]], ["Govern and ship", [13, 14, 15, 16]], ["Judge it", [17, 18, 19, 20, 21]]];
 document.getElementById("view").innerHTML = `<div class="hero"><p class="eyebrow">Product requirements · ${esc(PLAN.name)} (fictional) · v${esc(PRD.version)} · ${esc(PRD.date)}</p>
   <h1>${esc(PRD.title)}: the PRD</h1><p class="lead">${esc(PRD.subtitle)}. ${esc(PRD.audience)}</p>
-  <div class="meta"><div><b>Owner</b>${esc(PRD.owner)}</div><div><b>Status</b>${esc(PRD.status)}</div><div><b>Built from</b>The strategy (18 sections), the decision log (D1 to D194) and the citations register (863 keyed rows)</div></div></div>
+  <div class="meta"><div><b>Owner</b>${esc(PRD.owner)}</div><div><b>Status</b>${esc(PRD.status)}</div><div><b>Built from</b>The strategy (18 sections), the decision log (D1 to D231) and the citations register (865 keyed rows)</div></div><p class="codekey">Codes: S8.14 is a strategy row, D53 a decision, [R-25] a citation key, FR-5 a requirement; section 0 explains each.</p></div>
   <div class="prd" style="margin-top:18px"><nav class="toc" id="toc">${groups.map(([g, ids]) => `<div class="tg">${g}</div>` + ids.map(i => PRD.sections[i]).map(s => `<a href="#${s.id}" data-id="${s.id}"><i>${s.n}</i>${esc(s.title)}</a>`).join("")).join("")}</nav>
   <div>${PRD.sections.map(sec).join("")}<p class="foot">Everything here is fictional: the plan, the people, the documents and every figure. Real-world facts carry keys from the citations register. Built from the strategy and the decision log.</p></div></div>`;
 /* TOC highlight */

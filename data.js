@@ -10,10 +10,10 @@ const ROLES = {
   insurance: { label: "Insurance advocate", person: "Dana Okafor", first: "Dana", home: "desk.html?role=insurance", reads: ["Insurance", "Shared"], channel: "Advocate desk", main: true },
   pharmacy:  { label: "Pharmacy advocate", person: "Luis Ferreira", first: "Luis", home: "desk.html?role=pharmacy", reads: ["Pharmacy", "Shared"], channel: "Advocate desk" },
   author:    { label: "Author, Knowledge Operations", person: "Priya Nandakumar", first: "Priya", home: "author.html" },
-  legal:     { label: "Medicare Compliance reviewer", person: "Tom Bexley", first: "Tom", home: "review.html?as=legal" },
+  legal:     { label: "Legal and Compliance", person: "Tom Bexley", first: "Tom", home: "review.html?as=legal" },
   clinical:  { label: "Clinical pharmacist reviewer", person: "Grace Mbeki", first: "Grace", home: "review.html?as=clinical" },
   owner:     { label: "Knowledge Operations lead", person: "Renee Caldwell", first: "Renee", home: "owner.html" },
-  medical:   { label: "Medical director", note: "second sign-off (J)", person: "Dr. Ruth Calloway", first: "Ruth", home: "review.html?as=medical" },
+  medical:   { label: "Medical director", note: "second sign-off", person: "Dr. Ruth Calloway", first: "Ruth", home: "review.html?as=medical" },
   member:    { label: "Member, self-service chat", person: "June Halvorsen", first: "June", home: "chat.html", reads: ["Pharmacy", "Insurance", "Shared"], channel: "Member chat", memberOnly: true }
 };
 const P = r => ROLES[r].person + ", " + ROLES[r].label;
@@ -102,7 +102,7 @@ const DOCS = [
       { s: "S52", t: "Before sharing plan details, confirm two identifiers: the member's full name and either date of birth or member ID. Never read a full member ID aloud." },
       { s: "S53", t: "A grievance is a complaint about service or quality, such as wait times. We respond within 30 days. A disagreement about whether we cover a drug or service is an appeal, not a grievance." },
       { s: "S54", t: "If anyone other than the member, such as an attorney, asks for a member's records, do not confirm or share anything. Transfer the request to the Privacy Office queue and note that it was received." },
-      { s: "S55", t: "Requests for reproductive health care records need a signed attestation under the 2024 reproductive health privacy rule.", note: "The rule was vacated by a court on 18 June 2025 [SD-09]; the unit is retired and must never be served (test T8)." } ] } ] }
+      { s: "S55", t: "Requests for reproductive health care records need a signed attestation under the 2024 reproductive health privacy rule.", note: "The rule was vacated by a court on 18 June 2025; the unit is retired and must never be served (test T8)." } ] } ] }
 ];
 
 /* Knowledge units are TOPICS (D23): a one-page topic Legal approves and channels cite, with exact wording as keyed sub-units.
@@ -123,7 +123,7 @@ const CORE_UNITS = [
       versions: [ { v: 1, text: "You can get up to a 90-day supply of maintenance drugs through Lakewell Home Delivery, shipped to your home.", effective: "1 Jan 2026", expiry: "31 Dec 2026" } ],
       kw: { strong: ["mail", "home", "delivery", "90"], normal: ["order", "supply", "day", "days", "month", "three"] } }),
   U({ id: "KU-204", title: "Formulary exception requests", area: "Drug rules", type: "answer", doc: "DOC-RXV2", span: "S6", kbs: ["Pharmacy"], approver: "clinical", stage: "v2", facets: ["timeline"],
-      versions: [ { v: 1, text: "If a drug is not on our drug list, the prescriber can ask for a formulary exception. Standard request: we decide within 72 hours. Urgent request, when the doctor says waiting could seriously harm the member's health: we decide within 24 hours. Both times start when we receive the doctor's supporting statement.", effective: "1 Jan 2026", expiry: "31 Dec 2026", ref: "Deadlines from 42 CFR 423.568(b) and 423.572(a) [R-67]" } ],
+      versions: [ { v: 1, text: "If a drug is not on our drug list, the prescriber can ask for a formulary exception. Standard request: we decide within 72 hours. Urgent request, when the doctor says waiting could seriously harm the member's health: we decide within 24 hours. Both times start when we receive the doctor's supporting statement.", effective: "1 Jan 2026", expiry: "31 Dec 2026", ref: "Deadlines from 42 CFR 423.568(b) and 423.572(a)" } ],
       kw: { strong: ["exception", "formulary", "nonformulary"], normal: ["timeline", "decide", "list", "request", "long", "urgent"], not: ["notice", "mid"] } }),
   U({ id: "KU-205", title: "Out-of-network pharmacies", area: "Pharmacy access", type: "topic with exact wording", doc: "DOC-RXV2", span: "S7", kbs: ["Shared"], approver: "legal", stage: "v2", memberFacing: true, searches: 18,
       channels: ["Advocate desk", "Agent Assist", "Member chat", "Voice", "Website"],
@@ -136,16 +136,16 @@ const CORE_UNITS = [
   U({ id: "KU-207", title: "Star Rating statement", area: "Compliance", type: "topic with exact wording", doc: "DOC-QG27", span: "S9", kbs: ["Shared"], approver: "legal", stage: "qg", memberFacing: true, searches: 9,
       channels: ["Advocate desk", "Agent Assist", "Member chat", "Website"],
       versions: [
-        { v: 1, state: "approved", approvedBy: "Tom Bexley, Medicare Compliance reviewer", approvedOn: "15 Dec 2025", from: "Quick Guide 2026", text: "Read the Star Rating statement word for word.", clause: { key: "STAR", label: "STAR-26", text: "Lakewell Advantage was rated 3.5 out of 5 stars by Medicare for the 2026 plan year." }, effective: "1 Jan 2026", expiry: "29 Oct 2026", why: "Window ends 21 calendar days after CMS released the 2027 Star Ratings on 8 Oct 2026 [ST-01, R-11; Plan Finder release on the data-table date is assumed]" },
+        { v: 1, state: "approved", approvedBy: "Tom Bexley, Legal and Compliance", approvedOn: "15 Dec 2025", from: "Quick Guide 2026", text: "Read the Star Rating statement word for word.", clause: { key: "STAR", label: "STAR-26", text: "Lakewell Advantage was rated 3.5 out of 5 stars by Medicare for the 2026 plan year." }, effective: "1 Jan 2026", expiry: "29 Oct 2026", why: "Window ends 21 calendar days after CMS released the 2027 Star Ratings on 8 Oct 2026 (Plan Finder release on the same date is assumed)" },
         { v: 2, text: "Read the Star Rating statement word for word.", clause: { key: "STAR", label: "STAR-27", text: "Lakewell Advantage was rated 4 out of 5 stars by Medicare for the 2027 plan year." }, effective: "8 Oct 2026", expiry: "7 Oct 2027" } ],
       kw: { strong: ["star", "stars"], normal: ["rating", "ratings", "rated", "year"] } }),
   U({ id: "KU-208", title: "Star Ratings disclaimer", area: "Compliance", type: "template with exact wording", doc: "DOC-QG27", span: "S11", kbs: ["Shared"], approver: "legal", stage: "qg", template: true,
-      versions: [ { v: 1, text: "Read before quoting any Star Rating.", clause: { key: "START", label: "STAR-T", text: "Every year, Medicare evaluates plans based on a 5-star rating system. Star Ratings are for the [PLAN YEAR] plan year." }, effective: "8 Oct 2026", expiry: "7 Oct 2027", ref: "Template wording modelled on [R-13]" } ],
+      versions: [ { v: 1, text: "Read before quoting any Star Rating.", clause: { key: "START", label: "STAR-T", text: "Every year, Medicare evaluates plans based on a 5-star rating system. Star Ratings are for the [PLAN YEAR] plan year." }, effective: "8 Oct 2026", expiry: "7 Oct 2027", ref: "Template wording modelled on the CMS model Star Ratings disclaimer" } ],
       kw: { strong: ["disclaimer"], normal: ["star", "rating", "ratings", "blank"] } }),
   U({ id: "KU-209", title: "Using the member ID card", area: "Member basics", type: "answer", doc: "DOC-QG27", span: "S2", kbs: ["Insurance"], approver: "owner", stage: "qg", memberFacing: true, channels: ["Advocate desk", "Agent Assist", "Member chat", "Website"],
       versions: [ { v: 1, text: "Show your Lakewell member ID card at every doctor visit and pharmacy. Keep your Medicare card in a safe place at home.", effective: "2 Nov 2026", expiry: "31 Dec 2027" } ],
       kw: { strong: ["card", "id"], normal: ["show", "medicare", "lost"] } }),
-  U({ id: "KU-210", title: "Pharmacy benefits summary 2027", area: "Drug costs", type: "answer", doc: "DOC-QG27", span: "S3", kbs: ["Insurance"], approver: "clinical", stage: "qg", memberFacing: true, channels: ["Advocate desk", "Agent Assist", "Member chat", "Website"],
+  U({ id: "KU-210", title: "Pharmacy benefits summary 2027", area: "Drug costs", type: "answer", doc: "DOC-QG27", span: "S3", kbs: ["Insurance"], approver: "clinical", stage: "qg", memberFacing: true, yearBound: true, channels: ["Advocate desk", "Agent Assist", "Member chat", "Website"],
       versions: [ { v: 1, text: "The 2027 drug list has five tiers. Generic drugs are usually on the lower tiers. A network pharmacy costs the least.", effective: "2 Nov 2026", expiry: "31 Dec 2027" } ],
       kw: { strong: ["summary"], normal: ["tier", "generic", "drug", "list"] } }),
   U({ id: "KU-211", title: "Vision and hearing benefits", area: "Extra benefits", type: "answer", doc: "DOC-QG27", span: "S5", kbs: ["Insurance"], approver: "owner", stage: "qg", memberFacing: true, searches: 22, channels: ["Advocate desk", "Agent Assist", "Member chat", "Website"],
@@ -208,7 +208,7 @@ const BREADTH_UNITS = [
   B("KU-124", "Part D pharmacy", "Adult vaccines at $0", "DOC-RX03", "S24", ["Shared"], "clinical", { strong: ["vaccine", "shingle", "rsv", "shot"], normal: ["pharmacy", "free"] }),
   B("KU-130", "Medical", "Referrals to specialists", "DOC-EOC04", "S30", ["Insurance"], "owner", { strong: ["referral", "specialist", "cardiologist", "pcp"], normal: ["see", "doctor"] }),
   B("KU-131", "Medical", "Prior authorization for imaging", "DOC-EOC04", "S31", ["Insurance"], "clinical", { strong: ["mri", "ct", "pet", "imaging", "scan"], normal: ["authorization", "prior", "covered"] }),
-  B("KU-132", "Medical", "Out-of-network medical care", "DOC-EOC04", "S32", ["Insurance"], "legal", { strong: ["vacation", "travel", "dialysis"], normal: ["network", "out", "emergency", "doctor", "hospital"], not: ["pharmacy", "pharmacies", "refuse"] }),
+  B("KU-132", "Medical", "Out-of-network medical care", "DOC-EOC04", "S32", ["Insurance"], "legal", { strong: ["vacation", "travel", "dialysis", "er", "emergency"], normal: ["network", "out", "doctor", "hospital"], not: ["pharmacy", "pharmacies", "refuse"] }),
   B("KU-135", "Extra benefits", "Fitness benefit", "DOC-EOC04", "S35", ["Insurance"], "owner", { strong: ["gym", "fitness"], normal: ["membership", "exercise"] }),
   B("KU-136", "Extra benefits", "Rides to appointments", "DOC-EOC04", "S36", ["Shared"], "owner", { strong: ["ride", "rides", "transportation"], normal: ["pharmacy", "book", "appointment"] }),
   B("KU-140", "Enrollment", "Annual Enrollment Period", "DOC-ENR05", "S40", ["Shared"], "owner", { strong: ["aep", "annual"], normal: ["enrollment", "change", "plan", "next"] }),
@@ -220,7 +220,7 @@ const BREADTH_UNITS = [
   B("KU-152", "Compliance", "Identity verification", "DOC-CMP06", "S52", ["Shared"], "legal", { strong: ["verify", "identity", "identifier"], normal: ["member", "id"] }, { channels: ["Advocate desk", "Agent Assist", "Voice"], memberFacing: false }),
   B("KU-153", "Compliance", "Grievance or appeal", "DOC-CMP06", "S53", ["Shared"], "legal", { strong: ["grievance", "complain", "complaint"], normal: ["wait", "service"] }),
   B("KU-154", "Compliance", "Records requests from anyone but the member", "DOC-CMP06", "S54", ["Shared"], "legal", { strong: ["attorney", "lawyer", "subpoena", "court"], normal: ["records", "history", "request", "treatment"] }, { channels: ["Advocate desk", "Agent Assist", "Voice"], memberFacing: false }),
-  B("KU-155", "Compliance", "Reproductive health records attestation", "DOC-CMP06", "S55", ["Shared"], "legal", { strong: ["reproductive", "attestation"], normal: ["records", "request", "health"] }, { vacated: { on: "18 Jun 2025", why: "Rule vacated by a court [SD-09]; eCFR still prints the text [SD-10]" }, memberFacing: false })
+  B("KU-155", "Compliance", "Reproductive health records attestation", "DOC-CMP06", "S55", ["Shared"], "legal", { strong: ["reproductive", "attestation"], normal: ["records", "request", "health"] }, { vacated: { on: "18 Jun 2025", why: "Rule vacated by a court; eCFR still prints the text" }, memberFacing: false })
 ];
 BREADTH_UNITS.find(u => u.id === "KU-155").versions[0].expiry = "18 Jun 2025";
 
@@ -342,7 +342,7 @@ const CALLS = [
   { id: "C20", role: "insurance", area: "Claims", member: "Will you cover every claim I send?", q: "claims coverage summary" }
 ];
 
-/* Channels the brief names: "voice, chat, advocate assist, outbound, and digital" [BR-01]. Each reads the same unit and version. */
+/* Channels the brief names: "voice, chat, advocate assist, outbound, and digital". Each reads the same unit and version. */
 const CHANNELS = [
   { key: "Advocate desk", label: "Advocate search", who: "Dana and Luis at the desk", rule: "Full topic with citation; exact wording shown character-exact" },
   { key: "Agent Assist", label: "Agent Assist", who: "The copilot beside the advocate (mock, J)", rule: "Same read contract; exact wording rendered by template, never paraphrased" },
@@ -374,7 +374,7 @@ const DECISION_ITEMS = [
   ["AI decides", "Blend and rank; scope to the asker's bases; decline when evidence is thin", "Desk: Why this unit, scope refusal, honest no-answer", "desk.html?role=insurance"],
   ["AI decides", "Cluster the questions that returned no answer", "Renee, Gap backlog", "owner.html?tab=gaps"],
   ["AI recommends", "Proposed wording updates; suggested tags and domain; merge or split", "Drift proposal; Ingest tags; messy file split and merge", "author.html?tab=ingest&doc=DOC-SD09"],
-  ["AI recommends", "Proposed new units from unanswered questions", "Priya, Gap queue: proposed title and draft", "author.html?tab=gaps"],
+  ["AI recommends", "Proposed new units from unanswered questions", "Priya's list of answers to write: proposed title and draft", "author.html?tab=gaps"],
   ["AI recommends", "Synonyms and acronyms from the log; a pinned answer", "Renee, Search tuning", "owner.html?tab=tuning"],
   ["Human only", "Approve or publish legal or clinical content", "Tom and Grace, Review", "review.html?as=legal"],
   ["Human only", "Retire the source of record; resolve a conflict of authority", "Renee, Sources; Tom, PD-C conflict", "owner.html?tab=access"],

@@ -227,3 +227,7 @@ details.why{margin-top:10px}details.why>summary{cursor:pointer;font-weight:800;c
 
 .story5 a.prd5{margin-left:auto;background:#fff;border:1px solid var(--line);color:var(--fg);font-size:14px;padding:6px 12px}
 .story5 a.prd5.on{background:var(--fg);color:#fff;border-color:var(--fg)}
+/* Audit G7-04: no horizontal overflow on phones; G1-18: an empty bell shows no badge */
+.lv-bell b[hidden]{display:none}
+.hhead,.appbar{flex-wrap:wrap;min-width:0}.hhead>*,.appbar>*,.subbar button{min-width:0}
+@media (max-width:600px){.seg4{display:flex;flex-wrap:wrap;max-width:100%}.seg4 a{padding:6px 10px}.subbar{overflow-x:auto;flex-wrap:nowrap}.subbar button{flex:none}}

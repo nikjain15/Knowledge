@@ -1,7 +1,7 @@
-/* Lakewell Knowledge PRD: the single source for prd.html (site page) and out/uc2-prd.md (rendered by out/uc2-prd-render.js).
+/* Lakewell Knowledge PRD: the single source for the PRD page.
    Every row cites the strategy row (S<section>.<row>), the decision (D<n>) or the register key ([XX-nn]) it rests on.
    Wording rule: fictional plan and people only; real-world facts carry a register key and name no company (D52, D128). */
-/* Gaps found on 2 Nov 2026 (section 19). Kinds: gate (the strategy misses what a VALUED gate requires), builder (a coding agent is blocked), drift (the live site says less or differs from the strategy). Full tables: out/uc2-gaps.md */
+/* Gaps found on 2 Nov 2026 (section 19). Kinds: gate (the strategy misses what a VALUED gate requires), builder (a coding agent is blocked), drift (the live site says less or differs from the strategy). */
 const GAPS_ROWS = [
   ["Disclosure of AI use to members is deferred to phase 4 while the demo already shows a phone bot and member chat answering members (S10.5)", "gate U", "Approved disclosure wording per member channel, owner Legal and Compliance, before any member channel ships; a one-line disclosure in the demo bot and chat", "Client (Legal)"],
   ["No row on rights to the source documents, data-processing terms for the production answer model, or whether member queries leave the plan's boundary", "gate L", "Add a data-rights row: documents are the plan's own; a business associate agreement and zero-retention terms with every model vendor; queries stay inside the plan's cloud tenancy (J, proposed)", "Client (Privacy)"],
@@ -14,7 +14,7 @@ const GAPS_ROWS = [
   ["Latency, availability and degraded mode are undefined until after the pilot (S8.22)", "builder", "Proposed values in section 12 (J); on any outage a channel abstains and offers the human path, never an unapproved source", "Client sets after pilot"],
   ["Environments, CI custody of the sealed holdout, shadow mode and feature flags are unspecified", "builder", "M8: dev, staging, production; synthetic data below production; the holdout readable only by the pipeline; a model-version change blocks merge until the paired rerun passes", "Engineering"],
   ["Identity provider, channel system targets and document connectors are unnamed (S12.11, S14.19)", "builder", "Discovery list with owners: the identity provider and its group schema, the agent-assist and chat platforms, the script library and shared drive connectors", "Client (IT)"],
-  ["The live site says less than, or differs from, the strategy in 20 places, for example \"664 independent questions\" where only the first set was written blind, merge confirmation routed to one person instead of by content type, and three of five production-only controls named", "drift", "Listed in the gaps review with a fix per row; every fix agreed with Nik before the page changed", "Nik"]
+  ["The live site says less than, or differs from, the strategy in 20 places, for example \"664 independent questions\" where only the first set was written blind, merge confirmation routed to one person instead of by content type, and three of five production-only controls named", "drift", "Closed: the probe wording by D197, merge confirmation by D204, the five production-only controls by D199; every fix agreed with Nik before the page changed", "Closed"]
 ];
 const PRD = {
   title: "Lakewell Knowledge",
@@ -25,13 +25,13 @@ const PRD = {
   { id: "read", n: 0, title: "How to read this document", intro: "Two readers, one document. Each row names where it came from, so a claim can be checked in two minutes.",
     tables: [{ cols: ["Mark", "Meaning"], rows: [
       ["S8.14", "A row of the strategy document (section 8, row 14). The strategy has 18 sections and about 660 rows; the PRD lifts what a builder and a judge need"],
-      ["D53", "A row of the decision log (193 rows at this version): what was decided, the alternatives, why, who decided and what would change it"],
-      ["[R-25]", "A key in the citations register (863 rows): the quoted sentence, the URL and the date behind a real-world fact. P means the primary document was opened; S means a secondary source"],
+      ["D53", "A row of the decision log (D1 to D231 at this version): what was decided, the alternatives, why, who decided and what would change it"],
+      ["[R-25]", "A key in the citations register (865 keyed rows): the quoted sentence, the URL and the date behind a real-world fact. P means the primary document was opened; S means a secondary source"],
       ["(assumed)", "A client fact nobody published. It never appears as a fact in the value case or the demo without this mark (S14.24)"],
       ["J", "A judgment: a design choice or a threshold set by us, defended with anchors where any exist (S8 defend tables)"],
       ["Rule gate", "A code path checked exactly: 0 violations or 100%. Identical in every channel (S8.70)"],
       ["Model metric", "A rate per group, read only with its 95% range and only once the group has enough questions (S8.99); in the prototype, counts, never rates (S15.9)"],
-      ["Live", "A number on this page computed in your browser now by eval-core.js, the same runner Prove it uses. In the markdown copy the same number is quoted with its date"]
+      ["Live", "A number on this page computed in your browser now by the same runner Prove it uses"]
     ] }],
     bullets: ["Everything on the site is fictional: the plan Lakewell Advantage, the people, the documents, the counts and the dates. Real-world facts (regulations, court rulings, agency tests, published benchmarks) carry a register key.", "Nothing here was decided for the client. The system drafts, the client decides; where the client has not yet ruled, the row says so (section 19)."] },
 
@@ -71,11 +71,11 @@ const PRD = {
       ["June Halvorsen", "Member", "Get one correct answer, in Legal's words, in whichever channel she uses", "Channel metrics (S8.11 to S8.14, chat column)"],
       ["Dana Okafor", "Insurance advocate (main character)", "Find the approved answer in seconds, cite it, or say \"not yet\" with a callback", "Answer evals, Insurance group; override and catch rate (S8.71, S8.72)"],
       ["Luis Ferreira", "Pharmacy advocate", "Same, scoped to Pharmacy and Shared knowledge bases", "Answer evals, Pharmacy group"],
-      ["Priya Nandakumar", "Author, Knowledge Operations", "Turn documents into units; close gaps from the queue; revise after send-back", "Draft-to-approval time; gap items closed per week; drift alerts judged useful (S4.8)"],
-      ["Tom Bexley", "Medicare Compliance reviewer", "Approve CMS-controlled wording and exact wording; decide conflicts of authority", "Approval queue age; units served past review date, must be 0 (S4.8, S8.73)"],
+      ["Priya Nandakumar", "Author", "Turn documents into units; close gaps from the queue; revise after send-back", "Draft-to-approval time; gap items closed per week; drift alerts judged useful (S4.8)"],
+      ["Tom Bexley", "Legal and Compliance", "Approve CMS-controlled wording and exact wording; decide conflicts of authority", "Approval queue age; units served past review date, must be 0 (S4.8, S8.73)"],
       ["Grace Mbeki", "Clinical pharmacist reviewer", "Approve pharmacy content; first signer on clinical guidance", "Queue age"],
       ["Dr. Ruth Calloway", "Medical director", "Second signer on clinical guidance only (D53)", "Queue age; co-signed units live from her publish date (D62)"],
-      ["Renee Caldwell", "Knowledge Operations lead, knowledge owner", "Read the gap backlog; write-or-fix-process calls; confirm merges, synonyms, pinned answers; sign the release", "Merge confirmations, reversals must be 0, proposal acceptance (S4.8)"],
+      ["Renee Caldwell", "Knowledge Operations lead", "Read the gap backlog; write-or-fix-process calls; confirm merges of everyday content (D204), synonyms, pinned answers; sign the release", "Merge confirmations, reversals must be 0, proposal acceptance (S4.8)"],
       ["Security administrator", "Identity provider", "Grant or revoke a knowledge base to a role", "Scope changes at the next query (S6.14)"]
     ] }] },
 
@@ -110,7 +110,7 @@ const PRD = {
     tables: [{ caption: "FR-1 to FR-6: ingest, structure, govern", cols: ["ID", "Requirement", "Acceptance criteria", "Source"], rows: [
       ["FR-1 Ingestion", "Pull a source document; record its hash, version, owner and the model versions used", "Every unit's lineage resolves to a document id, version and hash (S7.14); T3 audit trail 0 gaps", "S7.1"],
       ["FR-2 Extraction", "Split a source into proposed topics; mark candidate exact wording as exact substrings of a source span; propose type, tags, domain; an author accepts or edits", "Exact wording matches the source, character for character (G1, G3); the span check must pass before draft (S6.11); a planted instruction in a source is logged and never executed (G13)", "S7.2, S5.8"],
-      ["FR-3 Dedup", "Compare units across sources; propose merge or \"same clause, drifted text\" with a word diff; never merge alone; never merge exact wording or a different wording", "The three pricing-disclaimer wordings are found and none merged; a not-duplicate pair is not merged (T1); every confirmed merge logged with proposer and confirmer, reversible (S7.20)", "S7.3, S5.3"],
+      ["FR-3 Dedup", "Compare units across sources; propose merge or \"same clause, drifted text\" with a word diff; never merge alone; the approver for that content confirms a merge (D204); never merge exact wording or a different wording", "The three pricing-disclaimer wordings are found and none merged; a not-duplicate pair is not merged (T1); every confirmed merge logged with proposer and confirmer, reversible (S7.20)", "S7.3, S5.3"],
       ["FR-4 Governance store", "Hold units with canonical_id, version, state, effective window, verbatim flag, knowledge_bases, channels, source_span, owner, approver, approved_at, variables; append-only state history", "State machine as S6.11 to S6.14; no version approved after its effective date (S8.141); audit CSV exports every event", "S7.4, S6"],
       ["FR-5 Approval and send-back", "Route each unit to the approver for its content type; refuse the author's own signature or a repeated signature; send back with a reason and quoted text; second signature on clinical guidance only", "S8.138 0 accepted; Grace sends back the copay table and Priya resubmits (deep dive); clinical unit live from the medical director's publish date (D62)", "S6.19 to S6.26, D53, D74"],
       ["FR-6 Drift detection", "On a new source version, diff each tracked span, re-find spans by fuzzy anchor, raise one grouped alert per source change naming every affected unit and channel, propose the edit; ignore formatting-only edits", "Seeded edit caught (G10); formatting-only edit raises no alert (T2); drift recall 100% on seeded changes; precision 60% at launch, 80% by month 6", "S7.7, S8.18"]
@@ -323,7 +323,7 @@ const PRD = {
       ["M8 Eval harness in CI", "Runner over golden, probes and holdout per group; hash check; readout with rule rows exact and model rows as counts; release verdict; regression on any version change", "Prove it reproduced in CI; S8.140 enforced; S8.76 wired to version fields", "S8, FR-12"],
       ["M9 Observability", "Serve, merge, drift, leak and judge logs as specified; dashboards for override, catch, queue age, gap age; alerts on any leak or verbatim violation; kill switch per role", "Every S7.13 field populated; stop rule exercised in staging", "S7.13 to S7.23, S8.77"]
     ] }, { caption: "Working rules for the agent", cols: ["Rule", "Detail"], rows: [
-      ["Never edit the sealed holdout or the independent probe set", "holdout.js and probes.js are sealed (D82, D90); extend the holdout only in a separate context and re-record the hash"],
+      ["Never edit the sealed holdout or the independent probe set", "Both stay sealed (D82, D90); extend the holdout only in a separate context and re-record the hash"],
       ["Rules in code, models at the edges", "Every row in section 5's deterministic column is a code path with an exact test, never a prompt instruction"],
       ["Counts before rates", "The readout shows counts until a group reaches its S8.99 size; never present a rate on fewer as a pass"],
       ["Every answer carries its versions", "Model, prompt, rubric, index, embedding, redactor, template, config and app versions and a prompt hash on every served answer"],
@@ -333,7 +333,7 @@ const PRD = {
 
   { id: "history", n: 21, title: "Document history", intro: "",
     tables: [{ cols: ["Version", "Date", "Change", "By"], rows: [
-      ["1.0", "2 Nov 2026", "First PRD rendered from the strategy (sections 1 to 18), the decision log (D1 to D194) and the citations register; gap review added as section 19; published as a page of Lakewell Knowledge (D194)", "Nik Jain, Product"]
+      ["1.0", "2 Nov 2026", "First PRD rendered from the strategy (sections 1 to 18), the decision log (D1 to D231) and the citations register; gap review added as section 19; published as a page of Lakewell Knowledge (D194)", "Nik Jain, Product"]
     ] }] }
   ]
 };

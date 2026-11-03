@@ -4,10 +4,10 @@
 /* At most five steps per page; a step with several parts plays them back to back. Indices are positions in ACT.steps. */
 const HOW_GROUPS = {
   1: [["Rules check", [0, 1]], ["Clinical sign-off", [2]], ["Resolve conflicts", [3]], ["Review clocks", [4]], ["Catch drift", [5, 6, 7]]],
-  2: [["One cited answer", [0, 5]], ["Right role, right date", [1, 2]], ["No answer, no guess", [3]], ["Close the gaps", [4, 6]], ["Pin the top answer", [7]]]
+  2: [["One cited answer", [0]], ["Right role, right date", [1, 2]], ["No answer, no guess", [3]], ["Close the gaps", [4, 5, 6]], ["Pin the top answer", [7]]]
 };
 const SCENES = {
-  "0:Voice": () => ({ start: ["Priya", "upload", "Rx Education Script v2.docx", "9 sections · from the script library"], src: docView(RX, b => b.verbatim ? "hide" : ""),
+  "0:Voice": () => ({ start: ["Priya", "upload", "Rx Education Script (v2)", "9 sections · from the script library"], src: docView(RX, b => b.verbatim ? "hide" : ""),
     ai: "The AI splits it into short topics and finds the lines marked 'Verbatim (Legal)'", decide: [["Priya", "Accept 4 topics", "Sent for approval: exact wording to Tom, pharmacy content to Grace"]] }),
   "0:Advocate desk": () => ({ start: ["Priya", "upload", "FINAL_v1 (2).docx", "shared drive · no owner"], src: docView(SD, b => b.junk ? (/2025/.test(b.t) ? "stale" : "junk") : ""),
     ai: "The AI goes line by line: skip it, split it, read it, or route it", decide: [["Priya", "Confirm proposals", "Clinical tip routed to Grace; the stale 2025 line flagged to Renee"]] }),
@@ -52,7 +52,7 @@ const SCENES = {
     ai: "The AI suggests pinning the approved answer to the top question",
     decide: [["Renee", "Confirm pin", "The approved answer comes first, and still obeys every rule"]] }),
 
-  "1:Drift": () => ({ start: ["Tom", "upload", "Rx Education Script v3.docx", "Legal's 2027 edit"],
+  "1:Drift": () => ({ start: ["Tom", "upload", "Rx Education Script (v3)", "Legal's 2027 edit"],
     ai: "Drift detection compares it with v2, and the graph lists every place the clause lives",
     decide: [["Tom", "Approve once", "Every channel switches to the 2027 wording on 1 Jan 2027"]] }),
   "1:Format": () => ({ start: ["System", "event", "Extra spaces fixed in the out-of-network line", "a formatting edit"],
@@ -66,8 +66,8 @@ const SCENES = {
     decide: [["Translator", "Approve the Spanish", "Served only after a person checks it; an interpreter is offered until then"]] })
 };
 const PEOPLE = {
-  Priya: ["Priya Nandakumar", "Author", "PN", "p"], Tom: ["Tom Bexley", ROLES.legal.label, "TB", "p"], Grace: ["Grace Mbeki", "Clinical pharmacist", "GM", "p"],
-  Calloway: ["Dr. Ruth Calloway", ROLES.medical.label, "RC", "p"], Renee: ["Renee Caldwell", ROLES.owner.label, "RC", "p"], Backup: ["Backup reviewer", "Medicare Compliance", "BR", "p"],
+  Priya: ["Priya Nandakumar", "Author", "PN", "p"], Tom: ["Tom Bexley", "Legal and Compliance", "TB", "p"], Grace: ["Grace Mbeki", "Clinical pharmacist", "GM", "p"],
+  Calloway: ["Dr. Ruth Calloway", ROLES.medical.label, "RC", "p"], Renee: ["Renee Caldwell", "Knowledge Operations lead", "RC", "p"], Backup: ["Backup reviewer", "Medicare Compliance", "BR", "p"],
   Translator: ["Qualified translator", "Spanish", "QT", "p"], June: ["June Halvorsen", "Member", "JH", "m"], Dana: ["Dana Okafor", "Insurance advocate", "DO", "m"],
   AI: ["AI", "proposes; a person decides", "AI", "ai"], System: ["System", "a fixed rule", "SYS", "sys"]
 };
