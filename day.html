@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=eda4518">
-<link rel="stylesheet" href="styles.css?v=eda4518"><link rel="stylesheet" href="story.css?v=eda4518">
+<link rel="stylesheet" href="fonts/fonts.css?v=be230fd">
+<link rel="stylesheet" href="styles.css?v=be230fd"><link rel="stylesheet" href="story.css?v=be230fd">
 <title>June's day · Lakewell Knowledge</title>
 <style>
 .dhead{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:6px 0 12px}
@@ -102,8 +102,8 @@ mark.miss{background:#cfe7ad;color:#1f4a06;font-weight:800;border-radius:3px;pad
 
 <p class="small" style="margin-top:8px">Everything on this page is fictional: plan, people, documents, counts and dates. Synthetic voices.</p>
 </main>
-<script src="data.js?v=eda4518"></script><script src="app.js?v=eda4518"></script><script src="model-run.js?v=eda4518"></script><script src="probes.js?v=eda4518"></script><script src="probes-review.js?v=eda4518"></script><script src="nearmiss.js?v=eda4518"></script><script src="probes2.js?v=eda4518"></script><script src="probes3.js?v=eda4518"></script>
-<script src="story-shared.js?v=eda4518"></script><script src="flowmap.js?v=eda4518"></script>
+<script src="data.js?v=be230fd"></script><script src="app.js?v=be230fd"></script><script src="model-run.js?v=be230fd"></script><script src="probes.js?v=be230fd"></script><script src="probes-review.js?v=be230fd"></script><script src="nearmiss.js?v=be230fd"></script><script src="probes2.js?v=be230fd"></script><script src="probes3.js?v=be230fd"></script>
+<script src="story-shared.js?v=be230fd"></script><script src="flowmap.js?v=be230fd"></script>
 <script>
 nav("day.html", "insurance", { demo: true });
 store.up(s => { if (!(s.approved || {})["KU-204"]) ENSURE.gateDone(s); const v2 = (s.approved || {})["KU-207@v2"]; if (v2 && v2.on === PLAN.today) v2.on = "8 Oct 2026"; });
@@ -156,7 +156,7 @@ const CH = [
     today: () => `<div class="line june"><span class="who">June</span><span class="say">What's the Tier 3 copay for 2027?</span></div>
       <div class="line bot"><span class="who">Chat</span><span class="say">${esc(CHAT_WRONG)}</span></div>
       ${compare(CHAT_OK, CHAT_WRONG, "What the chat said", "Taken from an unapproved planning file (illustrative figure)", "What June should be told")}
-      <div class="box wrong"><span class="issue">And nobody hears about it</span><p style="margin:0">No one records that June's question had no approved answer, so no one ever writes the 2027 figure. The next member gets the same guess.</p></div>`,
+      <div class="box wrong"><span class="issue">And the gap stays hidden</span><p style="margin:0">There is no approved 2027 copay yet, but the chat guessed instead of saying so. Nothing flags the missing answer to the knowledge team, so nobody writes it, and the next member gets the same $47.</p></div>`,
     lines: [["june", null, "What is the Tier 3 copay for 2027?", { q: "What is the Tier 3 copay for 2027?", role: "member", channel: "Member chat", read: "chat1" }],
             ["bot", null, "Thanks for asking. I don't have a confirmed answer for that yet, and I'd rather not guess. I've shared your question with our team. Would you like to talk with someone now?"],
 ] },
