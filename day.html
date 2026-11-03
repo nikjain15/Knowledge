@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=ded1794">
-<link rel="stylesheet" href="styles.css?v=ded1794"><link rel="stylesheet" href="story.css?v=ded1794">
+<link rel="stylesheet" href="fonts/fonts.css?v=ca446c6">
+<link rel="stylesheet" href="styles.css?v=ca446c6"><link rel="stylesheet" href="story.css?v=ca446c6">
 <title>June's day · Lakewell Knowledge</title>
 <style>
 .dhead{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:6px 0 12px}
@@ -102,8 +102,8 @@ mark.miss{background:#cfe7ad;color:#1f4a06;font-weight:800;border-radius:3px;pad
 
 <p class="small" style="margin-top:8px">Everything on this page is fictional: plan, people, documents, counts and dates. Synthetic voices.</p>
 </main>
-<script src="data.js?v=ded1794"></script><script src="app.js?v=ded1794"></script><script src="model-run.js?v=ded1794"></script><script src="probes.js?v=ded1794"></script><script src="probes-review.js?v=ded1794"></script><script src="nearmiss.js?v=ded1794"></script><script src="probes2.js?v=ded1794"></script><script src="probes3.js?v=ded1794"></script>
-<script src="story-shared.js?v=ded1794"></script><script src="flowmap.js?v=ded1794"></script>
+<script src="data.js?v=ca446c6"></script><script src="app.js?v=ca446c6"></script><script src="model-run.js?v=ca446c6"></script><script src="probes.js?v=ca446c6"></script><script src="probes-review.js?v=ca446c6"></script><script src="nearmiss.js?v=ca446c6"></script><script src="probes2.js?v=ca446c6"></script><script src="probes3.js?v=ca446c6"></script>
+<script src="story-shared.js?v=ca446c6"></script><script src="flowmap.js?v=ca446c6"></script>
 <script>
 nav("day.html", "insurance", { demo: true });
 store.up(s => { if (!(s.approved || {})["KU-204"]) ENSURE.gateDone(s); const v2 = (s.approved || {})["KU-207@v2"]; if (v2 && v2.on === PLAN.today) v2.on = "8 Oct 2026"; });
@@ -202,10 +202,10 @@ const CH = [
 /* The sixth tab: the takeaway, as problems (Today) or as what changes (With Lakewell) */
 const TAKE = {
   today: { title: "What went wrong today", lead: "One member, five channels, five ways the answer went wrong, and nobody could see it happening.", items: [
-    ["copies", "No single source of truth", "Every team writes its own answer."],
-    ["pencil", "Legal's words get reworded", "The bot dropped the out-of-network conditions."],
-    ["clock", "Drafts and expired content reach members", "A draft 2027 copay; last year's Star Rating."],
-    ["send", "Messages go out with no sign-off", "A price texted to thousands, no required words."],
+    ["copies", "No single source of truth", "Every team keeps its own copy: the bot's script, Dana's cheat sheet, the website's guide, the text team's spreadsheet."],
+    ["pencil", "Legal's words get reworded", "The bot copied one of three versions, then dropped the out-of-network conditions."],
+    ["clock", "Drafts and out-of-date content reach members", "A draft 2027 copay in chat; last year's Star Rating stayed up after CMS changed it, and nothing flagged it."],
+    ["send", "Messages go out from private copies", "A price from the text team's own spreadsheet, sent to thousands with no sign-off and none of the required words."],
     ["search", "Nobody can find every copy", "One disclaimer, four wordings: Legal's update never reached Dana's cheat sheet, and the website copied a version Legal never approved."],
     ["eyeoff", "Unanswered questions stay invisible", "Nobody recorded June's question, so the 2027 figure never gets written."],
     ["zap", "AI won't fix this. It will copy it.", "Today a wrong answer reaches whoever finds that copy. Put AI on the same documents and it gives that answer to every member who asks, instantly and confidently, until someone notices. That's why the knowledge has to be fixed first."]] },
