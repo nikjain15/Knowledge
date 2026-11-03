@@ -116,7 +116,7 @@ async function scene(fast) {
 function draw() {
   document.getElementById("stepper").innerHTML = storyStepper(2);
   document.getElementById("how4").innerHTML = HOW4.map(([n, h], i) => `<a href="${h}" class="${i === ACT.howIndex ? "on" : ""}"><i>${i + 1}</i>${esc(n + (/prove\.html/.test(h) ? " (opens Prove it)" : ""))}</a>`).join("");
-  const here = document.getElementById("here"); if (here) { const H = HOW4[ACT.howIndex]; here.innerHTML = `Job ${ACT.howIndex + 1} of 4 on the <a href="day.html?mode=approach">Solution architecture map</a>: <b>${esc(H[0])}</b>. ${esc(ACT.setup || H[3] || "")}`; }
+  const here = document.getElementById("here"); if (here) here.remove(); if (false) { const H = HOW4[ACT.howIndex]; here.innerHTML = `Job ${ACT.howIndex + 1} of 4 on the <a href="day.html?mode=approach">Solution architecture map</a>: <b>${esc(H[0])}</b>. ${esc(ACT.setup || H[3] || "")}`; }
   const g = groupOf(cur); document.getElementById("tabs").classList.toggle("many", GROUPS.length > 6);
   document.getElementById("tabs").innerHTML = GROUPS.map((x, i) => `<button data-t="${x[1][0]}" class="${i === g ? "on" : i < g ? "done" : ""}"><i>${i + 1}</i><span>${esc(x[0])}</span></button>`).join("");
   document.querySelectorAll("[data-t]").forEach(b => b.onclick = () => { playing = false; cur = +b.dataset.t; draw(); });
