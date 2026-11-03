@@ -16,7 +16,7 @@ const screen = (title, rows, foot) => `<div class="docv"><p class="small" style=
 const FILEI = `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4M9 13h6M9 17h6"/></svg>`;
 const BELL = `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>`;
 const person = k => PEOPLE[k] || [k, "", k.slice(0, 2).toUpperCase(), "p"];
-const SHORT = { Calloway: "Dr. Calloway", Backup: "The backup reviewer", Translator: "A qualified translator", System: "Lakewell Knowledge" };
+const SHORT = { Calloway: "Dr. Calloway", Backup: "The backup reviewer", Translator: "A qualified translator", System: "The system" };
 const first = k => SHORT[k] || person(k)[0].split(" ")[0];
 
 /* The beats of one scene, each with the line the narrator says */

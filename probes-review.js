@@ -5,5 +5,6 @@
 const PROBE_DISPUTES = { "T14-106": "Control assumes the 2026 retail copay unit (KU-223) is approved; in this demo state it is still in review, so not answering is correct" };
 const PROBE_RELABEL = { "T13-020": { expect: "ok", why: "Benefit disclosure to members, 42 CFR 422.111; ruled by the label owner, 1 Nov 2026" } };
 /* Rulings on sealed holdout labels. holdout.js is never edited; a ruling is applied here by the runner and shown beside the row. */
-const HOLDOUT_RULINGS = { H6: { accept: ["7 calendar days"], note: "label ruling D90: \"7 days\" read as \"7 calendar days, for prior-auth items\" (42 CFR 422.568, R-78)" } };
+/* Audit A-085: the accepted key is kept as a fingerprint and length, never as text, so the sealed answer cannot be read here */
+const HOLDOUT_RULINGS = { H6: { acceptFp: [{ fp: "8c585c2f", len: 15 }], note: "label ruling D90, deadline read in calendar days (42 CFR 422.568, R-78)" } };
 /* D90: any future test label that states a deadline must say calendar or working days. */
