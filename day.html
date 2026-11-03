@@ -341,6 +341,7 @@ function draw() {
   document.querySelector(".dhead h1").textContent = mode === "approach" ? "Solution architecture" : mode === "today" ? "Current state · June's day across five channels" : "Future state · June's day across five channels";
   document.getElementById("mToday").setAttribute("aria-pressed", mode === "today"); document.getElementById("mNew").setAttribute("aria-pressed", mode === "new"); document.getElementById("mAppr").setAttribute("aria-pressed", mode === "approach");
   document.getElementById("tabs").style.display = mode === "approach" ? "none" : "";
+  ["play", "stop"].forEach(id => { document.getElementById(id).style.display = mode === "approach" ? "none" : ""; });
   if (mode === "approach") { document.querySelector(".day").classList.add("wide"); document.getElementById("stage").innerHTML = approachHTML("Next: How it works, step 1 →"); document.getElementById("graphcard").innerHTML = "";
     bindApproach(draw); const go = document.getElementById("toNew"); if (go) go.onclick = () => { location.href = "how1.html"; }; return; }
   document.getElementById("tabs").innerHTML = CH.map((c, i) => `<button data-t="${i}" aria-current="${i === cur}"><b style="display:flex;align-items:center;gap:6px"><span class="tic">${ICON[c.icon]}</span>${esc(c.name)}</b><span>${esc(c.tag)}</span></button>`).join("");
