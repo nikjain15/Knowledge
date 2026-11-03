@@ -57,7 +57,7 @@ const FM = (() => {
     stops: [sc(0), T(0), T(1), T(2), [jX(2) + JW / 2, GY], [cX(5) + CW / 2, CY]] };
 })();
 const FM_BEATS = [{ stop: 0, job: -1, rows: 0 }]; FM_JOBS.forEach((s, i) => { FM_BEATS.push({ stop: i + 1, job: i, rows: 0 }); s.run.forEach((_, k) => FM_BEATS.push({ stop: i + 1, job: i, rows: k + 1 })); }); FM_BEATS.push({ stop: 5, job: 3, rows: FM_JOBS[3].run.length });
-let fmBuild = 0; const FM_BUILD_MAX = 6;
+let fmBuild = 0; const FM_BUILD_MAX = 8;
 function fmSetBuild(n) { fmBuild = Math.max(0, Math.min(FM_BUILD_MAX, n)); const w = document.querySelector(".fm-wrap"); if (w) w.dataset.build = fmBuild; }
 let fmBeat = 0, fmActive = -1, fmStop = 0, fmRows = 0, fmTimer = null, fmAnim = null;
 const FM_REDUCED = typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;

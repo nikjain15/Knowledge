@@ -236,10 +236,12 @@ details.why{margin-top:10px}details.why>summary{cursor:pointer;font-weight:800;c
 .fm-wrap .fm-head .big2,.fm-wrap .fm-svg .fm-col,.fm-wrap .k-sbox,.fm-wrap .k-src,.fm-wrap .fm-job,.fm-wrap .k-j12,.fm-wrap .k-j23,.fm-wrap .k-j3g,.fm-wrap .k-cbox,.fm-wrap .k-ch,.fm-wrap .fm-loop,.fm-wrap .fm-looplbl,.fm-wrap .fm-trav,.fm-wrap .fm-legend,.fm-wrap .fm-panel{transition:opacity .4s ease}
 .fm-wrap[data-build="0"] .fm-head .big2{opacity:0}
 .fm-wrap[data-build="0"] .fm-svg .fm-col,.fm-wrap[data-build="1"] .fm-svg .fm-col,.fm-wrap[data-build="0"] .k-sbox,.fm-wrap[data-build="1"] .k-sbox{opacity:0}
-.fm-wrap:is([data-build="0"],[data-build="1"],[data-build="2"]) :is(.k-src,.fm-job:not(.fm-gate),.k-j12,.k-j23){opacity:0}
-.fm-wrap:is([data-build="0"],[data-build="1"],[data-build="2"],[data-build="3"]) :is(.fm-gate,.k-j3g){opacity:0}
-.fm-wrap:is([data-build="0"],[data-build="1"],[data-build="2"],[data-build="3"],[data-build="4"]) :is(.k-cbox,.k-ch){opacity:0}
-.fm-wrap:not([data-build="6"]) :is(.k-draft,.fm-loop,.fm-looplbl,.fm-trav,.fm-legend,.fm-panel){opacity:0}
+.fm-wrap:is([data-build="0"],[data-build="1"],[data-build="2"]) :is(.k-src,.fm-job[data-i="0"]){opacity:0}
+.fm-wrap:is([data-build="0"],[data-build="1"],[data-build="2"],[data-build="3"]) :is(.fm-job[data-i="1"],.k-j12){opacity:0}
+.fm-wrap:is([data-build="0"],[data-build="1"],[data-build="2"],[data-build="3"],[data-build="4"]) :is(.fm-job[data-i="2"],.k-j23){opacity:0}
+.fm-wrap:is([data-build="0"],[data-build="1"],[data-build="2"],[data-build="3"],[data-build="4"],[data-build="5"]) :is(.fm-gate,.k-j3g){opacity:0}
+.fm-wrap:is([data-build="0"],[data-build="1"],[data-build="2"],[data-build="3"],[data-build="4"],[data-build="5"],[data-build="6"]) :is(.k-cbox,.k-ch){opacity:0}
+.fm-wrap:not([data-build="8"]) :is(.k-draft,.fm-loop,.fm-looplbl,.fm-trav,.fm-legend,.fm-panel){opacity:0}
 
 /* The document being read shows its first lines only, fading out, so the feed stays short */
 .fe .scan{max-height:190px;overflow:hidden;-webkit-mask-image:linear-gradient(#000 70%,transparent);mask-image:linear-gradient(#000 70%,transparent)}
