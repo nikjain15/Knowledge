@@ -50,9 +50,9 @@ const REVEAL = ".unitc, .docv > p, .docv > h5, .results > div, .cmp > div, .matc
 
 function shell(s, B) {
   const nextS = STEPS[nextOf(cur)], nextHow = HOW4[ACT.howIndex + 1], f = s.fix4 || {}, g = groupOf(cur), G = GROUPS[g] || [s.label, [cur]], parts = G[1].length, part = G[1].indexOf(cur) + 1;
-  const nextLabel = nextS ? (groupOf(nextOf(cur)) === g ? `Next: part ${part + 1}, ${nextS.label}` : `Next: ${GROUPS[g + 1][0]}`) : "";
+  const nextLabel = nextS ? (groupOf(nextOf(cur)) === g ? `Next: ${nextS.label}` : `Next: ${GROUPS[g + 1][0]}`) : "";
   document.getElementById("stage").innerHTML = `
-    <p class="eyebrow">${esc(ACT.lead)}${parts > 1 ? ` <span class="lv-part">· step ${g + 1}, part ${part} of ${parts}</span>` : ""}</p>
+    <p class="eyebrow">${esc(ACT.lead)}</p>
     <h2 class="hl">${esc(f.line || s.label)}</h2>
     <p class="was1"><b>Today:</b> ${esc((s.issue || [])[0] || "")}</p>
     <div class="beats">${B.map((b, i) => `<span data-b="${i}">${esc(b.label)}</span>`).join("")}</div>
@@ -109,7 +109,7 @@ function draw() {
   document.getElementById("how4").innerHTML = HOW4.map(([n, h], i) => `<a href="${h}" class="${i === ACT.howIndex ? "on" : ""}"><i>${i + 1}</i>${esc(n)}</a>`).join("");
   const here = document.getElementById("here"); if (here) { const H = HOW4[ACT.howIndex]; here.innerHTML = `Job ${ACT.howIndex + 1} of 4 on the <a href="day.html?mode=approach">Solution architecture map</a>: <b>${esc(H[0])}</b>. ${esc(H[3] || "")}`; }
   const g = groupOf(cur); document.getElementById("tabs").classList.toggle("many", GROUPS.length > 6);
-  document.getElementById("tabs").innerHTML = GROUPS.map((x, i) => `<button data-t="${x[1][0]}" class="${i === g ? "on" : i < g ? "done" : ""}"><i>${i + 1}</i><span>${esc(x[0])}${x[1].length > 1 ? `<em class="lv-parts">${x[1].length} parts</em>` : ""}</span></button>`).join("");
+  document.getElementById("tabs").innerHTML = GROUPS.map((x, i) => `<button data-t="${x[1][0]}" class="${i === g ? "on" : i < g ? "done" : ""}"><i>${i + 1}</i><span>${esc(x[0])}</span></button>`).join("");
   document.querySelectorAll("[data-t]").forEach(b => b.onclick = () => { playing = false; cur = +b.dataset.t; draw(); });
   return scene(false);
 }
@@ -118,5 +118,5 @@ document.getElementById("play").onclick = async () => { playing = true; cur = pl
     if (nextOf(cur) !== undefined) cur = nextOf(cur); else { const nx = HOW4[ACT.howIndex + 1]; location.href = nx ? nx[1] + "?play=1" : "day.html?mode=new"; return; } } };
 document.getElementById("stop").onclick = () => { playing = false; run++; };
 /* Audit A-072: the same stand-in line as Solution architecture, always shown under How it works */
-document.querySelector("main").insertAdjacentHTML("beforeend", `<p class="small" style="margin-top:14px">Built to run without a server or API key: text matching stands in for embeddings, semantic deduplication, hybrid and graph retrieval, and ingest replays a recorded model run. The AI steps on these pages are scripted, except the answer on Job 3, which the prototype computes when the page runs.</p>`);
+document.querySelector("main").insertAdjacentHTML("beforeend", `<p class="small" style="margin-top:14px">Prototype: no server or API key. Simple matching stands in for the real search; the AI steps are scripted.</p>`);
 if (QS.get("play") === "1") document.getElementById("play").click(); else draw();
