@@ -49,7 +49,7 @@ const PRD = {
 
   { id: "problem", n: 2, title: "The problem, with evidence", intro: "Current state follows one member, June, across five channels in one day. Each channel breaks in its own way, and each break has happened somewhere real.",
     tables: [{ caption: "June's day today (Current state page)", cols: ["Channel", "What breaks", "Failure mode"], rows: [
-      ["Phone bot", "Rewords the out-of-network rule and drops Legal's conditions; June is turned away at a pharmacy", "2. Verbatim paraphrased (S5.2)"],
+      ["Phone bot", "Copies one of three versions of the out-of-network rule, rewords it and drops Legal's conditions; June is turned away at a pharmacy", "2. Verbatim paraphrased (S5.2)"],
       ["Member chat", "Answers from an unapproved draft or an expired year with confidence", "5. Confident answers from unapproved content (S5.5); 1. Gates nobody follows (S5.1)"],
       ["Call with Dana", "Three wordings of the same disclaimer in three documents; no date, no owner; hold time while she picks one", "3. Copies that drift (S5.3, S5.6)"],
       ["Text", "A reminder text paraphrases exact wording and goes to a member who opted out", "2 and consent (S8.139, D57)"],

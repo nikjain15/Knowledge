@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=05713f1">
-<link rel="stylesheet" href="styles.css?v=05713f1"><link rel="stylesheet" href="story.css?v=05713f1">
+<link rel="stylesheet" href="fonts/fonts.css?v=eda4518">
+<link rel="stylesheet" href="styles.css?v=eda4518"><link rel="stylesheet" href="story.css?v=eda4518">
 <title>June's day · Lakewell Knowledge</title>
 <style>
 .dhead{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:6px 0 12px}
@@ -102,8 +102,8 @@ mark.miss{background:#cfe7ad;color:#1f4a06;font-weight:800;border-radius:3px;pad
 
 <p class="small" style="margin-top:8px">Everything on this page is fictional: plan, people, documents, counts and dates. Synthetic voices.</p>
 </main>
-<script src="data.js?v=05713f1"></script><script src="app.js?v=05713f1"></script><script src="model-run.js?v=05713f1"></script><script src="probes.js?v=05713f1"></script><script src="probes-review.js?v=05713f1"></script><script src="nearmiss.js?v=05713f1"></script><script src="probes2.js?v=05713f1"></script><script src="probes3.js?v=05713f1"></script>
-<script src="story-shared.js?v=05713f1"></script><script src="flowmap.js?v=05713f1"></script>
+<script src="data.js?v=eda4518"></script><script src="app.js?v=eda4518"></script><script src="model-run.js?v=eda4518"></script><script src="probes.js?v=eda4518"></script><script src="probes-review.js?v=eda4518"></script><script src="nearmiss.js?v=eda4518"></script><script src="probes2.js?v=eda4518"></script><script src="probes3.js?v=eda4518"></script>
+<script src="story-shared.js?v=eda4518"></script><script src="flowmap.js?v=eda4518"></script>
 <script>
 nav("day.html", "insurance", { demo: true });
 store.up(s => { if (!(s.approved || {})["KU-204"]) ENSURE.gateDone(s); const v2 = (s.approved || {})["KU-207@v2"]; if (v2 && v2.on === PLAN.today) v2.on = "8 Oct 2026"; });
@@ -137,13 +137,13 @@ const WEB_2025 = "Prices quoted today are estimates based on your plan's 2025 fo
 const CH = [
   { key: "Voice", icon: "bot", tag: "Automated phone line, no person", name: "Phone bot", when: "Sunday, 9:12 PM",
     who: "June calls the plan's automated phone line at night. No person answers: a voice bot does.",
-    issue: ["The bot rewords the out-of-network rule in its own words and drops the conditions Legal requires", "June hears 'any pharmacy', goes to an out-of-network pharmacy, and is turned away, or pays far more than at a network pharmacy", "She complains, and the plan is answerable for what its bot told her. Lakewell's legal wording is meant to be read exactly as written"],
-    fix: ["The bot reads the approved out-of-network wording, exactly as written", "June learns the conditions before she goes to the pharmacy", "No surprise bill, and nothing the plan has to defend"],
-    path: [["QUESTION", "Any pharmacy?", "asked at 9 PM"], ["BOT'S OWN SCRIPT", "Its own summary", "not the approved words"], ["REWORDS", "Drops the conditions", "no check against Legal"], ["SAYS", "'Any pharmacy you like'", "wrong"]],
-    fixpath: [["QUESTION", "Any pharmacy?", "asked at 9 PM"], ["APPROVED SOURCE", "Out-of-network topic", "approved by Legal"], ["EXACT WORDING", "Read exactly", "never reworded"], ["SAYS", "The approved conditions", "word for word"]],
+    issue: ["The bot's script was copied from one of three versions of the out-of-network rule, then reworded, and the conditions Legal requires fell out", "June hears 'any pharmacy', goes to an out-of-network pharmacy, and is turned away, or pays far more than at a network pharmacy", "She complains, and the plan is answerable for what its bot told her. Lakewell's legal wording is meant to be read exactly as written"],
+    fix: ["The bot reads the one approved out-of-network wording, exactly as written; the other two copies are retired", "June learns the conditions before she goes to the pharmacy", "No surprise bill, and nothing the plan has to defend"],
+    path: [["QUESTION", "Any pharmacy?", "asked at 9 PM"], ["COPIED SCRIPT", "1 of 3 versions", "nobody knows which Legal approved"], ["REWORDS", "Drops the conditions", "no check against Legal"], ["SAYS", "'Any pharmacy you like'", "wrong"]],
+    fixpath: [["QUESTION", "Any pharmacy?", "asked at 9 PM"], ["ONE SOURCE", "One approved topic", "other copies retired"], ["EXACT WORDING", "Read exactly", "never reworded"], ["SAYS", "The approved conditions", "word for word"]],
     today: () => `<div class="line june"><span class="who">June</span><span class="say">Hi. Can I use any pharmacy, even one that isn't in your network?</span></div>
       <div class="line bot"><span class="who">Bot</span><span class="say">${esc(BOT_WRONG)}</span></div>
-      ${compare(OON_OK, BOT_WRONG, "What the bot said", "The bot's own paraphrase of the rule")}`,
+      ${compare(OON_OK, BOT_WRONG, "What the bot said", "Copied from one of three versions, then reworded")}`,
     lines: [["bot", "bot1", "Thanks for calling Lakewell Advantage. I'm an automated assistant, and I can answer general questions about your plan. How can I help?"],
             ["june", "june1", "Hi. Can I use any pharmacy, even one that isn't in your network?", { q: "Can I use any pharmacy, even one that isn't in your network?", role: "member", channel: "Voice", read: "june1" }],
             ["bot", "bot2", null, { fromAnswer: true }]] },
