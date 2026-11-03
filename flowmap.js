@@ -50,6 +50,8 @@ const FM = (() => {
     stops: [sc(0), T(0), T(1), T(2), [jX(2) + JW / 2, GY], [cX(5) + CW / 2, CY]] };
 })();
 const FM_BEATS = [{ stop: 0, job: -1, rows: 0 }]; FM_JOBS.forEach((s, i) => { FM_BEATS.push({ stop: i + 1, job: i, rows: 0 }); s.run.forEach((_, k) => FM_BEATS.push({ stop: i + 1, job: i, rows: k + 1 })); }); FM_BEATS.push({ stop: 5, job: 3, rows: FM_JOBS[3].run.length });
+let fmBuild = 0; const FM_BUILD_MAX = 6;
+function fmSetBuild(n) { fmBuild = Math.max(0, Math.min(FM_BUILD_MAX, n)); const w = document.querySelector(".fm-wrap"); if (w) w.dataset.build = fmBuild; }
 let fmBeat = 0, fmActive = -1, fmStop = 0, fmRows = 0, fmTimer = null, fmAnim = null;
 const FM_REDUCED = typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -58,8 +60,8 @@ let FM_NEXT = "";
 function flowHTML(nextLabel) {
   FM_NEXT = nextLabel;
   return `<div class="appr2 fm-wrap"><div class="fm-head"><div><p class="eyebrow">Solution architecture</p>
-    <h2>A governed knowledge layer: one source of truth for every channel, human or AI.</h2>
-    <p class="big2">We fix the knowledge once, at the source, instead of fixing each channel.</p></div>
+    <h2>One approved answer, on every channel.</h2>
+    <p class="big2">Fix the knowledge once, at the source. Every channel, human or AI, reads the same answer.</p></div>
     <div class="fm-icons"><button class="icb primary" id="fmPlay" title="Play slowly" aria-label="Play slowly"></button><button class="icb" id="fmStop" title="Stop" aria-label="Stop"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></svg></button></div></div>
     <div id="fm"></div>
     <p class="fm-legend"><span class="fm-dash"></span>dashed green: a feedback loop, running back against the flow</p>
@@ -93,7 +95,8 @@ function flowMount() {
   el.querySelectorAll(".fm-job").forEach(j => { const jump = () => fmGo(FM_BEATS.findIndex(b => b.job === +j.dataset.i && b.rows === 0)); j.onclick = jump; j.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); jump(); } }; });
   document.getElementById("fmStop").onclick = () => { if (fmTimer) { clearInterval(fmTimer); fmTimer = null; } fmGo(0); };
   document.getElementById("fmPlay").onclick = fmPlay;
-  if (!flowMount.keys) { flowMount.keys = true; document.addEventListener("keydown", e => { if (!document.getElementById("fm")) return; if (e.target && /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return; if (e.key === "ArrowRight") { fmGo(fmBeat + 1); e.preventDefault(); } if (e.key === "ArrowLeft") { fmGo(fmBeat - 1); e.preventDefault(); } }); }
+  if (!flowMount.keys) { flowMount.keys = true; document.addEventListener("keydown", e => { if (!document.getElementById("fm")) return; if (e.target && /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return; if (e.key === "ArrowRight") { if (fmBuild < FM_BUILD_MAX) fmSetBuild(fmBuild + 1); else fmGo(fmBeat + 1); e.preventDefault(); } if (e.key === "ArrowLeft") { if (fmBeat === 0 && fmBuild > 0) fmSetBuild(fmBuild - 1); else fmGo(fmBeat - 1); e.preventDefault(); } }); }
+  fmSetBuild(0);
   fmBeat = 0; fmActive = -1; fmStop = 0; fmRows = 0; fmPlace(FM.stops[0]); fmGo(0);
 }
 function fmPlace(pt) { const t = document.getElementById("fmTrav"); if (t) t.setAttribute("transform", `translate(${pt[0]} ${pt[1]})`); }
@@ -115,11 +118,12 @@ function fmFocus() {
   svg.querySelectorAll(".fm-job").forEach(j => j.classList.toggle("on", +j.dataset.i === fmActive));
 }
 function fmGo(b) {
+  if (b > 0) fmSetBuild(FM_BUILD_MAX);
   const prev = fmStop; fmBeat = Math.max(0, Math.min(FM_BEATS.length - 1, b)); const x = FM_BEATS[fmBeat]; fmStop = x.stop; fmActive = x.job; fmRows = x.rows;
   fmFocus(); if (fmStop !== prev) fmMove(prev, fmStop); fmPanel();
   const pb = document.getElementById("fmPlay"); if (pb) pb.innerHTML = fmTimer ? '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/></svg>' : '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
 }
-function fmPlay() { if (fmTimer) { clearInterval(fmTimer); fmTimer = null; fmGo(fmBeat); return; } fmTimer = setInterval(() => { if (fmBeat >= FM_BEATS.length - 1) { clearInterval(fmTimer); fmTimer = null; fmGo(fmBeat); return; } fmGo(fmBeat + 1); }, 3400); fmGo(fmBeat + 1); }
+function fmPlay() { fmSetBuild(FM_BUILD_MAX); if (fmTimer) { clearInterval(fmTimer); fmTimer = null; fmGo(fmBeat); return; } fmTimer = setInterval(() => { if (fmBeat >= FM_BEATS.length - 1) { clearInterval(fmTimer); fmTimer = null; fmGo(fmBeat); return; } fmGo(fmBeat + 1); }, 3400); fmGo(fmBeat + 1); }
 function fmPanel() {
   const p = document.getElementById("fmPanel"); if (!p) return;
   if (fmActive < 0) { p.innerHTML = `<div class="fm-intro"><p>We follow one plan policy from Renee's folder to June's screen. Press play, or click a job.</p><button class="btn primary" data-go="0">Begin the journey →</button></div>`; }

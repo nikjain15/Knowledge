@@ -71,8 +71,8 @@ function approachHTML(nextLabel) {
   if (typeof flowHTML === "function") return flowHTML(nextLabel); /* the flow map (flowmap.js); the cards below remain for pages that do not load it */
   const open = OPEN4;
   return `<div class="appr2"><p class="eyebrow">Solution architecture</p>
-    <h2>A governed knowledge layer: one source of truth for every channel, human or AI.</h2>
-    <p class="big2">We fix the knowledge once, at the source, instead of fixing each channel.</p>
+    <h2>One approved answer, on every channel.</h2>
+    <p class="big2">Fix the knowledge once, at the source. Every channel, human or AI, reads the same answer.</p>
     <div class="steps4">${STEPS4.map((s, i) => `<button class="s4card ${s.cls}${open.has(i) ? " open" : ""}" data-s4="${i}"><span class="s4i">${SICON[s.icon] ? `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${SICON[s.icon]}</svg>` : ""}</span><b>${i + 1}. ${esc(s.n)} ${open.has(i) ? "▴" : "▾"}</b><span class="s4l">${esc(s.line)}</span>${tagRow(s.tags.slice(0, 3))}</button>`).join('<span class="arr4">→</span>')}</div>
     <div class="loops"><div class="loop"><b>Feedback loop · content gaps</b> Unanswered questions go back to the author as Priya's list of answers to write.</div><div class="loop"><b>Feedback loop · drift</b> When a source changes, one alert finds every copy and channel.</div></div>
     ${[...open].sort().map(i => stepDetail(STEPS4[i], i)).join("")}
