@@ -68,7 +68,7 @@ const MODEL_RUN = { recordedOn: "1 Nov 2026", lines: {
     confidence: "high: direct factual question",
     best_unit: "KU-207",
     answerable_from_unit: "yes",
-    rationale: "The Star Rating topic's current version (effective 8 Oct 2026, website) states Lakewell Advantage was rated 4 out of 5 stars for the 2027 plan year; the 2026 3.5-star version expired 29 Oct 2026 and must not be served, and the Star Ratings disclaimer should precede it."
+    rationale: "The Star Rating topic's current version (effective 8 Oct 2026, website) states Lakewell Advantage was rated 3.5 out of 5 stars for the 2027 plan year; the 2026 4-star version expired 29 Oct 2026 and must not be served, and the Star Ratings disclaimer should precede it."
   }
 } };
 if (typeof module !== "undefined") module.exports = MODEL_RUN;
