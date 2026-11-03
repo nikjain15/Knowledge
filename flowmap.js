@@ -124,7 +124,8 @@ function fmFocus() {
   svg.querySelectorAll(".fm-job").forEach(j => j.classList.toggle("on", +j.dataset.i === fmActive));
 }
 function fmGo(b) {
-  if (b > 0) fmSetBuild(FM_BUILD_MAX);
+  { const t = FM_BEATS[Math.max(0, Math.min(FM_BEATS.length - 1, b))] || {}, w = document.querySelector(".fm-wrap");
+    if (t.job >= 0) { fmSetBuild(Math.max(fmBuild, 3 + Math.min(t.job, 3))); if (w) w.classList.add("showpanel"); } }
   const prev = fmStop; fmBeat = Math.max(0, Math.min(FM_BEATS.length - 1, b)); const x = FM_BEATS[fmBeat]; fmStop = x.stop; fmActive = x.job; fmRows = x.rows;
   fmFocus(); if (fmStop !== prev) fmMove(prev, fmStop); fmPanel();
   const pb = document.getElementById("fmPlay"); if (pb) pb.innerHTML = fmTimer ? '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/></svg>' : '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';

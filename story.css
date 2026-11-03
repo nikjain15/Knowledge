@@ -320,3 +320,4 @@ details.why{margin-top:10px}details.why>summary{cursor:pointer;font-weight:800;c
 @media (max-width:1100px){.cast-row{grid-template-columns:repeat(4,minmax(0,1fr))}}@media (max-width:600px){.cast-row{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .cast-row{grid-template-columns:repeat(4,minmax(0,1fr))}.cp{align-items:center}.cp small{display:inline}.cp div>span{display:inline}.cp div>span:after{content:" · "}.cp .cpi{display:grid!important}
 .cp{opacity:.35;background:#f6f6f2;border-color:#eef0e8}.cp.act{opacity:1;background:#fff;border:2px solid #2b2f27}.cp.act .cpi{background:#2b2f27;color:#fff}.cp.main{border-color:#eef0e8}
+.fm-wrap.showpanel .fm-panel{opacity:1!important}
