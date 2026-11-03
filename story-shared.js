@@ -90,7 +90,8 @@ function bindDetail(redraw) { const d = document.getElementById("detailsw"); if 
 /* ---------- The story stepper: the five parts of the demo, in order, on every page ---------- */
 const STORY5 = [["Current state", "day.html?mode=today"], ["Solution architecture", "day.html?mode=approach"], ["How it works", "how1.html"], ["Future state", "day.html?mode=new"], ["Prove it", "prove.html"]];
 function storyStepper(active) {
-  return `<nav class="story5">${STORY5.map(([n, h], i) => `<a href="${h}" class="${i === active ? "on" : i < active ? "done" : ""}">${esc(n)}</a>`).join('<span class="sep5">›</span>')}</nav>`;
+  const here = active === 4 ? `<p class="here">Job 4 of 4 on the <a href="day.html?mode=approach">Solution architecture map</a>: <b>Test every release</b>. ${esc(HOW4[3][3])}</p>` : "";
+  return `<nav class="story5">${STORY5.map(([n, h], i) => `<a href="${h}" class="${i === active ? "on" : i < active ? "done" : ""}">${esc(n)}</a>`).join('<span class="sep5">›</span>')}</nav>${here}`;
 }
 /* The four How it works steps, mirroring the architecture */
 const HOW4 = [["Ingest and structure", "how1.html", "Priya", "Documents become proposed topics; Priya accepts them."], ["Govern and approve", "how2.html", "Tom, Grace, Dr. Calloway", "One approved version, dated and scoped; the drift loop lives here."], ["Serve every channel", "how3.html", "Priya, Renee", "The same answer in every channel, or none; the gap loop lives here."], ["Test every release", "prove.html", "Renee", "Independent tests decide each release; one red row blocks it."]];

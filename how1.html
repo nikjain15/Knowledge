@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=5a05adb">
-<link rel="stylesheet" href="styles.css?v=5a05adb"><link rel="stylesheet" href="story.css?v=5a05adb">
+<link rel="stylesheet" href="fonts/fonts.css?v=229886a">
+<link rel="stylesheet" href="styles.css?v=229886a"><link rel="stylesheet" href="story.css?v=229886a">
 <title>How it works · Job 1 · Ingest and structure · Lakewell Knowledge</title>
 <style>
 .tabs5{grid-template-columns:repeat(5,minmax(0,1fr))}
@@ -17,14 +17,14 @@
 <div class="subbar" id="tabs"></div>
 <div class="card howcard" id="stage"></div>
 </main>
-<script src="data.js?v=5a05adb"></script><script src="app.js?v=5a05adb"></script><script src="story-shared.js?v=5a05adb"></script>
+<script src="data.js?v=229886a"></script><script src="app.js?v=229886a"></script><script src="story-shared.js?v=229886a"></script>
 <script>
 nav("how1.html", "author", { demo: true });
 const RX = DOCS.find(d => d.id === "DOC-RXV2"), SD = DOCS.find(d => d.id === "DOC-SD09"), INJ = (CORE_UNITS.find(u => u.id === "KU-214") || {}).injection;
 const OON = (RX.sections.flatMap(s => s.blocks).find(b => b.verbatim && /network/.test(b.t || "")) || {}).t;
 const COPAY = (SD.sections.flatMap(s => s.blocks).find(b => b.s === "M3") || {}).t;
 window.ACT = {
-  title: "Act 1 · Priya turns documents into knowledge", role: "author",
+  title: "Job 1 · Ingest and structure", role: "author",
   take: {
     today: { title: "What goes wrong before anyone answers a question", lead: "Every channel reads from documents nobody made ready: buried, messy, unsafe and duplicated.", items: [
       ["pencil", "Legal's words are buried", "The phone bot rewords what nothing marks as exact."], ["zap", "Sources can carry hidden orders", "The chat follows a line planted in a document."],
@@ -79,4 +79,4 @@ window.ACT = {
 
 ACT.lead = "Priya, the author"; ACT.steps = [["Voice", "Extract topics and mark exact wording"], ["Advocate desk", "Sort the messy file"], ["Member chat", "Strip planted instructions"], ["Outbound", "Turn tables into dated facts"], ["Website", "Find every copy"]]; ACT.howIndex = 0;
 </script>
-<script src="how-scenes.js?v=5a05adb"></script><script src="how-engine.js?v=5a05adb"></script></body></html>
+<script src="how-scenes.js?v=229886a"></script><script src="how-engine.js?v=229886a"></script></body></html>

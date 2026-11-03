@@ -34,7 +34,7 @@ async function holdoutHash() { try { const t = await (await fetch("holdout.js", 
 async function evalAll(st) {
   const R = GOLDEN.map(g => run1(g, st)), by = id => R.find(x => x.g.id === id), col = k => COLS[k].map(by);
   const hh = await holdoutHash(), sealedOK = hh === SEALED, /* D90, D163: a ruling is an accepted alternate key checked against the answer text; the raw result against the original key is kept as rawPass */
-  H = HOLDOUT.map(g => { const x = run1(g, st), rl = HOLDOUT_RULINGS[g.id]; if (!rl) return x; const txt = x.r.text || "", alt = x.answered && (rl.acceptFp || []).some(k => { for (let i = 0; i + k.len <= txt.length; i++) if (fp(txt.slice(i, i + k.len)) === k.fp) return true; return false; }); return Object.assign(x, { rawPass: x.pass, pass: x.pass || alt, keyOK: x.keyOK || alt, ruling: rl.note, altKey: alt ? rl.accept.join(", ") : null }); });
+  H = HOLDOUT.map(g => { const x = run1(g, st), rl = HOLDOUT_RULINGS[g.id]; if (!rl) return x; const txt = x.r.text || "", alt = x.answered && (rl.acceptFp || []).some(k => { for (let i = 0; i + k.len <= txt.length; i++) if (fp(txt.slice(i, i + k.len)) === k.fp) return true; return false; }); return Object.assign(x, { rawPass: x.pass, pass: x.pass || alt, keyOK: x.keyOK || alt, ruling: rl.note, altKey: alt ? "the alternate key (" + rl.note.split(",")[0] + ")" : null }); });
   // T tests
   const t1 = dupCheck(ALL_BASE().find(u => u.id === T1_PAIR[0]).versions[0].text, ALL_BASE().find(u => u.id === T1_PAIR[1]).versions[0].text, false);
   const pdFound = PD_WORDINGS.slice(1).every(w => dupCheck(PD_WORDINGS[0].text, w.text, true).dup);
