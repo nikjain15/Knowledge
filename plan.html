@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=a0fe317">
-<link rel="stylesheet" href="styles.css?v=a0fe317"><link rel="stylesheet" href="story.css?v=a0fe317">
+<link rel="stylesheet" href="fonts/fonts.css?v=b4777d2">
+<link rel="stylesheet" href="styles.css?v=b4777d2"><link rel="stylesheet" href="story.css?v=b4777d2">
 <title>Roadmap · Lakewell Knowledge</title>
 <style>
 .rule3{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0 18px}.rule3 span{font-family:Manrope,sans-serif;font-weight:800;font-size:14px;padding:7px 12px;border-radius:99px;background:#f1f1ec;color:#2b2f27;border:1px solid #e2e3db}.rule3 i{font-style:normal;color:var(--muted)}
@@ -26,13 +26,24 @@
 .ph-x{grid-column:1 / -1;display:grid;grid-template-columns:1fr 1.5fr;gap:8px 22px;border-top:1px dashed #e2e3db;padding-top:8px;font-size:13px;color:#3b3f36}.ph-x b{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
 @media (max-width:900px){.ph-x{grid-template-columns:1fr}}
 .ph-jobs{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}.ph-jobs span{font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:99px;border:1px solid #cfd1c7;color:#2b2f27;background:#fff}.ph-jobs .pre{color:var(--muted)}
+.tl{position:relative;display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin:18px 0 16px}
+.tl-line{position:absolute;left:8.3%;right:8.3%;top:19px;height:3px;background:#e2e3db;border-radius:3px}.tl-line i{display:block;height:100%;width:0;background:#2b2f27;border-radius:3px;transition:width .5s ease}
+.tl-n{position:relative;z-index:1;font:inherit;background:none;border:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;padding:0}
+.tl-d{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-family:Manrope,sans-serif;font-weight:800;background:#fff;border:2px solid #cfd1c7;color:#6b6f66;transition:all .3s}
+.tl-t{font-size:12.5px;font-weight:700;color:#6b6f66;text-align:center;line-height:1.3}
+.tl-n.done .tl-d{background:#2b2f27;border-color:#2b2f27;color:#fff}.tl-n.on .tl-d{background:#fff;border-color:#2b2f27;color:#2b2f27;box-shadow:0 0 0 4px #e9e9e2}.tl-n.on .tl-t,.tl-n.done .tl-t{color:#2b2f27}
+.phcard{border:1px solid #e4e6dc;border-radius:16px;background:#fff;padding:18px 20px}.phcard.in{animation:stin .45s ease}
+.pc-top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;border-bottom:1px solid #eef0e8;padding-bottom:12px;margin-bottom:14px}.pc-top small{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:800}.pc-top h3{margin:2px 0 4px;font-family:Manrope,sans-serif;font-weight:800;font-size:22px}.pc-top p{margin:0;font-size:15px}
+.pc-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.pc-b{border-radius:12px;background:#f8f8f5;padding:12px 14px;font-size:14px;line-height:1.5}.pc-b b{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}.pc-b ul{margin:0;padding-left:18px}.pc-b p{margin:0}
+.pc-b.ok ul.tk{list-style:none;padding:0}.pc-b.ok li:before{content:"✓ ";font-weight:800;color:#2b4a12}.pc-b.risk{background:#fdf6ee}
+@media (max-width:900px){.pc-grid{grid-template-columns:1fr}.tl-t{font-size:10.5px}.pc-top{flex-direction:column}}
 </style></head><body>
 <main class="area" style="max-width:1280px">
 <div id="stepper"></div>
 <div class="hhead"><h1>Roadmap</h1></div>
 <div class="card howcard" id="stage"></div>
 </main>
-<script src="data.js?v=a0fe317"></script><script src="app.js?v=a0fe317"></script><script src="story-shared.js?v=a0fe317"></script>
+<script src="data.js?v=b4777d2"></script><script src="app.js?v=b4777d2"></script><script src="story-shared.js?v=b4777d2"></script>
 <script>
 /* How we build it, in order (PRD section 14, strategy S10, D78, D180). Plain words; no durations on screen (they are placeholders). */
 nav("plan.html", "", { demo: true });
@@ -58,12 +69,22 @@ const EXTRA = [
 let shown = 1;
 document.getElementById("stage").innerHTML = `<p class="eyebrow">Plan to build the future state</p>
   <h2 class="hl">From prototype to production: six phases, each with an owner and a gate it must pass.</h2>
-  
-  <ol class="path">${STEPS_R.map((r, i) => `<li class="rp${i ? " later" : ""}" data-ph="${i}"><span class="dot">${i + 1}</span><div class="box2"><div class="ph-h"><small>Phase ${i + 1}</small><h3>${esc(r[0])}</h3><p>${esc(r[1])}</p>${JOBS_P[i].length ? `<div class="ph-jobs">${JOBS_P[i].map(j => `<span>Builds ${esc(j)}</span>`).join("")}</div>` : `<div class="ph-jobs"><span class="pre">Before any build</span></div>`}</div><ul class="ph-do">${r[2].map(x => `<li>${esc(x)}</li>`).join("")}</ul><div class="ph-ok"><b>Success looks like</b>${r[3].map(x => `<span>✓ ${esc(x)}</span>`).join("")}</div><div class="ph-x"><span><b>Delivers</b>${esc(EXTRA[i][0])}</span><span><b>Biggest risk</b>${esc(EXTRA[i][1])}</span></div></div></li>`).join("")}</ol>
-  <div class="side2"><div class="pilot"><b>Running through every phase</b>Change management and training for authors, approvers and advocates; a governance group that owns the stop rule; the same tests run before every release. Search goes live in phase 4, only over approved answers.</div><div class="stop"><b>Stop rule</b>If anyone sees content outside their role, or Legal's words change, that channel stops serving at once. It restarts only after the fix ships with a new test and the signers agree.</div></div>
-  <div class="foot" style="margin-top:18px"><span class="small" id="phc">Phase 1 of 6 · press → for the next phase</span><button class="btn primary" id="phn">Next phase →</button></div>`;
-function showPh(n) { shown = Math.max(1, Math.min(STEPS_R.length, n)); document.querySelectorAll("[data-ph]").forEach(li => li.classList.toggle("later", +li.dataset.ph >= shown)); const side = document.querySelector(".side2"); if (side) side.style.display = shown === STEPS_R.length ? "" : "none"; document.getElementById("phc").textContent = shown < STEPS_R.length ? `Phase ${shown} of ${STEPS_R.length} · press → for the next phase` : "All six phases"; const b = document.getElementById("phn"); b.textContent = shown < STEPS_R.length ? "Next phase →" : "Next: Trade-offs →"; b.onclick = () => { if (shown < STEPS_R.length) { showPh(shown + 1); const li = document.querySelector(`[data-ph="${shown - 1}"]`); if (li) li.scrollIntoView({ block: "nearest", behavior: "smooth" }); } else location.href = "choices.html"; }; }
-showPh(1);
-document.addEventListener("keydown", e => { if (e.key === "ArrowRight") { showPh(shown + 1); e.preventDefault(); } if (e.key === "ArrowLeft") { showPh(shown - 1); e.preventDefault(); } });
+  <div class="tl"><div class="tl-line"><i id="tlfill"></i></div>${STEPS_R.map((r, i) => `<button class="tl-n" data-n="${i}"><span class="tl-d">${i + 1}</span><span class="tl-t">${esc(r[0])}</span></button>`).join("")}</div>
+  <div id="phcard" class="phcard"></div>
+  <div class="foot" style="margin-top:16px"><button class="btn" id="php">← Previous</button><span class="small" id="phc"></span><button class="btn primary" id="phn">Next phase →</button></div>`;
+let cur = 0;
+function card(i) { const r = STEPS_R[i], x = EXTRA[i], j = JOBS_P[i];
+  return `<div class="pc-top"><div><small>Phase ${i + 1} of ${STEPS_R.length}</small><h3>${esc(r[0])}</h3><p>${esc(r[1])}</p></div><div class="ph-jobs">${j.length ? j.map(t => `<span>Builds ${esc(t)}</span>`).join("") : `<span class="pre">Before any build</span>`}</div></div>
+  <div class="pc-grid"><div class="pc-b"><b>What we do</b><ul>${r[2].map(t => `<li>${esc(t)}</li>`).join("")}</ul></div><div class="pc-b ok"><b>Success looks like</b><ul class="tk">${r[3].map(t => `<li>${esc(t)}</li>`).join("")}</ul></div><div class="pc-b"><b>Delivers</b><p>${esc(x[0])}</p></div><div class="pc-b risk"><b>Biggest risk, and how we handle it</b><p>${esc(x[1])}</p></div></div>`; }
+function go(i) { cur = Math.max(0, Math.min(STEPS_R.length - 1, i)); const c = document.getElementById("phcard"); c.classList.remove("in"); void c.offsetWidth; c.innerHTML = card(cur); c.classList.add("in");
+  document.querySelectorAll(".tl-n").forEach((b, k) => { b.classList.toggle("on", k === cur); b.classList.toggle("done", k < cur); });
+  document.getElementById("tlfill").style.width = (cur / (STEPS_R.length - 1) * 100) + "%";
+  document.getElementById("phc").textContent = `Phase ${cur + 1} of ${STEPS_R.length} · use ← →`;
+  document.getElementById("php").style.visibility = cur ? "visible" : "hidden";
+  const n = document.getElementById("phn"); n.textContent = cur < STEPS_R.length - 1 ? "Next phase →" : "Next: Trade-offs →"; n.onclick = () => cur < STEPS_R.length - 1 ? go(cur + 1) : (location.href = "choices.html"); }
+document.querySelectorAll(".tl-n").forEach(b => b.onclick = () => go(+b.dataset.n));
+document.getElementById("php").onclick = () => go(cur - 1);
+go(0);
+document.addEventListener("keydown", e => { if (e.key === "ArrowRight") { go(cur + 1); e.preventDefault(); } if (e.key === "ArrowLeft") { go(cur - 1); e.preventDefault(); } });
 document.querySelector("main").insertAdjacentHTML("beforeend", `<p class="small" style="margin-top:14px">Phase gates and order from the PRD, section 14. Discovery, shadow mode and change management are our recommended delivery practice. Timings are left out until discovery sizes them.</p>`);
 </script></body></html>
