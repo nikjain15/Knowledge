@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=be230fd">
-<link rel="stylesheet" href="styles.css?v=be230fd"><link rel="stylesheet" href="story.css?v=be230fd">
+<link rel="stylesheet" href="fonts/fonts.css?v=bb9fa5b">
+<link rel="stylesheet" href="styles.css?v=bb9fa5b"><link rel="stylesheet" href="story.css?v=bb9fa5b">
 <title>June's day · Lakewell Knowledge</title>
 <style>
 .dhead{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:6px 0 12px}
@@ -102,8 +102,8 @@ mark.miss{background:#cfe7ad;color:#1f4a06;font-weight:800;border-radius:3px;pad
 
 <p class="small" style="margin-top:8px">Everything on this page is fictional: plan, people, documents, counts and dates. Synthetic voices.</p>
 </main>
-<script src="data.js?v=be230fd"></script><script src="app.js?v=be230fd"></script><script src="model-run.js?v=be230fd"></script><script src="probes.js?v=be230fd"></script><script src="probes-review.js?v=be230fd"></script><script src="nearmiss.js?v=be230fd"></script><script src="probes2.js?v=be230fd"></script><script src="probes3.js?v=be230fd"></script>
-<script src="story-shared.js?v=be230fd"></script><script src="flowmap.js?v=be230fd"></script>
+<script src="data.js?v=bb9fa5b"></script><script src="app.js?v=bb9fa5b"></script><script src="model-run.js?v=bb9fa5b"></script><script src="probes.js?v=bb9fa5b"></script><script src="probes-review.js?v=bb9fa5b"></script><script src="nearmiss.js?v=bb9fa5b"></script><script src="probes2.js?v=bb9fa5b"></script><script src="probes3.js?v=bb9fa5b"></script>
+<script src="story-shared.js?v=bb9fa5b"></script><script src="flowmap.js?v=bb9fa5b"></script>
 <script>
 nav("day.html", "insurance", { demo: true });
 store.up(s => { if (!(s.approved || {})["KU-204"]) ENSURE.gateDone(s); const v2 = (s.approved || {})["KU-207@v2"]; if (v2 && v2.on === PLAN.today) v2.on = "8 Oct 2026"; });
@@ -169,7 +169,7 @@ const CH = [
     today: () => `<div class="line june"><span class="who">June</span><span class="say">Is the price I was quoted for my medicine final?</span></div>
       <div class="results"><div><b>Script library · Rx Education Script (v2)</b> <span class="small">the 2026 wording</span></div><div><b>Shared drive · Rx Education Script (v3)</b> <span class="small">a 2027 draft, not approved</span></div><div><b>Intranet · Pharmacy Desk Cheat Sheet 2025</b> <span class="small">last year's, still searchable</span></div></div>
       <p class="small" style="margin:4px 0 0">Three results, three wordings, and nothing says which one Legal approved. Dana picks the cheat sheet she always uses:</p>
-      ${compare(PD["PD-A"], DESK_2025, "What Dana read to June", "From the 2025 cheat sheet")}
+      ${compare(PD["PD-A"], DESK_2025, "What Dana read to June", "From the 2025 cheat sheet (last plan year)")}
       <div class="box wrong"><span class="issue">Why the 2025 copy was still there</span><p style="margin:0">Legal updated this wording for 2026, but nobody knew the desk cheat sheet held a copy, so it was never changed.</p></div>`,
     lines: [["dana", "dana1", "Thank you for calling Lakewell Advantage, this is Dana. May I have your full name, please?"], ["june", "june2", "June Halvorsen."],
             ["dana", "dana2", "Thank you, June. And your date of birth?"], ["june", "june3", "April second, nineteen fifty-four."],
