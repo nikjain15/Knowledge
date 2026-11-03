@@ -66,9 +66,17 @@ async function evalAll(st) {
     const indepIds = new Set(PROBES.map(p => p.id)), okI = ok.filter(x => indepIds.has(x.p.id)), mustI = mustD.filter(x => indepIds.has(x.p.id));
     const indep = { ok: okI.length, falseN: okI.filter(x => okFired[set](x.r)).length, must: mustI.length, caught: mustI.filter(x => fired[set](x.r)).length };
     return { set, name: TESTS_PROBE[set], rows, must: mustD.length, caught, ok: ok.length, falseN, rate, noUnit, indep, rateShown: ok.length >= 59 ? ` (${rate}%)` : "", disputed: rows.filter(x => x.disputed), pass: caught === mustD.length && rate <= 10, misses: mustD.filter(x => !fired[set](x.r)).concat(ok.filter(x => okFired[set](x.r))) }; });
+  /* D243: fairness pairs. The same question asked in plain words, misspelt, in a hurry or in Spanish must get the same approved answer, or the correct hand-off; it must never get a different answer */
+  const FAIR = [["KU-205", "member", [["Plain words", "Is it ok to go to a drugstore outside the plan?"], ["Misspelt", "Can I use an out of netwerk pharmacy?"], ["Casual", "can i get my pills at a pharmacy thats not in network"], ["Spanish", "\u00bfPuedo usar una farmacia fuera de la red?"]]],
+    ["KU-211", "member", [["Misspelt", "vison benifit limit"], ["Plain words", "how much do i get for glasses"]]],
+    ["KU-202", "pharmacy", [["Misspelt", "pricing disclamer"], ["In a hurry", "Pricing disclaimer please, quick, member on the line"], ["Plain words", "what do i read to members about prices"]]],
+    ["KU-204", "pharmacy", [["Plain words", "how long does an exception take"], ["Misspelt", "formulary excepton timeline"]]]
+  ].flatMap(([unit, role, vs]) => vs.map(([way, q]) => { const r = answer(q, { role, state: st }), got = r.unit && (r.unit.canonical_id || r.unit.id);
+    const same = way === "Spanish" ? r.route === "translator" : got === unit, wrong = r.kind === "answer" && got !== unit; return { unit, role, way, q, r, same, wrong }; }));
+  const fair = { rows: FAIR, n: FAIR.length, same: FAIR.filter(x => x.same).length, wrong: FAIR.filter(x => x.wrong).length };
   const probesPass = PS.every(x => x.pass), nDisputed = PS.reduce((a, x) => a + x.disputed.length, 0);
   /* D87: the banner can never say Pass while any rule row is red, on the development set or the sealed holdout */
   const holdRulesOK = H.every(x => !x.leak) && abs(H).every(x => !x.answered) && ans(H).every(x => x.cites) && verbs(H).every(x => x.verb) && routes(H).every(x => x.routeOK && !x.answered);
   const release = rulesPass && holdRulesOK && probesPass && sealedOK && t4leak === 0;
-  return { R, by, col, hh, sealedOK, H, t1, pdFound, t2, driftCaught, ev, t3gaps, t4, t4leak, t4count, T, t5same, t6, t7, t8, ans, abs, verbs, routes, L, colsAll, rulesPass, PS, probesPass, nDisputed, holdRulesOK, release };
+  return { R, by, col, hh, sealedOK, H, t1, pdFound, t2, driftCaught, ev, t3gaps, t4, t4leak, t4count, T, t5same, t6, t7, t8, ans, abs, verbs, routes, L, colsAll, rulesPass, PS, probesPass, nDisputed, holdRulesOK, release, fair };
 }

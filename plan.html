@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=f79e5be">
-<link rel="stylesheet" href="styles.css?v=f79e5be"><link rel="stylesheet" href="story.css?v=f79e5be">
+<link rel="stylesheet" href="fonts/fonts.css?v=bbcff07">
+<link rel="stylesheet" href="styles.css?v=bbcff07"><link rel="stylesheet" href="story.css?v=bbcff07">
 <title>Roadmap · Lakewell Knowledge</title>
 <style>
 .rule3{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0 18px}.rule3 span{font-family:Manrope,sans-serif;font-weight:800;font-size:14px;padding:7px 12px;border-radius:99px;background:#f1f1ec;color:#2b2f27;border:1px solid #e2e3db}.rule3 i{font-style:normal;color:var(--muted)}
@@ -60,7 +60,7 @@
 <div class="hhead"><h1>Roadmap</h1></div>
 <div class="card howcard" id="stage"></div>
 </main>
-<script src="data.js?v=f79e5be"></script><script src="app.js?v=f79e5be"></script><script src="story-shared.js?v=f79e5be"></script>
+<script src="data.js?v=bbcff07"></script><script src="app.js?v=bbcff07"></script><script src="story-shared.js?v=bbcff07"></script>
 <script>
 /* How we build it, in order (PRD section 14, strategy S10, D78, D180). Plain words; no durations on screen (they are placeholders). */
 nav("plan.html", "", { demo: true });
@@ -68,7 +68,7 @@ document.getElementById("stepper").innerHTML = storyStepper(4);
 const STEPS_R = [
   ["Discovery", "Know where we start", ["List every pharmacy document and its owner", "Measure today's wrong answers and handle time", "Agree approvers with Legal; finish security and vendor review"], ["Baseline numbers agreed", "Every document has an owner", "Build, buy or partner decided"]],
   ["Foundation", "Build the safe base that every later phase reuses, before any real content goes in", ["One store for approved answers, with versions and dates: so there is one copy, not three", "An approval step where nobody approves their own work: so nothing is served unchecked", "Roles taken from the company's sign-in system: so Dana and Luis see only their own content", "An audit trail of who changed what, and when: so Compliance can check any answer", "The test runner from Prove it: so every release is tested the same way"], ["Every safety rule passes the tests", "Every action lands in the audit trail", "Nobody sees content outside their role"]],
-  ["Pilot knowledge base", "Get one knowledge base right", ["Move the Pharmacy content in", "Legal clears the duplicate wordings", "Train authors and approvers"], ["One approved wording per clause", "No wrong merges", "Drift alerts are accurate", "Monitoring plan signed"]],
+  ["Pilot knowledge base", "Get one knowledge base right", ["Move the Pharmacy content in", "Legal clears the duplicate wordings", "Turn on drift alerts", "Train authors and approvers"], ["One approved wording per clause", "No wrong merges", "Drift alerts are accurate", "Monitoring plan signed"]],
   ["Advocate search", "Advocates trust one answer", ["Run beside today's tools first (shadow)", "Compare its answers with today's", "Go live for one team"], ["No content outside a role for four weeks", "Repeat calls at or below baseline", "Handle time at or below baseline"]],
   ["Agent Assist", "AI helps on live calls", ["Agent Assist reads approved answers only", "Test against today on a share of calls", "Review a sample every week"], ["Claims backed by their source", "Legal's words never changed", "Advocates override it less over time"]],
   ["Members and every channel", "Members get the same answer", ["Member chat to a small group first", "Disclose AI use; stricter member rules", "Then texts, website, more knowledge bases"], ["Same answer on every channel", "Member complaints about wrong answers fall", "Weekly checks stay green"]]
@@ -100,8 +100,8 @@ const JOURNEY = [
     ["Upload and scan", "New copay guide; hidden instructions checked", ["ai", "rule"], "Document parser", "buy"],
     ["Split into topics", "Legal's sentences marked", ["ai"], "Language model", "buy"],
     ["Find copies", "The two other versions found", ["ai"], "Embedding model", "buy"],
-    ["Flag what changed", "New copay against the old topics", ["ai", "rule"], "Drift check, on a bought model", "build"],
-    ["Edit and approve", "Priya edits; a second person approves", ["person", "rule"], "Knowledge tool, our approval workflow", "build"],
+    ["Flag what changed", "New copay against the old topics", ["ai", "rule"], "Drift check, on a bought model", "mix"],
+    ["Edit and approve", "Priya edits; a second person approves", ["person", "rule"], "Knowledge tool, our approval workflow", "mix"],
     ["Store once", "Version, dates; Legal's words hashed", ["rule"], "Bought database, our rules", "mix"],
     ["Test and sign", "One red row blocks; Renee signs", ["rule", "person"], "Eval runner, audit log", "build"]]],
   ["June asks a question", [
@@ -124,9 +124,9 @@ const WHAT = { 1: [["buy", "A document parser and OCR service that reads PDFs an
 /* How each step is built, in one technical line (PRD section 15, "How we build it, technically") */
 const HOW = { 1: "An upload fires an event; the parser returns structured text; lines that give the AI orders are held back",
   2: "The model proposes topics; code checks Legal's sentences are exact copies of the source", 3: "Embeddings compare every topic; matches come with a word-by-word diff, never an automatic merge",
-  4: "Each tracked passage is compared with the new version; one alert names every affected answer and channel", 5: "A state machine in code: draft, in review, approved; the author's sign-in cannot approve",
-  6: "One record per answer: ID, version, dates, roles, source; Legal's words hashed; every change in an append-only log", 7: "The eval runner runs in CI on every change; one red rule row blocks the deploy",
-  8: "Crisis and personal-data rules run before any search", 9: "Role taken from the company sign-in on every question, never cached for long",
+  4: "Each tracked passage is compared with the new version; one alert names every affected answer and channel", 5: "A state machine in code: proposed, in review, approved, retired; the author's sign-in cannot approve",
+  6: "One record per answer: ID, version, dates, knowledge bases, source; Legal's words hashed; every change in an append-only log", 7: "The eval runner runs in CI on every change; one red rule row blocks the deploy",
+  8: "Crisis and personal-data rules run before any search", 9: "Role read from the company sign-in on every question, never cached",
   10: "Hybrid search (keywords plus meaning) over approved answers only, then re-ranked", 11: "answer(question, role, channel, date): below the bar it says 'not yet'; the template inserts Legal's words and the citation",
   12: "The connector calls the same answer() API, so Agent Assist never reads its own copy", 13: "Every 'not yet' is logged with the redacted question, clustered by topic, most-asked first",
   14: "The same runner on a schedule, plus a sample of 30 answers per role labelled by a person" };

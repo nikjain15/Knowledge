@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=f79e5be">
-<link rel="stylesheet" href="styles.css?v=f79e5be"><link rel="stylesheet" href="story.css?v=f79e5be">
+<link rel="stylesheet" href="fonts/fonts.css?v=bbcff07">
+<link rel="stylesheet" href="styles.css?v=bbcff07"><link rel="stylesheet" href="story.css?v=bbcff07">
 <title>How it works · Job 3 · Serve every channel · Lakewell Knowledge</title>
 <style>
 .tabs5{grid-template-columns:repeat(5,minmax(0,1fr))}
@@ -17,7 +17,7 @@
 <div class="subbar" id="tabs"></div>
 <div class="card howcard" id="stage"></div>
 </main>
-<script src="data.js?v=f79e5be"></script><script src="app.js?v=f79e5be"></script><script src="story-shared.js?v=f79e5be"></script>
+<script src="data.js?v=bbcff07"></script><script src="app.js?v=bbcff07"></script><script src="story-shared.js?v=bbcff07"></script>
 <script>
 nav("how3.html", "owner", { demo: true });
 store.up(s => { if (!(s.approved || {})["KU-204"]) ENSURE.gateDone(s); }); /* the same seeded state day.html uses, so a direct visit answers */
@@ -78,7 +78,7 @@ window.ACT = {
       now: () => `${screen("Priya's queue · Supplemental benefits (synthetic counts)", [`<b>${DENT_N} searches this week</b> · ${DENT.map(l => esc(l.q)).join(" · ")}`, "<b>Proposed topic:</b> " + esc(CLUSTERS["Supplemental benefits"].proposal), "<b>Draft:</b> " + esc(GAP_DRAFT.text), "<span class='ok2'>Sent to Renee for approval</span>"])}`,
       fix: ["Unanswered questions are grouped by topic with how often they're asked; Priya writes the answer once, and the owner approves it", "Next time, Dana and every channel give June the same approved answer", "No more private notes: the plan's questions become its content backlog"],
       fixpath: [["LOGGED", DENT_N + " dental questions", "grouped by AI"], ["PROPOSED", "A topic to write", "with a draft"], ["WRITTEN", "By Priya", "from the source"], ["APPROVED", "By Renee", "served everywhere"]],
-      fix4: { line: "33 dental questions become one answer for Priya to write.", steps: [2, 1], tech: ["Gap clustering", "LLM-drafted answers", "Approval workflow"], kind: "AI groups and drafts, people write and approve", control: "The gap log groups unanswered questions into topics with counts and proposes a title and draft; the author writes it from a source; it goes through the same approval as everything else.", who: "Priya writes; Renee approves gap answers and decides what deserves one", proof: "After approval, the same questions are answered from the new topic (golden question 8, after approval)." } },
+      fix4: { line: "33 dental questions become one answer for Priya to write.", steps: [2, 1], tech: ["Gap clustering", "LLM-drafted answers", "Approval workflow"], kind: "AI groups and drafts, people write and approve", control: "The gap log groups unanswered questions into topics with counts and proposes a title and draft; the author writes it from a source; it goes through the same approval as everything else.", who: "Priya writes; the content's approver signs it (Renee for this benefits answer); Renee decides what deserves one", proof: "After approval, the same questions are answered from the new topic (golden question 8, after approval)." } },
     Outbound: { who: "Members who get a 'refill rejected' message call to ask why.",
       today: () => `${screen("Pharmacy rejection message", ["REFILL REJECTED: CODE 79"], `'${esc(REJ.q)}' is asked ${REJ.n} times a week (synthetic). The cause is the message itself: it never says when the next fill is allowed.`)}${compare("Your refill is too early. You can fill it from 14 Nov.", "REFILL REJECTED: CODE 79", "What the message says", "No date, no reason", "What it should say")}`,
       issue: ["A pharmacy system message says 'REFILL REJECTED: CODE 79' with no reason or date", "June doesn't know why or when she can refill, so she calls", "The plan answers the same question " + REJ.n + " times a week because of its own message; no knowledge article fixes that"],
@@ -116,4 +116,4 @@ window.ACT = {
 
 ACT.lead = "June and Dana read; Priya and Renee close the gaps"; ACT.steps = [["Member chat", "One answer, cited", "Answer"], ["Advocate desk", "Only today's approved version", "Scoped"], ["Outbound", "Switch on the date", "Dated"], ["Voice", "Say not yet, log the gap"], ["Advocate desk", "Group, draft and approve"], ["Member chat", "Learn members' words"], ["Outbound", "Fix the process, not the content"], ["Website", "Pin the top answer"]]; ACT.howIndex = 2;
 </script>
-<script src="vendors.js?v=f79e5be"></script><script src="flowmap.js?v=f79e5be"></script><script src="how-scenes.js?v=f79e5be"></script><script src="how-engine.js?v=f79e5be"></script></body></html>
+<script src="vendors.js?v=bbcff07"></script><script src="flowmap.js?v=bbcff07"></script><script src="how-scenes.js?v=bbcff07"></script><script src="how-engine.js?v=bbcff07"></script></body></html>

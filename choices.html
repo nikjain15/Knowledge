@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=f79e5be">
-<link rel="stylesheet" href="styles.css?v=f79e5be"><link rel="stylesheet" href="story.css?v=f79e5be">
+<link rel="stylesheet" href="fonts/fonts.css?v=bbcff07">
+<link rel="stylesheet" href="styles.css?v=bbcff07"><link rel="stylesheet" href="story.css?v=bbcff07">
 <title>Trade-offs · Lakewell Knowledge</title>
 <style>
 .tos{display:grid;gap:10px;margin-top:8px}
@@ -24,7 +24,7 @@
 <div class="hhead"><h1>Trade-offs</h1></div>
 <div class="card howcard" id="stage"></div>
 </main>
-<script src="data.js?v=f79e5be"></script><script src="app.js?v=f79e5be"></script><script src="story-shared.js?v=f79e5be"></script>
+<script src="data.js?v=bbcff07"></script><script src="app.js?v=bbcff07"></script><script src="story-shared.js?v=bbcff07"></script>
 <script>
 /* The trade-offs we made, what each costs and how we handle it (PRD section 17; D23, D31, D53, D78, S5.3, S8; Prove it counts). */
 nav("choices.html", "", { demo: true });
@@ -47,8 +47,8 @@ const TO = [
    ["The AI shows the difference word by word, so a ruling is quick", "One ruling retires every copy", "Late reviews move to a backup reviewer"],
    ["Once proposals are proven right, low-risk duplicates merge automatically, with an undo", "Legal wording always needs a person"]],
   ["Strict rules for personal and cost questions", "Let the AI judge each question on its own",
-   ["4 of 253 ordinary questions were refused by mistake (3.3%)", "Example: 'How do I appeal a denied exception?' went to a person"],
-   ["Up to 10% allowed at launch, target 2%", "Every mistake becomes a new test"],
+   ["4 of 253 ordinary questions were refused by mistake (1.6%); all 4 in personal records, 4 of 121 (3.3%)", "Example: 'How do I appeal a denied exception?' went to a person"],
+   ["Up to 10% in pilot month one, then under 5%; goal 2%", "Every mistake becomes a new test"],
    ["A trained classifier replaces the word list", "Verified sign-in lets members get their own answers, not a hand-off"]],
   ["The user's role is checked on every question", "Check it once, at sign-in",
    ["Every search makes one extra check", "Searches are slightly slower"],
