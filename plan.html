@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=230cd56">
-<link rel="stylesheet" href="styles.css?v=230cd56"><link rel="stylesheet" href="story.css?v=230cd56">
+<link rel="stylesheet" href="fonts/fonts.css?v=8aca375">
+<link rel="stylesheet" href="styles.css?v=8aca375"><link rel="stylesheet" href="story.css?v=8aca375">
 <title>Roadmap · Lakewell Knowledge</title>
 <style>
 .rule3{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0 18px}.rule3 span{font-family:Manrope,sans-serif;font-weight:800;font-size:14px;padding:7px 12px;border-radius:99px;background:#f1f1ec;color:#2b2f27;border:1px solid #e2e3db}.rule3 i{font-style:normal;color:var(--muted)}
@@ -60,7 +60,7 @@
 <div class="hhead"><h1>Roadmap</h1></div>
 <div class="card howcard" id="stage"></div>
 </main>
-<script src="data.js?v=230cd56"></script><script src="app.js?v=230cd56"></script><script src="story-shared.js?v=230cd56"></script>
+<script src="data.js?v=8aca375"></script><script src="app.js?v=8aca375"></script><script src="story-shared.js?v=8aca375"></script>
 <script>
 /* How we build it, in order (PRD section 14, strategy S10, D78, D180). Plain words; no durations on screen (they are placeholders). */
 nav("plan.html", "", { demo: true });
@@ -113,7 +113,7 @@ const JOURNEY = [
     ["Close the gap", "'Not yet' goes to Priya's list", ["rule", "person"], "Gap log", "build"],
     ["Watch weekly", "Same tests; 30 answers per role checked", ["rule", "person"], "Monitoring dashboard", "buy"]]]
 ];
-const WHO = { ai: "AI", person: "Person", rule: "Fixed rule" }, TAG = { build: "We build", buy: "We buy", today: "Use today's" };
+const WHO = { ai: "AI", person: "Person", rule: "System" }, TAG = { build: "We build", buy: "We buy", today: "Use today's" };
 const JS = JOURNEY.flatMap(([lane, st], L) => st.map(x => ({ lane, L, x })));
 const ACT = { 1: "Pharmacy team", 2: "AI", 3: "AI", 4: "AI", 5: "Priya, then an approver", 6: "Lakewell Knowledge", 7: "Renee", 8: "June", 9: "Lakewell Knowledge", 10: "AI", 11: "Lakewell Knowledge", 12: "Dana", 13: "Priya", 14: "A reviewer" };
 const journeyHTML = () => `<div class="jy"><div class="jy-h"><div><p class="eyebrow">Before the phases: who does what</p><h3>One answer, end to end</h3><p class="small">Follow one copay change from a new document to June's answer. Click a step, or use Next.</p></div>
