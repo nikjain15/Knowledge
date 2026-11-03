@@ -42,6 +42,7 @@ const first = k => SHORT[k] || person(k)[0].split(" ")[0];
 const ownerOf = B => { const d = B.find(b => b.k === "decide"); return d ? person(d.who)[0].split(" ")[0] + (d.who === "Calloway" ? "" : "") : "The system"; };
 /* Which "How it runs" row (Solution architecture) plays which step group here; null = a row that runs inside every step */
 const RUNMAP = [[null, 0, 1, 2, 3, 4], [0, 1, 2, 3, 4, null], [null, 0, 1, 2, 3, 4]];
+const litAuto = (k, on) => { const r = document.querySelectorAll(".rs-row")[k]; if (r) { r.classList.toggle("on", on); if (!on) r.classList.add("played"); } };
 /* The beats of one scene, each with the line the narrator says */
 function beatsOf(s) {
   const sc = (SCENES[ACT.howIndex + ":" + s.key] || (() => ({})))(), st = sc.start || ["System", "event", s.label, ""], B = [];
@@ -62,7 +63,7 @@ function feedItem(who, say, body, cls) {
   return `<div class="fe ${p[3]} ${cls || ""}"><span class="av">${p[3] === "ai" ? `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></svg>` : esc(p[2])}</span>
     <div class="fb"><p class="fh"><b>${esc(p[0])}</b>${p[1] ? ` · ${esc(p[1])}` : ""}</p><p class="fs">${esc(say)}</p>${body ? `<div class="fp">${body}</div>` : ""}</div></div>`;
 }
-const SLOW = 2.0, wait = ms => new Promise(r => setTimeout(r, ms * SLOW));
+const SLOW = 2.6, wait = ms => new Promise(r => setTimeout(r, ms * SLOW));
 const REVEAL = ".unitc, .docv > p, .docv > h5, .results > div, .cmp > div, .match, .chips2 span, .phone .sms";
 
 function shell(s, B) {
@@ -103,8 +104,10 @@ async function scene(fast) {
         : kind === "ask" ? `<div class="askb">${esc(title)}</div><span class="small">${esc(meta)}</span>` : `<div class="filec ev"><span class="fi">${BELL}</span><div><b>${esc(meta)}</b></div></div>`;
       const el = push(feedItem(kind === "upload" ? "System" : who, kind === "upload" ? "Pulls the changed document from its source" : kind === "ask" ? "Asks" : title, body));
       audit(kind === "upload" ? "System" : person(who)[0], kind === "upload" ? `Pulled ${title} · version and owner recorded` : kind === "ask" ? `Asked: "${title}" · redacted before storage` : title);
+      if (ACT.howIndex === 0) litAuto(0, true);
       if (kind === "upload" && !fast) { await wait(150); el.querySelector(".bar i").style.width = "100%"; await wait(1300); el.querySelector(".bar").outerHTML = `<span class="ok3">✓ Pulled · version and owner recorded</span>`; }
       else await wait(T(1400));
+      if (ACT.howIndex === 0) litAuto(0, false);
     }
     if (b.k === "ai") { if (b.sc.src) { const sv = push(feedItem(b.who, "Reads the document", `<div class="scan">${b.sc.src}</div>`)); if (!fast) { sv.querySelector(".scan").classList.add("go"); await wait(2200); } if (!live()) return; }
       const el = push(feedItem(b.who, b.say, `<div class="think"><i></i><i></i><i></i></div>`));
@@ -120,6 +123,8 @@ async function scene(fast) {
       const el = push(feedItem(who, "Reviews and decides", `<div class="dec"><button class="btn sm primary fakeb" tabindex="-1" aria-hidden="true">${esc(btn)}</button><span class="cursor"></span></div>`));
       await wait(T(1100)); if (!live()) return; el.querySelector(".fakeb").classList.add("press"); await wait(T(450));
       el.querySelector(".dec").innerHTML = `<span class="stampd">✓ ${esc(btn)}</span><span class="small">${esc(p[0])} · ${esc(out)}</span>`; audit(p[0], `${btn} · ${out}`); bell(); await wait(T(1300)); }
+    if (b.k === "end" && ACT.howIndex === 1 && !s.noStore) { const M = RUNMAP[1], k = M.indexOf(null); litAuto(k, true);
+      const es = push(feedItem("System", "Stores the approved version", `<div class="unitc"><span class="ut">State: approved</span><span class="um"> · version and start date recorded · readers set by role · every channel reads this copy</span></div>`)); audit("System", "Stored the approved version with its dates and readers"); await reveal(es); await wait(T(1100)); litAuto(k, false); if (!live()) return; }
     if (b.k === "end") { const lr = document.querySelector(".rs-row.on"); if (lr && (GROUPS[groupOf(cur)][1].slice(-1)[0] === cur)) lr.classList.add("played"); document.getElementById("endc").hidden = false; document.querySelectorAll("[data-b]").forEach(x => x.className = "done"); narr.textContent = "Result below";
       if (!fast) document.getElementById("endc").scrollIntoView({ block: "nearest", behavior: SMOOTH }); }
   }
@@ -135,7 +140,8 @@ function draw() {
   if (J) {
     const M = RUNMAP[ACT.howIndex], tech = (typeof FM_RUNTECH !== "undefined" && FM_RUNTECH[ACT.howIndex]) || [];
     tabs.innerHTML = `<p class="eyebrow">How it runs, step by step <span>· the lit row is playing now</span></p><p class="rs-key"><span class="fm-who rule">System</span> a fixed rule <span class="fm-who ai">AI decides</span> inside rules <span class="fm-who rec">AI recommends</span> a person confirms <span class="fm-who person">Name</span> only a person</p><ol class="rs-list">${J.run.map((r, k) => { const gi = M[k], st = gi == null ? "auto" : gi === g ? "on" : gi < g ? "done" : "", thr = gi != null && GROUPS[gi][1].some(j => HERE_T.some(t => t[1] === STEPS[j].n));
-      return `<li class="rs-row ${st}" ${gi == null ? "" : `data-t="${GROUPS[gi][1][0]}" role="button" tabindex="0"`}><span class="fm-who ${r[0]}">${esc(r[1])}</span><span class="rs-txt">${esc(r[2])}${(tech[k] || []).length ? `<span class="fm-rtech">${tech[k].map(t => `<i>${esc(t)}</i>`).join("")}</span>` : ""}${gi == null ? `<span class="rs-note">${k === 0 && ACT.howIndex === 2 ? "try it: type a crisis line in step 1's box" : k === 0 ? "runs first, before every step" : "runs last, after approval"}</span>` : ""}${thr ? `<span class="thr-pill">In the thread</span>` : ""}</span><span class="rs-bar"><i></i></span></li>`; }).join("")}</ol>`;
+      return `<li class="rs-row ${st}" ${gi == null ? "" : `data-t="${GROUPS[gi][1][0]}" role="button" tabindex="0"`}><span class="fm-who ${r[0]}">${esc(r[1])}</span><span class="rs-txt">${esc(r[2])}${(tech[k] || []).length ? `<span class="fm-rtech">${tech[k].map(t => `<i>${esc(t)}</i>`).join("")}</span>` : ""}${gi == null ? `<span class="rs-note">${k === 0 && ACT.howIndex === 2 ? "click to play it: a crisis line typed in the chat" : k === 0 ? "runs first, before every step" : "runs last, after approval"}</span>` : ""}${thr ? `<span class="thr-pill">In the thread</span>` : ""}</span><span class="rs-bar"><i></i></span></li>`; }).join("")}</ol>`;
+    if (ACT.howIndex === 2) { const cr = tabs.querySelectorAll(".rs-row")[0]; if (cr) { cr.classList.add("crisis"); cr.setAttribute("role", "button"); cr.tabIndex = 0; const go = () => { playing = false; LIVE_Q = "I think I am having a stroke"; cur = 0; draw(); }; cr.onclick = go; cr.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } }; } }
     tabs.querySelectorAll("[data-t]").forEach(b => { const go = () => { playing = false; cur = +b.dataset.t; draw(); }; b.onclick = go; b.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } }; });
   } else {
   tabs.innerHTML = GROUPS.map((x, i) => `<button data-t="${x[1][0]}" class="${i === g ? "on" : i < g ? "done" : ""}"><i>${i + 1}</i><span>${esc(x[0])}</span></button>`).join("");
@@ -144,7 +150,7 @@ function draw() {
   return scene(false);
 }
 document.getElementById("play").onclick = async () => { playing = true; cur = playFrom; playFrom = ORDER[0];
-  while (playing) { const my = await draw(); if (!playing || my !== run) return; await wait(2500); if (!playing || my !== run) return;
+  while (playing) { const my = await draw(); if (!playing || my !== run) return; await wait(3500); if (!playing || my !== run) return;
     if (nextOf(cur) !== undefined) cur = nextOf(cur); else { const nx = HOW4[ACT.howIndex + 1]; location.href = nx ? nx[1] + "?play=1" : "day.html?mode=new"; return; } } };
 document.getElementById("stop").onclick = () => { playing = false; run++; };
 /* Audit A-072: the same stand-in line as Solution architecture, always shown under How it works */

@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=13e49eb">
-<link rel="stylesheet" href="styles.css?v=13e49eb"><link rel="stylesheet" href="story.css?v=13e49eb">
+<link rel="stylesheet" href="fonts/fonts.css?v=c689bda">
+<link rel="stylesheet" href="styles.css?v=c689bda"><link rel="stylesheet" href="story.css?v=c689bda">
 <title>Prove it · Lakewell Knowledge</title>
 <style>
 .qrow{display:flex;gap:10px;align-items:baseline;padding:6px 0;border-bottom:1px solid #eef0e8;font-size:14px}.qrow:last-child{border:0}
@@ -24,15 +24,15 @@
 <div class="subbar" id="tabs"></div>
 <div class="card howcard" id="stage"><p class="small">Running every test now…</p></div>
 </main>
-<script src="data.js?v=13e49eb"></script><script src="golden.js?v=13e49eb"></script><script src="holdout.js?v=13e49eb"></script><script src="probes.js?v=13e49eb"></script><script src="probes-review.js?v=13e49eb"></script><script src="nearmiss.js?v=13e49eb"></script><script src="probes2.js?v=13e49eb"></script><script src="probes3.js?v=13e49eb"></script>
-<script src="app.js?v=13e49eb"></script><script src="eval-core.js?v=13e49eb"></script><script src="story-shared.js?v=13e49eb"></script>
+<script src="data.js?v=c689bda"></script><script src="golden.js?v=c689bda"></script><script src="holdout.js?v=c689bda"></script><script src="probes.js?v=c689bda"></script><script src="probes-review.js?v=c689bda"></script><script src="nearmiss.js?v=c689bda"></script><script src="probes2.js?v=c689bda"></script><script src="probes3.js?v=c689bda"></script>
+<script src="app.js?v=c689bda"></script><script src="eval-core.js?v=c689bda"></script><script src="story-shared.js?v=c689bda"></script>
 <script>
 /* Prove it: every number on this page is computed in this browser, now, by the same code as the full runner (eval-core.js) */
 nav("prove.html", "owner", { demo: true });
 store.up(s => { if (!units(s).find(u => u.id === "KU-202" && u.current)) ENSURE.driftDone(s); });
 const PEOPLE = { June: ["June Halvorsen", "Member", "JH", "m"], Dana: ["Dana Okafor", "Insurance advocate", "DO", "m"], Luis: ["Luis Ferreira", "Pharmacy advocate", "LF", "m"], Renee: ["Renee Caldwell", "Knowledge Operations lead", "RC", "p"], Priya: ["Priya Nandakumar", "Author", "PN", "p"], Writer: ["Independent test writer", "never saw the rules", "IW", "p"], System: ["Lakewell Knowledge", "release check", "LK", "sys"] };
 const GROUP = id => Object.keys(COLS).find(k => COLS[k].includes(id)) || "";
-const SLOW = 2.0, wait = ms => new Promise(r => setTimeout(r, ms * SLOW));
+const SLOW = 2.6, wait = ms => new Promise(r => setTimeout(r, ms * SLOW));
 let E = null, cur = Math.min(3, Math.max(0, +(QS.get("s") || 1) - 1)), run = 0, playing = false;
 
 /* A-264: opens on the result; four steps fit the 5-minute slot; each step can still replay */
