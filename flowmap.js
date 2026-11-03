@@ -85,8 +85,8 @@ function flowMount() {
    <path class="fm-p k-j12" d="${g.j12}" marker-end="url(#fmM)"/><path class="fm-p k-j23" d="${g.j23}" marker-end="url(#fmM)"/><path class="fm-p k-j3g" d="${g.j3g}" marker-end="url(#fmM)"/>
    ${g.chPaths.map(d => `<path class="fm-p k-ch" d="${d}" marker-end="url(#fmM)"/>`).join("")}
    <path class="fm-loop k-gap" d="${g.gapLoop}" marker-end="url(#fmG)"/><path class="fm-loop k-drift" d="${g.driftLoop}" marker-end="url(#fmG)"/>
-   <text class="fm-looplbl k-gap" x="${g.jX(2) + g.JW + 10}" y="${g.JY - 60}" text-anchor="end">content gaps: unanswered questions go back to Priya ↑</text>
-   <text class="fm-looplbl k-drift" x="${g.sX(2) + g.SW - 10}" y="${g.SY + g.SH + 34}">drift: when a source changes, one alert finds every copy</text>
+   <text class="fm-looplbl k-gap" x="${g.jX(2) + g.JW - 62}" y="${g.JY - 74}" text-anchor="end"><tspan>Gap loop ↑</tspan><tspan class="fm-loopsub" x="${g.jX(2) + g.JW - 62}" dy="17">unanswered questions go back to Priya</tspan></text>
+   <text class="fm-looplbl k-drift" x="${g.sX(2) + g.SW - 36}" y="${Math.round((g.SY + g.SH + g.JY) / 2) - 6}" text-anchor="end"><tspan>Drift loop ↓</tspan><tspan class="fm-loopsub" x="${g.sX(2) + g.SW - 36}" dy="17">a changed source raises one alert for every copy</tspan></text>
    ${FM_SOURCES.map((s, i) => fmTile(g.sX(i), g.SY, g.SW, g.SH, s[0], s[1], i === 4 ? "k-sbox k-draft" : "k-sbox")).join("")}
    ${FM_CHANNELS.map((c, i) => fmTile(g.cX(i), g.CY, g.CW, g.CH, c[0], c[1], "k-cbox")).join("")}
    ${[0, 1, 2].map(fmJob).join("")}${fmGate()}
