@@ -73,7 +73,7 @@ function shell(s, B) {
   const nextLabel = nextS ? (NG[1].length > 1 ? `Next: ${ng + 1}${"abcdefgh"[NG[1].indexOf(nx)]} ${ng === g ? nextS.label : NG[0]}` : `Next: ${ng + 1} ${NG[0]}`) : "";
   const howName = h => h[0] + (/prove\.html/.test(h[1]) ? " (opens Prove it)" : "");
   document.getElementById("stage").innerHTML = `
-    <p class="eyebrow">Job ${ACT.howIndex + 1} · step ${g + 1} of ${GROUPS.length}${parts > 1 ? ` (part ${part} of ${parts})` : ""} · ${esc(ownerOf(B))}${HERE_T.some(t => t[1] === s.n) ? ` · <span class="thr-pill">In the thread</span>` : ""}</p>
+    <p class="eyebrow">Job ${ACT.howIndex + 1} · step ${g + 1} of ${GROUPS.length}${parts > 1 ? ` (part ${part} of ${parts})` : ""}${HERE_T.some(t => t[1] === s.n) ? ` · <span class="thr-pill">In the thread</span>` : ""}</p>
     <h2 class="hl">${esc(f.line || s.label)}</h2>
     <div class="beats">${B.map((b, i) => `<span data-b="${i}">${esc(b.label)}</span>`).join("")}</div>
     <p class="narr" id="narr">&nbsp;</p>
