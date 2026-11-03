@@ -125,8 +125,6 @@ function draw() {
   document.getElementById("stepper").innerHTML = storyStepper(2);
   document.getElementById("how4").innerHTML = HOW4.map(([n, h], i) => `<a href="${h}" class="${i === ACT.howIndex ? "on" : ""}"><i>${i + 1}</i>${esc(n + (/prove\.html/.test(h) ? " (opens Prove it)" : ""))}</a>`).join("");
   const here = document.getElementById("here"); if (here) here.remove(); if (false) { const H = HOW4[ACT.howIndex]; here.innerHTML = `Job ${ACT.howIndex + 1} of 4 on the <a href="day.html?mode=approach">Solution architecture map</a>: <b>${esc(H[0])}</b>. ${esc(ACT.setup || H[3] || "")}`; }
-  if (!document.getElementById("thread")) document.getElementById("tabs").insertAdjacentHTML("beforebegin", `<div class="thread" id="thread"><span class="thr-lbl">Following one disclaimer through the four jobs</span>${THREAD.map(t => `<a href="${t[0]}?s=${t[1]}" class="${t[0] === PAGE ? "on" : ""}"><b>${esc(t[2])}</b>${esc(t[3])}</a>`).join("")}</div>`);
-  document.querySelectorAll("#thread a").forEach(a => { const [pg, q] = a.getAttribute("href").split("?s="); a.classList.toggle("now", pg === PAGE && +q === STEPS[cur].n); });
   const g = groupOf(cur); document.getElementById("tabs").classList.toggle("many", GROUPS.length > 6);
   const tabs = document.getElementById("tabs"), J = (typeof FM_JOBS !== "undefined" && FM_JOBS[ACT.howIndex]) || null;
   if (J && !document.getElementById("howgrid")) { const st = document.getElementById("stage"), w = document.createElement("div"); w.id = "howgrid"; w.className = "howgrid"; st.before(w); w.append(st, tabs); tabs.className = "runside"; }
