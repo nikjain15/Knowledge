@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=bbcff07">
-<link rel="stylesheet" href="styles.css?v=bbcff07"><link rel="stylesheet" href="story.css?v=bbcff07">
+<link rel="stylesheet" href="fonts/fonts.css?v=635e699">
+<link rel="stylesheet" href="styles.css?v=635e699"><link rel="stylesheet" href="story.css?v=635e699">
 <title>Prove it · Lakewell Knowledge</title>
 <style>
 .qrow{display:flex;gap:10px;align-items:baseline;padding:6px 0;border-bottom:1px solid #eef0e8;font-size:14px}.qrow:last-child{border:0}
@@ -47,8 +47,8 @@
 <div class="subbar" id="tabs"></div>
 <div class="card howcard" id="stage"><p class="small">Running every test now…</p></div>
 </main>
-<script src="data.js?v=bbcff07"></script><script src="golden.js?v=bbcff07"></script><script src="holdout.js?v=bbcff07"></script><script src="probes.js?v=bbcff07"></script><script src="probes-review.js?v=bbcff07"></script><script src="nearmiss.js?v=bbcff07"></script><script src="probes2.js?v=bbcff07"></script><script src="probes3.js?v=bbcff07"></script>
-<script src="app.js?v=bbcff07"></script><script src="eval-core.js?v=bbcff07"></script><script src="story-shared.js?v=bbcff07"></script>
+<script src="data.js?v=635e699"></script><script src="golden.js?v=635e699"></script><script src="holdout.js?v=635e699"></script><script src="probes.js?v=635e699"></script><script src="probes-review.js?v=635e699"></script><script src="nearmiss.js?v=635e699"></script><script src="probes2.js?v=635e699"></script><script src="probes3.js?v=635e699"></script>
+<script src="app.js?v=635e699"></script><script src="eval-core.js?v=635e699"></script><script src="story-shared.js?v=635e699"></script>
 <script>
 /* Prove it: every number on this page is computed in this browser, now, by the same code as the full runner (eval-core.js) */
 nav("prove.html", "owner", { demo: true });
@@ -64,9 +64,9 @@ let goNext = null;
 document.addEventListener("keydown", e => { if (goNext && (e.key === "ArrowRight" || e.key === " ") && !/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) { e.preventDefault(); goNext(); } });
 const TABS = [
   { label: "Release decision" },
-  { label: "Accuracy: golden set and held-out test", line: () => "It gives the right answer to every question we wrote the answer for, for every role and channel.", without: "A golden set is the answer key, written before building. A held-out test set is kept locked away and run once, so nobody can tune to it.",
+  { label: "Accuracy: golden set and held-out test", line: () => "It gives the right answer to every question we wrote the answer for, for every role and channel.", without: "A golden set is the answer key, written before building. A held-out test set is kept locked away and never tuned to; its hash proves nobody changed it.",
     how: "Every question in the answer key is sent through the same search and answer code June and Dana use, once per role and channel. A script compares the result to the label: right answer, right topic and version, Legal's words unchanged (hash match), or 'not yet' where that is the label. The held-out file is hashed first; if the hash differs, the run stops.",
-    steps: [["Ask", "Each answer-key question, as each role and channel"], ["Answer", "The prototype's answer code, used by every page"], ["Compare", "Right topic and version; Legal's words match by hash"], ["Seal", "Held-out file hash checked, then run once"]],
+    steps: [["Ask", "Each answer-key question, as each role and channel"], ["Answer", "The prototype's answer code, used by every page"], ["Compare", "Right topic and version; Legal's words match by hash"], ["Seal", "Held-out file hash checked; never tuned to"]],
     beats: ["Answer key", "Runs each question", "By group", "Checks the seal", "Held-out run", "Counts only", "Result"], play: both(golden, holdout, 3) },
   { label: "Red-team testing", line: () => "We tried to break it with trick questions. It refused every question it must refuse, and every mistake became a new test.", without: "Red-team testing means trying to make the system fail on purpose. Here, someone who never saw the rules wrote the questions; regression tests re-check every past fix.",
     how: "Each refusal rule (personal records, cost, another year's wording, other languages, outside the role, and a missing fact) has its own set: questions it must refuse or hand to a person, and ordinary questions it must still answer. The script counts both: every must-refuse caught (target 100%), and ordinary questions wrongly refused (bar 10%, goal 2%).",
