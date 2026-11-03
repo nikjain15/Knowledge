@@ -65,7 +65,6 @@ function flowHTML(nextLabel) {
     <div class="fm-icons"><button class="icb primary" id="fmPlay" title="Play slowly" aria-label="Play slowly"></button><button class="icb" id="fmStop" title="Stop" aria-label="Stop"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></svg></button></div></div>
     <div id="fm"></div>
     <p class="fm-legend"><span class="fm-dash"></span>dashed green: a feedback loop, running back against the flow</p>
-    <p class="small" style="margin-top:8px">Prototype: runs in your browser, nothing sent anywhere. Simple matching stands in for the real search; the AI steps are scripted.</p>
     <div class="fm-panel" id="fmPanel"></div>
     <button class="btn primary" id="toNew" style="display:none">${esc(nextLabel)}</button></div>`;
 }
