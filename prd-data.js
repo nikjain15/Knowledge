@@ -53,7 +53,7 @@ const PRD = {
       ["Member chat", "Quotes an unapproved $47 for 2027 from a planning file; nothing flags the missing answer, so the next member gets the same guess", "5. Confident answers from unapproved content (S5.5); 1. Gates nobody follows (S5.1)"],
       ["Call with Dana", "Three tools, four wordings of one disclaimer, one of them the website's Quick Guide copy; she reads the 2025 cheat sheet (last plan year) while June waits", "3. Copies that drift (S5.3, S5.6)"],
       ["Text", "The reminder team copies a price from its own spreadsheet, not the approved answer: no pricing words, no sign-off, no STOP", "2 and consent (S8.139, D57)"],
-      ["Website", "CMS posted the new Star Rating, but nothing flagged the page, so last year's rating stayed up during enrollment", "6. Stale and effective-date drift (S5.14)"],
+      ["Website", "The page still shows last year's 4 stars after Medicare rated the plan 3.5 for 2027, so it overstates quality during enrollment, and nothing flagged it", "6. Stale and effective-date drift (S5.14)"],
       ["Key takeaway", "Every team keeps its own copy. AI on these documents won't fix this, it will copy it: fix the knowledge first, and AI helps do that", "S3.2, S11.11"]
     ] }, { caption: "It has happened: evidence behind each mode", cols: ["Mode", "Evidence (quoted in the register)", "Key"], rows: [
       ["Approval gates nobody follows", "Two firms fined $200,000 and $250,000 in cases that included publishing with no principal approval; a regulator cited documents with no approver or date", "[R-41] [R-42] [R-43]"],
