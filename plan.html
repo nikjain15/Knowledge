@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=40943e7">
-<link rel="stylesheet" href="styles.css?v=40943e7"><link rel="stylesheet" href="story.css?v=40943e7">
+<link rel="stylesheet" href="fonts/fonts.css?v=eaac85b">
+<link rel="stylesheet" href="styles.css?v=eaac85b"><link rel="stylesheet" href="story.css?v=eaac85b">
 <title>Roadmap · Lakewell Knowledge</title>
 <style>
 .rule3{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0 18px}.rule3 span{font-family:Manrope,sans-serif;font-weight:800;font-size:14px;padding:7px 12px;border-radius:99px;background:#f1f1ec;color:#2b2f27;border:1px solid #e2e3db}.rule3 i{font-style:normal;color:var(--muted)}
@@ -38,14 +38,14 @@
 .pc-b.ok ul.tk{list-style:none;padding:0}.pc-b.ok li:before{content:"✓ ";font-weight:800;color:#2b4a12}.pc-b.risk{background:#fdf6ee}
 @media (max-width:900px){.pc-grid{grid-template-columns:1fr}.tl-t{font-size:10.5px}.pc-top{flex-direction:column}}
 .pc-fr{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:12px;padding-top:12px;border-top:1px solid #eef0e8;font-size:13px}.pc-fr b{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-right:4px}.pc-fr a{padding:3px 9px;border-radius:99px;border:1px solid #cfd1c7;color:#2b2f27;text-decoration:none;font-weight:700;font-size:12px}.pc-fr a:hover{border-color:#2b2f27}.pc-fr span{color:var(--muted);font-size:12px}
-.pc-b ul.tt{list-style:none;padding-left:0}.pc-b ul.tt li{margin:0 0 5px}.pc-b ul.tt em{font-style:normal;font-size:11px;font-weight:800;border-radius:99px;padding:1px 8px;margin-left:4px;background:#eef0e8;color:#55594f;white-space:nowrap}.pc-b ul.tt em.bd{background:#e7f1da;color:#2b4a12}
+.pc-b ul.tt{list-style:none;padding-left:0}.pc-b ul.tt li{margin:0 0 5px}.pc-b ul.tt em{font-style:normal;font-size:11px;font-weight:800;border-radius:99px;padding:1px 8px;margin-left:4px;background:#eef0e8;color:#55594f;white-space:nowrap}.pc-b ul.tt em.bd{background:#2b4a12;color:#fff}.pc-b ul.tt li.isb{border-left:4px solid #5f8a26;background:#eef5e3;border-radius:8px;padding:7px 10px;margin:6px 0}.pc-b ul.tt li.isb small{display:block;margin-top:3px;font-size:12px;line-height:1.4;color:#2b4a12}
 </style></head><body>
 <main class="area" style="max-width:1280px">
 <div id="stepper"></div>
 <div class="hhead"><h1>Roadmap</h1></div>
 <div class="card howcard" id="stage"></div>
 </main>
-<script src="data.js?v=40943e7"></script><script src="app.js?v=40943e7"></script><script src="story-shared.js?v=40943e7"></script>
+<script src="data.js?v=eaac85b"></script><script src="app.js?v=eaac85b"></script><script src="story-shared.js?v=eaac85b"></script>
 <script>
 /* How we build it, in order (PRD section 14, strategy S10, D78, D180). Plain words; no durations on screen (they are placeholders). */
 nav("plan.html", "", { demo: true });
@@ -73,10 +73,10 @@ const EXTRA = [
 /* Techniques and tools per phase; tools named by kind, not vendor (D233), with build or buy (strategy S11) */
 const TT = [
   [["Content inventory and owner mapping", "Call sampling to set the error baseline", "Risk and privacy review"], [["Spreadsheet or catalog tool", "use today's"], ["Call recording and QA tool", "use today's"]]],
-  [["Versioned store with effective dates (temporal versioning)", "Role-based access on every read", "Write-once audit log", "Hash check on Legal's exact words", "Golden set and sealed held-out test"], [["Cloud database and object store", "buy, from the cloud in use"], ["Company sign-in (identity provider)", "use today's"], ["Approval workflow, audit log, eval runner", "build: nobody sells the rule set"]]],
+  [["Versioned store with effective dates (temporal versioning)", "Role-based access on every read", "Write-once audit log", "Hash check on Legal's exact words", "Golden set and sealed held-out test"], [["Cloud database and object store", "buy, from the cloud in use"], ["Company sign-in (identity provider)", "use today's"], ["Approval workflow, audit log, eval runner", "build", "Our rules are the product: nobody approves their own work, Legal's words are locked, and one red test blocks a release. No product sells these rules together"]]],
   [["Split documents into topics (structure-aware chunking)", "Semantic deduplication", "Drift detection on source changes", "Hidden-instruction scan"], [["Document parser and OCR service", "buy"], ["Large language model for drafting topics", "buy, via the cloud in use"], ["Embedding model for finding copies", "buy"]]],
-  [["Hybrid search: keywords plus meaning", "Re-ranking inside approved topics", "Cited answers only; 'not yet' below the bar", "Shadow mode against today's tools"], [["Managed search service with vector index", "buy"], ["Re-ranking model", "buy"], ["Read contract and gap log", "build"]]],
-  [["Real-time suggestion from the live call", "Template insertion for Legal's words", "Weekly human review sample"], [["Agent Assist in the contact-centre platform", "buy, from today's platform"], ["Speech-to-text", "buy"], ["Connector to the read contract", "build"]]],
+  [["Hybrid search: keywords plus meaning", "Re-ranking inside approved topics", "Cited answers only; 'not yet' below the bar", "Shadow mode against today's tools"], [["Managed search service with vector index", "buy"], ["Re-ranking model", "buy"], ["Read contract and gap log", "build", "One rule set every channel reads through: role check, effective date, cite or say 'not yet'. Unanswered questions go to Priya's list. Built once, reused by every channel"]]],
+  [["Real-time suggestion from the live call", "Template insertion for Legal's words", "Weekly human review sample"], [["Agent Assist in the contact-centre platform", "buy, from today's platform"], ["Speech-to-text", "buy"], ["Connector to the read contract", "build", "A thin link so Agent Assist reads only approved answers through the same rules, not its own copy of the documents"]]],
   [["Stricter member rules: exact wording, single facts", "AI-use disclosure", "Staged rollout with a stop rule", "Consent check before any text"], [["Member chat and website widget", "use today's"], ["Texting platform with consent records", "use today's"], ["Monitoring dashboard and alerts", "buy, from the cloud in use"]]]
 ];
 let shown = 1;
@@ -88,7 +88,7 @@ document.getElementById("stage").innerHTML = `<p class="eyebrow">Plan to build t
 let cur = 0;
 function card(i) { const r = STEPS_R[i], x = EXTRA[i], j = JOBS_P[i];
   return `<div class="pc-top"><div><small>Phase ${i + 1} of ${STEPS_R.length}</small><h3>${esc(r[0])}</h3><p>${esc(r[1])}</p></div><div class="ph-jobs">${j.length ? j.map(t => `<span>Builds ${esc(t)}</span>`).join("") : `<span class="pre">Before any build</span>`}</div></div>
-  <div class="pc-grid"><div class="pc-b"><b>What we do</b><ul>${r[2].map(t => `<li>${esc(t)}</li>`).join("")}</ul></div><div class="pc-b ok"><b>Success looks like</b><ul class="tk">${r[3].map(t => `<li>${esc(t)}</li>`).join("")}</ul></div><div class="pc-b"><b>Delivers</b><p>${esc(x[0])}</p></div><div class="pc-b risk"><b>Biggest risk, and how we handle it</b><p>${esc(x[1])}</p></div><div class="pc-b"><b>Techniques we use</b><ul>${TT[i][0].map(t => `<li>${esc(t)}</li>`).join("")}</ul></div><div class="pc-b"><b>Tools, and build or buy</b><ul class="tt">${TT[i][1].map(([t, b]) => `<li>${esc(t)} <em class="${/^build/.test(b) ? "bd" : "by"}">${esc(b)}</em></li>`).join("")}</ul></div></div>${FR_P[i].length ? `<div class="pc-fr"><b>Requirements it delivers</b>${FR_P[i].map(([id, n]) => `<a href="prd.html#fr">${esc(id)} ${esc(n)}</a>`).join("")}<span>See how each is built and accepted in the PRD →</span></div>` : `<div class="pc-fr"><b>Requirements it delivers</b><span>None yet: discovery confirms them before any build</span></div>`}`; }
+  <div class="pc-grid"><div class="pc-b"><b>What we do</b><ul>${r[2].map(t => `<li>${esc(t)}</li>`).join("")}</ul></div><div class="pc-b ok"><b>Success looks like</b><ul class="tk">${r[3].map(t => `<li>${esc(t)}</li>`).join("")}</ul></div><div class="pc-b"><b>Delivers</b><p>${esc(x[0])}</p></div><div class="pc-b risk"><b>Biggest risk, and how we handle it</b><p>${esc(x[1])}</p></div><div class="pc-b"><b>Techniques we use</b><ul>${TT[i][0].map(t => `<li>${esc(t)}</li>`).join("")}</ul></div><div class="pc-b"><b>Tools, and build or buy</b><ul class="tt">${TT[i][1].map(([t, b, why]) => `<li class="${b === "build" ? "isb" : ""}">${esc(t)} <em class="${b === "build" ? "bd" : "by"}">${esc(b)}</em>${why ? `<small>Why we build: ${esc(why)}</small>` : ""}</li>`).join("")}</ul></div></div>${FR_P[i].length ? `<div class="pc-fr"><b>Requirements it delivers</b>${FR_P[i].map(([id, n]) => `<a href="prd.html#fr">${esc(id)} ${esc(n)}</a>`).join("")}<span>See how each is built and accepted in the PRD →</span></div>` : `<div class="pc-fr"><b>Requirements it delivers</b><span>None yet: discovery confirms them before any build</span></div>`}`; }
 function go(i) { cur = Math.max(0, Math.min(STEPS_R.length - 1, i)); const c = document.getElementById("phcard"); c.classList.remove("in"); void c.offsetWidth; c.innerHTML = card(cur); c.classList.add("in");
   document.querySelectorAll(".tl-n").forEach((b, k) => { b.classList.toggle("on", k === cur); b.classList.toggle("done", k < cur); });
   document.getElementById("tlfill").style.width = (cur / (STEPS_R.length - 1) * 100) + "%";
