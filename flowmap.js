@@ -54,7 +54,9 @@ let fmBeat = 0, fmActive = -1, fmStop = 0, fmRows = 0, fmTimer = null, fmAnim = 
 const FM_REDUCED = typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 /* The stage markup: headline row with play and stop, the map, the legend, the footnote, the exhibit, the next button */
+let FM_NEXT = "";
 function flowHTML(nextLabel) {
+  FM_NEXT = nextLabel;
   return `<div class="appr2 fm-wrap"><div class="fm-head"><div><p class="eyebrow">Solution architecture</p>
     <h2>A governed knowledge layer: one source of truth for every channel, human or AI.</h2>
     <p class="big2">We fix the knowledge once, at the source, instead of fixing each channel.</p></div>
@@ -63,7 +65,7 @@ function flowHTML(nextLabel) {
     <p class="fm-legend"><span class="fm-dash"></span>dashed green: a feedback loop, running back against the flow</p>
     <p class="small" style="margin-top:8px">Built to run without a server or API key: text matching stands in for embeddings, semantic deduplication, hybrid and graph retrieval, and ingest replays a recorded model run.</p>
     <div class="fm-panel" id="fmPanel"></div>
-    <div class="acts" style="margin-top:22px"><button class="btn primary" id="toNew">${esc(nextLabel)}</button></div></div>`;
+    <button class="btn primary" id="toNew" style="display:none">${esc(nextLabel)}</button></div>`;
 }
 function fmTile(x, y, w, h, t, s, cls) { return `<g class="fm-tile ${cls}"><rect class="fm-box" x="${x}" y="${y}" width="${w}" height="${h}"/><text class="fm-lbl" x="${x + 16}" y="${y + h / 2 - 3}">${esc(t)}</text><text class="fm-sub" x="${x + 16}" y="${y + h / 2 + 16}">${esc(s)}</text></g>`; }
 function fmJob(i) { const s = FM_JOBS[i], g = FM, x = g.jX(i); return `<g class="fm-job" data-i="${i}" role="button" tabindex="0" aria-label="Job ${i + 1}: ${esc(s.n)}"><rect class="fm-ring" x="${x - 5}" y="${g.JY - 5}" width="${g.JW + 10}" height="${g.JH + 10}"/><rect class="fm-bg" x="${x}" y="${g.JY}" width="${g.JW}" height="${g.JH}"/><text class="fm-num" x="${x + 20}" y="${g.JY + 32}">JOB ${i + 1}</text><text class="fm-lbl" x="${x + 20}" y="${g.JY + 64}">${esc(s.n)}</text><text class="fm-sub" x="${x + 20}" y="${g.JY + 90}">${esc(s.line)}</text></g>`; }
@@ -126,6 +128,6 @@ function fmPanel() {
      <p class="eyebrow" style="margin-top:16px">What we check before release</p><ul class="fm-chk">${s.checks.map(c => `<li><span>${esc(c[0])}</span><em>${esc(c[1])}</em></li>`).join("")}</ul>
      <div class="fm-legend2"><span class="fm-who rule">System</span> a fixed rule <span class="fm-who ai">AI decides</span> inside rules <span class="fm-who rec">AI recommends</span> a person confirms <span class="fm-who person">Name</span> only a person</div>
      <details><summary>Techniques used</summary><div style="margin-top:8px">${s.tags.map(t => `<span class="fm-tag">${esc(t)}</span>`).join("")}</div></details></div>
-     <div class="fm-nav"><button class="btn" data-go="${i - 1}" ${i === 0 ? "disabled" : ""}>← Back a job</button><div class="fm-dots">${FM_JOBS.map((_, j) => `<span class="${j === i ? "on" : ""}"></span>`).join("")}</div>${i < 3 ? `<button class="btn primary" data-go="${i + 1}">Job ${i + 2}: ${esc(FM_JOBS[i + 1].n)} →</button>` : `<span></span>`}</div>`; }
+     <div class="fm-nav"><button class="btn" data-go="${i - 1}" ${i === 0 ? "disabled" : ""}>← Back a job</button><div class="fm-dots">${FM_JOBS.map((_, j) => `<span class="${j === i ? "on" : ""}"></span>`).join("")}</div>${i < 3 ? `<button class="btn primary" data-go="${i + 1}">Job ${i + 2}: ${esc(FM_JOBS[i + 1].n)} →</button>` : `<button class="btn primary" onclick="document.getElementById('toNew').click()">${esc(FM_NEXT)}</button>`}</div>`; }
   p.querySelectorAll("[data-go]").forEach(b => b.onclick = () => { const j = +b.dataset.go; fmGo(j < 0 ? 0 : FM_BEATS.findIndex(x => x.job === j && x.rows === 0)); });
 }
