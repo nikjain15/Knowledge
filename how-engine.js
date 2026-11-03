@@ -47,7 +47,8 @@ function beatsOf(s) {
   const sc = (SCENES[ACT.howIndex + ":" + s.key] || (() => ({})))(), st = sc.start || ["System", "event", s.label, ""], B = [];
   const verb = { upload: "", event: "", ask: "asks" }[st[1]];
   B.push({ k: "start", who: st[0], say: st[1] === "upload" ? `A changed document arrives: ${st[2]}` : st[1] === "event" ? (st[0] === "System" ? st[2] : `${first(st[0])}: ${st[2]}`) : `${first(st[0])} ${verb}`, sc, st, label: "Trigger" });
-  const sys = /^Rule/i.test(((s.fix4 || {}).kind) || "") || /system checks|clock|reminder reads|diff|Drift|Only the approved|linked Spanish/.test(sc.ai || "");
+  const rowRole = (() => { const J = (typeof FM_JOBS !== "undefined" && FM_JOBS[ACT.howIndex]) || null, k = (RUNMAP[ACT.howIndex] || []).indexOf(groupOf(STEPS.indexOf(s))); return J && k >= 0 ? J.run[k][0] : ""; })();
+  const sys = rowRole === "rule" ? true : rowRole === "ai" || rowRole === "rec" ? false : /^Rule/i.test(((s.fix4 || {}).kind) || "") || /system checks|clock|reminder reads|diff|Drift|Only the approved|linked Spanish/.test(sc.ai || "");
   B.push({ k: "ai", who: sys ? "System" : "AI", say: sc.ai || "The AI proposes", sc, label: "AI does", narr: sys ? "A fixed rule runs; watch the feed" : "The AI works; watch the feed" });
   (sc.decide || []).forEach(d => B.push({ k: "decide", who: d[0], say: `${first(d[0])} decides`, d, label: "Person decides" }));
   B.push({ k: "end", who: "", say: "The result", label: "Result" });
