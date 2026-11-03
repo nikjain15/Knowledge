@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=85809e8">
-<link rel="stylesheet" href="styles.css?v=85809e8"><link rel="stylesheet" href="story.css?v=85809e8">
+<link rel="stylesheet" href="fonts/fonts.css?v=8b7f250">
+<link rel="stylesheet" href="styles.css?v=8b7f250"><link rel="stylesheet" href="story.css?v=8b7f250">
 <title>June's day · Lakewell Knowledge</title>
 <style>
 .dhead{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:6px 0 12px}
@@ -102,8 +102,8 @@ mark.miss{background:#cfe7ad;color:#1f4a06;font-weight:800;border-radius:3px;pad
 
 <p class="small" style="margin-top:8px">Everything on this page is fictional: plan, people, documents, counts and dates. Synthetic voices.</p>
 </main>
-<script src="data.js?v=85809e8"></script><script src="app.js?v=85809e8"></script><script src="model-run.js?v=85809e8"></script><script src="probes.js?v=85809e8"></script><script src="probes-review.js?v=85809e8"></script><script src="nearmiss.js?v=85809e8"></script><script src="probes2.js?v=85809e8"></script><script src="probes3.js?v=85809e8"></script>
-<script src="story-shared.js?v=85809e8"></script><script src="flowmap.js?v=85809e8"></script>
+<script src="data.js?v=8b7f250"></script><script src="app.js?v=8b7f250"></script><script src="model-run.js?v=8b7f250"></script><script src="probes.js?v=8b7f250"></script><script src="probes-review.js?v=8b7f250"></script><script src="nearmiss.js?v=8b7f250"></script><script src="probes2.js?v=8b7f250"></script><script src="probes3.js?v=8b7f250"></script>
+<script src="story-shared.js?v=8b7f250"></script><script src="flowmap.js?v=8b7f250"></script>
 <script>
 nav("day.html", "insurance", { demo: true });
 store.up(s => { if (!(s.approved || {})["KU-204"]) ENSURE.gateDone(s); const v2 = (s.approved || {})["KU-207@v2"]; if (v2 && v2.on === PLAN.today) v2.on = "8 Oct 2026"; });
@@ -181,13 +181,13 @@ const CH = [
             ["june", "june6", "That would be lovely. Thank you, Dana."]] },
   { key: "Outbound", icon: "sms", tag: "Reminder texts the plan sends", name: "Text", when: "Monday, 2:00 PM",
     who: "That afternoon the plan's reminder system texts June, as it does for every member with a refill due.",
-    issue: ["The reminder team writes and sends the text itself, with no sign-off: a price, none of the pricing words Lakewell requires, no way to stop texts", "June reads $42 as a promise", "The same unapproved text goes to thousands of members in one send, including people who never agreed to texts"],
+    issue: ["The reminder team copied the price from its own spreadsheet, not the approved answer, so the pricing words Lakewell requires were never in it. Nobody signs off, and there is no way to stop texts", "June reads $42 as a promise", "The same unapproved text goes to thousands of members in one send, including people who never agreed to texts"],
     fix: ["The reminder's line comes from the approved answer, links to the exact words, and goes only to members who agreed", "June knows it's an estimate and where to read the details; STOP works for her", "Nothing reaches members without approval, even at scale"],
-    path: [["TEAM", "Reminder team", "writes the message"], ["OWN COPY", "A shared-drive copay table", "not the approved source"], ["NO SIGN-OFF", "Straight to send", "no approval step"], ["SENT", "To 48,210 members", "illustrative"]],
+    path: [["TEAM", "Reminder team", "needs a price line"], ["OWN COPY", "Its own spreadsheet", "not the approved answer"], ["NO SIGN-OFF", "Straight to send", "no approval step"], ["SENT", "To 48,210 members", "illustrative"]],
     fixpath: [["TEAM", "Reminder team", "sets up the campaign"], ["APPROVED LINE", "Pulled from the approved answer", "with a link to the words"], ["CHECKS", "Approval and consent", "before anything is sent"], ["SENT", "Only to members who agreed", "STOP works per member"]],
     today: () => `<div class="phone"><p class="small" style="text-align:center;margin:0 0 4px">Refill reminder</p><div class="sms">${esc(TEXT_WRONG)}</div></div>
-      <p class="small" style="text-align:center;margin:4px 0 0">Written and sent by the reminder team with no sign-off, to every member with a refill due (illustrative)</p>
-      ${compare(TEXT_OK, TEXT_WRONG, "What the text said", "None of Lakewell's pricing words, no link, no opt-out")}` },
+      <p class="small" style="text-align:center;margin:4px 0 0">Copied from the reminder team's own spreadsheet and sent with no sign-off, to every member with a refill due (illustrative)</p>
+      ${compare(TEXT_OK, TEXT_WRONG, "What the text said", "From the team's own copy: none of Lakewell's pricing words, no link, no opt-out")}` },
   { key: "Website", icon: "web", tag: "The plan's public website", name: "Website", when: "Monday, 2:03 PM",
     who: "June checks the plan's Star Rating on its website while comparing plans during Medicare enrollment.",
     issue: ["The website still shows the 2026 Star Rating after the posting deadline passed on 29 Oct (assumed)", "June compares plans using last year's rating, during the very weeks she has to choose", "A plan must post the CMS Star Ratings document within 21 days of its Plan Finder release (8 Oct, assumed); Lakewell missed it, and nobody knew, because the page has no end date"],
