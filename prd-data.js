@@ -19,7 +19,7 @@ const GAPS_ROWS = [
 const PRD = {
   title: "Lakewell Knowledge",
   subtitle: "Product requirements: the approved source every channel, human or AI, reads from",
-  version: "1.0", date: "2 Nov 2026", owner: "Nik Jain (product); every decision logged in uc2-decision-log.md", status: "Prototype proven on the sealed holdout; production build not started",
+  version: "1.0", date: "2 Nov 2026", owner: "Nik Jain, Product. Every decision is recorded in the decision log, with who made it and why", status: "Prototype proven on the sealed holdout; production build not started",
   audience: "Two readers at once: a hiring panel or client judging the depth of the product thinking, and a coding agent or engineering team building the production system. Portfolio sections first (0 to 5, 16 to 19), build sections behind them (6 to 15, 20).",
   sections: [
   { id: "read", n: 0, title: "How to read this document", intro: "Two readers, one document. Each row names where it came from, so a claim can be checked in two minutes.",
@@ -328,12 +328,12 @@ const PRD = {
       ["Counts before rates", "The readout shows counts until a group reaches its S8.99 size; never present a rate on fewer as a pass"],
       ["Every answer carries its versions", "Model, prompt, rubric, index, embedding, redactor, template, config and app versions and a prompt hash on every served answer"],
       ["Fictional data only", "No real member, provider or claims data; invented names; the real-name check runs before anything is published (S12.10)"],
-      ["Read the log first", "uc2-decision-log.md, newest rows win; then the strategy by row id; this PRD is the map, not the territory"]
+      ["Read the decision log first", "Newest rows win; then the strategy by row id; this PRD is the map, not the territory"]
     ] }] },
 
   { id: "history", n: 21, title: "Document history", intro: "",
     tables: [{ cols: ["Version", "Date", "Change", "By"], rows: [
-      ["1.0", "2 Nov 2026", "First PRD rendered from the strategy (sections 1 to 18), the decision log (D1 to D194) and the citations register; gap review added as section 19; published as a page of Lakewell Knowledge (D194)", "Nik Jain, with the VALUED deep path"]
+      ["1.0", "2 Nov 2026", "First PRD rendered from the strategy (sections 1 to 18), the decision log (D1 to D194) and the citations register; gap review added as section 19; published as a page of Lakewell Knowledge (D194)", "Nik Jain, Product"]
     ] }] }
   ]
 };

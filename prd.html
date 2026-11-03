@@ -37,7 +37,7 @@ const sec = s => `<section class="sec card" id="${s.id}"><h2><i>${s.n}</i>${esc(
 const groups = [["Read first", [0, 1, 2, 3, 4, 5]], ["Build from", [6, 7, 8, 9, 10, 11, 12]], ["Govern and ship", [13, 14, 15, 16]], ["Judge it", [17, 18, 19, 20, 21]]];
 document.getElementById("view").innerHTML = `<div class="hero"><p class="eyebrow">Product requirements · ${esc(PLAN.name)} (fictional) · v${esc(PRD.version)} · ${esc(PRD.date)}</p>
   <h1>${esc(PRD.title)}: the PRD</h1><p class="lead">${esc(PRD.subtitle)}. ${esc(PRD.audience)}</p>
-  <div class="meta"><div><b>Owner</b>${esc(PRD.owner)}</div><div><b>Status</b>${esc(PRD.status)}</div><div><b>Built from</b>uc2-strategy.md (18 sections), uc2-decision-log.md (D1 to D194), uc2-citations.md (863 keyed rows)</div><div><b>Also as</b>Markdown, out/uc2-prd.md, rendered from the same data</div></div></div>
+  <div class="meta"><div><b>Owner</b>${esc(PRD.owner)}</div><div><b>Status</b>${esc(PRD.status)}</div><div><b>Built from</b>The strategy (18 sections), the decision log (D1 to D194) and the citations register (863 keyed rows)</div></div></div>
   <div class="prd" style="margin-top:18px"><nav class="toc" id="toc">${groups.map(([g, ids]) => `<div class="tg">${g}</div>` + ids.map(i => PRD.sections[i]).map(s => `<a href="#${s.id}" data-id="${s.id}"><i>${s.n}</i>${esc(s.title)}</a>`).join("")).join("")}</nav>
   <div>${PRD.sections.map(sec).join("")}<p class="foot">Everything here is fictional: the plan, the people, the documents and every figure. Real-world facts carry keys from the citations register. Built from out/uc2-strategy.md; decision D194.</p></div></div>`;
 /* TOC highlight */
