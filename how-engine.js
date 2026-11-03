@@ -5,7 +5,11 @@ const CH_NAME = { Voice: "Phone bot", "Member chat": "Member chat", "Advocate de
 const PD = Object.fromEntries(PD_WORDINGS.map(w => [w.label, w.text]));
 const docOf = id => DOCS.find(d => d.id === id);
 const STEPS = ACT.steps.map(([ch, label, key], i) => Object.assign({ key: key || ch, ch, label, n: i + 1 }, ACT.channels[key || ch]));
-let cur = Math.max(0, STEPS.findIndex(s => s.n === +QS.get("s"))), playing = false, run = 0, playFrom = cur; /* A-071: ?s=N&play=1 starts at N */
+/* One thread through the four jobs: the Rx pricing disclaimer, the brief's own scenario. Each page opens on its thread step. */
+const THREAD = [["how1.html", 5, "1 Ingest", "Three wordings found"], ["how2.html", 4, "2 Govern", "Tom picks one wording"], ["how2.html", 6, "2 Govern", "Legal's 2027 edit, one alert"], ["how3.html", 1, "3 Serve", "June and Dana get the same"], ["prove.html", 2, "4 Test", "The golden test passes"]];
+const PAGE = location.pathname.split("/").pop() || "how1.html", HERE_T = THREAD.filter(t => t[0] === PAGE);
+const heroN = (HERE_T[0] || [])[1], startN = +QS.get("s") || heroN || 1;
+let cur = Math.max(0, STEPS.findIndex(s => s.n === startN)), playing = false, run = 0, playFrom = QS.get("s") ? cur : 0; /* A-071: ?s=N&play=1 starts at N */
 /* Steps are shown in at most five groups; a group may hold two or three short parts that play back to back (how-scenes.js HOW_GROUPS) */
 const GROUPS = (typeof HOW_GROUPS !== "undefined" && HOW_GROUPS[ACT.howIndex]) || STEPS.map((s, i) => [s.label, [i]]);
 const ORDER = GROUPS.flatMap(g => g[1]), groupOf = i => GROUPS.findIndex(g => g[1].includes(i)), nextOf = i => ORDER[ORDER.indexOf(i) + 1];
@@ -35,6 +39,9 @@ const person = k => PEOPLE[k] || [k, "", k.slice(0, 2).toUpperCase(), "p"];
 const SHORT = { Calloway: "Ruth", Backup: "The backup reviewer", Translator: "A qualified translator", System: "The system" };
 const first = k => SHORT[k] || person(k)[0].split(" ")[0];
 
+const ownerOf = B => { const d = B.find(b => b.k === "decide"); return d ? person(d.who)[0].split(" ")[0] + (d.who === "Calloway" ? "" : "") : "The system"; };
+/* Which "How it runs" row (Solution architecture) plays which step group here; null = a row that runs inside every step */
+const RUNMAP = [[null, 0, 1, 2, 3, 4], [0, 1, 2, 3, 4, null], [null, 0, 1, 2, 3, 4]];
 /* The beats of one scene, each with the line the narrator says */
 function beatsOf(s) {
   const sc = (SCENES[ACT.howIndex + ":" + s.key] || (() => ({})))(), st = sc.start || ["System", "event", s.label, ""], B = [];
@@ -61,7 +68,7 @@ function shell(s, B) {
   const nextLabel = nextS ? (NG[1].length > 1 ? `Next: ${ng + 1}${"abcdefgh"[NG[1].indexOf(nx)]} ${ng === g ? nextS.label : NG[0]}` : `Next: ${ng + 1} ${NG[0]}`) : "";
   const howName = h => h[0] + (/prove\.html/.test(h[1]) ? " (opens Prove it)" : "");
   document.getElementById("stage").innerHTML = `
-    <p class="eyebrow">${esc(ACT.lead)}</p>
+    <p class="eyebrow">Job ${ACT.howIndex + 1} · step ${g + 1} of ${GROUPS.length}${parts > 1 ? ` (part ${part} of ${parts})` : ""} · ${esc(ownerOf(B))}${HERE_T.some(t => t[1] === s.n) ? ` · <span class="thr-pill">In the thread</span>` : ""}</p>
     <h2 class="hl">${esc(f.line || s.label)}</h2>
     <p class="was1"><b>Today:</b> ${esc((s.issue || [])[0] || "")}</p>
     <div class="beats">${B.map((b, i) => `<span data-b="${i}">${esc(b.label)}</span>`).join("")}</div>
@@ -71,7 +78,7 @@ function shell(s, B) {
     <div id="endc" class="endc" hidden>
       <div class="now"><b>Result</b><dl class="res3"><dt>Before</dt><dd>${esc((s.issue || [])[0] || "")}</dd><dt>Now</dt><dd>${esc((s.fix || [])[0] || "")}</dd><dt>For June</dt><dd>${esc((s.fix || [])[1] || "")} <a href="day.html?mode=new&ch=${encodeURIComponent(s.ch)}">See it in the ${esc(CH_NAME[s.ch].toLowerCase())} →</a></dd></dl></div>
       <div class="meta3"><span><b>Who owns it</b> ${esc(f.who || "")}</span><span><b>How we test it</b> ${esc(f.proof || "")}</span></div>
-      <div class="foot"><span></span>${nextS ? `<button class="btn primary" id="nextch">${esc(nextLabel)} →</button>` : nextHow ? `<a class="btn primary" href="${nextHow[1]}?play=${playing ? 1 : 0}">Next: ${esc(howName(nextHow))} →</a>` : `<a class="btn primary" href="day.html?mode=new">Next: the future state →</a>`}</div></div>`;
+      <div class="foot">${(() => { const i = THREAD.findIndex(t => t[0] === PAGE && t[1] === s.n), nx = THREAD[i + 1]; return i >= 0 && nx ? `<a class="btn thr-next" href="${nx[0]}?s=${nx[1]}">Next in the thread: ${esc(nx[3])} →</a>` : "<span></span>"; })()}${nextS ? `<button class="btn primary" id="nextch">${esc(nextLabel)} →</button>` : nextHow ? `<a class="btn primary" href="${nextHow[1]}?play=${playing ? 1 : 0}">Next: ${esc(howName(nextHow))} →</a>` : `<a class="btn primary" href="day.html?mode=new">Next: the future state →</a>`}</div></div>`;
 }
 async function scene(fast) {
   const my = ++run, s = STEPS[cur], B = beatsOf(s), T = ms => fast ? 0 : s.live ? ms / 4 : ms, live = () => my === run;
@@ -81,7 +88,7 @@ async function scene(fast) {
   document.querySelectorAll(".lv-tabs button").forEach(b => b.onclick = () => { document.querySelectorAll(".lv-tabs button").forEach(x => x.classList.toggle("on", x === b)); document.getElementById("feed").hidden = b.dataset.pane !== "feed"; document.getElementById("auditPane").hidden = b.dataset.pane !== "audit"; });
   const ask = document.getElementById("liveAsk"); if (ask) { const go = q => { LIVE_Q = q; playing = false; scene(false); }; ask.onclick = () => go(document.getElementById("liveQ").value); document.getElementById("liveQ").onkeydown = e => { if (e.key === "Enter") go(e.target.value); }; document.querySelectorAll(".lv-chip").forEach(c => c.onclick = () => go(c.dataset.q)); }
   const feed = document.getElementById("feed"), narr = document.getElementById("narr");
-  const on = i => { document.querySelectorAll("[data-b]").forEach((x, j) => x.className = j < i ? "done" : j === i ? "on" : ""); narr.textContent = B[i].narr || B[i].say; };
+  const on = i => { document.querySelectorAll("[data-b]").forEach((x, j) => x.className = j < i ? "done" : j === i ? "on" : ""); narr.textContent = B[i].narr || B[i].say; const lit = document.querySelector(".rs-row.on .rs-bar i"); if (lit) lit.style.width = Math.round(100 * (i + 1) / B.length) + "%"; };
   const down = () => feed.scrollTo({ top: feed.scrollHeight, behavior: fast ? "auto" : SMOOTH });
   const push = html => { feed.insertAdjacentHTML("beforeend", html); const el = feed.lastElementChild; down(); return el; };
   const reveal = async el => { const rows = [...el.querySelectorAll(REVEAL)]; if (fast) return; rows.forEach(r => r.classList.add("rv")); for (const r of rows) { if (!live()) return; await wait(520); r.classList.add("in"); down(); } };
@@ -103,12 +110,13 @@ async function scene(fast) {
         for (const t of R.trace) { const sp = document.createElement("span"); sp.className = "run"; sp.textContent = deCode(t); tk.appendChild(sp); down(); await wait(T(600)); if (!live()) return; sp.classList.remove("run"); }
         tk.insertAdjacentHTML("afterend", html); audit("System", R.kind === "answer" ? `Served ${R.unit.title || unitName(R.unit.id)} v${R.unit.version} to ${R.role} on ${R.channel} · exact wording rendered by template` : R.kind === "person" ? `Handed to a person now · ${R.urgent ? "911 and 988 given" : "no search"}` : `No approved topic answered · abstained · gap log +1`); bell(); }
       else el.querySelector(".fp").innerHTML = html;
-      down(); await typeInto(el, fast); await reveal(el); await wait(T(700)); }
+      down(); await typeInto(el, fast); await reveal(el); await wait(T(700));
+      if (b.sc.also) for (const [w, say, html] of b.sc.also()) { if (!live()) return; const ea = push(feedItem(w, say, html)); audit(person(w)[0], say); await reveal(ea); await wait(T(1200)); } }
     if (b.k === "decide") { const [who, btn, out] = b.d, p = person(who);
       const el = push(feedItem(who, "Reviews and decides", `<div class="dec"><button class="btn sm primary fakeb" tabindex="-1" aria-hidden="true">${esc(btn)}</button><span class="cursor"></span></div>`));
       await wait(T(1100)); if (!live()) return; el.querySelector(".fakeb").classList.add("press"); await wait(T(450));
       el.querySelector(".dec").innerHTML = `<span class="stampd">✓ ${esc(btn)}</span><span class="small">${esc(p[0])} · ${esc(out)}</span>`; audit(p[0], `${btn} · ${out}`); bell(); await wait(T(1300)); }
-    if (b.k === "end") { document.getElementById("endc").hidden = false; document.querySelectorAll("[data-b]").forEach(x => x.className = "done"); narr.textContent = "Result below";
+    if (b.k === "end") { const lr = document.querySelector(".rs-row.on"); if (lr && (GROUPS[groupOf(cur)][1].slice(-1)[0] === cur)) lr.classList.add("played"); document.getElementById("endc").hidden = false; document.querySelectorAll("[data-b]").forEach(x => x.className = "done"); narr.textContent = "Result below";
       if (!fast) document.getElementById("endc").scrollIntoView({ block: "nearest", behavior: SMOOTH }); }
   }
   return my;
@@ -117,9 +125,20 @@ function draw() {
   document.getElementById("stepper").innerHTML = storyStepper(2);
   document.getElementById("how4").innerHTML = HOW4.map(([n, h], i) => `<a href="${h}" class="${i === ACT.howIndex ? "on" : ""}"><i>${i + 1}</i>${esc(n + (/prove\.html/.test(h) ? " (opens Prove it)" : ""))}</a>`).join("");
   const here = document.getElementById("here"); if (here) here.remove(); if (false) { const H = HOW4[ACT.howIndex]; here.innerHTML = `Job ${ACT.howIndex + 1} of 4 on the <a href="day.html?mode=approach">Solution architecture map</a>: <b>${esc(H[0])}</b>. ${esc(ACT.setup || H[3] || "")}`; }
+  if (!document.getElementById("thread")) document.getElementById("tabs").insertAdjacentHTML("beforebegin", `<div class="thread" id="thread"><span class="thr-lbl">Following one disclaimer through the four jobs</span>${THREAD.map(t => `<a href="${t[0]}?s=${t[1]}" class="${t[0] === PAGE ? "on" : ""}"><b>${esc(t[2])}</b>${esc(t[3])}</a>`).join("")}</div>`);
+  document.querySelectorAll("#thread a").forEach(a => { const [pg, q] = a.getAttribute("href").split("?s="); a.classList.toggle("now", pg === PAGE && +q === STEPS[cur].n); });
   const g = groupOf(cur); document.getElementById("tabs").classList.toggle("many", GROUPS.length > 6);
-  document.getElementById("tabs").innerHTML = GROUPS.map((x, i) => `<button data-t="${x[1][0]}" class="${i === g ? "on" : i < g ? "done" : ""}"><i>${i + 1}</i><span>${esc(x[0])}</span></button>`).join("");
+  const tabs = document.getElementById("tabs"), J = (typeof FM_JOBS !== "undefined" && FM_JOBS[ACT.howIndex]) || null;
+  if (J && !document.getElementById("howgrid")) { const st = document.getElementById("stage"), w = document.createElement("div"); w.id = "howgrid"; w.className = "howgrid"; st.before(w); w.append(st, tabs); tabs.className = "runside"; }
+  if (J) {
+    const M = RUNMAP[ACT.howIndex], tech = (typeof FM_RUNTECH !== "undefined" && FM_RUNTECH[ACT.howIndex]) || [];
+    tabs.innerHTML = `<p class="eyebrow">How it runs, step by step <span>· the lit row is playing now</span></p><ol class="rs-list">${J.run.map((r, k) => { const gi = M[k], st = gi == null ? "auto" : gi === g ? "on" : gi < g ? "done" : "", thr = gi != null && GROUPS[gi][1].some(j => HERE_T.some(t => t[1] === STEPS[j].n));
+      return `<li class="rs-row ${st}" ${gi == null ? "" : `data-t="${GROUPS[gi][1][0]}" role="button" tabindex="0"`}><span class="fm-who ${r[0]}">${esc(r[1])}</span><span class="rs-txt">${esc(r[2])}${(tech[k] || []).length ? `<span class="fm-rtech">${tech[k].map(t => `<i>${esc(t)}</i>`).join("")}</span>` : ""}${gi == null ? `<span class="rs-note">${k === 0 && ACT.howIndex === 2 ? "try it: type a crisis line in step 1's box" : "runs inside every step"}</span>` : ""}${thr ? `<span class="thr-pill">In the thread</span>` : ""}</span><span class="rs-bar"><i></i></span></li>`; }).join("")}</ol>`;
+    tabs.querySelectorAll("[data-t]").forEach(b => { const go = () => { playing = false; cur = +b.dataset.t; draw(); }; b.onclick = go; b.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } }; });
+  } else {
+  tabs.innerHTML = GROUPS.map((x, i) => `<button data-t="${x[1][0]}" class="${i === g ? "on" : i < g ? "done" : ""}"><i>${i + 1}</i><span>${esc(x[0])}</span></button>`).join("");
   document.querySelectorAll("[data-t]").forEach(b => b.onclick = () => { playing = false; cur = +b.dataset.t; draw(); });
+  }
   return scene(false);
 }
 document.getElementById("play").onclick = async () => { playing = true; cur = playFrom; playFrom = ORDER[0];
