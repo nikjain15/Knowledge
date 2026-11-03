@@ -15,8 +15,8 @@ const SCENES = {
     ai: "A rule scans for any sentence written as an order to an AI", decide: [["Renee", "Review the log", "The source owner is asked who added the line; the topic goes on without it"]] }),
   "0:Outbound": () => ({ start: ["System", "event", "Copay table found while sorting FINAL_v1 (2).docx", "a price table with no owner and no end date"], src: screen("Copay table, as found", [esc(COPAY)]),
     ai: "The AI reads the table into a dated fact: which year, who owns it, when it ends", decide: [["Grace", "Approve 2026 copays", "Served from 1 Jan to 31 Dec 2026, and never after"]] }),
-  "0:Website": () => ({ start: ["System", "event", "Each new topic is compared with every stored copy", "Rx Script v2, Rx Script v3 and the Member Quick Guide"],
-    ai: "The AI finds the same clause in three current documents (the 2025 desk copy was flagged in step 2) and compares them word by word; it never merges", decide: [["Priya", "Raise to Tom", "Two official wordings of one clause: sent to Tom, who alone can rule. He decides in Govern"]] }),
+  "0:Website": () => ({ start: ["System", "event", "Each new topic is compared with the documents already pulled in", "Rx Script v2, Rx Script v3 and the Member Quick Guide"],
+    ai: "The AI spots the same clause in three of those documents (the 2025 desk copy was flagged in step 2) and compares them word by word; it never merges", decide: [["Priya", "Raise to Tom", "Two official wordings of one clause: sent to Tom, who alone can rule. He decides in Govern"]] }),
 
   "1:Outbound": () => ({ start: ["Priya", "event", "Submitted for approval", "Refill reminder text, version 2 (2027)"],
     ai: "The rules run the checks a machine can do: approved text, exact wording, dates", show: chk([["Rule", "Text matches the approved source", "similarity 1.00"], ["Rule", "Exact wording character-exact", "fingerprint matches"], ["Rule", "Dates, audience and channels set", "texts: link only"]], 3),

@@ -152,7 +152,7 @@ function fmPanel() {
    "2. Sort: AI suggests what to keep, skip, flag as out of date, or send to a pharmacist; Priya confirms",
    "3. Extract: AI splits the document into short topics and marks Legal's exact words; Priya accepts",
    "4. Date: AI gives every price or fact its year, owner and end date; the owner approves",
-   "5. Find every copy: AI finds the same wording elsewhere and shows the differences; Tom decides which stays"],
+   "5. Find every copy: AI compares the documents already pulled in, spots the same wording and shows the differences; Tom decides which stays"],
   ["1. Rules check: checks the wording and dates, and that nobody approves their own work; the right approver signs",
    "2. Clinical sign-off: a pharmacist signs, then the medical director, before it goes live",
    "3. Resolve conflicts: AI puts two official wordings side by side; Tom picks one",
