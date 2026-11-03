@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=8aca375">
-<link rel="stylesheet" href="styles.css?v=8aca375"><link rel="stylesheet" href="story.css?v=8aca375">
+<link rel="stylesheet" href="fonts/fonts.css?v=0d70b27">
+<link rel="stylesheet" href="styles.css?v=0d70b27"><link rel="stylesheet" href="story.css?v=0d70b27">
 <title>Roadmap · Lakewell Knowledge</title>
 <style>
 .rule3{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0 18px}.rule3 span{font-family:Manrope,sans-serif;font-weight:800;font-size:14px;padding:7px 12px;border-radius:99px;background:#f1f1ec;color:#2b2f27;border:1px solid #e2e3db}.rule3 i{font-style:normal;color:var(--muted)}
@@ -49,7 +49,7 @@
 .jy-card{display:grid;grid-template-columns:1.1fr 1fr;gap:16px;border:1px solid #e4e6dc;border-radius:14px;background:#fff;padding:16px}.jy-card.in{animation:jyin .35s ease}@keyframes jyin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .jy-cl{display:flex;gap:14px;align-items:flex-start}.jy-big{flex:none;width:44px;height:44px;border-radius:50%;background:#2b2f27;color:#fff;font-family:Manrope,sans-serif;font-weight:800;font-size:18px;display:grid;place-items:center}.jy-cl small{font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}.jy-cl h4{margin:2px 0 4px;font-family:Manrope,sans-serif;font-size:19px}.jy-cl p{margin:0;font-size:14px;color:#3d4236}
 .jy-cr{display:grid;gap:10px;border-left:1px dashed #e2e3db;padding-left:16px}.jy-cr>div{display:grid;grid-template-columns:96px 1fr;gap:4px 8px;align-items:center;font-size:13.5px}.jy-cr b{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}.jy-cr>div>div{grid-column:2}
-.jy-cr .bt{justify-self:start;width:max-content}.jy-cr>div>span.bt+span.bt{grid-column:2}.jy-nav{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+.jy-cr .bt{justify-self:start;width:max-content}.jy-cr>div>span.bt+span.bt{grid-column:2}.jy-cr .jy-what{display:block}.jy-what ul{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:6px}.jy-what li{font-size:13.5px;line-height:1.4}.jy-what .bt{margin-right:6px}.jy-nav{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
 @media (max-width:900px){.jy-track{grid-template-columns:1fr}.jy-card{grid-template-columns:1fr}.jy-cr{border-left:0;padding-left:0}.jy-d span{display:none}}
 .wh,.bt{display:inline-block;font-size:10.5px;font-weight:800;border-radius:99px;padding:2px 8px;white-space:nowrap}.wh.ai{background:#ebe8f8;color:#3c3489}.wh.person{background:#fbe8dc;color:#8a4b12}.wh.rule{background:#eef0e8;color:#55594f}
 .bt.build{background:#2b4a12;color:#fff}.bt.buy{background:#e6ebf2;color:#2c4766}.bt.today{background:#fff;color:#55594f;border:1px solid #cfd1c7}.jy-s .bt{align-self:flex-start}
@@ -60,7 +60,7 @@
 <div class="hhead"><h1>Roadmap</h1></div>
 <div class="card howcard" id="stage"></div>
 </main>
-<script src="data.js?v=8aca375"></script><script src="app.js?v=8aca375"></script><script src="story-shared.js?v=8aca375"></script>
+<script src="data.js?v=0d70b27"></script><script src="app.js?v=0d70b27"></script><script src="story-shared.js?v=0d70b27"></script>
 <script>
 /* How we build it, in order (PRD section 14, strategy S10, D78, D180). Plain words; no durations on screen (they are placeholders). */
 nav("plan.html", "", { demo: true });
@@ -114,6 +114,13 @@ const JOURNEY = [
     ["Watch weekly", "Same tests; 30 answers per role checked", ["rule", "person"], "Monitoring dashboard", "buy"]]]
 ];
 const WHO = { ai: "AI", person: "Person", rule: "System" }, TAG = { build: "We build", buy: "We buy", today: "Use today's" };
+/* What exactly we build or buy at each step */
+const WHAT = { 1: [["buy", "A document parser and OCR service that reads PDFs and scans"]], 2: [["buy", "A large language model that drafts the topics"]], 3: [["buy", "An embedding model that spots copies with different wording"]],
+  4: [["buy", "The language model that reads both versions"], ["build", "The check that compares the new document with the topics already approved"]], 5: [["build", "The approval workflow: a second person must approve, never the author"]],
+  6: [["buy", "A cloud database"], ["build", "The rules on top: versions, start and end dates, and the hash on Legal's words"]], 7: [["build", "The test runner and the write-once audit log"]],
+  8: [["today", "Today's member chat"]], 9: [["today", "The company's existing sign-in system"]], 10: [["buy", "A managed search service and a re-ranking model"]],
+  11: [["build", "The read service every channel asks: checks role and dates, cites the source or says 'not yet'"]], 12: [["buy", "Agent Assist in today's contact-centre platform"], ["build", "A small connector so it asks our read service"]],
+  13: [["build", "The gap log that turns each 'not yet' into Priya's to-do list"]], 14: [["buy", "A monitoring dashboard with alerts"]] };
 const JS = JOURNEY.flatMap(([lane, st], L) => st.map(x => ({ lane, L, x })));
 const ACT = { 1: "Pharmacy team", 2: "AI", 3: "AI", 4: "AI", 5: "Priya, then an approver", 6: "Lakewell Knowledge", 7: "Renee", 8: "June", 9: "Lakewell Knowledge", 10: "AI", 11: "Lakewell Knowledge", 12: "Dana", 13: "Priya", 14: "A reviewer" };
 const journeyHTML = () => `<div class="jy"><div class="jy-h"><div><p class="eyebrow">Before the phases: who does what</p><h3>One answer, end to end</h3><p class="small">Follow one copay change from a new document to June's answer. Click a step, or use Next.</p></div>
@@ -128,18 +135,18 @@ function jyGo(n) { jc = Math.max(0, Math.min(JS.length - 1, n)); const { lane, x
   c.innerHTML = `<div class="jy-cl"><span class="jy-big">${jc + 1}</span><div><small>${esc(lane)}</small><h4>${esc(t)}</h4><p>${esc(d)}</p></div></div>
     <div class="jy-cr"><div><b>Who</b><span>${esc(ACT[jc + 1])}</span><div>${who.map(w => `<span class="wh ${w}">${WHO[w]}</span>`).join(" ")}</div></div>
     <div><b>Tool</b><span>${esc(tool)}</span></div>
-    <div><b>Build or buy</b>${tag === "mix" ? `<span class="bt buy">We buy</span> <span class="bt build">We build</span>` : `<span class="bt ${tag}">${TAG[tag]}</span>`}</div></div>`;
+    <div class="jy-what"><b>What we build or buy</b><ul>${WHAT[jc + 1].map(([k, t]) => `<li><span class="bt ${k}">${TAG[k]}</span> ${esc(t)}</li>`).join("")}</ul></div></div>`;
   document.getElementById("jyk").textContent = `Step ${jc + 1} of ${JS.length}`;
   document.getElementById("jyp").disabled = jc === 0; document.getElementById("jyn").textContent = jc === JS.length - 1 ? "Start again ↺" : "Next step →"; }
 let shown = 1;
 document.getElementById("stage").innerHTML = `<p class="eyebrow">Plan to build the future state</p>
   <h2 class="hl">From prototype to production: six phases, each with an owner and a gate it must pass.</h2>
-  <button class="jy-open" id="jyo" aria-expanded="false">See who does what: one answer, end to end (14 steps) ▾</button><div id="jyb" hidden>${journeyHTML()}</div><p class="eyebrow" style="margin-top:18px">The six phases</p><div class="tl"><div class="tl-line"><i id="tlfill"></i></div>${STEPS_R.map((r, i) => `<button class="tl-n" data-n="${i}"><span class="tl-d">${i + 1}</span><span class="tl-t">${esc(r[0])}</span></button>`).join("")}</div>
+  <button class="jy-open" id="jyo" aria-expanded="false">Follow one answer through the system: who does each step, and what we build or buy ▾</button><div id="jyb" hidden>${journeyHTML()}</div><p class="eyebrow" style="margin-top:18px">The six phases</p><div class="tl"><div class="tl-line"><i id="tlfill"></i></div>${STEPS_R.map((r, i) => `<button class="tl-n" data-n="${i}"><span class="tl-d">${i + 1}</span><span class="tl-t">${esc(r[0])}</span></button>`).join("")}</div>
   <div id="phcard" class="phcard"></div>
   <div class="foot" style="margin-top:16px"><button class="btn" id="php">← Previous</button><span class="small" id="phc"></span><button class="btn primary" id="phn">Next phase →</button></div>`;
 let cur = 0;
 document.querySelectorAll(".jy-d").forEach(b => b.onclick = () => jyGo(+b.dataset.j)); document.getElementById("jyp").onclick = () => jyGo(jc - 1); document.getElementById("jyn").onclick = () => jyGo(jc === JS.length - 1 ? 0 : jc + 1); jyGo(0);
-document.getElementById("jyo").onclick = e => { const b = document.getElementById("jyb"), o = b.hidden; b.hidden = !o; e.currentTarget.setAttribute("aria-expanded", o); e.currentTarget.textContent = o ? "Hide who does what ▴" : "See who does what: one answer, end to end (14 steps) ▾"; };
+document.getElementById("jyo").onclick = e => { const b = document.getElementById("jyb"), o = b.hidden; b.hidden = !o; e.currentTarget.setAttribute("aria-expanded", o); e.currentTarget.textContent = o ? "Hide ▴" : "Follow one answer through the system: who does each step, and what we build or buy ▾"; };
 if (location.hash === "#journey") document.getElementById("jyo").click();
 function card(i) { const r = STEPS_R[i], x = EXTRA[i], j = JOBS_P[i];
   return `<div class="pc-top"><div><small>Phase ${i + 1} of ${STEPS_R.length}</small><h3>${esc(r[0])}</h3><p>${esc(r[1])}</p></div><div class="ph-jobs">${j.length ? j.map(t => `<span>Builds ${esc(t)}</span>`).join("") : `<span class="pre">Before any build</span>`}</div></div>
