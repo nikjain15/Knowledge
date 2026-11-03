@@ -125,7 +125,7 @@ function fmGo(b) {
 function fmPlay() { fmSetBuild(FM_BUILD_MAX); if (fmTimer) { clearInterval(fmTimer); fmTimer = null; fmGo(fmBeat); return; } fmTimer = setInterval(() => { if (fmBeat >= FM_BEATS.length - 1) { clearInterval(fmTimer); fmTimer = null; fmGo(fmBeat); return; } fmGo(fmBeat + 1); }, 3400); fmGo(fmBeat + 1); }
 function fmPanel() {
   const p = document.getElementById("fmPanel"); if (!p) return;
-  if (fmActive < 0) { p.innerHTML = `<div class="fm-intro"><p>We follow one plan policy from Renee's folder to June's screen. Press play, or click a job.</p><button class="btn primary" data-go="0">Begin the journey →</button></div>`; }
+  if (fmActive < 0) { p.innerHTML = `<div class="fm-intro"><p>We follow one plan policy from Renee's folder to June's screen.</p><button class="btn primary" data-go="0">Begin the journey →</button></div>`; }
   else { const s = FM_JOBS[fmActive], i = fmActive;
     p.innerHTML = `<div><p class="eyebrow">Job ${i + 1} of 4 · ${esc(s.n)} <a class="fm-see" href="${["how1.html", "how2.html", "how3.html", "prove.html"][i]}">See it run →</a></p><p class="fm-ktl">${esc(s.take)}</p>
      <div class="fm-io"><div><b>What comes in</b>${esc(s.inp)}</div><div><b>What goes out</b>${esc(s.out)}</div></div>
