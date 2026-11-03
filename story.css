@@ -331,3 +331,4 @@ details.why{margin-top:10px}details.why>summary{cursor:pointer;font-weight:800;c
 .flagc.okc{border-color:#c9dfae;border-left-color:#2b4a12;background:#f6faf0}.okc .fh2 b{color:#2b4a12}.okc .fh2 .st{background:#eef6e4;color:#2b4a12}.okc dt{color:#55704a}
 .copies3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.cp3{border-radius:10px;padding:8px 10px;font-size:12.5px;border:1px solid #e2e3db;background:#fff}.cp3 b{display:block;font-size:12.5px}.cp3 span{display:block;font-size:11px;font-weight:800;margin:2px 0 4px}.cp3 p{margin:0}.cp3.c-ok span{color:#2b4a12}.cp3.c-mid span{color:#8a5600}.cp3.c-bad{border-color:#f3c2bb;background:#fff8f7}.cp3.c-bad span{color:#a3261b}@media (max-width:700px){.copies3{grid-template-columns:1fr}}
 .fe .scan:has(.copies3){max-height:none;-webkit-mask-image:none;mask-image:none}
+.narr .gonext{margin-left:10px;vertical-align:middle;font-size:13px;padding:5px 12px}

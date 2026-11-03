@@ -43,6 +43,14 @@ const ownerOf = B => { const d = B.find(b => b.k === "decide"); if (d) return pe
 /* Which "How it runs" row (Solution architecture) plays which step group here; null = a row that runs inside every step */
 const RUNMAP = [[null, 0, 1, 2, 3, 4], [0, 1, 2, 3, 4, null], [null, 0, 1, 2, 3, 4]];
 const litAuto = (k, on) => { const r = document.querySelectorAll(".rs-row")[k]; if (r) { r.classList.toggle("on", on); if (!on) r.classList.add("played"); } };
+/* Click to advance: between beats the scene waits for a click or the right arrow, unless Play is running */
+let goNext = null;
+function clickToGo(label) {
+  const n = document.getElementById("narr"), my = run;
+  if (n) n.insertAdjacentHTML("beforeend", ` <button class="btn sm primary gonext" id="gonext">Next: ${esc(label)} ▸</button>`);
+  return new Promise(res => { goNext = () => { goNext = null; const b = document.getElementById("gonext"); if (b) b.remove(); res(my === run); }; const b = document.getElementById("gonext"); if (b) b.onclick = () => goNext && goNext(); });
+}
+document.addEventListener("keydown", e => { if (/INPUT|TEXTAREA|SELECT/.test((e.target || {}).tagName || "")) return; if ((e.key === "ArrowRight" || e.key === " ") && goNext) { e.preventDefault(); goNext(); } });
 /* The beats of one scene, each with the line the narrator says */
 function beatsOf(s) {
   const sc = (SCENES[ACT.howIndex + ":" + s.key] || (() => ({})))(), st = sc.start || ["System", "event", s.label, ""], B = [];
@@ -97,6 +105,7 @@ async function scene(fast) {
   const push = html => { feed.insertAdjacentHTML("beforeend", html); const el = feed.lastElementChild; down(); return el; };
   const reveal = async el => { const rows = [...el.querySelectorAll(REVEAL)]; if (fast) return; rows.forEach(r => r.classList.add("rv")); for (const r of rows) { if (!live()) return; await wait(520); r.classList.add("in"); down(); } };
   for (let i = 0; i < B.length; i++) {
+    if (i > 0 && !fast && !playing) { const ok = await clickToGo(B[i].label); if (!ok || !live()) return; }
     if (!live()) return; const b = B[i]; on(i);
     if (b.k === "start") { const [who, kind, title, meta] = b.st;
       const body = kind === "upload" ? `<div class="filec"><span class="fi">${FILEI}</span><div><b>${esc(title)}</b><span class="small">${esc(meta)}</span><div class="bar"><i style="${fast ? "width:100%" : ""}"></i></div></div></div>`
