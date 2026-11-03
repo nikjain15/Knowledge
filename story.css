@@ -224,3 +224,5 @@ details.why{margin-top:10px}details.why>summary{cursor:pointer;font-weight:800;c
 .lv-part{font-weight:600;text-transform:none;letter-spacing:0;color:var(--muted)}.lv-parts{display:block;font-style:normal;font-size:11px;color:var(--muted)}
 @media (max-width:900px){.lv-call .two{grid-template-columns:1fr}.lv-call .two>div+div{border-left:0;border-top:1px solid var(--line)}}
 .lv-icb{width:26px;height:26px;padding:0;display:inline-grid;place-items:center;color:#55594f}
+
+.story5 a.prd5{margin-left:auto;background:#fff;border:1px solid var(--line);color:var(--fg);font-size:14px;padding:6px 12px}
