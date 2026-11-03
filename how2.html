@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=f001d00">
-<link rel="stylesheet" href="styles.css?v=f001d00"><link rel="stylesheet" href="story.css?v=f001d00">
+<link rel="stylesheet" href="fonts/fonts.css?v=b61596f">
+<link rel="stylesheet" href="styles.css?v=b61596f"><link rel="stylesheet" href="story.css?v=b61596f">
 <title>How it works · Job 2 · Govern and approve · Lakewell Knowledge</title>
 <style>
 .tabs5{grid-template-columns:repeat(5,minmax(0,1fr))}
@@ -17,7 +17,7 @@
 <div class="subbar" id="tabs"></div>
 <div class="card howcard" id="stage"></div>
 </main>
-<script src="data.js?v=f001d00"></script><script src="app.js?v=f001d00"></script><script src="story-shared.js?v=f001d00"></script>
+<script src="data.js?v=b61596f"></script><script src="app.js?v=b61596f"></script><script src="story-shared.js?v=b61596f"></script>
 <script>
 nav("how2.html", "legal", { demo: true });
 const KU301 = slaStage(((units(S()).find(u => u.id === "KU-301") || {}).seed || {}).submitted || "28 Oct 2026", "legal"); /* the scene clock reads the same seed as the product (audit A-030) */
@@ -64,7 +64,7 @@ window.ACT = {
       today: () => `${screen("Email thread · 'refill reminder text, ok?'", ["<b>Reminder team:</b> New refill text attached, ok to send today?", "<b>Tom:</b> Looks fine at a glance, go ahead."], "Sent to 48,210 members that afternoon. No checklist, no record of what Tom checked (illustrative).")}${compare("Approved: checked against the source, dated, with Tom's name and the version on record.", "'Looks fine at a glance' in an email.", "What counts as approval", "Nothing records what was checked", "What a real approval looks like")}`,
       issue: ["Approval is an email reply: no checklist, no record of what was checked, no start date", "June gets a text with wording nobody properly checked", "When an auditor asks who approved it and what they checked, there's no answer"],
       path: [["DRAFT", "Reminder text", "by the team"], ["EMAIL", "'Ok to send?'", "to Tom"], ["NO GATE", "'Looks fine'", "nothing recorded"], ["SENT", "To 48,210 members", "illustrative · no trail"]],
-      now: () => `${chk([["Rule", "Text matches the approved source", "similarity 1.00"], ["Rule", "Exact wording character-exact", "fingerprint matches"], ["Rule", "Dates, audience and channels set", "texts: link only"], ["Tom Bexley", "The answer is correct and complete", "only a person ticks this"]], 4)}<p class="small ok2"><b>Refill reminder text approved by Tom Bexley, 2 Nov 2026, version 2, in force from 1 Jan 2027.</b> Only now can a campaign use it. The pricing disclaimer it quotes is approved separately, in Keep it current.</p>`,
+      now: () => `${chk([["Rule", "Text matches the approved source", "similarity 1.00"], ["Rule", "Exact wording character-exact", "hash matches"], ["Rule", "Dates, audience and channels set", "texts: link only"], ["Tom Bexley", "The answer is correct and complete", "only a person ticks this"]], 4)}<p class="small ok2"><b>Refill reminder text approved by Tom Bexley, 2 Nov 2026, version 2, in force from 1 Jan 2027.</b> Only now can a campaign use it. The pricing disclaimer it quotes is approved separately, in Keep it current.</p>`,
       fix: ["Approval is a gate: fixed rules run the checks, Tom confirms the answer is correct, and nothing can be sent until he does", "June only gets texts with wording Tom actually checked", "Every approval is on record with who, what, which version and when"],
       fixpath: [["DRAFT", "Reminder line", "from an approved topic"], ["AI CHECKS", "Source, exact wording, dates", "shown to Tom"], ["TOM CONFIRMS", "Correct and complete", "the one human tick"], ["RECORDED", "Approved with a date", "then it can be sent"]],
       fix4: { line: "The reminder text can't go out until the rules check it and Tom signs.", steps: [1], tech: ["Approval workflow", "Rule checks"], kind: "Rules check, a person approves", control: "Only approved content can be read by any channel, reminders included; Approve stays locked until every check is ticked; each approval is an append-only event with actor, time and version.", who: "Tom approves legal wording; Grace pharmacy content; Renee operational content", proof: "Nothing unapproved is ever served (golden question 11); every state change carries actor, time and version (test T3)." } },
@@ -105,4 +105,4 @@ window.ACT = {
 
 ACT.lead = "Tom, Grace and Dr. Ruth Calloway, the approvers"; ACT.steps = [["Outbound", "Rules check, a person approves"], ["Voice", "Separation of duties"], ["Member chat", "Clinical sign-off"], ["Advocate desk", "Resolve conflicts of authority"], ["Website", "Clocks on every review"], ["Voice", "One alert finds every copy", "Drift"], ["Member chat", "Meaning, not formatting", "Format"], ["Website", "Re-check translations", "Translation"]]; ACT.howIndex = 1;
 </script>
-<script src="vendors.js?v=f001d00"></script><script src="flowmap.js?v=f001d00"></script><script src="how-scenes.js?v=f001d00"></script><script src="how-engine.js?v=f001d00"></script></body></html>
+<script src="vendors.js?v=b61596f"></script><script src="flowmap.js?v=b61596f"></script><script src="how-scenes.js?v=b61596f"></script><script src="how-engine.js?v=b61596f"></script></body></html>

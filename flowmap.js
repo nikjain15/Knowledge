@@ -147,7 +147,7 @@ function fmPanel() {
 }
 /* Plain-words step text, one line each (same steps; "Start", "First" and "Last" run outside the numbered steps) */
 [
-  ["Start: pulls each new or changed document and takes its fingerprint, version and owner, so any later change is spotted",
+  ["Start: pulls each new or changed document and records its hash (a digital fingerprint), version and owner, so any later change is spotted",
    "1. Check: holds back any line that tries to give the AI orders; Renee reviews it",
    "2. Sort: AI suggests what to keep, skip, flag as out of date, or send to a pharmacist; Priya confirms",
    "3. Extract: AI splits the document into short topics and marks Legal's exact words; Priya accepts",
@@ -166,7 +166,7 @@ function fmPanel() {
    "4. Close the gaps: AI groups unanswered questions and drafts answers; Priya writes, Renee confirms",
    "5. Pin the top answer: AI suggests pinning the approved answer to the most-asked question; Renee confirms"],
   ["1. Golden set: the answer key, 21 questions, checked for every role and channel",
-   "2. Held-out test set: 11 questions kept locked away, run once; a fingerprint proves nobody changed them",
+   "2. Held-out test set: 11 questions kept locked away, run once; a hash proves nobody changed them",
    "3. Red-team testing: 430 trick questions from someone who never saw the rules, plus 234 regression tests",
    "4. Regression tests: every failure is added as a new test, never fixed quietly",
    "5. Release gate: if any safety rule fails, on any group, nothing ships",

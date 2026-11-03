@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=f001d00">
-<link rel="stylesheet" href="styles.css?v=f001d00"><link rel="stylesheet" href="story.css?v=f001d00">
+<link rel="stylesheet" href="fonts/fonts.css?v=b61596f">
+<link rel="stylesheet" href="styles.css?v=b61596f"><link rel="stylesheet" href="story.css?v=b61596f">
 <title>June's day · Lakewell Knowledge</title>
 <style>
 .dhead{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:6px 0 12px}
@@ -102,8 +102,8 @@ mark.miss{background:#cfe7ad;color:#1f4a06;font-weight:800;border-radius:3px;pad
 
 <p class="small" style="margin-top:8px">All fictional, synthetic voices. Runs in your browser; AI steps scripted, simple matching stands in for search.</p>
 </main>
-<script src="data.js?v=f001d00"></script><script src="app.js?v=f001d00"></script><script src="model-run.js?v=f001d00"></script><script src="probes.js?v=f001d00"></script><script src="probes-review.js?v=f001d00"></script><script src="nearmiss.js?v=f001d00"></script><script src="probes2.js?v=f001d00"></script><script src="probes3.js?v=f001d00"></script>
-<script src="story-shared.js?v=f001d00"></script><script src="vendors.js?v=f001d00"></script><script src="flowmap.js?v=f001d00"></script>
+<script src="data.js?v=b61596f"></script><script src="app.js?v=b61596f"></script><script src="model-run.js?v=b61596f"></script><script src="probes.js?v=b61596f"></script><script src="probes-review.js?v=b61596f"></script><script src="nearmiss.js?v=b61596f"></script><script src="probes2.js?v=b61596f"></script><script src="probes3.js?v=b61596f"></script>
+<script src="story-shared.js?v=b61596f"></script><script src="vendors.js?v=b61596f"></script><script src="flowmap.js?v=b61596f"></script>
 <script>
 nav("day.html", "insurance", { demo: true });
 store.up(s => { if (!(s.approved || {})["KU-204"]) ENSURE.gateDone(s); const v2 = (s.approved || {})["KU-207@v2"]; if (v2 && v2.on === PLAN.today) v2.on = "8 Oct 2026"; });
@@ -212,7 +212,7 @@ const TAKE = {
     ["source", "One approved source", "Copies are found and retired; every channel reads the same answer."],
     ["shield", "Approval before anything ships", "The right person signs; with no approved answer, it says 'not yet'."],
     ["calendar", "Every version has dates", "The old one leaves and the new one arrives on its date, everywhere at once."],
-    ["lock", "Legal's words, exactly", "Inserted by template and fingerprint-checked; never reworded."],
+    ["lock", "Legal's words, exactly", "Inserted by template and hash-checked; never reworded."],
     ["inbox", "Every gap becomes the next answer", "Unanswered questions go to Priya's list, most-asked first."],
     ["spark", "Safe to put AI in every channel", "AI can only say what Lakewell approved, so it adds speed without adding a new source of wrong answers."]] }
 };
@@ -256,7 +256,7 @@ function graphSVG(r, stage, focus) {
 /* Control for each channel: the steps that do the work, the techniques, and control, owner and evidence (strategy S5, S3.6, S6.12, section 8) */
 const FIX4 = {
   Voice: { steps: [1, 2], tech: ["Constrained rendering", "Knowledge graph"], kind: "Rule", line: "Legal's words are marked as exact wording. The bot reads them, never rewords them.",
-    control: "Exact wording is stored once in the governance store and inserted by template; the model never edits them, and a fingerprint check runs before anything is spoken.", who: "Tom Bexley, Legal and Compliance, approves the wording once", proof: "Exact-wording check, 0 changes allowed, on every channel; any failure blocks release.", focus: "LEGAL WORDS" },
+    control: "Exact wording is stored once in the governance store and inserted by template; the model never edits them, and a hash check runs before anything is spoken.", who: "Tom Bexley, Legal and Compliance, approves the wording once", proof: "Exact-wording check, 0 changes allowed, on every channel; any failure blocks release.", focus: "LEGAL WORDS" },
   "Member chat": { steps: [2, 3], tech: ["Grounded generation with abstention", "Gap clustering"], kind: "Rule", line: "No approved answer, no answer. The chat says 'not yet', finds a person, and logs the gap.",
     control: "Only approved content is searchable, so the draft is never seen. If no approved topic states the figure, the answer is 'not yet', never a guess, and the question lands on Priya's list of answers to write. The model only ranks.", who: "Priya writes the missing answer; Renee decides it's worth writing", proof: "No-answer and exact-cost checks: 100% of must-refuse questions refused.", focus: "ROUTED" },
   "Advocate desk": { steps: [0, 1, 2], tech: ["Semantic deduplication", "Knowledge graph retrieval", "Drift detection"], kind: "AI proposes, a person decides", line: "One approved wording, found once. Every copy points to it, and Agent Assist shows it as June talks.",
