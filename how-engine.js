@@ -6,7 +6,7 @@ const PD = Object.fromEntries(PD_WORDINGS.map(w => [w.label, w.text]));
 const docOf = id => DOCS.find(d => d.id === id);
 const STEPS = ACT.steps.map(([ch, label, key], i) => Object.assign({ key: key || ch, ch, label, n: i + 1 }, ACT.channels[key || ch]));
 /* One thread through the four jobs: the Rx pricing disclaimer, the brief's own scenario. Each page opens on its thread step. */
-const THREAD = [["how1.html", 5, "1 Ingest", "Three wordings found"], ["how2.html", 4, "2 Govern", "Tom picks one wording"], ["how2.html", 6, "2 Govern", "Legal's 2027 edit, one alert"], ["how3.html", 1, "3 Serve", "June and Dana get the same"], ["prove.html", 2, "4 Test", "The golden test passes"]];
+const THREAD = [["how1.html", 1, "1 Ingest", "A hidden order to the AI is caught"], ["how1.html", 5, "1 Ingest", "Three wordings found"], ["how2.html", 4, "2 Govern", "Tom picks one wording"], ["how2.html", 6, "2 Govern", "Legal's 2027 edit, one alert"], ["how3.html", 1, "3 Serve", "June and Dana get the same"], ["prove.html", 2, "4 Test", "The golden test passes"]];
 const PAGE = location.pathname.split("/").pop() || "how1.html", HERE_T = THREAD.filter(t => t[0] === PAGE);
 const heroN = (HERE_T[0] || [])[1], startN = +QS.get("s") || heroN || 1;
 let cur = Math.max(0, STEPS.findIndex(s => s.n === startN)), playing = false, run = 0, playFrom = QS.get("s") ? cur : 0; /* A-071: ?s=N&play=1 starts at N */
