@@ -125,6 +125,24 @@ const PRD = {
     ] }, { caption: "Phase 6 Members and every channel", cols: ["ID", "Requirement", "Acceptance criteria", "Source"], rows: [
       ["FR-11 Member-channel rules", "Member channels serve member-facing units only; personal-record questions go to a person; a question about a year no unit covers abstains; a cost question is answered only when the unit names that exact cost; a question about another person gets a general answer or a person who checks authority", "Probe sets T9 to T13: 100% of must-refuse refused; false refusals at most 10% at launch, goal 2%", "S8.134 to S8.137, D60, D64, D107"],
       ["FR-12 Outbound and consent", "Outbound text is a one-line summary plus a link to the exact approved wording; sent only with prior consent; per-member, per-channel STOP; no consent means the audit logs \"text skipped: opted out\"", "0 link mismatches; every skip logged", "S8.139, S18.11, D57, D71"],
+        ] }, { caption: "Edge cases and how each is handled", cols: ["Edge case", "What happens", "Requirement", "Proven by"], rows: [
+      ["A misspelled question ('disclamer')", "Still finds the approved answer and its exact wording", "FR-8", "Golden set: misspelt pricing disclaimer"],
+      ["A member asks about their own cost or records", "Handed to an authenticated person; nothing is guessed", "FR-11", "Golden set: 'what is my copay?'; red-team personal-records set"],
+      ["A question about someone else's coverage", "A general answer only; the other person's records go to a person", "FR-11", "Red-team fix: 'the dental thing my neighbour has'"],
+      ["A staff member asks outside their role", "Refused; the answer is never a candidate", "FR-8, FR-9", "Golden set: vision benefit asked by a pharmacy advocate"],
+      ["Access revoked mid-session", "Refused from the next question", "FR-9", "Golden set: vision benefit after access was revoked"],
+      ["Next year's wording is still a draft", "Today's approved version is served; the draft stays hidden until its start date", "FR-8", "Golden set: new wording awaiting approval"],
+      ["A version has expired", "Never served; the version in force answers", "FR-1, FR-8", "Golden set: 2026 Star statement, now expired"],
+      ["The asked fact is missing, such as a year left blank", "Says 'not yet', offers a person, logs the question", "FR-8, FR-10", "Golden set: Star statement with the year blank; held-out fix"],
+      ["No approved answer at all", "Says 'not yet' and the question lands on the author's list", "FR-10", "Golden set: 2027 Tier 3 copay, dental rider"],
+      ["A question in another language", "Routed to a qualified translator; machine drafts are never served", "FR-11", "Golden set: pricing disclaimer in Spanish; red-team language set"],
+      ["Crisis words ('I think I am having a stroke')", "911, 988 and a person, before any search", "FR-8", "Crisis rule, checked live on How it works Job 3"],
+      ["A document hides an order to the AI", "The line is held back and logged; the answer is unaffected", "FR-5", "Golden set: claims summary with a planted instruction"],
+      ["Two official wordings of one clause", "Raised to the one approver with authority; never merged", "FR-6", "Test T1: a not-duplicate pair is never merged"],
+      ["A formatting-only edit to a source", "No alert; only a change in words raises one", "FR-7", "Test T2"],
+      ["The approver is away", "The review clock escalates, then moves it to a backup reviewer", "FR-2", "How it works Job 2: review clocks"],
+      ["An author tries to approve their own work", "Refused by a fixed rule and logged", "FR-2", "How it works Job 2: separation of duties"],
+      ["A text to a member who never agreed to texts", "Not sent; the audit trail logs 'text skipped: opted out'", "FR-12", "FR-12 acceptance criteria"]
     ] }] },
 
   { id: "model", n: 7, title: "Knowledge unit model and read contract", intro: "Three unit types, one field set, five states. The grain is the topic a person signs and a channel cites; exact wording lives inside it (D23). Exact wording is the plain name for what the strategy calls a locked clause: a sentence quoted word for word and never reworded.",
