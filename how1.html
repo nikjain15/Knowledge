@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=fd6e686">
-<link rel="stylesheet" href="styles.css?v=fd6e686"><link rel="stylesheet" href="story.css?v=fd6e686">
+<link rel="stylesheet" href="fonts/fonts.css?v=8be0632">
+<link rel="stylesheet" href="styles.css?v=8be0632"><link rel="stylesheet" href="story.css?v=8be0632">
 <title>How it works · Job 1 · Ingest and structure · Lakewell Knowledge</title>
 <style>
 .tabs5{grid-template-columns:repeat(5,minmax(0,1fr))}
@@ -17,7 +17,7 @@
 <div class="subbar" id="tabs"></div>
 <div class="card howcard" id="stage"></div>
 </main>
-<script src="data.js?v=fd6e686"></script><script src="app.js?v=fd6e686"></script><script src="story-shared.js?v=fd6e686"></script>
+<script src="data.js?v=8be0632"></script><script src="app.js?v=8be0632"></script><script src="story-shared.js?v=8be0632"></script>
 <script>
 nav("how1.html", "author", { demo: true });
 const RX = DOCS.find(d => d.id === "DOC-RXV2"), SD = DOCS.find(d => d.id === "DOC-SD09"), INJ = (CORE_UNITS.find(u => u.id === "KU-214") || {}).injection;
@@ -29,7 +29,7 @@ window.ACT = {
     today: { title: "What goes wrong before anyone answers a question", lead: "Every channel reads from documents nobody made ready: buried, messy, unsafe and duplicated.", items: [
       ["pencil", "Legal's words are buried", "The phone bot rewords what nothing marks as exact."], ["zap", "Sources can carry hidden orders", "The chat follows a line planted in a document."],
       ["clock", "Files mix junk, stale and clinical content", "Dana's search returns the whole messy file."], ["send", "Tables lose their context", "A text quotes a price with no year or owner."], ["copies", "The same words live in three places", "The website shows a copy Legal never approved."]] },
-    new: { title: "What changes when Priya adds a document", lead: "The AI does the reading, a person decides, and nothing is searchable until approved.", items: [
+    new: { title: "What changes when a document comes in", lead: "The AI does the reading, a person decides, and nothing is searchable until approved.", items: [
       ["lock", "Legal's exact wording", "Marked once; read exactly in every channel."], ["shield", "Documents are data, not orders", "Planted instructions removed and logged."],
       ["inbox", "Messy files, sorted", "Skip, split, route clinical advice to a pharmacist."], ["calendar", "Tables become dated facts", "A 2026 copay is labelled 2026, with an owner."], ["source", "One wording stands", "Found, compared, proposed; Tom decides."]] }
   },
@@ -77,6 +77,7 @@ window.ACT = {
   }
 };
 
-ACT.lead = "Priya, the author"; ACT.steps = [["Voice", "Extract topics"], ["Advocate desk", "Sort the file"], ["Member chat", "Block hidden instructions"], ["Outbound", "Date the facts"], ["Website", "Find every copy"]]; ACT.howIndex = 0;
+ACT.lead = "Priya, the author"; ACT.steps = [["Member chat", "Check for hidden instructions"], ["Advocate desk", "Sort the file"], ["Voice", "Extract topics"], ["Outbound", "Date the facts"], ["Website", "Find every copy"]];
+ACT.setup = "Every changed document is pulled from its source (script library, shared drive, intranet), with its version and owner recorded, and passes the same five steps in order."; ACT.howIndex = 0;
 </script>
-<script src="how-scenes.js?v=fd6e686"></script><script src="how-engine.js?v=fd6e686"></script></body></html>
+<script src="how-scenes.js?v=8be0632"></script><script src="how-engine.js?v=8be0632"></script></body></html>

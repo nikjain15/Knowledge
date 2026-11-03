@@ -7,15 +7,15 @@ const HOW_GROUPS = {
   2: [["One cited answer", [0]], ["Right role, right date", [1, 2]], ["No answer, no guess", [3]], ["Close the gaps", [4, 5, 6]], ["Pin the top answer", [7]]]
 };
 const SCENES = {
-  "0:Voice": () => ({ start: ["Priya", "upload", "Rx Education Script (v2)", "9 sections · from the script library"], src: docView(RX, b => b.verbatim ? "hide" : ""),
+  "0:Voice": () => ({ start: ["Priya", "upload", "Rx Education Script (v2)", "9 sections · from the script library"], src: docView(RX, b => b.verbatim ? "hide" : "", /pricing|out-of-network/i, "a document: the script advocates read on pharmacy calls"),
     ai: "The AI splits it into short topics and finds the lines marked 'Verbatim (Legal)'", decide: [["Priya", "Accept 4 topics", "Sent for approval: exact wording to Tom, pharmacy content to Grace"]] }),
   "0:Advocate desk": () => ({ start: ["Priya", "upload", "FINAL_v1 (2).docx", "shared drive · no owner"], src: docView(SD, b => b.junk ? (/2025/.test(b.t) ? "stale" : "junk") : ""),
     ai: "The AI goes line by line: skip it, split it, read it, or route it", decide: [["Priya", "Confirm proposals", "Clinical tip routed to Grace; the stale 2025 line flagged to Renee"]] }),
   "0:Member chat": () => ({ start: ["Priya", "upload", "Member Benefits Quick Guide 2027.pdf", "intranet"], src: `<div class="docv"><p class="small"><b>Member Benefits Quick Guide 2027</b> · Claims coverage summary</p><p>Most covered services are paid after your deductible.</p><p class="inj">${esc(INJ)}</p></div>`,
     ai: "A rule scans for any sentence written as an order to an AI", decide: [["Renee", "Review the log", "The source owner is asked who added the line; the topic goes on without it"]] }),
-  "0:Outbound": () => ({ start: ["Priya", "upload", "FINAL_v1 (2).docx · copay table", "no year in the heading, no owner"], src: screen("Copay table, as found", [esc(COPAY)]),
+  "0:Outbound": () => ({ start: ["System", "event", "Copay table found while sorting FINAL_v1 (2).docx", "a price table with no owner and no end date"], src: screen("Copay table, as found", [esc(COPAY)]),
     ai: "The AI reads the table into a dated fact: which year, who owns it, when it ends", decide: [["Grace", "Approve 2026 copays", "Served from 1 Jan to 31 Dec 2026, and never after"]] }),
-  "0:Website": () => ({ start: ["Priya", "upload", "3 documents", "Rx Script v2 and v3, Member Quick Guide"],
+  "0:Website": () => ({ start: ["System", "event", "Each new topic is compared with every stored copy", "Rx Script v2, Rx Script v3 and the Member Quick Guide"],
     ai: "The AI finds the same clause in three places and compares them word by word; it never merges", decide: [["Priya", "Raise to Tom", "Two official wordings of one clause: sent to Tom, who alone can rule. He decides in Govern"]] }),
 
   "1:Outbound": () => ({ start: ["Priya", "event", "Submitted for approval", "Refill reminder text, version 2 (2027)"],

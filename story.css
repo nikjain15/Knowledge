@@ -240,3 +240,6 @@ details.why{margin-top:10px}details.why>summary{cursor:pointer;font-weight:800;c
 .fm-wrap:is([data-build="0"],[data-build="1"],[data-build="2"],[data-build="3"]) :is(.fm-gate,.k-j3g){opacity:0}
 .fm-wrap:is([data-build="0"],[data-build="1"],[data-build="2"],[data-build="3"],[data-build="4"]) :is(.k-cbox,.k-ch){opacity:0}
 .fm-wrap:not([data-build="6"]) :is(.k-draft,.fm-loop,.fm-looplbl,.fm-trav,.fm-legend,.fm-panel){opacity:0}
+
+/* The document being read shows its first lines only, fading out, so the feed stays short */
+.fe .scan{max-height:190px;overflow:hidden;-webkit-mask-image:linear-gradient(#000 70%,transparent);mask-image:linear-gradient(#000 70%,transparent)}

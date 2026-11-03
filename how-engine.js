@@ -22,8 +22,9 @@ setInterval(() => { const c = document.getElementById("clock"); if (c) c.textCon
 const bellTitle = () => `${BELLS} decision${BELLS === 1 ? "" : "s"} logged`;
 async function typeInto(root, fast) { for (const el of root.querySelectorAll("[data-type]")) { const text = el.getAttribute("data-type"); if (fast) { el.textContent = text; continue; } el.textContent = ""; const c = document.createElement("span"); c.className = "lv-caret"; el.appendChild(c); for (const ch of text) { c.before(document.createTextNode(ch)); await new Promise(r => setTimeout(r, 12)); } c.remove(); } }
 
-function docView(d, mark) {
-  return `<div class="docv"><p class="small" style="margin:0 0 6px"><b>${esc(d.title)}</b> · ${esc(d.tool || "")} · ${esc(d.short)}</p>${d.sections.map(s => `<h5>${esc(s.h)}</h5>${s.blocks.map(b => typeof b === "string" ? `<p class="small">${esc(b)}</p>` : `<p class="${(mark && mark(b)) || ""}">${esc(b.t || (b.table || []).map(r => r.join(" ")).join("; "))}</p>`).join("")}`).join("")}</div>`;
+function docView(d, mark, only, kind) {
+  const secs = only ? d.sections.filter(x => only.test(x.h)) : d.sections, cut = d.sections.length - secs.length;
+  return `<div class="docv"><p class="small" style="margin:0 0 6px"><b>${esc(d.title)}</b> · ${esc(d.tool || "")}${kind ? ` · ${esc(kind)}` : ""}${cut ? ` · showing ${secs.length} of ${d.sections.length} sections` : ""}</p>${secs.map(s => `<h5>${esc(s.h)}</h5>${s.blocks.map(b => typeof b === "string" ? `<p class="small">${esc(b)}</p>` : `<p class="${(mark && mark(b)) || ""}">${esc(b.t || (b.table || []).map(r => r.join(" ")).join("; "))}</p>`).join("")}`).join("")}</div>`;
 }
 const unitCard = (title, meta, cls, locked) => `<div class="unitc ${cls || ""}"><span class="ut">${esc(title)}</span><span class="um"> · ${esc(meta)}</span>${locked ? `<span class="lk">${esc(locked)}</span>` : ""}</div>`;
 const screen = (title, rows, foot) => `<div class="docv"><p class="small" style="margin:0 0 6px"><b>${esc(title)}</b></p>${rows.map(r => `<p>${r}</p>`).join("")}${foot ? `<p class="small" style="margin-top:6px">${foot}</p>` : ""}</div>`;
@@ -37,8 +38,8 @@ const first = k => SHORT[k] || person(k)[0].split(" ")[0];
 /* The beats of one scene, each with the line the narrator says */
 function beatsOf(s) {
   const sc = (SCENES[ACT.howIndex + ":" + s.key] || (() => ({})))(), st = sc.start || ["System", "event", s.label, ""], B = [];
-  const verb = { upload: "adds a document", event: "", ask: "asks" }[st[1]];
-  B.push({ k: "start", who: st[0], say: st[1] === "event" ? (st[0] === "System" ? st[2] : `${first(st[0])}: ${st[2]}`) : `${first(st[0])} ${verb}`, sc, st, label: "Trigger" });
+  const verb = { upload: "", event: "", ask: "asks" }[st[1]];
+  B.push({ k: "start", who: st[0], say: st[1] === "upload" ? `A changed document arrives: ${st[2]}` : st[1] === "event" ? (st[0] === "System" ? st[2] : `${first(st[0])}: ${st[2]}`) : `${first(st[0])} ${verb}`, sc, st, label: "Trigger" });
   const sys = /^Rule/i.test(((s.fix4 || {}).kind) || "") || /system checks|clock|reminder reads|diff|Drift|Only the approved|linked Spanish/.test(sc.ai || "");
   B.push({ k: "ai", who: sys ? "System" : "AI", say: sc.ai || "The AI proposes", sc, label: "AI does", narr: sys ? "A fixed rule runs; watch the feed" : "The AI works; watch the feed" });
   (sc.decide || []).forEach(d => B.push({ k: "decide", who: d[0], say: `${first(d[0])} decides`, d, label: "Person decides" }));
@@ -89,13 +90,13 @@ async function scene(fast) {
     if (b.k === "start") { const [who, kind, title, meta] = b.st;
       const body = kind === "upload" ? `<div class="filec"><span class="fi">${FILEI}</span><div><b>${esc(title)}</b><span class="small">${esc(meta)}</span><div class="bar"><i style="${fast ? "width:100%" : ""}"></i></div></div></div>`
         : kind === "ask" ? `<div class="askb">${esc(title)}</div><span class="small">${esc(meta)}</span>` : `<div class="filec ev"><span class="fi">${BELL}</span><div><b>${esc(meta)}</b></div></div>`;
-      const el = push(feedItem(who, kind === "upload" ? "Adds a document" : kind === "ask" ? "Asks" : title, body));
-      audit(person(who)[0], kind === "upload" ? `Added ${title}` : kind === "ask" ? `Asked: "${title}" · redacted before storage` : title);
-      if (kind === "upload" && !fast) { await wait(150); el.querySelector(".bar i").style.width = "100%"; await wait(1300); el.querySelector(".bar").outerHTML = `<span class="ok3">✓ Uploaded</span>`; }
+      const el = push(feedItem(kind === "upload" ? "System" : who, kind === "upload" ? "Pulls the changed document from its source" : kind === "ask" ? "Asks" : title, body));
+      audit(kind === "upload" ? "System" : person(who)[0], kind === "upload" ? `Pulled ${title} · version and owner recorded` : kind === "ask" ? `Asked: "${title}" · redacted before storage` : title);
+      if (kind === "upload" && !fast) { await wait(150); el.querySelector(".bar i").style.width = "100%"; await wait(1300); el.querySelector(".bar").outerHTML = `<span class="ok3">✓ Pulled · version and owner recorded</span>`; }
       else await wait(T(1400));
-      if (b.sc.src) { const sv = push(feedItem("AI", "Reading it", `<div class="scan">${b.sc.src}</div>`)); if (!fast) { sv.querySelector(".scan").classList.add("go"); await wait(2200); } }
     }
-    if (b.k === "ai") { const el = push(feedItem(b.who, b.say, `<div class="think"><i></i><i></i><i></i></div>`));
+    if (b.k === "ai") { if (b.sc.src) { const sv = push(feedItem(b.who, "Reads the document", `<div class="scan">${b.sc.src}</div>`)); if (!fast) { sv.querySelector(".scan").classList.add("go"); await wait(2200); } if (!live()) return; }
+      const el = push(feedItem(b.who, b.say, `<div class="think"><i></i><i></i><i></i></div>`));
       await wait(T(1100)); if (!live()) return;
       const html = b.sc.show || (s.now ? s.now() : ""), R = s.live ? window.LIVE_R : null;
       if (R && R.trace) { const tk = document.createElement("div"); tk.className = "lv-tick"; el.querySelector(".fp").innerHTML = ""; el.querySelector(".fp").appendChild(tk);
@@ -115,7 +116,7 @@ async function scene(fast) {
 function draw() {
   document.getElementById("stepper").innerHTML = storyStepper(2);
   document.getElementById("how4").innerHTML = HOW4.map(([n, h], i) => `<a href="${h}" class="${i === ACT.howIndex ? "on" : ""}"><i>${i + 1}</i>${esc(n + (/prove\.html/.test(h) ? " (opens Prove it)" : ""))}</a>`).join("");
-  const here = document.getElementById("here"); if (here) { const H = HOW4[ACT.howIndex]; here.innerHTML = `Job ${ACT.howIndex + 1} of 4 on the <a href="day.html?mode=approach">Solution architecture map</a>: <b>${esc(H[0])}</b>. ${esc(H[3] || "")}`; }
+  const here = document.getElementById("here"); if (here) { const H = HOW4[ACT.howIndex]; here.innerHTML = `Job ${ACT.howIndex + 1} of 4 on the <a href="day.html?mode=approach">Solution architecture map</a>: <b>${esc(H[0])}</b>. ${esc(ACT.setup || H[3] || "")}`; }
   const g = groupOf(cur); document.getElementById("tabs").classList.toggle("many", GROUPS.length > 6);
   document.getElementById("tabs").innerHTML = GROUPS.map((x, i) => `<button data-t="${x[1][0]}" class="${i === g ? "on" : i < g ? "done" : ""}"><i>${i + 1}</i><span>${esc(x[0])}</span></button>`).join("");
   document.querySelectorAll("[data-t]").forEach(b => b.onclick = () => { playing = false; cur = +b.dataset.t; draw(); });
