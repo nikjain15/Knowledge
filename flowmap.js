@@ -10,7 +10,7 @@ const FM_RUNTECH = [
   [[], ["Role-based pre-filter", "Hybrid retrieval", "Knowledge graph retrieval", "Constrained rendering"], ["Temporal versioning"], ["Grounded generation with abstention"], ["Gap clustering"], []],
   [["Golden set", "Per-group release gates"], ["Sealed holdout"], ["Adversarial probe suites"], [], ["Per-group release gates"], ["LLM-as-judge (not provable yet)"]]
 ];
-const FM_CHANNELS = [["Phone bot", "June, calling at night"], ["Member chat", "member website chat, June"], ["Agent Assist", "beside Dana and Luis"], ["Advocate search", "Dana and Luis, at the desk"], ["Texts and calls", "outbound to June"], ["Member website", "plan pages June reads"]];
+const FM_CHANNELS = [["Phone bot", "June, calling before work"], ["Member chat", "member website chat, June"], ["Agent Assist", "beside Dana and Luis"], ["Advocate search", "Dana and Luis, at the desk"], ["Texts and calls", "outbound to June"], ["Member website", "plan pages June reads"]];
 const FM_JOBS = [
   { n: "Ingest and structure", line: "long documents split into short answers", take: "Every document is split into topics. Legal's sentences are marked as exact wording, to be quoted word for word and never reworded, and nothing is readable until a person approves it.",
     w: "Pulls each changed document and runs five steps in order: check for hidden instructions, sort, extract topics, date the facts, find every copy", y: "Every channel starts from the same approved topics instead of its own copy of the document", h: "Exact wording matches its source, character for character; a different wording is never merged; a planted instruction never gets through",

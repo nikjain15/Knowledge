@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=fcdf28b">
-<link rel="stylesheet" href="styles.css?v=fcdf28b"><link rel="stylesheet" href="story.css?v=fcdf28b">
+<link rel="stylesheet" href="fonts/fonts.css?v=76d3d06">
+<link rel="stylesheet" href="styles.css?v=76d3d06"><link rel="stylesheet" href="story.css?v=76d3d06">
 <title>June's day · Lakewell Knowledge</title>
 <style>
 .dhead{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:6px 0 12px}
@@ -102,8 +102,8 @@ mark.miss{background:#cfe7ad;color:#1f4a06;font-weight:800;border-radius:3px;pad
 
 <p class="small" style="margin-top:8px">All fictional, synthetic voices. Runs in your browser; AI steps scripted, simple matching stands in for search.</p>
 </main>
-<script src="data.js?v=fcdf28b"></script><script src="app.js?v=fcdf28b"></script><script src="model-run.js?v=fcdf28b"></script><script src="probes.js?v=fcdf28b"></script><script src="probes-review.js?v=fcdf28b"></script><script src="nearmiss.js?v=fcdf28b"></script><script src="probes2.js?v=fcdf28b"></script><script src="probes3.js?v=fcdf28b"></script>
-<script src="story-shared.js?v=fcdf28b"></script><script src="vendors.js?v=fcdf28b"></script><script src="flowmap.js?v=fcdf28b"></script>
+<script src="data.js?v=76d3d06"></script><script src="app.js?v=76d3d06"></script><script src="model-run.js?v=76d3d06"></script><script src="probes.js?v=76d3d06"></script><script src="probes-review.js?v=76d3d06"></script><script src="nearmiss.js?v=76d3d06"></script><script src="probes2.js?v=76d3d06"></script><script src="probes3.js?v=76d3d06"></script>
+<script src="story-shared.js?v=76d3d06"></script><script src="vendors.js?v=76d3d06"></script><script src="flowmap.js?v=76d3d06"></script>
 <script>
 nav("day.html", "insurance", { demo: true });
 store.up(s => { if (!(s.approved || {})["KU-204"]) ENSURE.gateDone(s); const v2 = (s.approved || {})["KU-207@v2"]; if (v2 && v2.on === PLAN.today) v2.on = "8 Oct 2026"; });
@@ -135,20 +135,20 @@ const TEXT_WRONG = "Lakewell: your refill is due. Your price is $42. Questions? 
 const WEB_2025 = "Prices quoted today are estimates based on your plan's 2025 formulary and may change if your pharmacy or drug tier changes.";
 /* The five channels from the brief, each with today's failure and the new flow */
 const CH = [
-  { key: "Voice", icon: "bot", tag: "Automated phone line, no person", name: "Phone bot", when: "Sunday, 9:12 PM",
-    who: "June calls the plan's automated phone line at night. No person answers: a voice bot does.",
+  { key: "Voice", icon: "bot", tag: "Automated phone line, no person", name: "Phone bot", when: "Tuesday, 7:10 AM",
+    who: "Before work, June calls the plan's automated phone line. No person answers: a voice bot does.",
     issue: ["The bot's script was copied from one of three versions of the out-of-network rule, then reworded, and the conditions Legal requires fell out", "June hears 'any pharmacy', goes to an out-of-network pharmacy, and is turned away, or pays far more than at a network pharmacy", "She complains, and the plan is answerable for what its bot told her. Lakewell's legal wording is meant to be read exactly as written"],
     fix: ["The bot reads the one approved out-of-network wording, exactly as written; the other two copies are retired", "June learns the conditions before she goes to the pharmacy", "No surprise bill, and nothing the plan has to defend"],
-    path: [["QUESTION", "Any pharmacy?", "asked at 9 PM"], ["COPIED SCRIPT", "1 of 3 versions", "nobody knows which Legal approved"], ["REWORDS", "Drops the conditions", "no check against Legal"], ["SAYS", "'Any pharmacy you like'", "wrong"]],
-    fixpath: [["QUESTION", "Any pharmacy?", "asked at 9 PM"], ["ONE SOURCE", "One approved topic", "other copies retired"], ["EXACT WORDING", "Read exactly", "never reworded"], ["SAYS", "The approved conditions", "word for word"]],
+    path: [["QUESTION", "Any pharmacy?", "asked at 7:10 AM"], ["COPIED SCRIPT", "1 of 3 versions", "nobody knows which Legal approved"], ["REWORDS", "Drops the conditions", "no check against Legal"], ["SAYS", "'Any pharmacy you like'", "wrong"]],
+    fixpath: [["QUESTION", "Any pharmacy?", "asked at 7:10 AM"], ["ONE SOURCE", "One approved topic", "other copies retired"], ["EXACT WORDING", "Read exactly", "never reworded"], ["SAYS", "The approved conditions", "word for word"]],
     today: () => `<div class="line june"><span class="who">June</span><span class="say">Hi. Can I use any pharmacy, even one that isn't in your network?</span></div>
       <div class="line bot"><span class="who">Bot</span><span class="say">${esc(BOT_WRONG)}</span></div>
       ${compare(OON_OK, BOT_WRONG, "What the bot said", "Copied from one of three versions, then reworded")}`,
     lines: [["bot", "bot1", "Thanks for calling Lakewell Advantage. I'm an automated assistant, and I can answer general questions about your plan. How can I help?"],
             ["june", "june1", "Hi. Can I use any pharmacy, even one that isn't in your network?", { q: "Can I use any pharmacy, even one that isn't in your network?", role: "member", channel: "Voice", read: "june1" }],
             ["bot", "bot2", null, { fromAnswer: true }]] },
-  { key: "Member chat", icon: "chat", tag: "Member website chat, an AI assistant", name: "Member chat", when: "Monday, 8:05 AM",
-    who: "Next morning June types into the member website chat.",
+  { key: "Member chat", icon: "chat", tag: "Member website chat, an AI assistant", name: "Member chat", when: "Tuesday, 8:05 AM",
+    who: "A little later June types into the member website chat.",
     issue: ["The chat quotes a 2027 copay from a planning file that nobody approved", "June plans her 2027 budget around $47, and maybe picks her plan on it", "When the real figure differs, she has been misled by the plan's own chat. Nobody records the question, so the gap never closes"],
     fix: ["The chat answers only from approved words; with no approved 2027 copay, it says so and offers a person", "June is never given a number nobody approved", "Her question goes to Priya's list, so the figure is written and approved once, for every member"],
     path: [["QUESTION", "Tier 3 copay 2027?", "typed in chat"], ["RAW FILES", "Includes a 2027 draft", "no approval status"], ["AI PICKS", "The draft's number", "nobody signed it"], ["SAYS", "'$47'", "unapproved"]],
@@ -160,9 +160,9 @@ const CH = [
     lines: [["june", null, "What is the Tier 3 copay for 2027?", { q: "What is the Tier 3 copay for 2027?", role: "member", channel: "Member chat", read: "chat1" }],
             ["bot", null, "Thanks for asking. I don't have a confirmed answer for that yet, and I'd rather not guess. I've shared your question with our team. Would you like to talk with someone now?"],
 ] },
-  { key: "Advocate desk", icon: "person", tag: "A real person, helped by Agent Assist", name: "Call with Dana", when: "Monday, 10:20 AM",
+  { key: "Advocate desk", icon: "person", tag: "A real person, helped by Agent Assist", name: "Call with Dana", when: "Tuesday, 10:20 AM",
     who: "June calls again and reaches Dana, a person at the desk. Agent Assist listens and puts answers in front of Dana.",
-    issue: ["Dana searches three tools and gets four wordings, one of them the copy on the website, with nothing saying which one Legal approved. Legal's 2026 update never reached the cheat sheet", "June has already asked the bot and the chat. Now she waits on hold while Dana reads three documents, and is then told last year's terms", "Her third contact in two days, and she still has a wrong answer"],
+    issue: ["Dana searches three tools and gets four wordings, one of them the copy on the website, with nothing saying which one Legal approved. Legal's 2026 update never reached the cheat sheet", "June has already asked the bot and the chat. Now she waits on hold while Dana reads three documents, and is then told last year's terms", "Her third contact this morning, and she still has a wrong answer"],
     fix: ["Agent Assist shows Dana the approved words and their source while June is still talking", "June gets the right answer straight away, with no hold", "One call instead of three, and Dana can trust what she reads"],
     path: [["QUESTION", "Is my price final?", "on a live call"], ["THREE TOOLS", "Script library, shared drive, intranet", "searched one by one"], ["RESULT", "Four wordings", "one is the website's copy"], ["DANA", "Picks one", "while June waits"]],
     fixpath: [["QUESTION", "Is my price final?", "on a live call"], ["ONE SOURCE", "One approved pricing topic", "no second copy to find"], ["AGENT ASSIST", "Shows it while June talks", "with its source"], ["DANA READS", "The approved 2026 words", "in one call"]],
@@ -179,7 +179,7 @@ const CH = [
             ["june", "june5", "Oh, and that dental thing my neighbour has, is that on my plan?", { q: "Oh, and that dental thing my neighbour has, is that on my plan?", role: "insurance", channel: "Agent Assist", read: "june5", assist: true }],
             ["dana", "dana5", "Let me check that for you. I don't have an approved answer on the dental rider yet. I've flagged it for our team, and I can have someone call you back once it's confirmed.", { q: "dental rider", role: "insurance", channel: "Agent Assist", read: "dana5", assist: true }],
             ["june", "june6", "That would be lovely. Thank you, Dana."]] },
-  { key: "Outbound", icon: "sms", tag: "Reminder texts the plan sends", name: "Text", when: "Monday, 2:00 PM",
+  { key: "Outbound", icon: "sms", tag: "Reminder texts the plan sends", name: "Text", when: "Tuesday, 2:00 PM",
     who: "That afternoon the plan's reminder system texts June, as it does for every member with a refill due.",
     issue: ["The reminder team copied the price from its own spreadsheet, not the approved answer, so the pricing words Lakewell requires were never in it. Sign-off is a 'looks fine' email, and there is no way to stop texts", "June reads $42 as a promise", "The same unapproved text goes to thousands of members in one send, including people who never agreed to texts"],
     fix: ["The reminder's line comes from the approved answer, links to the exact words, and goes only to members who agreed", "June knows it's an estimate and where to read the details; STOP works for her", "Nothing reaches members without approval, even at scale"],
@@ -188,13 +188,13 @@ const CH = [
     today: () => `<div class="phone"><p class="small" style="text-align:center;margin:0 0 4px">Refill reminder</p><div class="sms">${esc(TEXT_WRONG)}</div></div>
       <p class="small" style="text-align:center;margin:4px 0 0">Copied from the reminder team's own spreadsheet and sent on a 'looks fine' email, to every member with a refill due (illustrative)</p>
       ${compare(TEXT_OK, TEXT_WRONG, "What the text said", "From the team's own copy: none of Lakewell's pricing words, no link, no opt-out")}` },
-  { key: "Website", icon: "web", tag: "The plan's public website", name: "Website", when: "Monday, 2:03 PM",
+  { key: "Website", icon: "web", tag: "The plan's public website", name: "Website", when: "Tuesday, 2:03 PM",
     who: "June checks the plan's Star Rating on its website while comparing plans during Medicare enrollment.",
     issue: ["The website still shows the 2026 Star Rating after the posting deadline passed on 29 Oct (assumed)", "June compares plans using last year's rating, during the very weeks she has to choose", "A plan must post the CMS Star Ratings document within 21 days of its Plan Finder release (8 Oct, assumed); CMS released the new rating, but nothing flagged that the page now showed the old one, so nobody knew"],
     fix: ["The 2027 rating replaces the 2026 one automatically on its date, everywhere at once", "June compares plans on the current rating", "The plan meets the replacement deadline without anyone remembering to"],
     path: [["PAGE", "Star Rating page", "written for 2026"], ["SOURCE CHANGES", "CMS posts the 2027 rating", "nothing flags the page"], ["29 OCT", "Posting deadline passes (assumed)", "page unchanged"], ["SHOWS", "2026 rating", "during enrollment"]],
     fixpath: [["PAGE", "Star Rating page", "reads the approved unit"], ["DATES", "Each version has a start and end", "2026 ends 29 Oct"], ["ON 29 OCT", "Swaps by itself", "no one has to remember"], ["SHOWS", "2027 rating", "released by CMS on 8 Oct (assumed)"]],
-    today: () => `<div class="paper"><p class="small" style="margin:0 0 4px"><b>Lakewell Advantage · Our Star Rating</b></p><p style="margin:0 0 6px">${esc(STAR_2026)}</p><p class="small" style="margin:0">Viewed 2 Nov 2026, during Medicare enrollment · rating synthetic · <a href="https://www.medicare.gov/plan-compare/" target="_blank" rel="noopener">See the CMS Star Ratings document</a></p></div>
+    today: () => `<div class="paper"><p class="small" style="margin:0 0 4px"><b>Lakewell Advantage · Our Star Rating</b></p><p style="margin:0 0 6px">${esc(STAR_2026)}</p><p class="small" style="margin:0">Viewed today, 3 Nov 2026, during annual enrollment (15 Oct to 7 Dec) · rating synthetic · <a href="https://www.medicare.gov/plan-compare/" target="_blank" rel="noopener">See the CMS Star Ratings document</a></p></div>
       ${compare(STAR_2027, STAR_2026, "What the website says", "The 2026 rating, still up after the 21-day posting deadline passed on 29 Oct (assumed)")}` },
   { key: "Takeaway", icon: "fix", tag: "What it all adds up to", name: "Key takeaway", when: "" }
 ];

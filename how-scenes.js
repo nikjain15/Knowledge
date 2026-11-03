@@ -36,7 +36,7 @@ const SCENES = {
 
   "2:Answer": () => ({ also: () => { const D = answer("pricing disclaimer", { role: "insurance", channel: "Agent Assist" }), J = window.LIVE_R || {}, du = D.unit || {}, ju = J.unit || {}, same = du.id && du.id === ju.id && (D.version || {}).v === (J.version || {}).v;
       return [["Dana", "Searches 'pricing disclaimer' in Agent Assist, on a live call", `<div class="unitc ${same ? "" : "flag"}"><span class="ut">${esc(du.title || "No approved answer")}</span><span class="um"> · version ${esc(String((D.version || {}).v || "-"))} · ${same ? "the same topic and version June was given" : "a different result from June's"}</span></div>${D.text ? `<p class="small" style="margin:6px 0 0">${esc(String(D.text).slice(0, 160))}…</p>` : ""}`]]; },
-    start: ["June", "ask", (typeof LIVE_Q !== "undefined" && LIVE_Q) || "whats the rx pricing disclamer", "typed in the member chat, at night"],
+    start: ["June", "ask", (typeof LIVE_Q !== "undefined" && LIVE_Q) || "whats the rx pricing disclamer", "typed in the member chat, this morning"],
     ai: "Only the approved, in-date topics June's role may read are searched; the AI ranks them, and the exact wording is rendered with its citation" }),
   "2:Voice": () => ({ start: ["June", "ask", "Is the dental rider on my plan?", "on the phone bot"],
     ai: "Nothing approved answers it, so the bot says 'not yet', offers a person and logs the question",
