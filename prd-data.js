@@ -25,7 +25,7 @@ const PRD = {
   { id: "read", n: 0, title: "How to read this document", intro: "Two readers, one document. Each row names where it came from, so a claim can be checked in two minutes.",
     tables: [{ cols: ["Mark", "Meaning"], rows: [
       ["S8.14", "A row of the strategy document (section 8, row 14). The strategy has 18 sections and about 660 rows; the PRD lifts what a builder and a judge need"],
-      ["D53", "A row of the decision log (D1 to D232 at this version): what was decided, the alternatives, why, who decided and what would change it"],
+      ["D53", "A row of the decision log (D1 to D233 at this version): what was decided, the alternatives, why, who decided and what would change it"],
       ["[R-25]", "A key in the citations register (865 keyed rows): the quoted sentence, the URL and the date behind a real-world fact. P means the primary document was opened; S means a secondary source"],
       ["(assumed)", "A client fact nobody published. It never appears as a fact in the value case or the demo without this mark (S14.24)"],
       ["J", "A judgment: a design choice or a threshold set by us, defended with anchors where any exist (S8 defend tables)"],
@@ -333,7 +333,7 @@ const PRD = {
 
   { id: "history", n: 21, title: "Document history", intro: "",
     tables: [{ cols: ["Version", "Date", "Change", "By"], rows: [
-      ["1.0", "2 Nov 2026", "First PRD rendered from the strategy (sections 1 to 18), the decision log (D1 to D232) and the citations register; gap review added as section 19; published as a page of Lakewell Knowledge (D194)", "Nik Jain, Product"]
+      ["1.0", "2 Nov 2026", "First PRD rendered from the strategy (sections 1 to 18), the decision log (D1 to D233) and the citations register; gap review added as section 19; published as a page of Lakewell Knowledge (D194)", "Nik Jain, Product"]
     ] }] }
   ]
 };
