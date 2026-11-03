@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=388a336">
-<link rel="stylesheet" href="styles.css?v=388a336"><link rel="stylesheet" href="story.css?v=388a336">
+<link rel="stylesheet" href="fonts/fonts.css?v=f2e678d">
+<link rel="stylesheet" href="styles.css?v=f2e678d"><link rel="stylesheet" href="story.css?v=f2e678d">
 <title>How it works · Job 3 · Serve every channel · Lakewell Knowledge</title>
 <style>
 .tabs5{grid-template-columns:repeat(5,minmax(0,1fr))}
@@ -17,7 +17,7 @@
 <div class="subbar" id="tabs"></div>
 <div class="card howcard" id="stage"></div>
 </main>
-<script src="data.js?v=388a336"></script><script src="app.js?v=388a336"></script><script src="story-shared.js?v=388a336"></script>
+<script src="data.js?v=f2e678d"></script><script src="app.js?v=f2e678d"></script><script src="story-shared.js?v=f2e678d"></script>
 <script>
 nav("how3.html", "owner", { demo: true });
 store.up(s => { if (!(s.approved || {})["KU-204"]) ENSURE.gateDone(s); }); /* the same seeded state day.html uses, so a direct visit answers */
@@ -40,7 +40,7 @@ window.ACT = {
   channels: {
     Answer: { who: "June types the way she talks, into the member chat, at night.",
       today: () => `${screen("Member chat, today", ["<b>June:</b> whats the rx pricing disclamer", "<b>Chat:</b> No results found."], "Three documents hold three wordings of the disclaimer, and the search matches exact words only.")}${compare("The one approved answer, with Legal's exact wording and its source.", "No results found.", "What the chat says", "No answer here, and a different one on the phone", "What June should get")}`,
-      issue: ["Each channel searches its own copy, with its own words, so June gets no answer here and a different one on the phone", "She types shorthand with a typo and the search gives up", "Nothing she reads says where it came from or when it was approved"],
+      issue: ["June types 'rx pricing disclamer' in the member chat. The chat matches only exact words in its own copy, so the misspelling finds nothing, while the phone bot reads her a different version", "She types shorthand with a typo and the search gives up", "Nothing she reads says where it came from or when it was approved"],
       path: [["QUESTION", "'rx pricing disclamer'", "shorthand, a typo"], ["OWN COPY", "The chat's documents", "not the bot's"], ["NO MATCH", "Exact words only", "no results"], ["CALLS", "June phones instead", "and hears something else"]],
       live: "whats the rx pricing disclamer", chips: ["can i use any pharmacy", "is the price i was quoted final", "is the dental rider on my plan"],
       now: () => { const q = (typeof LIVE_Q !== "undefined" && LIVE_Q) || "whats the rx pricing disclamer", t0 = performance.now(), R = answer(q, { role: "member", channel: "Member chat" }), ms = Math.max(1, Math.round(performance.now() - t0)), u = R.unit || {}, v = R.version || {}; window.LIVE_R = R;
@@ -116,4 +116,4 @@ window.ACT = {
 
 ACT.lead = "June and Dana read; Priya and Renee close the gaps"; ACT.steps = [["Member chat", "One answer, cited", "Answer"], ["Advocate desk", "Only today's approved version", "Scoped"], ["Outbound", "Switch on the date", "Dated"], ["Voice", "Say not yet, log the gap"], ["Advocate desk", "Group, draft and approve"], ["Member chat", "Learn members' words"], ["Outbound", "Fix the process, not the content"], ["Website", "Pin the top answer"]]; ACT.howIndex = 2;
 </script>
-<script src="flowmap.js?v=388a336"></script><script src="how-scenes.js?v=388a336"></script><script src="how-engine.js?v=388a336"></script></body></html>
+<script src="flowmap.js?v=f2e678d"></script><script src="how-scenes.js?v=f2e678d"></script><script src="how-engine.js?v=f2e678d"></script></body></html>

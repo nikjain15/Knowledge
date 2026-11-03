@@ -75,7 +75,7 @@ function shell(s, B) {
   document.getElementById("stage").innerHTML = `
     <p class="eyebrow">Job ${ACT.howIndex + 1} · step ${g + 1} of ${GROUPS.length}${parts > 1 ? ` (part ${part} of ${parts})` : ""} · ${esc(ownerOf(B))}${HERE_T.some(t => t[1] === s.n) ? ` · <span class="thr-pill">In the thread</span>` : ""}</p>
     <h2 class="hl">${esc(f.line || s.label)}</h2>
-    <p class="was1"><b>Today:</b> ${esc((s.issue || [])[0] || "")}</p>
+    <p class="was1"><b>Current state:</b> ${esc((s.issue || [])[0] || "")}</p>
     <div class="beats">${B.map((b, i) => `<span data-b="${i}">${esc(b.label)}</span>`).join("")}</div>
     <p class="narr" id="narr">&nbsp;</p>
     ${s.live ? `<div class="lv-ask"><input id="liveQ" value="${esc(LIVE_Q || s.live)}" aria-label="Ask as June"><button class="btn sm primary" id="liveAsk">Ask as June</button><span class="small" style="flex-basis:100%">Or pick one:</span>${(s.chips || []).map(c => `<button class="lv-chip" data-q="${esc(c)}">${esc(c)}</button>`).join("")}</div>` : ""}
