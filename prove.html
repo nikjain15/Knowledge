@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=40a4317">
-<link rel="stylesheet" href="styles.css?v=40a4317"><link rel="stylesheet" href="story.css?v=40a4317">
+<link rel="stylesheet" href="fonts/fonts.css?v=fbfc93d">
+<link rel="stylesheet" href="styles.css?v=fbfc93d"><link rel="stylesheet" href="story.css?v=fbfc93d">
 <title>Prove it · Lakewell Knowledge</title>
 <style>
 .qrow{display:flex;gap:10px;align-items:baseline;padding:6px 0;border-bottom:1px solid #eef0e8;font-size:14px}.qrow:last-child{border:0}
@@ -24,8 +24,8 @@
 <div class="subbar" id="tabs"></div>
 <div class="card howcard" id="stage"><p class="small">Running every test now…</p></div>
 </main>
-<script src="data.js?v=40a4317"></script><script src="golden.js?v=40a4317"></script><script src="holdout.js?v=40a4317"></script><script src="probes.js?v=40a4317"></script><script src="probes-review.js?v=40a4317"></script><script src="nearmiss.js?v=40a4317"></script><script src="probes2.js?v=40a4317"></script><script src="probes3.js?v=40a4317"></script>
-<script src="app.js?v=40a4317"></script><script src="eval-core.js?v=40a4317"></script><script src="story-shared.js?v=40a4317"></script>
+<script src="data.js?v=fbfc93d"></script><script src="golden.js?v=fbfc93d"></script><script src="holdout.js?v=fbfc93d"></script><script src="probes.js?v=fbfc93d"></script><script src="probes-review.js?v=fbfc93d"></script><script src="nearmiss.js?v=fbfc93d"></script><script src="probes2.js?v=fbfc93d"></script><script src="probes3.js?v=fbfc93d"></script>
+<script src="app.js?v=fbfc93d"></script><script src="eval-core.js?v=fbfc93d"></script><script src="story-shared.js?v=fbfc93d"></script>
 <script>
 /* Prove it: every number on this page is computed in this browser, now, by the same code as the full runner (eval-core.js) */
 nav("prove.html", "owner", { demo: true });
@@ -192,14 +192,14 @@ function shell(t) {
   document.getElementById("stage").innerHTML = `<p class="eyebrow">Renee Caldwell, Knowledge Operations lead</p><h2 class="hl">${esc(t.line())}</h2><p class="was1"><b>Without it:</b> ${esc(t.without)}</p>
     <div class="beats">${t.beats.map((b, i) => `<span data-b="${i}">${esc(b)}</span>`).join("")}</div><p class="narr" id="narr">&nbsp;</p>
     <div class="appwin"><div class="appbar"><i></i><i></i><i></i><span>Lakewell Knowledge · Release check</span><span style="flex:1"></span><button class="btn sm" id="replay">↻ Replay</button><button class="btn sm" id="skip">Skip to result</button></div><div class="feed" id="feed"></div></div>
-    <div id="endc" class="endc" hidden><div class="now"><b>Result</b>${esc(t.line())}</div><div class="foot"><span></span><button class="btn primary" id="nextch">Next: ${esc(next.label)} →</button></div></div>`;
+    <div id="endc" class="endc" hidden><div class="now"><b>Result</b>${esc(t.line())}</div><div class="foot"><span></span>${TABS[cur + 1] ? `<button class="btn primary" id="nextch">Next: ${esc(next.label)} →</button>` : `<a class="btn primary" href="day.html?mode=new">Next: Future state →</a>`}</div></div>`;
 }
 async function scene(fast) {
   const my = ++run, t = TABS[cur], live = () => my === run;
   if (!t.play) { document.getElementById("stage").innerHTML = takeHTML(); document.getElementById("again").onclick = async () => { E = await evalAll(S()); draw(); }; document.getElementById("watch").onclick = () => { playing = false; cur = 1; draw(); }; return my; }
   shell(t);
   document.getElementById("replay").onclick = () => scene(false); document.getElementById("skip").onclick = () => scene(true);
-  document.getElementById("nextch").onclick = () => { playing = false; cur = (cur + 1) % TABS.length; draw(); scrollTo({ top: 0, behavior: SMOOTH }); };
+  const nxb = document.getElementById("nextch"); if (nxb) nxb.onclick = () => { playing = false; cur = (cur + 1) % TABS.length; draw(); scrollTo({ top: 0, behavior: SMOOTH }); };
   const feed = document.getElementById("feed"), down = () => feed.scrollTo({ top: feed.scrollHeight, behavior: fast ? "auto" : SMOOTH });
   const c = {
     live,
@@ -215,7 +215,7 @@ async function scene(fast) {
   return my;
 }
 function draw() {
-  document.getElementById("stepper").innerHTML = storyStepper(5);
+  document.getElementById("stepper").innerHTML = storyStepper(2, true);
   document.getElementById("tabs").innerHTML = TABS.map((x, i) => `<button data-t="${i}" class="${i === cur ? "on" : i < cur ? "done" : ""}"><i>${i + 1}</i><span>${esc(x.label)}</span></button>`).join("");
   document.querySelectorAll("[data-t]").forEach(b => b.onclick = () => { playing = false; cur = +b.dataset.t; draw(); });
   return scene(!playing && cur > 0 ? true : false);

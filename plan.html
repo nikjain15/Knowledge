@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=40a4317">
-<link rel="stylesheet" href="styles.css?v=40a4317"><link rel="stylesheet" href="story.css?v=40a4317">
+<link rel="stylesheet" href="fonts/fonts.css?v=fbfc93d">
+<link rel="stylesheet" href="styles.css?v=fbfc93d"><link rel="stylesheet" href="story.css?v=fbfc93d">
 <title>Roadmap and trade-off · Lakewell Knowledge</title>
 <style>
 .phases{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin:14px 0 6px;position:relative}
@@ -27,7 +27,7 @@
 <div class="subbar" id="tabs"></div>
 <div class="card howcard" id="stage"></div>
 </main>
-<script src="data.js?v=40a4317"></script><script src="app.js?v=40a4317"></script><script src="story-shared.js?v=40a4317"></script><script src="prd-data.js?v=40a4317"></script>
+<script src="data.js?v=fbfc93d"></script><script src="app.js?v=fbfc93d"></script><script src="story-shared.js?v=fbfc93d"></script><script src="prd-data.js?v=fbfc93d"></script>
 <script>
 /* Roadmap and the one key trade-off (brief deliverables 4 and 5). Rows come from the PRD (sections 14 and 17) and the strategy (S10, D23, D78). */
 nav("plan.html", "", { demo: true });
@@ -72,7 +72,7 @@ function tradeoff() {
     <div class="now"><b>Why the topic</b><dl class="res3"><dt>Why</dt><dd>The regulation locks sentences but files documents; knowledge standards author at the topic; retrieval does better below it, so we rank paragraphs and cite the topic</dd><dt>What it costs</dt><dd>Two unit types to explain, and an extraction step that must find the exact-wording clauses, checked by the approver</dd><dt>See it</dt><dd>The pricing disclaimer is one topic; its exact wording has versions 1 and 2, and the Quick Guide wording is retired. <a href="how1.html?s=3">See it in Extract topics →</a></dd></dl></div>
     <p class="eyebrow" style="margin-top:14px">What would change our mind</p>
     <div class="flip"><div>A corpus that is mostly whole standardized documents: then A wins</div><div>A holdout where topic-level retrieval already meets the bar: then C, and the child index is dropped</div><div>A regulator requiring document-level citation: then the topic becomes a locator inside the document</div></div>
-    <div class="foot" style="margin-top:16px"><a class="btn" href="prd.html#decisions">All key decisions in the PRD</a><a class="btn primary" href="prove.html">Next: Prove it →</a></div>`;
+    <div class="foot" style="margin-top:16px"><a class="btn" href="prd.html#decisions">All key decisions in the PRD</a><a class="btn primary" href="prd.html">Next: the PRD →</a></div>`;
 }
 function draw() {
   tabs();
