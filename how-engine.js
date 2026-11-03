@@ -53,8 +53,11 @@ function beatsOf(s) {
   B.push({ k: "end", who: "", say: "The result", label: "Result" });
   return B;
 }
+/* The AI's role on the left always matches its row on the right (the brief's decides / recommends split) */
+function aiSub() { const J = (typeof FM_JOBS !== "undefined" && FM_JOBS[ACT.howIndex]) || null, M = RUNMAP[ACT.howIndex] || [], k = M.indexOf(groupOf(cur)), r = J && k >= 0 ? J.run[k][0] : "rec";
+  return r === "ai" ? "decides, inside rules" : r === "rule" ? "a fixed rule" : "recommends; a person confirms"; }
 function feedItem(who, say, body, cls) {
-  const p = person(who);
+  const p = person(who).slice(); if (p[3] === "ai") p[1] = aiSub();
   return `<div class="fe ${p[3]} ${cls || ""}"><span class="av">${p[3] === "ai" ? `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></svg>` : esc(p[2])}</span>
     <div class="fb"><p class="fh"><b>${esc(p[0])}</b>${p[1] ? ` · ${esc(p[1])}` : ""}</p><p class="fs">${esc(say)}</p>${body ? `<div class="fp">${body}</div>` : ""}</div></div>`;
 }
@@ -130,7 +133,7 @@ function draw() {
   if (J && !document.getElementById("howgrid")) { const st = document.getElementById("stage"), w = document.createElement("div"); w.id = "howgrid"; w.className = "howgrid"; st.before(w); w.append(st, tabs); tabs.className = "runside"; }
   if (J) {
     const M = RUNMAP[ACT.howIndex], tech = (typeof FM_RUNTECH !== "undefined" && FM_RUNTECH[ACT.howIndex]) || [];
-    tabs.innerHTML = `<p class="eyebrow">How it runs, step by step <span>· the lit row is playing now</span></p><ol class="rs-list">${J.run.map((r, k) => { const gi = M[k], st = gi == null ? "auto" : gi === g ? "on" : gi < g ? "done" : "", thr = gi != null && GROUPS[gi][1].some(j => HERE_T.some(t => t[1] === STEPS[j].n));
+    tabs.innerHTML = `<p class="eyebrow">How it runs, step by step <span>· the lit row is playing now</span></p><p class="rs-key"><span class="fm-who rule">System</span> a fixed rule <span class="fm-who ai">AI decides</span> inside rules <span class="fm-who rec">AI recommends</span> a person confirms <span class="fm-who person">Name</span> only a person</p><ol class="rs-list">${J.run.map((r, k) => { const gi = M[k], st = gi == null ? "auto" : gi === g ? "on" : gi < g ? "done" : "", thr = gi != null && GROUPS[gi][1].some(j => HERE_T.some(t => t[1] === STEPS[j].n));
       return `<li class="rs-row ${st}" ${gi == null ? "" : `data-t="${GROUPS[gi][1][0]}" role="button" tabindex="0"`}><span class="fm-who ${r[0]}">${esc(r[1])}</span><span class="rs-txt">${esc(r[2])}${(tech[k] || []).length ? `<span class="fm-rtech">${tech[k].map(t => `<i>${esc(t)}</i>`).join("")}</span>` : ""}${gi == null ? `<span class="rs-note">${k === 0 && ACT.howIndex === 2 ? "try it: type a crisis line in step 1's box" : k === 0 ? "runs first, before every step" : "runs last, after approval"}</span>` : ""}${thr ? `<span class="thr-pill">In the thread</span>` : ""}</span><span class="rs-bar"><i></i></span></li>`; }).join("")}</ol>`;
     tabs.querySelectorAll("[data-t]").forEach(b => { const go = () => { playing = false; cur = +b.dataset.t; draw(); }; b.onclick = go; b.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } }; });
   } else {
