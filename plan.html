@@ -1,0 +1,86 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="fonts/fonts.css?v=40a4317">
+<link rel="stylesheet" href="styles.css?v=40a4317"><link rel="stylesheet" href="story.css?v=40a4317">
+<title>Roadmap and trade-off · Lakewell Knowledge</title>
+<style>
+.phases{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin:14px 0 6px;position:relative}
+.ph{font:inherit;text-align:left;border:1px solid #e4e6dc;border-radius:12px;padding:10px 11px;background:#fff;cursor:pointer;display:flex;flex-direction:column;gap:3px;transition:border-color .2s,background .2s;opacity:0;transform:translateY(6px);animation:phin .45s ease forwards}
+.ph:hover{border-color:#b9c99b}.ph.on{background:#eef4e2;border-color:#5f8a26;box-shadow:inset 0 0 0 1px #5f8a26}
+.ph i{font-style:normal;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}.ph b{font-family:Manrope,sans-serif;font-weight:800;font-size:14.5px}.ph span{font-size:12.5px;color:var(--muted)}
+@keyframes phin{to{opacity:1;transform:none}}
+.lane{height:6px;border-radius:99px;background:linear-gradient(90deg,#5f8a26 0 16.6%,#dfe6d2 16.6%);margin:4px 0 14px}
+.phd{border:1px solid #e4e6dc;border-radius:12px;padding:12px 14px;background:#fff;display:grid;grid-template-columns:110px 1fr;gap:8px 14px;font-size:14px}
+.phd dt{font-weight:800;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#3d5a14;padding-top:2px}.phd dd{margin:0}
+.why3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}.why3 div{border-left:3px solid #5f8a26;padding:4px 10px;font-size:13.5px}.why3 b{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#3d5a14}
+.stop{margin-top:12px;border:1px solid #f0c9a8;background:#fdf4ec;border-radius:12px;padding:10px 12px;font-size:14px}
+.opts{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:14px 0}
+.opt{border:1px solid #e4e6dc;border-radius:12px;padding:10px 11px;background:#fff;font-size:13px;display:flex;flex-direction:column;gap:5px;opacity:0;animation:phin .45s ease forwards}
+.opt.pick{border:2px solid #5f8a26;background:#f6f9f0}.opt b{font-family:Manrope,sans-serif;font-weight:800;font-size:14px}.opt .tag{align-self:flex-start;font-size:11px;font-weight:800;color:#fff;background:#3b6d11;border-radius:99px;padding:1px 8px}
+.opt dl{margin:0;display:grid;gap:3px}.opt dt{font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}.opt dd{margin:0}
+.flip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.flip div{border:1px dashed #c9cdbd;border-radius:10px;padding:8px 10px;font-size:13.5px}
+@media (max-width:900px){.phases,.opts,.why3,.flip{grid-template-columns:1fr 1fr}.phd{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.ph,.opt{animation:none;opacity:1;transform:none}}
+</style></head><body>
+<main class="area" style="max-width:1280px">
+<div id="stepper"></div>
+<div class="hhead"><h1>Roadmap and trade-off</h1></div>
+<div class="subbar" id="tabs"></div>
+<div class="card howcard" id="stage"></div>
+</main>
+<script src="data.js?v=40a4317"></script><script src="app.js?v=40a4317"></script><script src="story-shared.js?v=40a4317"></script><script src="prd-data.js?v=40a4317"></script>
+<script>
+/* Roadmap and the one key trade-off (brief deliverables 4 and 5). Rows come from the PRD (sections 14 and 17) and the strategy (S10, D23, D78). */
+nav("plan.html", "", { demo: true });
+document.getElementById("stepper").innerHTML = storyStepper(4);
+const SEC = id => PRD.sections.find(s => s.id === id) || {};
+const plain = t => String(t || "").replace(/\s*\((S|D)\d[^)]*\)/g, "").replace(/the three S\d+\.\d+ signers/g, "the three signers").replace(/\s*\[[A-Z]+-\d+\]/g, "");
+const RM = SEC("roadmap"), PHASES = (((RM.tables || [])[0] || {}).rows || []).map(r => r.map(plain)), AFTER = Object.fromEntries((RM.after || []).map(([k, v]) => [k, plain(v)]));
+const SHORT = [["weeks 0 to 6", "one corpus slice"], ["months 2 to 5", "Pharmacy governed"], ["months 5 to 8", "both advocate roles"], ["months 8 to 12", "Agent Assist reads"], ["months 12 to 16", "member-facing units"], ["months 16 to 24", "blind-spot analytics"]];
+const OPTS = [
+  ["A. Whole document", "3 documents, 3 clauses", "600 h: any change re-opens the whole document", "The document", "Three documents still carry three copies", false],
+  ["B. Topic with exact wording", "about 8 topics, 3 clauses", "400 h: a change re-opens only the topics that carry it", "The topic", "Two unit types to explain; extraction must find the clauses", true],
+  ["C. Topic, no child index", "about 8 topics", "400 h, same as B", "The topic", "Ranks whole topics; evidence favours finer ranking", false],
+  ["D. Sentence only", "60 to 90 sentences", "750 h, and no natural owner per sentence", "Each sentence", "Context lost; no regulator signs a bare sentence", false],
+  ["E. Atomic fact", "more than D", "not an approval unit", "Nothing", "Useful for retrieval only", false]
+];
+let tab = +(QS.get("s") || 1) - 1, ph = 0;
+function tabs() {
+  document.getElementById("tabs").innerHTML = ["Roadmap", "Key trade-off"].map((x, i) => `<button data-t="${i}" class="${i === tab ? "on" : i < tab ? "done" : ""}"><i>${i + 1}</i><span>${x}</span></button>`).join("");
+  document.querySelectorAll("[data-t]").forEach(b => b.onclick = () => { tab = +b.dataset.t; draw(); });
+}
+function phaseDetail() {
+  const r = PHASES[ph] || [];
+  return `<dl class="phd"><dt>Ships</dt><dd>${esc(r[1] || "")}</dd><dt>Gate to pass</dt><dd>${esc(r[2] || "")}</dd><dt>Who signs</dt><dd>${esc(r[3] || "")}</dd></dl>`;
+}
+function roadmap() {
+  return `<p class="eyebrow">Roadmap · knowledge before search, search before any AI, staff before members</p>
+    <h2 class="hl">Each phase earns the next. Risk rises as a person leaves the loop.</h2>
+    <p class="was1"><b>The order:</b> knowledge first because search can only be as good as what it searches; search for advocates before any AI reads it; members last, because no person checks the answer first. Durations are placeholders (assumed).</p>
+    <div class="phases">${PHASES.map((r, i) => `<button class="ph${i === ph ? " on" : ""}" data-p="${i}" style="animation-delay:${(i * 0.12).toFixed(2)}s"><i>Phase ${i}</i><b>${esc(String(r[0]).replace(/^\d+\.\s*/, "").replace(/\s*\(.*\)$/, ""))}</b><span>${esc(SHORT[i][0])}</span><span>${esc(SHORT[i][1])}</span></button>`).join("")}</div>
+    <div class="lane" style="background:linear-gradient(90deg,#5f8a26 0 ${((ph + 1) / PHASES.length * 100).toFixed(1)}%,#dfe6d2 ${((ph + 1) / PHASES.length * 100).toFixed(1)}%)"></div>
+    <div id="phd">${phaseDetail()}</div>
+    <div class="why3"><div><b>Where search goes</b>Phase 2, right after the first knowledge base is governed: it runs only on approved units, so it cannot go live before them</div><div><b>First 90 days</b>${esc(AFTER["First 90 days (D180)"] || "")}</div><div><b>What waits on this</b>Agent Assist, member chat, texts and the website all read from this layer, so none of them goes live before it</div></div>
+    <div class="stop"><b>Stop rule.</b> ${esc(AFTER["Stop rule"] || "")}</div>
+    <div class="foot" style="margin-top:16px"><span></span><button class="btn primary" id="nx">Next: 2 Key trade-off →</button></div>`;
+}
+function tradeoff() {
+  return `<p class="eyebrow">Key trade-off</p>
+    <h2 class="hl">What counts as one unit of knowledge: we chose the topic, with Legal's exact wording inside it.</h2>
+    <p class="was1"><b>The question:</b> what does Legal approve, and what does a channel cite? Too big and one change re-opens everything; too small and nobody can sign it.</p>
+    <div class="opts">${OPTS.map((o, i) => `<div class="opt${o[5] ? " pick" : ""}" style="animation-delay:${(i * 0.12).toFixed(2)}s">${o[5] ? `<span class="tag">Chosen</span>` : ""}<b>${esc(o[0])}</b><dl><dt>Units for 3 documents</dt><dd>${esc(o[1])}</dd><dt>Approval load per cycle</dt><dd>${esc(o[2])}</dd><dt>What Legal signs</dt><dd>${esc(o[3])}</dd><dt>Weakness</dt><dd>${esc(o[4])}</dd></dl></div>`).join("")}</div>
+    <p class="small" style="margin:0 0 12px">Hours per cycle are assumptions for comparison, not estimates of anyone's effort. The ranking holds at any multiplier, because B re-opens only the topics a change touches.</p>
+    <div class="now"><b>Why the topic</b><dl class="res3"><dt>Why</dt><dd>The regulation locks sentences but files documents; knowledge standards author at the topic; retrieval does better below it, so we rank paragraphs and cite the topic</dd><dt>What it costs</dt><dd>Two unit types to explain, and an extraction step that must find the exact-wording clauses, checked by the approver</dd><dt>See it</dt><dd>The pricing disclaimer is one topic; its exact wording has versions 1 and 2, and the Quick Guide wording is retired. <a href="how1.html?s=3">See it in Extract topics →</a></dd></dl></div>
+    <p class="eyebrow" style="margin-top:14px">What would change our mind</p>
+    <div class="flip"><div>A corpus that is mostly whole standardized documents: then A wins</div><div>A holdout where topic-level retrieval already meets the bar: then C, and the child index is dropped</div><div>A regulator requiring document-level citation: then the topic becomes a locator inside the document</div></div>
+    <div class="foot" style="margin-top:16px"><a class="btn" href="prd.html#decisions">All key decisions in the PRD</a><a class="btn primary" href="prove.html">Next: Prove it →</a></div>`;
+}
+function draw() {
+  tabs();
+  const st = document.getElementById("stage"); st.innerHTML = tab === 0 ? roadmap() : tradeoff();
+  st.querySelectorAll("[data-p]").forEach(b => b.onclick = () => { ph = +b.dataset.p; st.querySelectorAll(".ph").forEach((x, i) => x.classList.toggle("on", i === ph)); document.getElementById("phd").innerHTML = phaseDetail(); st.querySelector(".lane").style.background = `linear-gradient(90deg,#5f8a26 0 ${((ph + 1) / PHASES.length * 100).toFixed(1)}%,#dfe6d2 ${((ph + 1) / PHASES.length * 100).toFixed(1)}%)`; });
+  const nx = document.getElementById("nx"); if (nx) nx.onclick = () => { tab = 1; draw(); scrollTo({ top: 0, behavior: "smooth" }); };
+}
+document.addEventListener("keydown", e => { if (/INPUT|TEXTAREA|SELECT/.test((e.target || {}).tagName || "")) return; if (tab === 0 && (e.key === "ArrowRight" || e.key === "ArrowLeft")) { ph = Math.max(0, Math.min(PHASES.length - 1, ph + (e.key === "ArrowRight" ? 1 : -1))); draw(); e.preventDefault(); } });
+draw();
+document.querySelector("main").insertAdjacentHTML("beforeend", `<p class="small" style="margin-top:14px">From the PRD, sections 14 and 17. Durations and hours are placeholders (assumed).</p>`);
+</script></body></html>

@@ -272,7 +272,7 @@ const PRD = {
       ["Cover the build", "$4.0M year-one (assumed) ÷ $42.8M per minute", "5.6 seconds of advocate time per call; or 1.2% of calls avoided; or 0.3% of advocate labour", "At $8.0M: 11 seconds, 2.3%, 0.6%", "S9.20, S9.21"]
     ] }] },
 
-  { id: "decisions", n: 17, title: "Key decisions and the trade-offs behind them", intro: "Ten of 193 logged decisions, chosen because a panel or a builder would ask about them. Each shows the alternative rejected and what would reverse it.",
+  { id: "decisions", n: 17, title: "Key decisions and the trade-offs behind them", intro: "Ten of 233 logged decisions, chosen because a panel or a builder would ask about them. Each shows the alternative rejected and what would reverse it.",
     tables: [{ cols: ["Decision", "Chosen", "Rejected", "What would change it", "Log"], rows: [
       ["Unit of knowledge", "Topic signed, exact wording inside, paragraph ranked, topic cited", "Whole document as unit; fixed-length chunks", "A corpus that is mostly whole standardized documents; a holdout where topic retrieval already meets the bar", "D23, S6.16"],
       ["Positioning", "Under every channel, not inside Agent Assist", "A copilot feature", "The plan already runs a governed store; then the pitch shrinks to search and gap analytics", "D18, S15.6"],
