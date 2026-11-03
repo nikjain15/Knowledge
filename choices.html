@@ -1,0 +1,41 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="fonts/fonts.css?v=9e38e13">
+<link rel="stylesheet" href="styles.css?v=9e38e13"><link rel="stylesheet" href="story.css?v=9e38e13">
+<title>Trade-offs · Lakewell Knowledge</title>
+<style>
+.tos{display:grid;gap:12px;margin-top:16px}
+.to{border:1px solid #e4e6dc;border-radius:14px;background:#fff;padding:14px 16px;display:grid;grid-template-columns:32px 1.2fr 1fr 1fr 1.2fr;gap:8px 18px;align-items:start;opacity:0;transform:translateY(8px);animation:toin .5s ease forwards}
+.to .n{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-family:Manrope,sans-serif;font-weight:800;font-size:13px;background:#2b2f27;color:#fff}
+.to h3{margin:0;font-family:Manrope,sans-serif;font-weight:800;font-size:15.5px;line-height:1.35}
+.to dl{margin:0}.to dt{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}.to dd{margin:0;font-size:13.5px;line-height:1.45}
+.to .cost dd{color:#8a4b12}.to .fix{border-left:3px solid #2b2f27;padding-left:10px}
+.to .flip{grid-column:2 / -1;font-size:12.5px;color:var(--muted);border-top:1px dashed #e2e3db;padding-top:7px}
+@keyframes toin{to{opacity:1;transform:none}}
+@media (max-width:900px){.to{grid-template-columns:32px 1fr}.to .flip{grid-column:1 / -1}.to dl{grid-column:2}}
+@media (prefers-reduced-motion:reduce){.to{animation:none;opacity:1;transform:none}}
+</style></head><body>
+<main class="area" style="max-width:1280px">
+<div id="stepper"></div>
+<div class="hhead"><h1>Trade-offs</h1></div>
+<div class="card howcard" id="stage"></div>
+</main>
+<script src="data.js?v=9e38e13"></script><script src="app.js?v=9e38e13"></script><script src="story-shared.js?v=9e38e13"></script>
+<script>
+/* The trade-offs we made, what each costs and how we handle it (PRD section 17; D23, D31, D53, D78, S5.3, S8; Prove it counts). */
+nav("choices.html", "", { demo: true });
+document.getElementById("stepper").innerHTML = storyStepper(5);
+const TO = [
+  ["What counts as one answer: a topic, with Legal's exact wording inside", "Fixed-length chunks, or whole documents", "More work up front: two kinds of unit, and extraction has to find Legal's sentences", "The AI proposes topics and marks the exact wording; Priya accepts. A change re-opens only the topics it touches, not the whole document", "A corpus made mostly of whole standard documents"],
+  ["Duplicates are proposed, never merged automatically", "Auto-merge above a similarity score", "Slower: a person rules on every conflict, and old copies stay until they do", "The AI shows the difference word by word; one ruling retires every copy; review clocks escalate to a backup", "A corpus with no exact legal wording"],
+  ["No approved answer means 'not yet', never a guess", "Let the model answer from whatever it finds", "Fewer answers at first: 107 of 253 test questions say 'not yet'", "Every unanswered question goes to Priya's list, grouped, most-asked first, so coverage grows week by week", "Members preferring a best guess, which a regulated plan cannot give"],
+  ["Strict rules for personal records and costs", "Let the model judge each question", "Some general questions are refused: 4 of 253 in tests (3.3%)", "The launch bar is at most 10%, tightening to 2%; every wrong refusal becomes a test; a trained classifier replaces the cost word list in production", "Tests showing the rules refuse too many answerable questions"],
+  ["Staff first, members last", "Launch member chat first, where the volume is", "Members wait longer for the benefit", "Members get the same approved answers once staff use proves them; member chat has stricter bars", "A member channel with a person checking every answer"],
+  ["A role check on every question, never cached", "Check once per session", "A little slower on every search", "Speed is measured in the pilot; the check is relaxed only if the pilot cannot absorb it", "A measured delay the pilot cannot live with"]
+];
+document.getElementById("stage").innerHTML = `<p class="eyebrow">The trade-offs we made</p>
+  <h2 class="hl">Every choice that makes answers safe also costs something. Here is what we gave up, and how we handle it.</h2>
+  <p class="was1"><b>The brief asks for one key trade-off:</b> it is the first one, what counts as one answer. The rest are the calls a panel will ask about.</p>
+  <div class="tos">${TO.map((t, i) => `<div class="to" style="animation-delay:${(i * 0.16).toFixed(2)}s"><span class="n">${i + 1}</span><h3>${esc(t[0])}${i === 0 ? ` <span class="thr-pill" style="background:#f1f1ec;color:#2b2f27">Key trade-off</span>` : ""}</h3><dl><dt>Instead of</dt><dd>${esc(t[1])}</dd></dl><dl class="cost"><dt>What it costs</dt><dd>${esc(t[2])}</dd></dl><dl class="fix"><dt>How we handle it</dt><dd>${esc(t[3])}</dd></dl><p class="flip" style="margin:0"><b>What would change our mind:</b> ${esc(t[4])}</p></div>`).join("")}</div>
+  <div class="foot" style="margin-top:18px"><a class="btn" href="prd.html#decisions">All decisions in the PRD</a><a class="btn primary" href="prd.html">Next: the PRD →</a></div>`;
+document.querySelector("main").insertAdjacentHTML("beforeend", `<p class="small" style="margin-top:14px">From the PRD, section 17, and the Prove it results.</p>`);
+</script></body></html>

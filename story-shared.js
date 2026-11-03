@@ -88,10 +88,10 @@ function bindApproach(redraw) {
 function bindDetail(redraw) { const d = document.getElementById("detailsw"); if (d) d.onchange = e => { setDetail(e.target.checked); OPEN4 = new Set(); redraw(); }; }
 
 /* ---------- The story stepper: the five parts of the demo, in order, on every page ---------- */
-const STORY5 = [["Current state", "day.html?mode=today"], ["Solution architecture", "day.html?mode=approach"], ["How it works", "how1.html"], ["Future state", "day.html?mode=new"], ["Roadmap", "plan.html"]];
+const STORY5 = [["Current state", "day.html?mode=today"], ["Solution architecture", "day.html?mode=approach"], ["How it works", "how1.html"], ["Future state", "day.html?mode=new"], ["Roadmap", "plan.html"], ["Trade-offs", "choices.html"]];
 function storyStepper(active, prove) {
   const here = prove ? `<p class="here">Job 4 of 4 on the <a href="day.html?mode=approach">Solution architecture map</a>: <b>Test every release</b>. ${esc(HOW4[3][3])}</p>` : "";
-  return `<nav class="story5">${STORY5.map(([n, h], i) => `<a href="${h}" class="${i === active ? "on" : active < 5 && i < active ? "done" : ""}">${esc(n)}</a>`).join('<span class="sep5">›</span>')}<a href="prd.html" class="prd5${active === 5 ? " on" : ""}">PRD</a></nav>${here}`;
+  return `<nav class="story5">${STORY5.map(([n, h], i) => `<a href="${h}" class="${i === active ? "on" : active < 6 && i < active ? "done" : ""}">${esc(n)}</a>`).join('<span class="sep5">›</span>')}<a href="prd.html" class="prd5${active === 6 ? " on" : ""}">PRD</a></nav>${here}`;
 }
 /* The four How it works steps, mirroring the architecture */
 const HOW4 = [["Ingest and structure", "how1.html", "Priya", "Documents become proposed topics; Priya accepts them."], ["Govern and approve", "how2.html", "Tom, Grace, Dr. Ruth Calloway", "One approved version, dated and scoped; the drift loop lives here."], ["Serve every channel", "how3.html", "Priya, Renee", "The same answer in every channel, or none; the gap loop lives here."], ["Test every release", "prove.html", "Renee", "Tests written before building decide each release; one red row blocks it."]];
