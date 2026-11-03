@@ -201,3 +201,8 @@ details.why{margin-top:10px}details.why>summary{cursor:pointer;font-weight:800;c
 .fm-tag{font-size:12px;font-weight:700;border:1px solid var(--line-2);border-radius:999px;padding:2px 10px;background:#fff;display:inline-block;margin:3px 4px 0 0;color:var(--muted)}
 .fm-nav{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:6px}.fm-dots{display:flex;gap:6px}.fm-dots span{width:8px;height:8px;border-radius:50%;background:var(--line-2)}.fm-dots span.on{background:var(--leaf);width:24px;border-radius:4px}
 @media (max-width:900px){.fm-panel,.fm-io,.fm-loopx ol{grid-template-columns:1fr}.fm-head{flex-direction:column}}
+
+/* How it works: where this page sits on the map; wider step bar for eight steps */
+.here{margin:-6px 0 12px;font-size:14px;color:var(--muted)}.here a{color:var(--leaf);font-weight:700}
+.subbar.many{max-width:1220px}.subbar.many button{font-size:13px}
+.fm-see{float:right;font-weight:800;font-size:12.5px;letter-spacing:0;text-transform:none;color:var(--leaf)}

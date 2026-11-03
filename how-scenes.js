@@ -29,6 +29,8 @@ const SCENES = {
     ai: "The clock counts working days: reminder, then escalate, then reassign to a backup",
     decide: [["Backup", "Approve", "The website shows the updated wording on time"]] }),
 
+  "2:Answer": () => ({ start: ["June", "ask", "whats the rx pricing disclamer", "typed in the member chat, at night"],
+    ai: "Only the approved, in-date topics June's role may read are searched; the AI ranks them, and the exact wording is rendered with its citation" }),
   "2:Voice": () => ({ start: ["June", "ask", "Is the dental rider on my plan?", "on the phone bot"],
     ai: "Nothing approved answers it, so the bot says 'not yet', offers a person and logs the question",
     decide: [["Priya", "Open the gap queue", "'dental rider' is in Supplemental benefits, waiting for an answer"]] }),
@@ -45,16 +47,16 @@ const SCENES = {
     ai: "The AI suggests pinning the approved answer to the top question",
     decide: [["Renee", "Confirm pin", "The approved answer comes first, and still obeys every rule"]] }),
 
-  "3:Voice": () => ({ start: ["Tom", "upload", "Rx Education Script v3.docx", "Legal's 2027 edit"],
+  "1:Drift": () => ({ start: ["Tom", "upload", "Rx Education Script v3.docx", "Legal's 2027 edit"],
     ai: "Drift detection compares it with v2, and the graph lists every place the clause lives",
     decide: [["Tom", "Approve once", "Every channel switches to the 2027 wording on 1 Jan 2027"]] }),
-  "3:Member chat": () => ({ start: ["System", "event", "Extra spaces fixed in the out-of-network line", "a formatting edit"],
+  "1:Format": () => ({ start: ["System", "event", "Extra spaces fixed in the out-of-network line", "a formatting edit"],
     ai: "The diff compares words, not spacing" }),
-  "3:Advocate desk": () => ({ start: ["Dana", "ask", "pricing disclaimer", "searched in Agent Assist"],
+  "2:Scoped": () => ({ start: ["Dana", "ask", "pricing disclaimer", "searched in Agent Assist"],
     ai: "Only the approved version in force today can be served; the 2027 draft stays hidden" }),
-  "3:Outbound": () => ({ start: ["System", "event", "2 Jan 2027: refill reminders go out", "same template as December"],
+  "2:Dated": () => ({ start: ["System", "event", "2 Jan 2027: refill reminders go out", "same template as December"],
     ai: "The reminder reads the version in force on the send date" }),
-  "3:Website": () => ({ start: ["System", "event", "The English pricing page changes for 2027", "the Spanish page is linked to it"],
+  "1:Translation": () => ({ start: ["System", "event", "The English pricing page changes for 2027", "the Spanish page is linked to it"],
     ai: "The linked Spanish version is sent back for review; machine drafts are never served",
     decide: [["Translator", "Approve the Spanish", "Served only after a person checks it; an interpreter is offered until then"]] })
 };

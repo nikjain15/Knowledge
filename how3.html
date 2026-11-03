@@ -1,7 +1,7 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=65609d4">
-<link rel="stylesheet" href="styles.css?v=65609d4"><link rel="stylesheet" href="story.css?v=65609d4">
-<title>How it works · Close the gaps · Lakewell Knowledge</title>
+<link rel="stylesheet" href="fonts/fonts.css?v=d81cdd5">
+<link rel="stylesheet" href="styles.css?v=d81cdd5"><link rel="stylesheet" href="story.css?v=d81cdd5">
+<title>How it works · Job 3 · Serve every channel · Lakewell Knowledge</title>
 <style>
 .tabs5{grid-template-columns:repeat(5,minmax(0,1fr))}
 .docv{border:1px solid var(--line);border-radius:12px;background:#fff;padding:10px 14px;font-size:13.5px;max-height:330px;overflow:auto}
@@ -13,27 +13,39 @@
 <main class="area" style="max-width:1280px">
 <div id="stepper"></div>
 <div class="hhead"><h1>How it works</h1><nav class="seg4" id="how4"></nav><span style="flex:1"></span><button class="icb primary" id="play" title="Watch it play" aria-label="Watch it play"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button><button class="icb" id="stop" title="Stop" aria-label="Stop"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></svg></button></div>
+<p class="here" id="here"></p>
 <div class="subbar" id="tabs"></div>
 <div class="card howcard" id="stage"></div>
 </main>
-<script src="data.js?v=65609d4"></script><script src="app.js?v=65609d4"></script><script src="story-shared.js?v=65609d4"></script>
+<script src="data.js?v=d81cdd5"></script><script src="app.js?v=d81cdd5"></script><script src="story-shared.js?v=d81cdd5"></script>
 <script>
 nav("how3.html", "owner", { demo: true });
 const LOG = q => SEARCH_LOG.filter(l => l.expect === null && (!q || q(l)));
 const DENT = LOG(l => l.cluster === "Supplemental benefits"), DENT_N = DENT.reduce((a, l) => a + l.n, 0);
 const REJ = LOG(l => l.cluster === "Pharmacy claim rejects")[0] || { q: "refill too soon rejected at pharmacy", n: 13 };
 const SYN = SYNONYM_SUGGESTIONS, PIN = PIN_SUGGESTIONS[0];
+const PDB = PD_WORDINGS[1].text, ES = ((CORE_UNITS.find(u => u.id === "KU-202") || {}).translations || {}).es || {};
+const OONF = OON_FORMAT_EDIT, OON = (DOCS.find(d => d.id === "DOC-RXV2").sections.flatMap(s => s.blocks).find(b => b.verbatim && /network/.test(b.t || "")) || {}).t;
 window.ACT = {
-  title: "Act 4 · Fill the gaps", role: "owner",
+  title: "Act 4 · Serve every channel", role: "owner",
   take: {
-    today: { title: "Questions nobody answers, nobody hears about", lead: "When there's no answer, every channel fails quietly, so the gaps never close.", items: [
+    today: { title: "A different answer in every channel, and questions nobody hears about", lead: "Each channel keeps its own copy, and when there's no answer it fails quietly, so the gaps never close.", items: [
       ["eyeoff", "Dead ends nobody records", "The phone bot loops; nobody learns what was asked."], ["search", "Members' words don't match the documents", "'OOP' and typos find nothing."],
       ["copies", "Advocates write their own answers", "Dana keeps a private note, so the next advocate starts again."], ["send", "The question is the plan's own fault", "A rejection message causes 13 calls a week."], ["clock", "The top question gets a different answer each time", "No one pins the right one."]] },
-    new: { title: "Every gap becomes the next answer", lead: "Unanswered questions are recorded, grouped and turned into approved answers, or into process fixes.", items: [
+    new: { title: "One answer everywhere, and every gap becomes the next one", lead: "Every channel reads the same approved topic, scoped to the asker and the date; unanswered questions are recorded, grouped and turned into approved answers, or into process fixes.", items: [
       ["inbox", "Every dead end is logged", "Grouped by topic, with how often it's asked."], ["spark", "The system learns members' words", "Synonyms and typos, confirmed by Renee."],
       ["stamp", "Written once, approved, for everyone", "Priya drafts; the owner approves; every channel serves it."], ["shield", "Some gaps are process problems", "Renee sends them to the team that can fix the cause."], ["lock", "The top question gets one pinned answer", "Confirmed by Renee, still under every rule."]] }
   },
   channels: {
+    Answer: { who: "June types the way she talks, into the member chat, at night.",
+      today: () => `${screen("Member chat, today", ["<b>June:</b> whats the rx pricing disclamer", "<b>Chat:</b> No results found."], "Three documents hold three wordings of the disclaimer, and the search matches exact words only.")}${compare("The one approved answer, with Legal's exact wording and its source.", "No results found.", "What the chat says", "No answer here, and a different one on the phone", "What June should get")}`,
+      issue: ["Each channel searches its own copy, with its own words, so June gets no answer here and a different one on the phone", "She types shorthand with a typo and the search gives up", "Nothing she reads says where it came from or when it was approved"],
+      path: [["QUESTION", "'rx pricing disclamer'", "shorthand, a typo"], ["OWN COPY", "The chat's documents", "not the bot's"], ["NO MATCH", "Exact words only", "no results"], ["CALLS", "June phones instead", "and hears something else"]],
+      now: () => { const R = answer("whats the rx pricing disclamer", { role: "member", channel: "Member chat" }), u = R.unit || {}, v = R.version || {};
+        return R.kind === "answer" ? `${screen("Member chat", [`<b>June:</b> whats the rx pricing disclamer`, `<b>Chat:</b> ${esc(u.memberLead || u.text || "")}`, u.clause ? `<span class="lk" style="display:block;background:#f1f7e8;border:1px dashed #8fbd5a;border-radius:8px;padding:6px 8px;font-family:var(--mono);font-size:12.5px">${esc(u.clause.text)}</span>` : "", `<span class="small">From your plan's official information, last updated ${esc(v.approvedOn || "")} · ${esc(u.title || "")}, ${esc(u.id || "")} v${esc(String(u.version || ""))}</span>`], "Computed just now by the prototype's own read contract, not scripted.")}${screen("What the system did, in order", R.trace.map(t => esc(t)))}` : screen("Member chat", ["No approved topic answered; the question went to the gap log."]); },
+      fix: ["Every channel reads the same approved topic, filtered by June's role and today's date before anything is ranked; shorthand and typos still find it", "June gets one answer, with Legal's exact wording and where it came from, in chat, on the phone, by text and on the website", "Nothing is served that a person did not approve, and every answer can be traced to its topic and version"],
+      fixpath: [["QUESTION", "'rx pricing disclamer'", "shorthand, a typo"], ["FILTERED", "Approved, in date, June's role", "before the search"], ["RANKED", "The topic that answers", "by the AI"], ["RENDERED", "Exact wording, cited", "the same everywhere"]],
+      fix4: { line: "One answer, cited, with Legal's exact wording, whatever words June uses and whichever channel she picks.", steps: [2], tech: ["Role-based pre-filter", "Hybrid retrieval", "Constrained rendering", "Citations"], kind: "Rules first, AI ranks", control: "Only approved, in-date topics the asker's role may read are searched; the AI ranks them; exact wording is rendered by template with the topic id and version; nothing else is generated.", who: "Nobody at read time; Tom approved the topic in Job 2", proof: "The same answer in chat, voice, text and web (golden questions 1 and 2); a member never sees staff-only content (every role); exact wording identical in every channel." } },
     Voice: { who: "June asks the phone bot about the dental rider her neighbor mentioned.",
       today: () => `${screen("Phone bot", ["<b>June:</b> Is the dental rider on my plan?", "<b>Bot:</b> Sorry, I didn't understand. Please say 'billing', 'pharmacy' or 'claims'.", "<b>June:</b> Dental.", "<b>Bot:</b> Sorry, I didn't understand…"], "June hangs up. Nothing records what she asked.")}${compare("I don't have an approved answer on the dental rider yet. I've passed your question to our team, and I can connect you with a person now.", "Sorry, I didn't understand.", "What the bot says", "A loop, then a hang-up; nobody hears about it", "What June should hear")}`,
       issue: ["When the bot has no answer, it loops on a menu, and nothing records what June asked", "June hangs up without an answer and has to call again", "The plan never learns that " + DENT_N + " people asked about dental this week"],
@@ -73,10 +85,26 @@ window.ACT = {
       now: () => `${screen("Renee · pin a top question (synthetic counts)", [`<b>"${esc(PIN.q)}"</b> asked ${PIN.seen} times this week`, "<b>Pinned to:</b> " + esc((ALL_BASE().find(u => u.id === PIN.unit) || {}).title || PIN.unit), "<span class='ok2'>Confirmed by Renee</span> · still obeys every rule: approved, in date, scoped to the role"])}`,
       fix: ["Renee pins the approved answer to the top question, so it always comes first", "June gets the approved answer first, every time", "The plan's most-asked question becomes its most consistent"],
       fixpath: [["TOP QUESTION", "Rx pricing disclaimer", PIN.seen + " a week"], ["SUGGESTED", "Pin the approved topic", "by AI"], ["CONFIRMED", "By Renee", "under every rule"], ["FIRST", "Every time", "in every channel"]],
-      fix4: { line: "The most-asked question gets one pinned, approved answer, confirmed by a person.", steps: [2], tech: ["Pinned answers", "Hybrid retrieval"], kind: "AI recommends, a person confirms", control: "The system suggests a pinned answer for a top question; it goes live only when Renee confirms, and a pin still obeys every rule (approved, in date, role).", who: "Renee confirms every pin", proof: "A pinned answer is still served only if approved and in scope (S3.4, S7.5)." } }
+      fix4: { line: "The most-asked question gets one pinned, approved answer, confirmed by a person.", steps: [2], tech: ["Pinned answers", "Hybrid retrieval"], kind: "AI recommends, a person confirms", control: "The system suggests a pinned answer for a top question; it goes live only when Renee confirms, and a pin still obeys every rule (approved, in date, role).", who: "Renee confirms every pin", proof: "A pinned answer is still served only if approved and in scope (S3.4, S7.5)." } },
+    Scoped: { who: "Dana searches for the pricing disclaimer and opens the newest file in the folder.",
+      today: () => `${screen("Dana's search · 'pricing disclaimer'", ["<b>Rx Education Script v3</b> · newest · shared drive", '<span class="small">A 2027 draft, still in review. Nothing says so.</span>'])}${compare(PD["PD-A"], PDB, "What Dana reads to June today", "Next year's draft, not yet approved", "What's approved for today (2026)")}`,
+      issue: ["The newest file in the folder is next year's draft, still in review, and nothing marks it as a draft", "In November Dana reads June the 2027 wording as if it applies today", "A member is given terms that aren't in force yet, from wording nobody approved"],
+      path: [["SEARCH", "'pricing disclaimer'", "by Dana"], ["NEWEST FILE", "Script v3", "a draft"], ["NO STATUS", "Nothing says 'draft'", "or 'starts 1 Jan'"], ["READ OUT", "Next year's terms", "as today's"]],
+      now: () => `${screen("Agent Assist · pricing disclaimer", ["<b>In force today (2026):</b> " + esc(PD["PD-A"]), '<span class="small">Version 2 (2027) is in review; its text is not shown.</span>', '<b>If June asks about next year:</b> the 2027 wording, labelled "starts 1 Jan 2027"'])}`,
+      fix: ["Drafts are never served; next year's approved wording is shown only when asked, labelled with its start date", "June hears today's terms today, and next year's clearly marked as next year's", "No one reads a draft or next year's wording as current"],
+      fixpath: [["SEARCH", "'pricing disclaimer'", "by Dana"], ["FILTERED", "Approved and in force", "drafts never served"], ["LABELLED", "Next year's, if asked", "'starts 1 Jan 2027'"], ["READ OUT", "Today's approved words", "to June"]],
+      fix4: { line: "Drafts are never served, and next year's answer always says when it starts.", steps: [1, 2], tech: ["Temporal versioning", "Approval states"], kind: "Rule", control: "Only approved versions are searchable; each carries start and end dates applied when the answer is read; a next-year version is shown only for a next-year question, labelled with its start date.", who: "Tom approves the 2027 version ahead of time", proof: "v3 in review never served (golden questions 10 and 11); next-year answers labelled (D59)." } },
+    Dated: { who: "On 2 Jan the reminder system sends the same refill text it sent in December.",
+      today: () => `${screen("Refill reminder · sent 2 Jan 2027", ["Lakewell: your refill is due. Prices are estimates based on your plan's 2026 formulary…"], "The text template has no end date, so it keeps going into the new year.")}${compare("…based on your plan's 2027 formulary…", "…based on your plan's 2026 formulary…", "What the text says on 2 Jan", "Last year's wording, still sending", "What it should say from 1 Jan")}`,
+      issue: ["The reminder template has no end date, so last year's wording keeps going out after 1 Jan", "June gets a January text describing last year's formulary", "Thousands of out-of-date texts go out before anyone notices"],
+      path: [["TEMPLATE", "Refill reminder", "written in 2026"], ["NO END DATE", "Valid forever", "nobody owns it"], ["1 JAN", "Year changes", "template doesn't"], ["SENT", "2026 wording", "into 2027"]],
+      now: () => `${screen("Refill reminder · versions", ["<b>Version 1 (2026):</b> in force to 31 Dec 2026 · stopped", "<b>Version 2 (2027):</b> in force from 1 Jan 2027 · approved by Tom", '<span class="ok2">Texts sent from 1 Jan use version 2 automatically</span>'])}`,
+      fix: ["Every version carries start and end dates, so on 1 Jan the reminder switches to the 2027 wording by itself", "June's January text describes this year's plan", "No one has to remember to update templates at year end"],
+      fixpath: [["TEMPLATE", "Reads the approved topic", "not a copy"], ["DATED", "2026 ends 31 Dec", "2027 starts 1 Jan"], ["1 JAN", "Switches by itself", "no one remembers"], ["SENT", "2027 wording", "from day one"]],
+      fix4: { line: "Every version carries its dates, so the year-end switch happens by itself, everywhere.", steps: [1, 2], tech: ["Temporal versioning", "Read contract"], kind: "Rule", control: "Channels never hold their own copy: the reminder reads the approved topic, and the version in force on the send date is the one used.", who: "Tom approves the 2027 version ahead of time", proof: "Effective-window check, 0 violations (golden questions 4 and 20); year questions (test T11)." } },
   }
 };
 
-ACT.lead = "Priya and Renee, the author and the owner"; ACT.steps = [["Voice", "Log every dead end"], ["Advocate desk", "Group, draft and approve"], ["Member chat", "Learn members' words"], ["Outbound", "Fix the process, not the content"], ["Website", "Pin the top answer"]]; ACT.howIndex = 2;
+ACT.lead = "June and Dana read; Priya and Renee close the gaps"; ACT.steps = [["Member chat", "One answer, cited", "Answer"], ["Advocate desk", "Scoped to the role, in force today", "Scoped"], ["Outbound", "Switch on the date", "Dated"], ["Voice", "Say not yet, log the gap"], ["Advocate desk", "Group, draft and approve"], ["Member chat", "Learn members' words"], ["Outbound", "Fix the process, not the content"], ["Website", "Pin the top answer"]]; ACT.howIndex = 2;
 </script>
-<script src="how-scenes.js?v=65609d4"></script><script src="how-engine.js?v=65609d4"></script></body></html>
+<script src="how-scenes.js?v=d81cdd5"></script><script src="how-engine.js?v=d81cdd5"></script></body></html>

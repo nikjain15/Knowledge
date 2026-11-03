@@ -4,7 +4,7 @@
 const CH_NAME = { Voice: "Phone bot", "Member chat": "Member chat", "Advocate desk": "Call with Dana", Outbound: "Text", Website: "Website" };
 const PD = Object.fromEntries(PD_WORDINGS.map(w => [w.label, w.text]));
 const docOf = id => DOCS.find(d => d.id === id);
-const STEPS = ACT.steps.map(([k, label], i) => Object.assign({ key: k, label, n: i + 1 }, ACT.channels[k]));
+const STEPS = ACT.steps.map(([ch, label, key], i) => Object.assign({ key: key || ch, ch, label, n: i + 1 }, ACT.channels[key || ch]));
 let cur = Math.max(0, STEPS.findIndex(s => s.n === +QS.get("s"))), playing = false, run = 0, playFrom = cur; /* A-071: ?s=N&play=1 starts at N */
 
 function docView(d, mark) {
@@ -48,7 +48,7 @@ function shell(s, B) {
     <p class="narr" id="narr">&nbsp;</p>
     <div class="appwin"><div class="appbar"><i></i><i></i><i></i><span>Lakewell Knowledge · ${esc(HOW4[ACT.howIndex][0])}</span><span style="flex:1"></span><button class="btn sm" id="replay">↻ Replay</button><button class="btn sm" id="skip">Skip to result</button></div><div class="feed" id="feed"></div></div>
     <div id="endc" class="endc" hidden>
-      <div class="now"><b>Result</b>${esc(f.line || "")}<span class="forj">For June: ${esc((s.fix || [])[1] || "")} <a href="day.html?mode=new&ch=${encodeURIComponent(s.key)}">See it in the ${esc(CH_NAME[s.key].toLowerCase())} →</a></span></div>
+      <div class="now"><b>Result</b>${esc(f.line || "")}<span class="forj">For June: ${esc((s.fix || [])[1] || "")} <a href="day.html?mode=new&ch=${encodeURIComponent(s.ch)}">See it in the ${esc(CH_NAME[s.ch].toLowerCase())} →</a></span></div>
       <div class="meta3"><span><b>Owner</b> ${esc(f.who || "")}</span><span><b>Control</b> ${esc(f.kind || "")}</span><span><b>Proof</b> ${esc(f.proof || "")}</span></div>
       <div class="foot"><span></span>${nextS ? `<button class="btn primary" id="nextch">Next: ${esc(nextS.label)} →</button>` : nextHow ? `<a class="btn primary" href="${nextHow[1]}?play=${playing ? 1 : 0}">Next: ${esc(nextHow[0])} →</a>` : `<a class="btn primary" href="day.html?mode=new">Next: the future state →</a>`}</div></div>`;
 }
@@ -88,7 +88,8 @@ async function scene(fast) {
 function draw() {
   document.getElementById("stepper").innerHTML = storyStepper(2);
   document.getElementById("how4").innerHTML = HOW4.map(([n, h], i) => `<a href="${h}" class="${i === ACT.howIndex ? "on" : ""}"><i>${i + 1}</i>${esc(n)}</a>`).join("");
-  document.getElementById("tabs").innerHTML = STEPS.map((x, i) => `<button data-t="${i}" class="${i === cur ? "on" : i < cur ? "done" : ""}"><i>${x.n}</i><span>${esc(x.label)}</span></button>`).join("");
+  const here = document.getElementById("here"); if (here) { const H = HOW4[ACT.howIndex]; here.innerHTML = `Job ${ACT.howIndex + 1} of 4 on the <a href="day.html?mode=approach">Solution architecture map</a>: <b>${esc(H[0])}</b>. ${esc(H[3] || "")}`; }
+  document.getElementById("tabs").classList.toggle("many", STEPS.length > 6); document.getElementById("tabs").innerHTML = STEPS.map((x, i) => `<button data-t="${i}" class="${i === cur ? "on" : i < cur ? "done" : ""}"><i>${x.n}</i><span>${esc(x.label)}</span></button>`).join("");
   document.querySelectorAll("[data-t]").forEach(b => b.onclick = () => { playing = false; cur = +b.dataset.t; draw(); });
   return scene(false);
 }
@@ -97,5 +98,5 @@ document.getElementById("play").onclick = async () => { playing = true; cur = pl
     if (cur < STEPS.length - 1) cur++; else { const nx = HOW4[ACT.howIndex + 1]; location.href = nx ? nx[1] + "?play=1" : "day.html?mode=new"; return; } } };
 document.getElementById("stop").onclick = () => { playing = false; run++; };
 /* Audit A-072: the same stand-in line as Solution architecture, always shown under How it works */
-document.querySelector("main").insertAdjacentHTML("beforeend", `<p class="small" style="margin-top:14px">Built to run without a server or API key: text matching stands in for embeddings, semantic deduplication, hybrid and graph retrieval, and ingest replays a recorded model run. The AI steps on these pages are scripted.</p>`);
+document.querySelector("main").insertAdjacentHTML("beforeend", `<p class="small" style="margin-top:14px">Built to run without a server or API key: text matching stands in for embeddings, semantic deduplication, hybrid and graph retrieval, and ingest replays a recorded model run. The AI steps on these pages are scripted, except the answer on Job 3, which the prototype computes when the page runs.</p>`);
 if (QS.get("play") === "1") document.getElementById("play").click(); else draw();
