@@ -19,13 +19,13 @@ const GAPS_ROWS = [
 const PRD = {
   title: "Lakewell Knowledge",
   subtitle: "Product requirements: the approved source every channel, human or AI, reads from",
-  version: "1.0", date: "2 Nov 2026", owner: "Nik Jain, Product. Every decision is recorded in the decision log, with who made it and why", status: "Prototype proven on the sealed holdout; production build not started",
+  version: "1.1", date: "3 Nov 2026", owner: "Nik Jain, Product. Every decision is recorded in the decision log, with who made it and why", status: "Prototype proven on the sealed holdout; production build not started",
   audience: "Two readers at once: a hiring panel or client judging the depth of the product thinking, and a coding agent or engineering team building the production system. Portfolio sections first (0 to 5, 16 to 19), build sections behind them (6 to 15, 20).",
   sections: [
   { id: "read", n: 0, title: "How to read this document", intro: "Two readers, one document. Each row names where it came from, so a claim can be checked in two minutes.",
     tables: [{ cols: ["Mark", "Meaning"], rows: [
       ["S8.14", "A row of the strategy document (section 8, row 14). The strategy has 18 sections and about 660 rows; the PRD lifts what a builder and a judge need"],
-      ["D53", "A row of the decision log (D1 to D235 at this version): what was decided, the alternatives, why, who decided and what would change it"],
+      ["D53", "A row of the decision log (D1 to D239 at this version): what was decided, the alternatives, why, who decided and what would change it"],
       ["[R-25]", "A key in the citations register (865 keyed rows): the quoted sentence, the URL and the date behind a real-world fact. P means the primary document was opened; S means a secondary source"],
       ["(assumed)", "A client fact nobody published. It never appears as a fact in the value case or the demo without this mark (S14.24)"],
       ["J", "A judgment: a design choice or a threshold set by us, defended with anchors where any exist (S8 defend tables)"],
