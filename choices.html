@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=96efed3">
-<link rel="stylesheet" href="styles.css?v=96efed3"><link rel="stylesheet" href="story.css?v=96efed3">
+<link rel="stylesheet" href="fonts/fonts.css?v=ee292a5">
+<link rel="stylesheet" href="styles.css?v=ee292a5"><link rel="stylesheet" href="story.css?v=ee292a5">
 <title>Trade-offs · Lakewell Knowledge</title>
 <style>
 .tos{display:grid;gap:10px;margin-top:8px}
@@ -22,7 +22,7 @@
 <div class="hhead"><h1>Trade-offs</h1></div>
 <div class="card howcard" id="stage"></div>
 </main>
-<script src="data.js?v=96efed3"></script><script src="app.js?v=96efed3"></script><script src="story-shared.js?v=96efed3"></script>
+<script src="data.js?v=ee292a5"></script><script src="app.js?v=ee292a5"></script><script src="story-shared.js?v=ee292a5"></script>
 <script>
 /* The trade-offs we made, what each costs and how we handle it (PRD section 17; D23, D31, D53, D78, S5.3, S8; Prove it counts). */
 nav("choices.html", "", { demo: true });
@@ -38,7 +38,7 @@ const TO = [
 document.getElementById("stage").innerHTML = `<p class="eyebrow">Trade-offs</p>
   <h2 class="hl">Six times we chose safety over speed.</h2>
   
-  <div class="tohead"><span></span><span>We chose</span><span>The usual way</span><span>The cost today</span><span>How we keep it small now</span><span>How later builds fix it</span></div><div class="tos">${TO.map((t, i) => `<div class="to" style="animation-delay:${(i * 0.16).toFixed(2)}s"><span class="n">${i + 1}</span><h3>${esc(t[0])}</h3><dl><dt>The usual way</dt><dd>${esc(t[1])}</dd></dl><dl class="cost"><dt>The cost today</dt><dd>${esc(t[2])}</dd></dl><dl class="fix"><dt>How we keep it small now</dt><dd>${esc(t[3])}</dd></dl><dl class="fut"><dt>How later builds fix it</dt><dd>${esc(t[4])}</dd></dl></div>`).join("")}</div>
+  <div class="tohead"><span></span><span>We chose</span><span>The alternative we rejected</span><span>The cost today</span><span>How we keep it small now</span><span>How later builds fix it</span></div><div class="tos">${TO.map((t, i) => `<div class="to" style="animation-delay:${(i * 0.16).toFixed(2)}s"><span class="n">${i + 1}</span><h3>${esc(t[0])}</h3><dl><dt>The alternative we rejected</dt><dd>${esc(t[1])}</dd></dl><dl class="cost"><dt>The cost today</dt><dd>${esc(t[2])}</dd></dl><dl class="fix"><dt>How we keep it small now</dt><dd>${esc(t[3])}</dd></dl><dl class="fut"><dt>How later builds fix it</dt><dd>${esc(t[4])}</dd></dl></div>`).join("")}</div>
   <div class="foot" style="margin-top:18px"><a class="btn" href="prd.html#decisions">All decisions in the PRD</a><a class="btn primary" href="prd.html">Next: the PRD →</a></div>`;
 document.querySelector("main").insertAdjacentHTML("beforeend", `<p class="small" style="margin-top:14px">From the PRD, section 17, and the Prove it results.</p>`);
 </script></body></html>
