@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=1a0bf0d">
-<link rel="stylesheet" href="styles.css?v=1a0bf0d"><link rel="stylesheet" href="story.css?v=1a0bf0d">
+<link rel="stylesheet" href="fonts/fonts.css?v=0acaaee">
+<link rel="stylesheet" href="styles.css?v=0acaaee"><link rel="stylesheet" href="story.css?v=0acaaee">
 <title>How it works · Job 1 · Ingest and structure · Lakewell Knowledge</title>
 <style>
 .tabs5{grid-template-columns:repeat(5,minmax(0,1fr))}
@@ -17,7 +17,7 @@
 <div class="subbar" id="tabs"></div>
 <div class="card howcard" id="stage"></div>
 </main>
-<script src="data.js?v=1a0bf0d"></script><script src="app.js?v=1a0bf0d"></script><script src="story-shared.js?v=1a0bf0d"></script>
+<script src="data.js?v=0acaaee"></script><script src="app.js?v=0acaaee"></script><script src="story-shared.js?v=0acaaee"></script>
 <script>
 nav("how1.html", "author", { demo: true });
 const RX = DOCS.find(d => d.id === "DOC-RXV2"), SD = DOCS.find(d => d.id === "DOC-SD09"), INJ = (CORE_UNITS.find(u => u.id === "KU-214") || {}).injection;
@@ -36,7 +36,7 @@ window.ACT = {
   channels: {
     Voice: { who: "The phone bot was built from the Rx Education Script, where Legal's words sit unmarked inside a long file.",
       today: () => `${docView(RX, b => b.verbatim ? "hide" : "")}${compare(PD["PD-A"], "Prices can change, so check with your plan.", "What the bot says", "The bot's own summary of section 4")}`,
-      issue: ["Legal's exact words are buried in a long script, and nothing marks them as exact", "The bot sums them up in its own words, so June never hears the conditions Legal requires", "Every channel words the disclaimer its own way, which is how June ends up hearing five versions"],
+      issue: ["Legal's exact words are buried in a long script, and nothing marks them as exact", "The bot sums them up in its own words, so June never hears the conditions Legal requires", "Every channel words the disclaimer its own way, which is how June hears a different version on each channel"],
       path: [["DOCUMENT", "Rx Education Script v2", "9 sections"], ["SAVED", "In the script library", "as one file"], ["NOT MARKED", "Legal's words unflagged", "inside section 4"], ["BOT", "Summarises them", "in its own words"]],
       now: () => `<div class="units">${unitCard("Pricing walk-through", "topic with exact wording · approver: Tom")}${unitCard("Pricing disclaimer", "Legal's exact wording · approver: Tom", "locked", PD["PD-A"])}${unitCard("Out-of-network pharmacies", "Legal's exact wording · approver: Tom", "locked", OON)}${unitCard("Spanish draft of the disclaimer", "machine translated: held for a qualified translator, never served", "flag")}</div>`,
       fix: ["The AI splits the script into short topics and marks the 'Verbatim (Legal)' lines as exact wording", "The bot reads the exact wording as written, so June hears it as Legal wrote them", "Nothing is searchable until the right approver says yes"],
@@ -68,9 +68,9 @@ window.ACT = {
       fix4: { line: "Tables become dated facts with an owner, so a price never outlives its year.", steps: [0, 1], tech: ["Table extraction", "Temporal versioning"], kind: "AI proposes, a person decides", control: "Extraction reads the table into a year-bound topic with start and end dates; the dates are applied whenever any channel reads it.", who: "Grace approves pharmacy cost content", proof: "Effective-window check, 0 violations (golden questions 4 and 20); year-bound cost questions (test T11)." } },
     Website: { who: "The website team copied the disclaimer from the Quick Guide, one of three versions.",
       today: () => `<div class="results">${PD_WORDINGS.map(w => `<div><b>${esc(docOf(w.doc).title)}</b> <span class="small">${esc(w.state)}</span><br><span class="small">${esc(w.text)}</span></div>`).join("")}</div>${compare(PD["PD-A"], PD["PD-C"], "What the website shows", "The Quick Guide copy, never approved by Legal")}`,
-      issue: ["The same disclaimer sits in three documents with three wordings, and nothing says which Legal approved", "The website shows June a version Legal never approved", "A tool that merged them on its own could silently keep the wrong one"],
+      issue: ["The same disclaimer sits in four places with different wordings, the four Dana saw, and nothing says which Legal approved", "The website shows June a version Legal never approved", "A tool that merged them on its own could silently keep the wrong one"],
       path: [["THREE FILES", "Script v2, v3, Quick Guide", "three wordings"], ["NO OWNER", "Nobody compares them", "copies drift"], ["COPIED", "Website takes the Quick Guide", "by chance"], ["SHOWS", "Unapproved wording", "to every visitor"]],
-      now: () => `<div class="units">${unitCard("Same clause found in 3 places", "word-by-word difference shown", "flag")}${unitCard("Proposed: keep Legal's 2026 wording", "the 2027 draft stays in review; the Quick Guide wording retires", "")}${unitCard("Nothing merged", "raised to Tom; he decides in Govern", "skip")}</div>${compare(PD["PD-A"], PD["PD-C"], "The Quick Guide copy", "Proposed to retire; raised to Tom")}`,
+      now: () => `<div class="units">${unitCard("Same clause found in 3 current documents", "word-by-word difference shown; the 2025 desk copy was already flagged in step 2", "flag")}${unitCard("Proposed: keep Legal's 2026 wording", "the 2027 draft stays in review; the Quick Guide wording retires", "")}${unitCard("Nothing merged", "raised to Tom; he decides in Govern", "skip")}</div>${compare(PD["PD-A"], PD["PD-C"], "The Quick Guide copy", "Proposed to retire; raised to Tom")}`,
       fix: ["The AI finds all three copies and shows the differences word by word; it proposes, it never merges", "The website shows June Legal's wording", "The conflict is raised to Tom; he decides once, in Govern, and the other copies point to the one that stands"],
       fixpath: [["THREE FILES", "Script v2, v3, Quick Guide", "ingested"], ["MATCHED", "Same clause, 3 wordings", "difference shown"], ["PROPOSED", "Keep Legal's 2026", "never merged"], ["RAISED", "To Tom", "he decides in Govern"]],
       fix4: { line: "The AI finds every copy and proposes one; the conflict is raised to Tom, who decides in Govern.", steps: [0, 1], tech: ["Semantic deduplication", "Knowledge graph"], kind: "AI proposes, a person decides", control: "Dedup scores similar text and proposes; exact wording is never merged automatically, and a different wording always goes to review.", who: "Priya proposes and raises it; Tom decides which wording holds, in Govern", proof: "Search returns one result, not three (golden questions 1 and 2); a not-duplicate pair is never merged (test T1)." } }
@@ -80,4 +80,4 @@ window.ACT = {
 ACT.lead = "Priya, the author"; ACT.steps = [["Member chat", "Check for hidden instructions"], ["Advocate desk", "Sort the file"], ["Voice", "Extract topics"], ["Outbound", "Date the facts"], ["Website", "Find every copy"]];
 ACT.setup = "Every changed document is pulled from its source (script library, shared drive, intranet), with its version and owner recorded, and passes the same five steps in order."; ACT.howIndex = 0;
 </script>
-<script src="flowmap.js?v=1a0bf0d"></script><script src="how-scenes.js?v=1a0bf0d"></script><script src="how-engine.js?v=1a0bf0d"></script></body></html>
+<script src="flowmap.js?v=0acaaee"></script><script src="how-scenes.js?v=0acaaee"></script><script src="how-engine.js?v=0acaaee"></script></body></html>

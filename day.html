@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=1a0bf0d">
-<link rel="stylesheet" href="styles.css?v=1a0bf0d"><link rel="stylesheet" href="story.css?v=1a0bf0d">
+<link rel="stylesheet" href="fonts/fonts.css?v=0acaaee">
+<link rel="stylesheet" href="styles.css?v=0acaaee"><link rel="stylesheet" href="story.css?v=0acaaee">
 <title>June's day · Lakewell Knowledge</title>
 <style>
 .dhead{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:6px 0 12px}
@@ -102,8 +102,8 @@ mark.miss{background:#cfe7ad;color:#1f4a06;font-weight:800;border-radius:3px;pad
 
 <p class="small" style="margin-top:8px">All fictional, synthetic voices. Runs in your browser; AI steps scripted, simple matching stands in for search.</p>
 </main>
-<script src="data.js?v=1a0bf0d"></script><script src="app.js?v=1a0bf0d"></script><script src="model-run.js?v=1a0bf0d"></script><script src="probes.js?v=1a0bf0d"></script><script src="probes-review.js?v=1a0bf0d"></script><script src="nearmiss.js?v=1a0bf0d"></script><script src="probes2.js?v=1a0bf0d"></script><script src="probes3.js?v=1a0bf0d"></script>
-<script src="story-shared.js?v=1a0bf0d"></script><script src="vendors.js?v=1a0bf0d"></script><script src="flowmap.js?v=1a0bf0d"></script>
+<script src="data.js?v=0acaaee"></script><script src="app.js?v=0acaaee"></script><script src="model-run.js?v=0acaaee"></script><script src="probes.js?v=0acaaee"></script><script src="probes-review.js?v=0acaaee"></script><script src="nearmiss.js?v=0acaaee"></script><script src="probes2.js?v=0acaaee"></script><script src="probes3.js?v=0acaaee"></script>
+<script src="story-shared.js?v=0acaaee"></script><script src="vendors.js?v=0acaaee"></script><script src="flowmap.js?v=0acaaee"></script>
 <script>
 nav("day.html", "insurance", { demo: true });
 store.up(s => { if (!(s.approved || {})["KU-204"]) ENSURE.gateDone(s); const v2 = (s.approved || {})["KU-207@v2"]; if (v2 && v2.on === PLAN.today) v2.on = "8 Oct 2026"; });
@@ -181,19 +181,19 @@ const CH = [
             ["june", "june6", "That would be lovely. Thank you, Dana."]] },
   { key: "Outbound", icon: "sms", tag: "Reminder texts the plan sends", name: "Text", when: "Monday, 2:00 PM",
     who: "That afternoon the plan's reminder system texts June, as it does for every member with a refill due.",
-    issue: ["The reminder team copied the price from its own spreadsheet, not the approved answer, so the pricing words Lakewell requires were never in it. Nobody signs off, and there is no way to stop texts", "June reads $42 as a promise", "The same unapproved text goes to thousands of members in one send, including people who never agreed to texts"],
+    issue: ["The reminder team copied the price from its own spreadsheet, not the approved answer, so the pricing words Lakewell requires were never in it. Sign-off is a 'looks fine' email, and there is no way to stop texts", "June reads $42 as a promise", "The same unapproved text goes to thousands of members in one send, including people who never agreed to texts"],
     fix: ["The reminder's line comes from the approved answer, links to the exact words, and goes only to members who agreed", "June knows it's an estimate and where to read the details; STOP works for her", "Nothing reaches members without approval, even at scale"],
-    path: [["TEAM", "Reminder team", "needs a price line"], ["OWN COPY", "Its own spreadsheet", "not the approved answer"], ["NO SIGN-OFF", "Straight to send", "no approval step"], ["SENT", "To 48,210 members", "illustrative"]],
+    path: [["TEAM", "Reminder team", "needs a price line"], ["OWN COPY", "Its own spreadsheet", "not the approved answer"], ["EMAIL SIGN-OFF", "'Looks fine'", "nothing checked or recorded"], ["SENT", "To 48,210 members", "illustrative"]],
     fixpath: [["TEAM", "Reminder team", "sets up the campaign"], ["APPROVED LINE", "Pulled from the approved answer", "with a link to the words"], ["CHECKS", "Approval and consent", "before anything is sent"], ["SENT", "Only to members who agreed", "STOP works per member"]],
     today: () => `<div class="phone"><p class="small" style="text-align:center;margin:0 0 4px">Refill reminder</p><div class="sms">${esc(TEXT_WRONG)}</div></div>
-      <p class="small" style="text-align:center;margin:4px 0 0">Copied from the reminder team's own spreadsheet and sent with no sign-off, to every member with a refill due (illustrative)</p>
+      <p class="small" style="text-align:center;margin:4px 0 0">Copied from the reminder team's own spreadsheet and sent on a 'looks fine' email, to every member with a refill due (illustrative)</p>
       ${compare(TEXT_OK, TEXT_WRONG, "What the text said", "From the team's own copy: none of Lakewell's pricing words, no link, no opt-out")}` },
   { key: "Website", icon: "web", tag: "The plan's public website", name: "Website", when: "Monday, 2:03 PM",
     who: "June checks the plan's Star Rating on its website while comparing plans during Medicare enrollment.",
     issue: ["The website still shows the 2026 Star Rating after the posting deadline passed on 29 Oct (assumed)", "June compares plans using last year's rating, during the very weeks she has to choose", "A plan must post the CMS Star Ratings document within 21 days of its Plan Finder release (8 Oct, assumed); CMS released the new rating, but nothing flagged that the page now showed the old one, so nobody knew"],
     fix: ["The 2027 rating replaces the 2026 one automatically on its date, everywhere at once", "June compares plans on the current rating", "The plan meets the replacement deadline without anyone remembering to"],
     path: [["PAGE", "Star Rating page", "written for 2026"], ["SOURCE CHANGES", "CMS posts the 2027 rating", "nothing flags the page"], ["29 OCT", "Posting deadline passes (assumed)", "page unchanged"], ["SHOWS", "2026 rating", "during enrollment"]],
-    fixpath: [["PAGE", "Star Rating page", "reads the approved unit"], ["DATES", "Each version has a start and end", "2026 ends 29 Oct"], ["ON 29 OCT", "Swaps by itself", "no one has to remember"], ["SHOWS", "2027 rating", "in force from 8 Oct (assumed)"]],
+    fixpath: [["PAGE", "Star Rating page", "reads the approved unit"], ["DATES", "Each version has a start and end", "2026 ends 29 Oct"], ["ON 29 OCT", "Swaps by itself", "no one has to remember"], ["SHOWS", "2027 rating", "released by CMS on 8 Oct (assumed)"]],
     today: () => `<div class="paper"><p class="small" style="margin:0 0 4px"><b>Lakewell Advantage · Our Star Rating</b></p><p style="margin:0 0 6px">${esc(STAR_2026)}</p><p class="small" style="margin:0">Viewed 2 Nov 2026, during Medicare enrollment · rating synthetic · <a href="https://www.medicare.gov/plan-compare/" target="_blank" rel="noopener">See the CMS Star Ratings document</a></p></div>
       ${compare(STAR_2027, STAR_2026, "What the website says", "The 2026 rating, still up after the 21-day posting deadline passed on 29 Oct (assumed)")}` },
   { key: "Takeaway", icon: "fix", tag: "What it all adds up to", name: "Key takeaway", when: "" }
@@ -202,7 +202,7 @@ const CH = [
 /* The sixth tab: the takeaway, as problems (Today) or as what changes (With Lakewell) */
 const TAKE = {
   today: { title: "What went wrong today", lead: "One member, five channels, five ways the answer went wrong, and nobody could see it happening.", items: [
-    ["copies", "No single source of truth", "Bot, desk, website and texts each keep their own copy."],
+    ["copies", "No single source of truth", "Every channel keeps its own copy."],
     ["pencil", "Legal's words get reworded", "The bot copied one version, then dropped Legal's conditions."],
     ["clock", "Drafts and out-of-date content reach members", "A draft 2027 copay in chat; last year's Star Rating, never flagged."],
     ["send", "Messages go out from private copies", "A price from a team spreadsheet, texted to thousands, unsigned."],
@@ -262,7 +262,7 @@ const FIX4 = {
   "Member chat": { steps: [2, 3], tech: ["Grounded generation with abstention", "Gap clustering"], kind: "Rule", line: "No approved answer, no answer. The chat says 'not yet', finds a person, and logs the gap.",
     control: "Only approved content is searchable, so the draft is never seen. If no approved topic states the figure, the answer is 'not yet', never a guess, and the question lands on Priya's list of answers to write. The model only ranks.", who: "Priya writes the missing answer; Renee decides it's worth writing", proof: "No-answer and exact-cost checks: 100% of must-refuse questions refused.", focus: "ROUTED" },
   "Advocate desk": { steps: [0, 1, 2], tech: ["Semantic deduplication", "Knowledge graph retrieval", "Drift detection"], kind: "AI proposes, a person decides", line: "One approved wording, found once. Every copy points to it, and Agent Assist shows it as June talks.",
-    control: "At ingest the AI finds the same disclaimer in three documents and proposes one; Legal picks the wording that stands; the other copies retire and point to it. Retrieval walks the graph to that one topic; when Legal changes it, one alert lists every place it lives.", who: "Tom decides which wording holds", proof: "Search returns one result, not three; a different wording is never merged.", focus: "CHOSEN TOPIC" },
+    control: "At ingest the AI finds the same disclaimer in every document and proposes one; Legal picks the wording that stands; the other copies retire and point to it. Retrieval walks the graph to that one topic; when Legal changes it, one alert lists every place it lives.", who: "Tom decides which wording holds", proof: "Search returns one result, not three; a different wording is never merged.", focus: "CHOSEN TOPIC" },
   Outbound: { steps: [1, 2], tech: ["Read contract", "Role-based pre-filter"], kind: "Rule", line: "Only approved lines reach a member, and only members who agreed to texts.",
     control: "Every channel, reminders included, reads approved content only through the read contract. The text carries a summary and a link, and consent is checked for each member before sending.", who: "An approver signs the content before any campaign can use it", proof: "Approval gate, nothing unapproved served; every send logged with who and which version.", focus: "CHANNEL" },
   Website: { steps: [1, 2], tech: ["Temporal versioning", "Knowledge graph"], kind: "Rule", line: "Every version carries its dates. The old rating leaves every channel on its date, by itself.",

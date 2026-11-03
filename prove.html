@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=1a0bf0d">
-<link rel="stylesheet" href="styles.css?v=1a0bf0d"><link rel="stylesheet" href="story.css?v=1a0bf0d">
+<link rel="stylesheet" href="fonts/fonts.css?v=0acaaee">
+<link rel="stylesheet" href="styles.css?v=0acaaee"><link rel="stylesheet" href="story.css?v=0acaaee">
 <title>Prove it · Lakewell Knowledge</title>
 <style>
 .qrow{display:flex;gap:10px;align-items:baseline;padding:6px 0;border-bottom:1px solid #eef0e8;font-size:14px}.qrow:last-child{border:0}
@@ -24,8 +24,8 @@
 <div class="subbar" id="tabs"></div>
 <div class="card howcard" id="stage"><p class="small">Running every test now…</p></div>
 </main>
-<script src="data.js?v=1a0bf0d"></script><script src="golden.js?v=1a0bf0d"></script><script src="holdout.js?v=1a0bf0d"></script><script src="probes.js?v=1a0bf0d"></script><script src="probes-review.js?v=1a0bf0d"></script><script src="nearmiss.js?v=1a0bf0d"></script><script src="probes2.js?v=1a0bf0d"></script><script src="probes3.js?v=1a0bf0d"></script>
-<script src="app.js?v=1a0bf0d"></script><script src="eval-core.js?v=1a0bf0d"></script><script src="story-shared.js?v=1a0bf0d"></script>
+<script src="data.js?v=0acaaee"></script><script src="golden.js?v=0acaaee"></script><script src="holdout.js?v=0acaaee"></script><script src="probes.js?v=0acaaee"></script><script src="probes-review.js?v=0acaaee"></script><script src="nearmiss.js?v=0acaaee"></script><script src="probes2.js?v=0acaaee"></script><script src="probes3.js?v=0acaaee"></script>
+<script src="app.js?v=0acaaee"></script><script src="eval-core.js?v=0acaaee"></script><script src="story-shared.js?v=0acaaee"></script>
 <script>
 /* Prove it: every number on this page is computed in this browser, now, by the same code as the full runner (eval-core.js) */
 nav("prove.html", "owner", { demo: true });
@@ -41,7 +41,7 @@ const TABS = [
   { label: "The result" },
   { label: "Golden set and sealed holdout", line: () => "Every labelled question passes, for every role and channel, and a sealed set nobody tuned to agrees.", without: "A team tests a handful of questions and reports one average, so a broken group hides inside it.",
     beats: ["Hands over", "Runs each one", "By group", "Checks the seal", "Runs it once", "Counts only", "Result"], play: both(golden, holdout, 3) },
-  { label: "Independent probes and misses", line: () => "Questions from a writer who never saw the rules. Every must-refuse is refused, and every miss is shown.", without: "The people who wrote the rules also write the tests, and a green scorecard hides the misses.",
+  { label: "Blind probes and misses", line: () => "Questions from a writer who never saw the rules. Every must-refuse is refused, and every miss is shown.", without: "The people who wrote the rules also write the tests, and a green scorecard hides the misses.",
     beats: ["Hands over", "Runs every set", "Against the bar", "Still failing", "Found and fixed", "Renee decides", "Result"], play: both(probes, improve, 3) },
   { label: "Release gate and after launch", line: () => "One red rule row blocks the release; after launch the same checks run every week.", without: "A release ships on a good overall score while one group quietly breaks, then decays unwatched.",
     beats: ["Checks each rule", "Verdict", "Renee signs", "A week of questions", "What we watch", "Feedback", "Result"], play: both(gate, observe, 3) }
@@ -61,7 +61,7 @@ const tick = ok => `<span class="tk${ok ? "" : " no"}">${ok ? "✓" : "✗"}</sp
 
 /* Each scene: ctx gives beat(i, say), push(who, say, body), reveal(el, ms) and T(ms); fast skips the waiting */
 async function golden(c) {
-  c.beat(0, "Priya hands over the golden set"); c.push("Priya", "Hands over the golden set", `<div class="filec"><span class="fi">${FILEIC}</span><div><b>${E.R.length} questions with labelled answers</b><span class="small">pharmacy, insurance and channel questions; written by Priya, the author, and checked by a second reviewer; the sealed holdout was written separately</span></div></div>`); await c.T(1300);
+  c.beat(0, "Priya hands over the golden set"); c.push("Priya", "Hands over the golden set", `<div class="filec"><span class="fi">${FILEIC}</span><div><b>${E.R.length} questions with labelled answers</b><span class="small">pharmacy, insurance and channel questions; written by Priya, the author, and a second reviewer checks it in production, not yet in this prototype; the sealed holdout was written separately</span></div></div>`); await c.T(1300);
   c.beat(1, "Each question runs through the live engine, one at a time");
   const el = c.push("System", "Runs each question, as each role, on each channel", `<div>${E.R.map(x => `<div class="qrow">${tick(x.pass)}<span class="qq"><span class="grp">${esc(GROUP(x.g.id))}</span>${esc(LABEL[x.g.id] || x.g.q)}</span><span class="qm">${esc(ROLES[x.g.role].person.split(" ")[0])} · expected ${esc(OUT(x.g.expect))}, got ${esc(OUT(x.r.kind))}</span></div>`).join("")}</div>`);
   await c.reveal(el, ".qrow", 190);
@@ -69,11 +69,11 @@ async function golden(c) {
   c.push("System", "Counts by group", `<div class="tiles" style="margin:0">${["Pharmacy", "Insurance", "Channel"].map(k => { const rows = E.col(k), n = rows.filter(x => x.pass).length; return `<div class="tile${n === rows.length ? "" : " bad"}"><div class="small">${k} questions</div><div class="n">${n} of ${rows.length}</div></div>`; }).join("")}</div>`); await c.T(1500);
   /* D209: the two human-judged metrics as counts on the labels entered on the Evals page; bars are production */
   const hl = E.ans(E.R).filter(x => !x.g.labelledBy), lab = hl.filter(x => E.L[x.g.id]), yes = lab.filter(x => E.L[x.g.id] === "yes");
-  c.push("System", "Two metrics only a person can label", `<div class="qrow"><span class="qq"><b>Claim supported and answer correct</b>, human label: ${lab.length} of ${hl.length} answers labelled so far${lab.length ? `, ${yes.length} labelled supported and correct` : ""}; one reviewer in this prototype</span><span class="qm">production bar: at least 95% on a labelled sample in advocate channels, 98% in member chat</span></div>`); await c.T(1200);
+  c.push("System", "Two metrics only a person can label", `<div class="qrow"><span class="qq"><b>Claim supported and answer correct</b>, human label: labelled by two reviewers in production; not labelled in this prototype</span><span class="qm">production bar: at least 95% on a labelled sample in advocate channels, 98% in member chat</span></div>`); await c.T(1200);
 }
 async function probes(c) {
   const N = E.PS.reduce((a, x) => a + x.rows.length, 0);
-  c.beat(0, "An independent writer hands over the probe questions"); c.push("Writer", "Hands over the probe questions", `<div class="filec"><span class="fi">${FILEIC}</span><div><b>${N} probe questions, tested two ways</b><span class="small">${PROBES.length} written by someone who never saw the rules, and ${N - PROBES.length} added after every fix so nothing slips back: personal data, cost, years, languages, roles, near-misses</span></div></div>`); await c.T(1300);
+  c.beat(0, "A writer who never saw the rules hands over the probe questions"); c.push("Writer", "Hands over the probe questions", `<div class="filec"><span class="fi">${FILEIC}</span><div><b>${N} probe questions, tested two ways</b><span class="small">${PROBES.length} written by someone who never saw the rules, and ${N - PROBES.length} added after every fix so nothing slips back: personal data, cost, years, languages, roles, near-misses</span></div></div>`); await c.T(1300);
   c.beat(1, "Each set runs, one after another");
   const el = c.push("System", "Runs every set against its bar", `<div class="sets">${E.PS.map(x => `<div class="set"><div class="sh"><span><b>${esc(PLAIN(x.name))}</b></span>${x.pass ? '<span class="pass2">pass</span>' : '<span class="fail2">fail</span>'}</div>
     <div class="pbar"><i data-w="${x.must ? x.caught / x.must * 100 : 100}"></i></div><div class="sm2"><span>Refused or rerouted: ${x.caught} of ${x.must}</span><span>bar 100%</span></div>
@@ -112,7 +112,7 @@ const FIXED = [
   ["Cost questions slipped past the cost check", "Probes asked about what members are charged, owe or pay in fees", "The cost check now reads those words too, so the question goes to Priya's list of unanswered questions instead of a guess"],
   ["A sealed holdout question was answered when it should have said \"not yet\"", "Right topic found, but the asked fact was not in it", "Fixed against new questions of the same kind written outside the holdout; the holdout was then rerun once, never used to tune"],
   ["The verdict could read Pass beside a red rule row", "The banner and the rule rows disagreed", "Any red rule row, on any set, now blocks the release"],
-  ["The redaction test could not fail", "It reused the redactor's own pattern, so it graded itself", "The leak check is now independent and covers the LW and MBI-style formats in the seed"],
+  ["The redaction test could not fail", "It reused the redactor's own pattern, so it graded itself", "The leak check now uses its own pattern, not the redactor's, and covers the LW and MBI-style formats in the seed"],
   ["Price questions were wrongly refused", "\"Are prices final?\" was treated as a request for her records", "Price-policy questions are answered from the pricing disclaimer; her own records still go to a person"],
   ["Questions mentioning another person needed a rule", "\"The dental thing my neighbor has\" risked sharing someone else's coverage", "A general answer, never the other person's coverage; their records go to a person"],
   ["A member asking for the vision benefit was refused", "The probe said refuse; plans must disclose benefits to members", "Answered from the member-facing topic; the label was corrected in review, the probe file untouched"],

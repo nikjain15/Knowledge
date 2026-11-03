@@ -44,17 +44,17 @@ const PRD = {
       ["What AI does", "Extracts, classifies, proposes duplicates, ranks, scopes, declines, clusters gaps, proposes edits. It never approves, publishes, retires a source, resolves authority or grants access", "S3.3 to S3.5"],
       ["How a release is decided", "Rule gates at 0 violations or 100% on the development set and a sealed holdout; model metrics per group on the lower end of their 95% range; one red rule row blocks release", "S8 intro, S8.140, D87"],
       ["North star", "One-contact resolution on knowledge questions; leading indicators override rate and gap-queue age; guardrails scope leaks 0 and verbatim changes 0", "S9.25, D179"],
-      ["Status today", "Prototype passes 21 of 21 golden, 11 of 11 holdout (10 of 11 on the original keys), 410 of 410 must-refuse probes; production not started; stand-ins named on the Solution architecture page", "S18.37, D163, D192"]
+      ["Status today", "Prototype passes 21 of 21 golden, 11 of 11 holdout (10 of 11 on the original keys), 410 of 410 must-refuse probes; production not started; stand-ins named in the page footnote", "S18.37, D163, D192"]
     ] }] },
 
   { id: "problem", n: 2, title: "The problem, with evidence", intro: "Current state follows one member, June, across five channels in one day. Each channel breaks in its own way, and each break has happened somewhere real.",
     tables: [{ caption: "June's day today (Current state page)", cols: ["Channel", "What breaks", "Failure mode"], rows: [
       ["Phone bot", "Copies one of three versions of the out-of-network rule, rewords it and drops Legal's conditions; June is turned away at a pharmacy", "2. Verbatim paraphrased (S5.2)"],
-      ["Member chat", "Answers from an unapproved draft or an expired year with confidence", "5. Confident answers from unapproved content (S5.5); 1. Gates nobody follows (S5.1)"],
-      ["Call with Dana", "Three wordings of the same disclaimer in three documents; no date, no owner; hold time while she picks one", "3. Copies that drift (S5.3, S5.6)"],
-      ["Text", "A reminder text paraphrases exact wording and goes to a member who opted out", "2 and consent (S8.139, D57)"],
-      ["Website", "Carries a third wording nobody approved, and last year's Star statement past its window", "6. Stale and effective-date drift (S5.14)"],
-      ["Key takeaway", "Five channels, five photocopies, no original. Fix the shelf, not the librarian", "S3.2, S11.11"]
+      ["Member chat", "Quotes an unapproved $47 for 2027 from a planning file; nothing flags the missing answer, so the next member gets the same guess", "5. Confident answers from unapproved content (S5.5); 1. Gates nobody follows (S5.1)"],
+      ["Call with Dana", "Three tools, four wordings of one disclaimer, one of them the website's Quick Guide copy; she reads the 2025 cheat sheet (last plan year) while June waits", "3. Copies that drift (S5.3, S5.6)"],
+      ["Text", "The reminder team copies a price from its own spreadsheet, not the approved answer: no pricing words, no sign-off, no STOP", "2 and consent (S8.139, D57)"],
+      ["Website", "CMS posted the new Star Rating, but nothing flagged the page, so last year's rating stayed up during enrollment", "6. Stale and effective-date drift (S5.14)"],
+      ["Key takeaway", "Every team keeps its own copy. AI on these documents won't fix this, it will copy it: fix the knowledge first, and AI helps do that", "S3.2, S11.11"]
     ] }, { caption: "It has happened: evidence behind each mode", cols: ["Mode", "Evidence (quoted in the register)", "Key"], rows: [
       ["Approval gates nobody follows", "Two firms fined $200,000 and $250,000 in cases that included publishing with no principal approval; a regulator cited documents with no approver or date", "[R-41] [R-42] [R-43]"],
       ["Legal verbatim paraphrased", "An airline was held liable for its chatbot's restated policy: it makes no difference whether the information comes from a static page or a chatbot; standardized content must be used without alteration", "[L-01] [R-04]"],
@@ -290,7 +290,7 @@ const PRD = {
     tables: [{ cols: ["Risk", "Why it matters", "How it is handled", "Source"], rows: [
       ["The holdout is separated, not independent", "One author's model family wrote both sets in days", "Hash recorded before the first run; the words said aloud; one ruling on an alternate key disclosed", "S15.1, D163, D186"],
       ["Prototype metrics cannot carry a rate", "4 to 6 answerable questions per role", "Counts, never percentages; rates only at the S8.99 sizes", "S15.9"],
-      ["Stand-ins for production methods", "Text overlap for embeddings; a recorded model run for ingest; FNV-1a for SHA-256", "Named on the Solution architecture footnote; live model after the interview, owner Nik", "S15.19, D190, D192"],
+      ["Stand-ins for production methods", "Text overlap for embeddings; a recorded model run for ingest; FNV-1a for SHA-256", "Named in the page footnote; live model after the interview, owner Nik", "S15.19, D190, D192"],
       ["Several anchors are preprints or vendor evaluations", "A sceptical engineer will check", "Labelled preprint or vendor wherever quoted", "S15.2"],
       ["No payer publishes an eval bar", "Some bars are judgment", "Said as a recorded search with its date; bars carry J and a path", "S15.3, S15.5"],
       ["Positioning rests on what Agent Assist reads from", "If a governed store exists the pitch shrinks", "Stated as the first discovery question", "S15.6"],
