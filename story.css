@@ -243,3 +243,6 @@ details.why{margin-top:10px}details.why>summary{cursor:pointer;font-weight:800;c
 
 /* The document being read shows its first lines only, fading out, so the feed stays short */
 .fe .scan{max-height:190px;overflow:hidden;-webkit-mask-image:linear-gradient(#000 70%,transparent);mask-image:linear-gradient(#000 70%,transparent)}
+
+.fm-tech{margin:8px 0 0;display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:13px}.fm-tech dt{font-weight:800}.fm-tech dd{margin:0;color:var(--muted)}.fm-vend{margin:4px 0 0;padding-left:18px;font-size:13px;color:var(--muted)}.fm-vend li{margin:3px 0}
+@media (max-width:600px){.fm-tech{grid-template-columns:1fr}.fm-tech dd{margin-bottom:6px}}
