@@ -371,7 +371,7 @@ function answer(q, ctx) {
     if (lang) { const tr = (u.translations || {})[lang]; if (!tr || tr.state !== "approved") { trace.push("Spanish asked; the Spanish version is a machine draft no qualified translator has checked. Never served"); return Object.assign(res, { kind: "abstain", route: "translator", unit: null, why: "Spanish wording not approved" }); } }
     const miss = slotMiss(q, u); if (miss) { trace.push(`${u.id} was retrieved but does not state ${miss}. It does not guess: near-miss abstention (D91)`); return Object.assign(res, { kind: "nearmiss", route: "gap", unit: null, near: u.id, why: `${u.title} does not state ${miss}` }); }
     if (COST.test(q) && !policyQ(q) && !costNamed(q, u)) { trace.push(`${u.id} was retrieved but holds no amount. It does not guess: near-miss abstention (rule J; N-38, R-84)`); return Object.assign(res, { kind: "nearmiss", route: "gap", unit: null, near: u.id, costMiss: true, why: `${u.title} does not state an amount` }); }
-    if (u.clause && /\[[A-Z ]+\]/.test(u.clause.text)) { trace.push(`Render check failed: the locked clause has an unfilled field ${u.clause.text.match(/\[[A-Z ]+\]/)[0]}. Abstain; to the author`); return Object.assign(res, { kind: "abstain", route: "author", unit: null, near: u.id, why: "Template field left blank" }); }
+    if (u.clause && /\[[A-Z ]+\]/.test(u.clause.text)) { trace.push(`Render check failed: the exact wording has an unfilled field ${u.clause.text.match(/\[[A-Z ]+\]/)[0]}. Abstain; to the author`); return Object.assign(res, { kind: "abstain", route: "author", unit: null, near: u.id, why: "Template field left blank" }); }
     if (u.injection) { if (!ctx.state) logEv(s, u.id, role, "ACCESS", "Planted instruction in the source was found at ingest and never followed: " + res.redacted); trace.push("Source carried a planted instruction; removed at ingest and logged; answer unaffected"); }
     const nx = res.upcoming ? null : nextAt(u, asOf);
     if (nx) trace.push(`Version ${nx.v} is ${nx.state === "approved" ? "approved for " + nx.effective : nx.state}; its text is not served`);
@@ -381,7 +381,7 @@ function answer(q, ctx) {
     res.kind = "answer"; res.pending = !!nx; res.text = render(u, channel);
     if (third === "general" && memberSide) { res.text = THIRD_LEAD + " " + res.text; trace.push("Mentions another person only as background: general answer, never their coverage (D107)"); }
     if (res.also) { const c = res.also.version; res.text = `For ${asDate(c.effective).getFullYear()}: ${render(Object.assign({}, u, { text: c.text, clause: c.clause || null }), channel)} | Starts ${u.current.effective}: ${res.text}`; trace.push(`Both years asked: ${asDate(c.effective).getFullYear()} and ${asDate(u.current.effective).getFullYear()} served, each labelled`); }
-    if (channel === "Outbound") { res.link = { unit: u.id, v: u.current.v, fp: u.clause ? fp(u.clause.text) : null }; trace.push(`Outbound: one-line summary plus a link to ${u.id} v${u.current.v}; the locked clause is on the linked page, word for word (D57)`); }
+    if (channel === "Outbound") { res.link = { unit: u.id, v: u.current.v, fp: u.clause ? fp(u.clause.text) : null }; trace.push(`Outbound: one-line summary plus a link to ${u.id} v${u.current.v}; the exact wording is on the linked page, word for word (D57)`); }
     return res;
   }
   // nothing in scope: is there an answer the role may not read?
@@ -394,7 +394,7 @@ function answer(q, ctx) {
   trace.push(top ? `Best candidate scored keyword ${top.kw}, below the bar. No approved unit answers this` : "No candidate");
   return Object.assign(res, { kind: "abstain", route: "gap", unit: null });
 }
-/* Channel rendering: the same unit and version; locked clause character-exact (fingerprint checked) */
+/* Channel rendering: the same unit and version; exact wording character-exact (fingerprint checked) */
 function render(u, channel) {
   const c = u.clause;
   if (channel === "Outbound") return (String(u.memberLead || u.text).match(/^[^.!?]*[.!?]/) || [u.text])[0] + " Full wording: lakewell.example/k/" + u.id.toLowerCase() + " Reply STOP to opt out.";
@@ -427,7 +427,7 @@ function citeHTML(u, v) {
     <dt>Unit</dt><dd class="mono">${u.id} v${v.v} · ${esc(u.title)}</dd>
     <dt>Source</dt><dd>${d ? esc(d.title) + ` <span class="srcchip">${d.id} ${esc(v.from || d.version)}</span>` : esc(u.doc)}</dd>
     <dt>Span</dt><dd>${esc(u.span)}</dd>
-    ${v.clause ? `<dt>Locked clause</dt><dd>${esc(v.clause.label)} · fingerprint <span class="mono">${fp(v.clause.text)}</span></dd>` : ""}
+    ${v.clause ? `<dt>Exact wording</dt><dd>${esc(v.clause.label)} · fingerprint <span class="mono">${fp(v.clause.text)}</span></dd>` : ""}
     <dt>Approved by</dt><dd>${esc(v.approvedBy || "not approved")}</dd>
     <dt>On</dt><dd>${esc(v.approvedOn || "")}</dd>
     <dt>In force</dt><dd>${esc(v.shownFrom || v.effective)} to ${esc(v.expiry)}</dd>
@@ -451,7 +451,7 @@ function wdiff(a, b) {
 const norm = t => String(t).replace(/\s+/g, " ").replace(/[‘’]/g, "'").trim();
 const jacc = (a, b) => { const A = new Set(tokens(a)), Bs = new Set(tokens(b)); const i = [...A].filter(x => Bs.has(x)).length; return i / (A.size + Bs.size - i || 1); };
 const nums = t => (String(t).match(/\d+/g) || []).join(",");
-/* Dedup rule (AI decides; never merges): locked clauses alike at 0.5 or more are one clause; other text must also share every number */
+/* Dedup rule (AI decides; never merges): exact wording alike at 0.5 or more are one clause; other text must also share every number */
 function dupCheck(a, b, locked) { const j = jacc(a, b); return { j: Math.round(j * 100) / 100, dup: locked ? j >= 0.5 : j >= 0.5 && nums(a) === nums(b) }; }
 
 /* ---------- gaps ---------- */

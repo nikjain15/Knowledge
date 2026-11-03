@@ -1,10 +1,10 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=3ab0858">
-<link rel="stylesheet" href="styles.css?v=3ab0858">
+<link rel="stylesheet" href="fonts/fonts.css?v=65609d4">
+<link rel="stylesheet" href="styles.css?v=65609d4">
 <title>Priya · Lakewell Knowledge</title></head><body>
 <main class="area"><div class="phead"><div><p class="eyebrow">Knowledge Operations</p><h1>Priya Nandakumar, author</h1><p>Turns documents into topics, proposes, writes what search could not answer. Never approves her own work.</p></div></div>
 <div class="tabs" id="tabs"></div><div id="intro"></div><div id="view"></div></main>
-<script src="data.js?v=3ab0858"></script><script src="app.js?v=3ab0858"></script>
+<script src="data.js?v=65609d4"></script><script src="app.js?v=65609d4"></script>
 <script>
 nav("author.html", "author");
 const TABS = [["inbox", "Inbox"], ["ingest", "Ingest"], ["dedup", "Dedup"], ["gaps", "Gap queue"], ["fix", "Fixes"]];
@@ -14,7 +14,7 @@ function draw() {
   document.getElementById("tabs").innerHTML = TABS.map(([k, l]) => `<button aria-pressed="${k === tab}" data-t="${k}">${l}</button>`).join("");
   document.querySelectorAll("[data-t]").forEach(b => b.onclick = () => go(b.dataset.t));
   const I = { inbox: ["Priya's to-do list: documents to ingest, duplicates to check, unanswered questions, items sent back.", "She proposes. She never approves her own work."],
-    ingest: ["The source document (left) and what the AI pulled out of it (right).", "Locked lines become locked clauses. Junk and stale lines are skipped. Nothing is searchable until approved."],
+    ingest: ["The source document (left) and what the AI pulled out of it (right).", "Legal's lines become exact wording. Junk and stale lines are skipped. Nothing is searchable until approved."],
     dedup: ["The same disclaimer found in three files, compared word by word.", "The system proposes. It never merges on its own."],
     gaps: ["Questions search could not answer, grouped by topic.", "Each group becomes a proposed unit to write, ranked by how often it was asked."],
     fix: ["Items an approver sent back, with the reason and the exact words.", "Priya edits and resubmits. The approver sees the diff."] }[tab];
@@ -55,9 +55,9 @@ function ingest() {
       <div class="meta">${esc(p.type || u.type)} · goes to <b>${esc(ROLES[u.approver].person)}</b>${p.clinical ? " (clinical)" : ""}</div>${split}
       <details class="more"><summary>Tags and notes</summary><div class="meta">${(p.tags || [u.area, u.kbs.join(" + ")]).map(t => `<span class="tag">${esc(t)}</span>`).join("")}${p.note ? "<br>" + esc(p.note) : ""}</div></details></div>`;
   };
-  document.getElementById("view").innerHTML = `<div class="acts" style="margin-bottom:10px">${pick}<span class="small">${d.messy ? "The real files are messier: boilerplate, stale dates, copies, tables, clinical advice." : "A clean script with two locked lines."}</span></div>
+  document.getElementById("view").innerHTML = `<div class="acts" style="margin-bottom:10px">${pick}<span class="small">${d.messy ? "The real files are messier: boilerplate, stale dates, copies, tables, clinical advice." : "A clean script with two exact-wording lines."}</span></div>
     <div class="two"><div>${docHTML(d, ex)}</div><div class="stack compact">
-      ${!ex ? `<div class="card"><h3>Extract</h3><p class="small">${who("AI")} splits the document into topics, types each one, marks locked clauses, skips what is not knowledge, and proposes tags. Nothing is searchable until an approver says yes.</p><button class="btn primary" id="extract">Extract topics</button></div>` :
+      ${!ex ? `<div class="card"><h3>Extract</h3><p class="small">${who("AI")} splits the document into topics, types each one, marks exact wording, skips what is not knowledge, and proposes tags. Nothing is searchable until an approver says yes.</p><button class="btn primary" id="extract">Extract topics</button></div>` :
       props.filter(p => !p.skip).map(card).join("") + (props.some(p => p.skip) ? `<details class="fold"><summary>Skipped lines (${props.filter(p => p.skip).length})</summary>${props.filter(p => p.skip).map(card).join("")}</details>` : "") + (done ? `<div class="quiet">Submitted ${esc(PLAN.today)}. Routed to ${[...new Set(props.filter(p => p.unit).map(p => ROLES[ALL_BASE().find(x => x.id === p.unit).approver].person))].join(", ")}.</div>` : `<button class="btn primary" id="submitIngest">Confirm and submit for review</button>`)}
     </div></div>`;
   document.querySelectorAll("[data-d]").forEach(b => b.onclick = () => go("ingest", "&doc=" + b.dataset.d));
@@ -74,22 +74,22 @@ function ingest() {
 function dedup() {
   const s = S();
   if (!s.dedupLoaded) { document.getElementById("view").innerHTML = `<div class="card"><h3>Two new files arrived</h3><p>Rx Education Script v3 (in review, effective 1 Jan 2027) and the Member Benefits Quick Guide 2027. ${who("AI")} reads them and compares every span with the approved units.</p><button class="btn primary" id="loadDedup">Load v3 and the Quick Guide</button></div>`;
-    document.getElementById("loadDedup").onclick = () => { store.up(x => { x.dedupLoaded = true; logEv(x, "DOC-QG27", "AI extractor", "extracted", "Quick Guide 2027: 9 topics, 3 locked clauses, 1 planted instruction removed"); logEv(x, "KU-214", "AI extractor", "logged injected instruction", "\"Ignore prior rules...\" found in the source; not copied into the unit");
+    document.getElementById("loadDedup").onclick = () => { store.up(x => { x.dedupLoaded = true; logEv(x, "DOC-QG27", "AI extractor", "extracted", "Quick Guide 2027: 9 topics, 3 exact-wording sentences, 1 planted instruction removed"); logEv(x, "KU-214", "AI extractor", "logged injected instruction", "\"Ignore prior rules...\" found in the source; not copied into the unit");
       notify(x, ["legal", "clinical", "owner"], "Quick Guide 2027 topics wait for approval", "review.html"); }); draw(); }; return; }
   const A = PD_WORDINGS[0].text;
   const rows = PD_WORDINGS.map(w => { const c = dupCheck(A, w.text, true); return `<tr><td><b>${w.label}</b><div class="small">${esc(doc(w.doc).short)} ${w.span}</div></td><td><div class="diff">${w.label === "PD-A" ? esc(w.text) : wdiff(A, w.text)}</div><div class="small">${esc(w.state)}</div></td><td>${w.label === "PD-A" ? "base" : c.j}</td></tr>`; }).join("");
   const t1 = T1_PAIR.map(id => ALL_BASE().find(u => u.id === id)), t1c = dupCheck(t1[0].versions[0].text, t1[1].versions[0].text, false);
   const oon = dupCheck(DOCS[0].sections[6].blocks[0].t, DOCS[1].sections[3].blocks[0].t, true);
-  document.getElementById("view").innerHTML = `<div class="card"><div class="acts"><h3 style="margin:0">One clause, three places, three wordings</h3>${who("AI")}<span class="small">locked-clause similarity, word diff against PD-A</span></div>
+  document.getElementById("view").innerHTML = `<div class="card"><div class="acts"><h3 style="margin:0">One clause, three places, three wordings</h3>${who("AI")}<span class="small">exact-wording similarity, word diff against PD-A</span></div>
     <table style="margin-top:8px"><thead><tr><th>Wording</th><th>Text (red removed, green added)</th><th>Similarity</th></tr></thead><tbody>${rows}</tbody></table></div>
     <div class="two" style="margin-top:12px"><div class="card"><h3>Other findings</h3><ul class="small">
       <li><b>OON-A</b> in v2 and v3: identical (similarity ${oon.j}). Linked, no new unit.</li>
       <li><b>Star statement</b>: the Quick Guide still carries the 2026 line. Kept as KU-207 v1 with its window, which closed on 29 Oct 2026.</li>
       <li><b>Not a duplicate (test T1)</b>: ${t1[0].id} and ${t1[1].id} read alike (similarity ${t1c.j}) but state different deadlines. ${t1c.dup ? '<span class="no">flagged</span>' : '<span class="ok">not flagged</span>'}.</li>
       <li><b>Planted instruction</b> in the Quick Guide's claims page: removed from KU-214 and logged.</li></ul></div>
-    <div class="card"><h3>Priya's proposal</h3>${s.dedupProposed ? `<p class="ok">Proposed ${esc(PLAN.today)}. With Tom (locked clause) and Renee.</p>` : ""}
+    <div class="card"><h3>Priya's proposal</h3>${s.dedupProposed ? `<p class="ok">Proposed ${esc(PLAN.today)}. With Tom (exact wording) and Renee.</p>` : ""}
       <ul><li>Keep <b>PD-A</b> as KU-202 v1, approved for 2026.</li><li><b>PD-B</b> stays in review as v2, the 2027 wording.</li><li>Retire <b>PD-C</b>; the Quick Guide links to KU-202 instead.</li></ul>
-      <p class="small">${who("Human")} The system never merges. Tom confirms the locked clause; who holds authority over the wording is his call.</p>
+      <p class="small">${who("Human")} The system never merges. Tom confirms the exact wording; who holds authority over the wording is his call.</p>
       ${s.dedupProposed ? "" : `<button class="btn primary" id="proposeDedup">Send proposal to Tom and Renee</button>`}</div></div>`;
   const p = document.getElementById("proposeDedup"); if (p) p.onclick = () => { store.up(x => { x.dedupProposed = true; logEv(x, "KU-202", "author", "proposed", "keep PD-A; PD-B as 2027 version; retire PD-C"); notify(x, ["legal", "owner"], "Priya proposes: keep PD-A, retire PD-C (Quick Guide). Conflict of authority to resolve", "review.html?as=legal&u=KU-202"); }); draw(); };
 }

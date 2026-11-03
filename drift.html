@@ -1,9 +1,9 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=3ab0858">
-<link rel="stylesheet" href="styles.css?v=3ab0858">
+<link rel="stylesheet" href="fonts/fonts.css?v=65609d4">
+<link rel="stylesheet" href="styles.css?v=65609d4">
 <title>Drift · Lakewell Knowledge</title></head><body>
 <main class="area"><div class="phead"><div><p class="eyebrow">Drift</p><h1>A source changes; every place it lives is found</h1><p></p></div></div><div id="view"></div></main>
-<script src="data.js?v=3ab0858"></script><script src="app.js?v=3ab0858"></script>
+<script src="data.js?v=65609d4"></script><script src="app.js?v=65609d4"></script>
 <script>
 nav("drift.html", "legal");
 intro(null, "Tom edits the source script, and the system checks every place that wording lives.", "A formatting fix raises nothing. A wording change raises one alert listing every place, and one approval updates them all.");
@@ -19,7 +19,7 @@ function draw() {
       <div class="acts" style="margin:6px 0 14px">${s.fmtEdit ? `<span class="ok">Saved. ${who("Rule")} normalised spacing and quotes: no change in the words, no alert (test T2).</span>` : `<button class="btn sm" id="fmtEdit">Save a formatting-only edit (extra spaces)</button>`}</div>
       <h4 class="small">S4 Pricing disclaimer (PD-B)</h4><div class="doc">${s.legalEdit ? wdiff(pdOld, PD_B_FINAL) : esc(pdOld)}</div>
       <div class="acts" style="margin-top:6px">${s.legalEdit ? '<span class="ok">Saved by Tom Bexley.</span>' : `<button class="btn sm primary" id="legalEdit">Save Legal's edit: add "payment plan election"</button>`}</div></div>
-    <div>${s.legalEdit ? `<div class="drift"><span>One grouped alert: the locked clause PD changed in its source</span></div>
+    <div>${s.legalEdit ? `<div class="drift"><span>One grouped alert: the exact wording PD changed in its source</span></div>
       <div class="card" style="margin-top:10px"><details class="fold" style="margin-top:0"><summary>Every place the clause lives (${places.length}) ${who("AI")}</summary><table><tbody>${places.map(p => `<tr><th style="width:110px">${p[0]}</th><td>${esc(p[1])}</td></tr>`).join("")}</tbody></table></details>
       <h3 style="margin-top:12px">Proposed: KU-202 v2 (PD-B) ${who("AI")}</h3><div class="diff">${wdiff(u.versions[0].clause.text, PD_B_FINAL)}</div><p class="small">Against PD-A, approved for 2026. In force 1 Jan 2027 to 31 Dec 2027. Until then every channel keeps serving PD-A.</p>
       ${s.driftApproved ? `<p class="ok">Approved by Tom Bexley ${esc(s.driftApproved.on)}. Every channel switches to PD-B on 1 Jan 2027, from this one approval. <a href="desk.html?role=insurance&call=C1&asof=1%20Jan%202027">Preview the desk on 1 Jan 2027</a> · <a href="channels.html?unit=KU-202">See the channels</a></p>` : `<div class="acts">${who("Human")}<button class="btn primary" id="approveDrift">Approve once (Tom Bexley)</button></div>`}</div>` :

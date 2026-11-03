@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=3ab0858">
-<link rel="stylesheet" href="styles.css?v=3ab0858"><link rel="stylesheet" href="story.css?v=3ab0858">
+<link rel="stylesheet" href="fonts/fonts.css?v=65609d4">
+<link rel="stylesheet" href="styles.css?v=65609d4"><link rel="stylesheet" href="story.css?v=65609d4">
 <title>June's day · Lakewell Knowledge</title>
 <style>
 .dhead{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:6px 0 12px}
@@ -102,8 +102,8 @@ mark.miss{background:#cfe7ad;color:#1f4a06;font-weight:800;border-radius:3px;pad
 
 <p class="small" style="margin-top:8px">Everything on this page is fictional: plan, people, documents, counts and dates. Synthetic voices.</p>
 </main>
-<script src="data.js?v=3ab0858"></script><script src="app.js?v=3ab0858"></script><script src="model-run.js?v=3ab0858"></script><script src="probes.js?v=3ab0858"></script><script src="probes-review.js?v=3ab0858"></script><script src="nearmiss.js?v=3ab0858"></script><script src="probes2.js?v=3ab0858"></script><script src="probes3.js?v=3ab0858"></script>
-<script src="story-shared.js?v=3ab0858"></script><script src="flowmap.js?v=3ab0858"></script>
+<script src="data.js?v=65609d4"></script><script src="app.js?v=65609d4"></script><script src="model-run.js?v=65609d4"></script><script src="probes.js?v=65609d4"></script><script src="probes-review.js?v=65609d4"></script><script src="nearmiss.js?v=65609d4"></script><script src="probes2.js?v=65609d4"></script><script src="probes3.js?v=65609d4"></script>
+<script src="story-shared.js?v=65609d4"></script><script src="flowmap.js?v=65609d4"></script>
 <script>
 nav("day.html", "insurance", { demo: true });
 store.up(s => { if (!(s.approved || {})["KU-204"]) ENSURE.gateDone(s); const v2 = (s.approved || {})["KU-207@v2"]; if (v2 && v2.on === PLAN.today) v2.on = "8 Oct 2026"; });
@@ -139,7 +139,7 @@ const CH = [
     issue: ["The bot rewords the out-of-network rule in its own words and drops the conditions Legal requires", "June hears 'any pharmacy', goes to an out-of-network pharmacy, and is turned away, or pays far more than at a network pharmacy", "She complains, and the plan is answerable for what its bot told her. Lakewell's legal wording is meant to be read exactly as written"],
     fix: ["The bot reads the approved out-of-network wording, exactly as written", "June learns the conditions before she goes to the pharmacy", "No surprise bill, and nothing the plan has to defend"],
     path: [["QUESTION", "Any pharmacy?", "asked at 9 PM"], ["BOT'S OWN SCRIPT", "Its own summary", "not the approved words"], ["REWORDS", "Drops the conditions", "no check against Legal"], ["SAYS", "'Any pharmacy you like'", "wrong"]],
-    fixpath: [["QUESTION", "Any pharmacy?", "asked at 9 PM"], ["APPROVED SOURCE", "Out-of-network topic", "approved by Legal"], ["LOCKED WORDS", "Read exactly", "never reworded"], ["SAYS", "The approved conditions", "word for word"]],
+    fixpath: [["QUESTION", "Any pharmacy?", "asked at 9 PM"], ["APPROVED SOURCE", "Out-of-network topic", "approved by Legal"], ["EXACT WORDING", "Read exactly", "never reworded"], ["SAYS", "The approved conditions", "word for word"]],
     today: () => `<div class="line june"><span class="who">June</span><span class="say">Hi. Can I use any pharmacy, even one that isn't in your network?</span></div>
       <div class="line bot"><span class="who">Bot</span><span class="say">${esc(BOT_WRONG)}</span></div>
       ${compare(OON_OK, BOT_WRONG, "What the bot said", "The bot's own paraphrase of the rule")}`,
@@ -211,7 +211,7 @@ const TAKE = {
     ["zap", "AI won't fix this. It will copy it.", "Today a wrong answer reaches whoever finds that copy. Put AI on the same documents and it gives that answer to every member who asks, instantly and confidently, until someone notices. That's why the knowledge has to be fixed first."]] },
   new: { title: "What changes with Lakewell Knowledge", lead: "The same five channels, and now one answer, the approved one, everywhere.", items: [
     ["source", "One approved source", "Every channel, human or AI, reads the same answer."],
-    ["lock", "Legal's words, exactly", "Locked wording is read as written, never reworded."],
+    ["lock", "Legal's words, exactly", "Exact wording is read as written, never reworded."],
     ["shield", "No answer without approval", "No approved answer? It says so and finds a person."],
     ["stamp", "Nothing ships without sign-off", "Even a reminder text comes from an approved answer."],
     ["calendar", "Expired content leaves by itself", "On its end date, from every channel at once."],
@@ -249,16 +249,16 @@ function graphSVG(r, stage, focus) {
 }
 /* Control for each channel: the steps that do the work, the techniques, and control, owner and evidence (strategy S5, S3.6, S6.12, section 8) */
 const FIX4 = {
-  Voice: { steps: [1, 2], tech: ["Constrained rendering", "Knowledge graph"], kind: "Rule", line: "Legal's words are locked. The bot reads them, never rewords them.",
-    control: "Locked words are stored once in the governance store and inserted by template; the model never edits them, and a fingerprint check runs before anything is spoken.", who: "Tom (Legal) approves the wording once", proof: "Verbatim check, 0 changes allowed (G3, G16, G21); any failure blocks release.", focus: "LEGAL WORDS" },
+  Voice: { steps: [1, 2], tech: ["Constrained rendering", "Knowledge graph"], kind: "Rule", line: "Legal's words are marked as exact wording. The bot reads them, never rewords them.",
+    control: "Exact wording is stored once in the governance store and inserted by template; the model never edits them, and a fingerprint check runs before anything is spoken.", who: "Tom (Legal) approves the wording once", proof: "Verbatim check, 0 changes allowed (golden questions 3, 16 and 21); any failure blocks release.", focus: "LEGAL WORDS" },
   "Member chat": { steps: [2, 3], tech: ["Grounded generation with abstention", "Gap clustering"], kind: "Rule", line: "No approved answer, no answer. The chat says 'not yet', finds a person, and logs the gap.",
-    control: "Only approved content is searchable, so the draft is never seen. If no approved topic states the figure, the answer is 'not yet', never a guess, and the question lands in the author's queue. The model only ranks.", who: "Priya writes the missing answer; Renee decides it's worth writing", proof: "No-answer and exact-cost checks (G6, G14, T10, T14): 100% of must-refuse questions refused.", focus: "ROUTED" },
+    control: "Only approved content is searchable, so the draft is never seen. If no approved topic states the figure, the answer is 'not yet', never a guess, and the question lands in the author's queue. The model only ranks.", who: "Priya writes the missing answer; Renee decides it's worth writing", proof: "No-answer and exact-cost checks (golden questions 6 and 14; tests T10 and T14): 100% of must-refuse questions refused.", focus: "ROUTED" },
   "Advocate desk": { steps: [0, 1, 2], tech: ["Semantic deduplication", "Knowledge graph retrieval", "Drift detection"], kind: "AI proposes, a person decides", line: "One approved wording, found once. Every copy points to it, and Agent Assist shows it as June talks.",
-    control: "At ingest the AI finds the same disclaimer in three documents and proposes one; Legal picks the wording that stands; the other copies retire and point to it. Retrieval walks the graph to that one topic; when Legal changes it, one alert lists every place it lives.", who: "Tom decides which wording holds", proof: "Search returns one result, not three (G1, G2); a different wording is never merged (T1).", focus: "CHOSEN TOPIC" },
+    control: "At ingest the AI finds the same disclaimer in three documents and proposes one; Legal picks the wording that stands; the other copies retire and point to it. Retrieval walks the graph to that one topic; when Legal changes it, one alert lists every place it lives.", who: "Tom decides which wording holds", proof: "Search returns one result, not three (golden questions 1 and 2); a different wording is never merged (test T1).", focus: "CHOSEN TOPIC" },
   Outbound: { steps: [1, 2], tech: ["Read contract", "Role-based pre-filter"], kind: "Rule", line: "Only approved lines reach a member, and only members who agreed to texts.",
-    control: "Every channel, reminders included, reads approved content only through the read contract. The text carries a summary and a link, and consent is checked for each member before sending.", who: "An approver signs the content before any campaign can use it", proof: "Approval gate, nothing unapproved served; every send logged with who and which version (T3).", focus: "CHANNEL" },
+    control: "Every channel, reminders included, reads approved content only through the read contract. The text carries a summary and a link, and consent is checked for each member before sending.", who: "An approver signs the content before any campaign can use it", proof: "Approval gate, nothing unapproved served; every send logged with who and which version (test T3).", focus: "CHANNEL" },
   Website: { steps: [1, 2], tech: ["Temporal versioning", "Knowledge graph"], kind: "Rule", line: "Every version carries its dates. The old rating leaves every channel on its date, by itself.",
-    control: "Every version carries a start and an end date, applied when the answer is read. On 29 Oct the 2026 rating stops and the 2027 one, approved in advance, takes over everywhere.", who: "Tom approves the 2027 statement ahead of time, with its start date", proof: "Effective-window check, 0 violations (G4, G20).", focus: "VERSION" }
+    control: "Every version carries a start and an end date, applied when the answer is read. On 29 Oct the 2026 rating stops and the 2027 one, approved in advance, takes over everywhere.", who: "Tom approves the 2027 statement ahead of time, with its start date", proof: "Effective-window check, 0 violations (golden questions 4 and 20).", focus: "VERSION" }
 };
 /* The recorded model run beside the demo's script, so any difference is visible */
 function modelHTML(key, rd) {

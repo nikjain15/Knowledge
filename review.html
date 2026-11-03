@@ -1,9 +1,9 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=3ab0858">
-<link rel="stylesheet" href="styles.css?v=3ab0858">
+<link rel="stylesheet" href="fonts/fonts.css?v=65609d4">
+<link rel="stylesheet" href="styles.css?v=65609d4">
 <title>Review · Lakewell Knowledge</title></head><body>
 <main class="area"><div class="phead" id="head"></div><div id="intro"></div><div class="split"><div id="queue"></div><div id="detail"></div></div></main>
-<script src="data.js?v=3ab0858"></script><script src="app.js?v=3ab0858"></script>
+<script src="data.js?v=65609d4"></script><script src="app.js?v=65609d4"></script>
 <script>
 const REVIEWERS = ["legal", "clinical", "owner", "medical"];
 const AS = REVIEWERS.includes(QS.get("as")) ? QS.get("as") : QS.get("as") === null ? "legal" : null;
@@ -11,7 +11,7 @@ nav("review.html", AS);
 /* F16: an unknown reviewer link never defaults to someone; pick a reviewer first */
 if (!AS) { document.querySelector("main").innerHTML = `<div class="empty" style="margin-top:24px"><p><b>No reviewer matches this link.</b> Nothing can be approved until you choose who is reviewing.</p><div class="acts" style="justify-content:center">${REVIEWERS.map(r => `<a class="btn sm" href="review.html?as=${r}">${esc(P(r))}</a>`).join("")}</div></div>`; }
 if (AS) {
-const ROLE_TEXT = { legal: "Approves CMS-controlled and legal wording, locked clauses and appeals. Resolves conflicts of authority.", clinical: "Approves pharmacy and clinical content. Sends back what the source does not support.", owner: "Approves operational content and gap units, confirms merges.", medical: "Second sign-off on clinical guidance only, after Grace. Our control (J): CMS requires a medical director for coverage decisions (AP-07), not for member education." };
+const ROLE_TEXT = { legal: "Approves CMS-controlled and legal wording, exact wording and appeals. Resolves conflicts of authority.", clinical: "Approves pharmacy and clinical content. Sends back what the source does not support.", owner: "Approves operational content and gap units, confirms merges.", medical: "Second sign-off on clinical guidance only, after Grace. Our control (J): CMS requires a medical director for coverage decisions (AP-07), not for member education." };
 document.getElementById("head").innerHTML = `<div><p class="eyebrow">Approval gate</p><h1${ROLES[AS].note ? ` title="${esc(ROLES[AS].note)}"` : ""}>${esc(P(AS))}</h1><p>${ROLE_TEXT[AS]}</p></div><div class="right"><div class="seg">${["legal", "clinical", "owner", "medical"].map(r => `<button aria-pressed="${r === AS}" onclick="location.href='review.html?as=${r}'">${ROLES[r].person.split(" ")[0]}</button>`).join("")}</div></div>`;
 intro("intro", "The approver's queue (left) and the item under review (right).", "Approve stays locked until every check is ticked. The AI runs the checks; only a person confirms the answer is correct.");
 const mine = () => units().filter(u => !(S().reassigned || {})[u.id]).filter(u => (u.approver === AS && ["in review", "changes requested"].includes(u.latest.state) && !(u.id === "KU-202" && u.versions[0].state === "approved")) || (u.latest.state === "awaiting co-sign" && secondSigner(u) === AS))
@@ -22,7 +22,7 @@ function spanText(u) { if (u.synthetic) return u.latest.text; const d = doc(u.do
 function queue() {
   const q = mine(); if (!sel && q[0]) sel = q[0].id;
   const extra = AS === "owner" && (S().messy || {}).M5 !== "keep" && (S().ingested || {})["DOC-SD09"] && !(S().merged || {})["KU-206"] ? `<div class="item" style="cursor:pointer" id="mergeItem"><div class="ic">MG</div><div><b>Merge proposed: closing line into KU-206</b><div class="small">Exact copy in FINAL_v1 (2).docx · proposed by Priya</div></div></div>` : "";
-  document.getElementById("queue").innerHTML = `<div class="inbox stack">${q.length ? q.map(u => `<div class="item click${u.id === sel ? " urgent" : ""}" data-u="${u.id}" style="cursor:pointer"><div class="ic">${u.id.slice(3)}</div><div><b>${esc(u.title)}</b><div class="small">${statePill(u.latest.state)} ${u.reviewV.clause ? '<span class="pill lock">locked clause</span>' : ""} ${(c => slaPill(c.since, c.kind) + (c.e2eMissed ? ' <span class="pill bad">end to end ' + c.e2e.used + ' of ' + c.e2e.lim + ' working days · Renee notified</span>' : ""))(clockOf(u))}</div></div></div>`).join("") : (S().dedupLoaded || (S().ingested || {})["DOC-RXV2"] ? emptyState(`Nothing waiting for ${esc(ROLES[AS].person)}. Everything submitted to ${esc(FIRST(AS))} has been decided; see the audit on Renee's page.`) : emptyState(`Nothing waiting for ${esc(ROLES[AS].person)} yet. Items arrive when Priya submits a document.`, "Load the demo up to the gate", () => { store.up(ENSURE.ingestAll); location.reload(); }))}${extra}</div>`;
+  document.getElementById("queue").innerHTML = `<div class="inbox stack">${q.length ? q.map(u => `<div class="item click${u.id === sel ? " urgent" : ""}" data-u="${u.id}" style="cursor:pointer"><div class="ic">${u.id.slice(3)}</div><div><b>${esc(u.title)}</b><div class="small">${statePill(u.latest.state)} ${u.reviewV.clause ? '<span class="pill lock">exact wording</span>' : ""} ${(c => slaPill(c.since, c.kind) + (c.e2eMissed ? ' <span class="pill bad">end to end ' + c.e2e.used + ' of ' + c.e2e.lim + ' working days · Renee notified</span>' : ""))(clockOf(u))}</div></div></div>`).join("") : (S().dedupLoaded || (S().ingested || {})["DOC-RXV2"] ? emptyState(`Nothing waiting for ${esc(ROLES[AS].person)}. Everything submitted to ${esc(FIRST(AS))} has been decided; see the audit on Renee's page.`) : emptyState(`Nothing waiting for ${esc(ROLES[AS].person)} yet. Items arrive when Priya submits a document.`, "Load the demo up to the gate", () => { store.up(ENSURE.ingestAll); location.reload(); }))}${extra}</div>`;
   document.querySelectorAll("[data-u]").forEach(el => el.onclick = () => { sel = el.dataset.u; draw(); });
   const mi = document.getElementById("mergeItem"); if (mi) mi.onclick = () => { store.up(x => { x.merged = x.merged || {}; x.merged["KU-206"] = true; logEv(x, "KU-206", "owner", "confirmed merge", "closing line in FINAL_v1 (2).docx now points to KU-206"); }); draw(); };
 }
@@ -33,7 +33,7 @@ function detail() {
   const cos = u.latest.state === "awaiting co-sign";
   const checks = [
     ["AI", "Text matches the source span", `${doc(u.doc).short} ${u.span}; similarity ${dupCheck(src, v.text + " " + ((v.clause || {}).text || ""), true).j}`],
-    v.clause ? ["AI", "Locked clause is character-exact", `fingerprint ${fp(v.clause.text)} equals source ${fp(src.includes(v.clause.text) ? v.clause.text : src)}`] : null,
+    v.clause ? ["AI", "Exact wording is character-exact", `fingerprint ${fp(v.clause.text)} equals source ${fp(src.includes(v.clause.text) ? v.clause.text : src)}`] : null,
     ["AI", "Dates set", `effective ${v.effective}, review by ${v.expiry}`],
     ["AI", "Base and audience", `${u.kbs.join(", ")} base · ${u.memberFacing ? "member-facing" : "advocate only"}`],
     ["AI", "Channels allowed", u.channels.join(", ") + (v.clause ? " · never by text message" : "")],

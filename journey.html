@@ -1,11 +1,11 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=3ab0858">
-<link rel="stylesheet" href="styles.css?v=3ab0858">
+<link rel="stylesheet" href="fonts/fonts.css?v=65609d4">
+<link rel="stylesheet" href="styles.css?v=65609d4">
 <title>Journey · Lakewell Knowledge</title></head><body>
 <main class="area page"><div class="phead"><div><p class="eyebrow">Deep dive · service design</p><h1>From a source document to an answer, today and after</h1><p>Two journeys share one spine: how knowledge is made (content) and how it is found (finding). Today is assumed from the public record; every key is in the citations register.</p></div></div>
 <div class="tabs"><button aria-pressed="true" data-j="now">Today</button><button aria-pressed="false" data-j="next">After the platform</button><button aria-pressed="false" data-j="who">Who decides what</button></div>
 <div id="view"></div></main>
-<script src="data.js?v=3ab0858"></script><script src="app.js?v=3ab0858"></script>
+<script src="data.js?v=65609d4"></script><script src="app.js?v=65609d4"></script>
 <script>
 nav("journey.html", "");
 intro(null, "How a policy becomes an answer today, and after the platform. Content journey and finding journey.", "Every pain on the left has a matching change on the right, and each change links to its screen.");
@@ -21,11 +21,11 @@ const NOW = [
   ["Finding", "No answer ends in a callback; nothing logs it", "Dana", "Knowledge Ops never sees what was missed", "BR-01, J-01"],
   ["Content", "Legal revises; nobody can find every copy", "Tom, Priya", "Stale copies survive", "FM-01"]];
 const NEXT = [
-  ["Content", "Ingest once; AI proposes topics, locked clauses, tags, spans", "AI, then Priya", "One source, many units", "BR-01", "author.html?tab=ingest"],
+  ["Content", "Ingest once; AI proposes topics, exact wording, tags, spans", "AI, then Priya", "One source, many units", "BR-01", "author.html?tab=ingest"],
   ["Content", "AI finds one clause in three places; Priya proposes; nothing auto-merges", "AI proposes, Priya decides", "Duplicates found, never silently merged", "R-49, V-23", "author.html?tab=dedup"],
   ["Content", "Tom approves the topic once; approver, date, window recorded", "Tom", "One approval serves every channel", "FM-26, FM-27", "review.html?as=legal"],
   ["Content", "Units go live on their effective date and retire on expiry", "Rule", "Nothing outside its window is served", "R-09", "drift.html"],
-  ["Finding", "Dana asks; one cited unit, scoped to her bases", "Dana", "One answer, cited, locked clause word for word", "BR-01", "desk.html?role=insurance&call=C1"],
+  ["Finding", "Dana asks; one cited unit, scoped to her bases", "Dana", "One answer, cited, exact wording word for word", "BR-01", "desk.html?role=insurance&call=C1"],
   ["Finding", "Luis asks the same; never sees Insurance-only content", "Luis", "Scope is a pre-filter", "plan 5", "desk.html?role=pharmacy&call=C7"],
   ["Finding", "Agent Assist and member chat read the same unit", "Channels", "One unit, many channels", "H-02, V-07", "chat.html"],
   ["Finding", "No approved answer: said honestly, sent to Priya's queue", "Rule, then Priya", "The empty search is the backlog", "BR-01", "author.html?tab=gaps"],

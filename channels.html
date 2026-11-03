@@ -1,13 +1,13 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=3ab0858">
-<link rel="stylesheet" href="styles.css?v=3ab0858">
+<link rel="stylesheet" href="fonts/fonts.css?v=65609d4">
+<link rel="stylesheet" href="styles.css?v=65609d4">
 <title>Channels · Lakewell Knowledge</title></head><body>
-<main class="area"><div class="phead"><div><p class="eyebrow">Deep dive · five channels, one unit</p><h1>Voice, chat, advocate assist, outbound and digital</h1><p>The brief's channels each read the same unit and version. Each renders it its own way, and the locked clause never changes.</p></div>
+<main class="area"><div class="phead"><div><p class="eyebrow">Deep dive · five channels, one unit</p><h1>Voice, chat, advocate assist, outbound and digital</h1><p>The brief's channels each read the same unit and version. Each renders it its own way, and the exact wording never changes.</p></div>
 <div class="right"><select id="unitsel" style="width:auto"></select><select id="asof" style="width:auto"></select></div></div><div id="view"></div></main>
-<script src="data.js?v=3ab0858"></script><script src="app.js?v=3ab0858"></script>
+<script src="data.js?v=65609d4"></script><script src="app.js?v=65609d4"></script>
 <script>
 nav("channels.html", "owner");
-intro(null, "One approved unit as each of the brief's five channels shows it.", "Same version and same locked clause everywhere. Outbound texts a one-line summary and a link, never the wording itself, and STOP applies to that member's texts only.");
+intro(null, "One approved unit as each of the brief's five channels shows it.", "Same version and the same exact wording everywhere. Outbound texts a one-line summary and a link, never the wording itself, and STOP applies to that member's texts only.");
 let uid = QS.get("unit") || "KU-202", asOf = QS.get("asof") || PLAN.today, mWho = QS.get("m") || "June Halvorsen";
 const MEMBERS = ["June Halvorsen", "Walt Pemberton"]; /* invented members */
 function current(u) { return u.versions.filter(v => v.state === "approved" && inWindow(v, asOf)).slice(-1)[0]; }
@@ -43,7 +43,7 @@ function draw() {
     <div class="chgrid">${CHANNELS.map(ch => `<details class="card chtile${on(ch) ? "" : " off"}"${ch.key === "Outbound" && (QS.get("m") || S().optOut) ? " open" : ""}><summary><b>${esc(ch.label)}</b><span class="small">${on(ch) ? esc(DIFF[ch.key]) : "not on this channel"}</span></summary>${body(ch)}</details>`).join("")}</div>`;
   const sp = document.getElementById("speak"); if (sp) sp.onclick = () => { const n = document.getElementById("vnote");
     if (!("speechSynthesis" in window)) { n.textContent = "This browser has no speech; the text above is what the bot reads."; return; }
-    speechSynthesis.cancel(); const ut = new SpeechSynthesisUtterance(render(uu, "Voice")); ut.rate = 0.9; speechSynthesis.speak(ut); n.textContent = "Speaking the approved words, locked clause verbatim (D49)."; store.up(x => { x.voicePlayed = true; }); };
+    speechSynthesis.cancel(); const ut = new SpeechSynthesisUtterance(render(uu, "Voice")); ut.rate = 0.9; speechSynthesis.speak(ut); n.textContent = "Speaking the approved words, exact wording verbatim (D49)."; store.up(x => { x.voicePlayed = true; }); };
   const mem = document.getElementById("mem"); if (mem) mem.onchange = e => { mWho = e.target.value; draw(); };
   const con = document.getElementById("consentOn"), coff = document.getElementById("consentOff");
   if (con) con.onclick = () => { store.up(x => { const o = (x.optOut || {})[mWho]; if (o && o.Text) { delete o.Text; logEv(x, uid, "member", "re-consented to texts", mWho); } }); draw(); };
