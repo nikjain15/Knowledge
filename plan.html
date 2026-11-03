@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=9b7dcff">
-<link rel="stylesheet" href="styles.css?v=9b7dcff"><link rel="stylesheet" href="story.css?v=9b7dcff">
+<link rel="stylesheet" href="fonts/fonts.css?v=e278716">
+<link rel="stylesheet" href="styles.css?v=e278716"><link rel="stylesheet" href="story.css?v=e278716">
 <title>Roadmap · Lakewell Knowledge</title>
 <style>
 .rule3{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0 18px}.rule3 span{font-family:Manrope,sans-serif;font-weight:800;font-size:14px;padding:7px 12px;border-radius:99px;background:#f1f1ec;color:#2b2f27;border:1px solid #e2e3db}.rule3 i{font-style:normal;color:var(--muted)}
@@ -39,13 +39,21 @@
 @media (max-width:900px){.pc-grid{grid-template-columns:1fr}.tl-t{font-size:10.5px}.pc-top{flex-direction:column}}
 .pc-fr{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:12px;padding-top:12px;border-top:1px solid #eef0e8;font-size:13px}.pc-fr b{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-right:4px}.pc-fr a{padding:3px 9px;border-radius:99px;border:1px solid #cfd1c7;color:#2b2f27;text-decoration:none;font-weight:700;font-size:12px}.pc-fr a:hover{border-color:#2b2f27}.pc-fr span{color:var(--muted);font-size:12px}
 .pc-b ul.tt{list-style:none;padding-left:0}.pc-b ul.tt li{margin:0 0 5px}.pc-b ul.tt em{font-style:normal;font-size:11px;font-weight:800;border-radius:99px;padding:1px 8px;margin-left:4px;background:#eef0e8;color:#55594f;white-space:nowrap}.pc-b ul.tt em.bd{background:#2b4a12;color:#fff}.pc-b ul.tt li.isb{border-left:4px solid #5f8a26;background:#eef5e3;border-radius:8px;padding:7px 10px;margin:6px 0}.pc-b ul.tt li.isb small{display:block;margin-top:3px;font-size:12px;line-height:1.4;color:#2b4a12}
+.jy-open{margin:10px 0 0;font:inherit;font-size:13.5px;font-weight:800;color:#2b4a12;background:#f4f9ec;border:1px solid #9cc27a;border-radius:99px;padding:7px 14px;cursor:pointer}.jy-open:hover{background:#eaf3dc}.jy{border:1px solid #e4e6dc;border-radius:14px;padding:16px;background:#fbfcf8;margin:12px 0 6px}.jy-h{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:flex-end;margin-bottom:10px}.jy-h h3{margin:2px 0 4px;font-family:Manrope,sans-serif;font-size:18px}.jy-h p.small{margin:0;max-width:560px}.jy-lg{display:flex;gap:6px;flex-wrap:wrap}
+.jy-lane{margin-top:12px}.jy-ln{display:block;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}.jy-row{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;counter-reset:s}
+.jy-s{position:relative;border:1px solid #e4e6dc;border-radius:12px;background:#fff;padding:10px;display:flex;flex-direction:column;gap:4px;min-height:178px}.jy-s:not(:last-child)::after{content:"›";position:absolute;right:-8px;top:12px;font-weight:800;color:#b9bcae}
+.jy-s.build{border-color:#9cc27a;background:#f4f9ec}.jy-n{width:20px;height:20px;border-radius:50%;background:#2b2f27;color:#fff;font-size:11px;font-weight:800;display:grid;place-items:center}.jy-s b{font-family:Manrope,sans-serif;font-size:13.5px;line-height:1.25}.jy-s small{font-size:11.5px;color:var(--muted);line-height:1.35}
+.jy-w{display:flex;gap:4px;flex-wrap:wrap;margin-top:auto}.jy-t{font-size:11.5px;color:#3d4236;line-height:1.3}
+.wh,.bt{display:inline-block;font-size:10.5px;font-weight:800;border-radius:99px;padding:2px 8px;white-space:nowrap}.wh.ai{background:#ebe8f8;color:#3c3489}.wh.person{background:#fbe8dc;color:#8a4b12}.wh.rule{background:#eef0e8;color:#55594f}
+.bt.build{background:#2b4a12;color:#fff}.bt.buy{background:#e6ebf2;color:#2c4766}.bt.today{background:#fff;color:#55594f;border:1px solid #cfd1c7}.jy-s .bt{align-self:flex-start}
+@media (max-width:1100px){.jy-row{grid-template-columns:repeat(4,minmax(0,1fr))}.jy-s::after{display:none}}@media (max-width:640px){.jy-row{grid-template-columns:1fr 1fr}}
 </style></head><body>
 <main class="area" style="max-width:1280px">
 <div id="stepper"></div>
 <div class="hhead"><h1>Roadmap</h1></div>
 <div class="card howcard" id="stage"></div>
 </main>
-<script src="data.js?v=9b7dcff"></script><script src="app.js?v=9b7dcff"></script><script src="story-shared.js?v=9b7dcff"></script>
+<script src="data.js?v=e278716"></script><script src="app.js?v=e278716"></script><script src="story-shared.js?v=e278716"></script>
 <script>
 /* How we build it, in order (PRD section 14, strategy S10, D78, D180). Plain words; no durations on screen (they are placeholders). */
 nav("plan.html", "", { demo: true });
@@ -74,18 +82,43 @@ const EXTRA = [
 const TT = [
   [["Content inventory and owner mapping", "Call sampling to set the error baseline", "Risk and privacy review"], [["Spreadsheet or catalog tool", "use today's"], ["Call recording and QA tool", "use today's"]]],
   [["Versioned store with effective dates (temporal versioning)", "Role-based access on every read", "Write-once audit log", "Hash check on Legal's exact words", "Golden set and sealed held-out test"], [["Cloud database and object store", "buy, from the cloud in use"], ["Company sign-in (identity provider)", "use today's"], ["Approval workflow, audit log, eval runner", "build", "Off-the-shelf tools let the writer publish their own article and let anyone edit Legal's wording. We need a second person to approve every answer, Legal's words locked, and a test that blocks a bad release. No tool does all three, so we build them"]]],
-  [["Split documents into topics (structure-aware chunking)", "Semantic deduplication", "Drift detection on source changes", "Hidden-instruction scan"], [["Document parser and OCR service", "buy"], ["Large language model for drafting topics", "buy, via the cloud in use"], ["Embedding model for finding copies", "buy"]]],
+  [["Split documents into topics (structure-aware chunking)", "Semantic deduplication", "Drift detection on source changes", "Hidden-instruction scan"], [["Document parser and OCR service", "buy"], ["Large language model for drafting topics", "buy, via the cloud in use"], ["Embedding model for finding copies", "buy"], ["Drift check: compares a changed document with the topics built from it", "build", "No product does this comparison, so we build the check on top of a bought language model"]]],
   [["Hybrid search: keywords plus meaning", "Re-ranking inside approved topics", "Cited answers only; 'not yet' below the bar", "Shadow mode against today's tools"], [["Managed search service with vector index", "buy"], ["Re-ranking model", "buy"], ["Read contract and gap log", "build", "Every channel (search, Agent Assist, chat, text, website) asks one service for the answer. It checks who is asking, that the answer is approved and in date, then shows the source or says 'not yet'. Build it once and every channel gives the same answer"]]],
   [["Real-time suggestion from the live call", "Template insertion for Legal's words", "Weekly human review sample"], [["Agent Assist in the contact-centre platform", "buy, from today's platform"], ["Speech-to-text", "buy"], ["Connector to the read contract", "build", "Agent Assist normally reads its own copy of the documents, which is how old wording creeps back. A small connector makes it ask the same service as every other channel instead"]]],
   [["Stricter member rules: exact wording, single facts", "AI-use disclosure", "Staged rollout with a stop rule", "Consent check before any text"], [["Member chat and website widget", "use today's"], ["Texting platform with consent records", "use today's"], ["Monitoring dashboard and alerts", "buy, from the cloud in use"]]]
 ];
+/* One answer, end to end: who does each step and whether we build it (the single build list, D240) */
+const JOURNEY = [
+  ["A document becomes an approved answer", [
+    ["Upload and scan", "New copay guide; hidden instructions checked", ["ai", "rule"], "Document parser", "buy"],
+    ["Split into topics", "Legal's sentences marked", ["ai"], "Language model", "buy"],
+    ["Find copies", "The two other versions found", ["ai"], "Embedding model", "buy"],
+    ["Flag what changed", "New copay against the old topics", ["ai", "rule"], "Drift check, on a bought model", "build"],
+    ["Edit and approve", "Priya edits; a second person approves", ["person", "rule"], "Approval workflow", "build"],
+    ["Store once", "Version, dates; Legal's words hashed", ["rule"], "Bought database, our rules", "mix"],
+    ["Test and sign", "One red row blocks; Renee signs", ["rule", "person"], "Eval runner, audit log", "build"]]],
+  ["June asks a question", [
+    ["June asks", "Crisis and personal-data rules first", ["rule"], "Member chat", "today"],
+    ["Check who asks", "What this person may see", ["rule"], "Company sign-in", "today"],
+    ["Find the topic", "Best approved match", ["ai"], "Managed search, re-ranker", "buy"],
+    ["Answer or 'not yet'", "Source cited; Legal's exact words", ["rule"], "Read service", "build"],
+    ["Same answer for Dana", "Agent Assist on her call", ["ai", "person"], "Agent Assist, our connector", "mix"],
+    ["Close the gap", "'Not yet' goes to Priya's list", ["rule", "person"], "Gap log", "build"],
+    ["Watch weekly", "Same tests; 30 answers per role checked", ["rule", "person"], "Monitoring dashboard", "buy"]]]
+];
+const WHO = { ai: "AI", person: "Person", rule: "Fixed rule" }, TAG = { build: "We build", buy: "We buy", today: "Use today's" };
+const journeyHTML = () => `<div class="jy"><div class="jy-h"><div><p class="eyebrow">Before the phases: who does what</p><h3>One answer, end to end</h3><p class="small">Fourteen steps from a new document to June's answer. We buy what the market does well and build only the rules nobody sells.</p></div>
+  <div class="jy-lg">${Object.entries(WHO).map(([k, v]) => `<span class="wh ${k}">${v}</span>`).join("")}${Object.entries(TAG).map(([k, v]) => `<span class="bt ${k}">${v}</span>`).join("")}</div></div>
+  ${JOURNEY.map(([lane, steps], L) => `<div class="jy-lane"><b class="jy-ln">${esc(lane)}</b><div class="jy-row">${steps.map(([t, d, who, tool, tag], i) => `<div class="jy-s ${tag === "mix" ? "build" : tag}"><span class="jy-n">${L * 7 + i + 1}</span><b>${esc(t)}</b><small>${esc(d)}</small><div class="jy-w">${who.map(w => `<span class="wh ${w}">${WHO[w]}</span>`).join("")}</div><div class="jy-t">${esc(tool)}</div>${tag === "mix" ? `<span class="bt buy">We buy</span> <span class="bt build">We build</span>` : `<span class="bt ${tag}">${TAG[tag]}</span>`}</div>`).join("")}</div></div>`).join("")}</div>`;
 let shown = 1;
 document.getElementById("stage").innerHTML = `<p class="eyebrow">Plan to build the future state</p>
   <h2 class="hl">From prototype to production: six phases, each with an owner and a gate it must pass.</h2>
-  <div class="tl"><div class="tl-line"><i id="tlfill"></i></div>${STEPS_R.map((r, i) => `<button class="tl-n" data-n="${i}"><span class="tl-d">${i + 1}</span><span class="tl-t">${esc(r[0])}</span></button>`).join("")}</div>
+  <button class="jy-open" id="jyo" aria-expanded="false">See who does what: one answer, end to end (14 steps) ▾</button><div id="jyb" hidden>${journeyHTML()}</div><p class="eyebrow" style="margin-top:18px">The six phases</p><div class="tl"><div class="tl-line"><i id="tlfill"></i></div>${STEPS_R.map((r, i) => `<button class="tl-n" data-n="${i}"><span class="tl-d">${i + 1}</span><span class="tl-t">${esc(r[0])}</span></button>`).join("")}</div>
   <div id="phcard" class="phcard"></div>
   <div class="foot" style="margin-top:16px"><button class="btn" id="php">← Previous</button><span class="small" id="phc"></span><button class="btn primary" id="phn">Next phase →</button></div>`;
 let cur = 0;
+document.getElementById("jyo").onclick = e => { const b = document.getElementById("jyb"), o = b.hidden; b.hidden = !o; e.currentTarget.setAttribute("aria-expanded", o); e.currentTarget.textContent = o ? "Hide who does what ▴" : "See who does what: one answer, end to end (14 steps) ▾"; };
+if (location.hash === "#journey") document.getElementById("jyo").click();
 function card(i) { const r = STEPS_R[i], x = EXTRA[i], j = JOBS_P[i];
   return `<div class="pc-top"><div><small>Phase ${i + 1} of ${STEPS_R.length}</small><h3>${esc(r[0])}</h3><p>${esc(r[1])}</p></div><div class="ph-jobs">${j.length ? j.map(t => `<span>Builds ${esc(t)}</span>`).join("") : `<span class="pre">Before any build</span>`}</div></div>
   <div class="pc-grid"><div class="pc-b"><b>What we do</b><ul>${r[2].map(t => `<li>${esc(t)}</li>`).join("")}</ul></div><div class="pc-b ok"><b>Success looks like</b><ul class="tk">${r[3].map(t => `<li>${esc(t)}</li>`).join("")}</ul></div><div class="pc-b"><b>Delivers</b><p>${esc(x[0])}</p></div><div class="pc-b risk"><b>Biggest risk, and how we handle it</b><p>${esc(x[1])}</p></div><div class="pc-b"><b>Techniques we use</b><ul>${TT[i][0].map(t => `<li>${esc(t)}</li>`).join("")}</ul></div><div class="pc-b"><b>Tools, and build or buy</b><ul class="tt">${TT[i][1].map(([t, b, why]) => `<li class="${b === "build" ? "isb" : ""}">${esc(t)} <em class="${b === "build" ? "bd" : "by"}">${esc(b)}</em>${why ? `<small>${esc(why)}</small>` : ""}</li>`).join("")}</ul></div></div>${FR_P[i].length ? `<div class="pc-fr"><b>Requirements it delivers</b>${FR_P[i].map(([id, n]) => `<a href="prd.html#fr">${esc(id)} ${esc(n)}</a>`).join("")}<span>See how each is built and accepted in the PRD →</span></div>` : `<div class="pc-fr"><b>Requirements it delivers</b><span>None yet: discovery confirms them before any build</span></div>`}`; }
