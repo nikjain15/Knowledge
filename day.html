@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=8b7f250">
-<link rel="stylesheet" href="styles.css?v=8b7f250"><link rel="stylesheet" href="story.css?v=8b7f250">
+<link rel="stylesheet" href="fonts/fonts.css?v=ded1794">
+<link rel="stylesheet" href="styles.css?v=ded1794"><link rel="stylesheet" href="story.css?v=ded1794">
 <title>June's day · Lakewell Knowledge</title>
 <style>
 .dhead{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:6px 0 12px}
@@ -102,8 +102,8 @@ mark.miss{background:#cfe7ad;color:#1f4a06;font-weight:800;border-radius:3px;pad
 
 <p class="small" style="margin-top:8px">Everything on this page is fictional: plan, people, documents, counts and dates. Synthetic voices.</p>
 </main>
-<script src="data.js?v=8b7f250"></script><script src="app.js?v=8b7f250"></script><script src="model-run.js?v=8b7f250"></script><script src="probes.js?v=8b7f250"></script><script src="probes-review.js?v=8b7f250"></script><script src="nearmiss.js?v=8b7f250"></script><script src="probes2.js?v=8b7f250"></script><script src="probes3.js?v=8b7f250"></script>
-<script src="story-shared.js?v=8b7f250"></script><script src="flowmap.js?v=8b7f250"></script>
+<script src="data.js?v=ded1794"></script><script src="app.js?v=ded1794"></script><script src="model-run.js?v=ded1794"></script><script src="probes.js?v=ded1794"></script><script src="probes-review.js?v=ded1794"></script><script src="nearmiss.js?v=ded1794"></script><script src="probes2.js?v=ded1794"></script><script src="probes3.js?v=ded1794"></script>
+<script src="story-shared.js?v=ded1794"></script><script src="flowmap.js?v=ded1794"></script>
 <script>
 nav("day.html", "insurance", { demo: true });
 store.up(s => { if (!(s.approved || {})["KU-204"]) ENSURE.gateDone(s); const v2 = (s.approved || {})["KU-207@v2"]; if (v2 && v2.on === PLAN.today) v2.on = "8 Oct 2026"; });
@@ -190,9 +190,9 @@ const CH = [
       ${compare(TEXT_OK, TEXT_WRONG, "What the text said", "From the team's own copy: none of Lakewell's pricing words, no link, no opt-out")}` },
   { key: "Website", icon: "web", tag: "The plan's public website", name: "Website", when: "Monday, 2:03 PM",
     who: "June checks the plan's Star Rating on its website while comparing plans during Medicare enrollment.",
-    issue: ["The website still shows the 2026 Star Rating after the posting deadline passed on 29 Oct (assumed)", "June compares plans using last year's rating, during the very weeks she has to choose", "A plan must post the CMS Star Ratings document within 21 days of its Plan Finder release (8 Oct, assumed); Lakewell missed it, and nobody knew, because the page has no end date"],
+    issue: ["The website still shows the 2026 Star Rating after the posting deadline passed on 29 Oct (assumed)", "June compares plans using last year's rating, during the very weeks she has to choose", "A plan must post the CMS Star Ratings document within 21 days of its Plan Finder release (8 Oct, assumed); CMS released the new rating, but nothing flagged that the page now showed the old one, so nobody knew"],
     fix: ["The 2027 rating replaces the 2026 one automatically on its date, everywhere at once", "June compares plans on the current rating", "The plan meets the replacement deadline without anyone remembering to"],
-    path: [["PAGE", "Star Rating page", "written for 2026"], ["NO EXPIRY", "No end date", "nobody owns it"], ["29 OCT", "Posting deadline passes (assumed)", "page unchanged"], ["SHOWS", "2026 rating", "during enrollment"]],
+    path: [["PAGE", "Star Rating page", "written for 2026"], ["SOURCE CHANGES", "CMS posts the 2027 rating", "nothing flags the page"], ["29 OCT", "Posting deadline passes (assumed)", "page unchanged"], ["SHOWS", "2026 rating", "during enrollment"]],
     fixpath: [["PAGE", "Star Rating page", "reads the approved unit"], ["DATES", "Each version has a start and end", "2026 ends 29 Oct"], ["ON 29 OCT", "Swaps by itself", "no one has to remember"], ["SHOWS", "2027 rating", "in force from 8 Oct (assumed)"]],
     today: () => `<div class="paper"><p class="small" style="margin:0 0 4px"><b>Lakewell Advantage · Our Star Rating</b></p><p style="margin:0 0 6px">${esc(STAR_2026)}</p><p class="small" style="margin:0">Viewed 2 Nov 2026, during Medicare enrollment · rating synthetic · <a href="https://www.medicare.gov/plan-compare/" target="_blank" rel="noopener">See the CMS Star Ratings document</a></p></div>
       ${compare(STAR_2027, STAR_2026, "What the website says", "The 2026 rating, still up after the 21-day posting deadline passed on 29 Oct (assumed)")}` },
