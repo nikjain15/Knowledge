@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=5f8c173">
-<link rel="stylesheet" href="styles.css?v=5f8c173"><link rel="stylesheet" href="story.css?v=5f8c173">
+<link rel="stylesheet" href="fonts/fonts.css?v=38fd5da">
+<link rel="stylesheet" href="styles.css?v=38fd5da"><link rel="stylesheet" href="story.css?v=38fd5da">
 <title>Roadmap · Lakewell Knowledge</title>
 <style>
 .rule3{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0 18px}.rule3 span{font-family:Manrope,sans-serif;font-weight:800;font-size:14px;padding:7px 12px;border-radius:99px;background:#f1f1ec;color:#2b2f27;border:1px solid #e2e3db}.rule3 i{font-style:normal;color:var(--muted)}
@@ -17,30 +17,33 @@
 .side2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}.side2 div{border-radius:12px;padding:10px 14px;font-size:14px;line-height:1.5}.side2 .pilot{background:#f6f6f2;border:1px solid #e2e3db}.side2 .stop{background:#fdf4ec;border:1px solid #f0c9a8}.side2 b{display:block;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px}
 @media (max-width:900px){.rp .box{grid-template-columns:1fr 1fr}.side2{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){.rp{animation:none;opacity:1;transform:none}}
+.box2{border:1px solid #e4e6dc;border-radius:14px;background:#fff;padding:14px 16px;display:grid;grid-template-columns:1fr 1.3fr 1.2fr;gap:12px 22px;align-items:start}
+.ph-h small{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:800}.ph-h h3{margin:2px 0 4px;font-family:Manrope,sans-serif;font-weight:800;font-size:17px}.ph-h p{margin:0;font-size:14px;color:#2b2f27}
+.ph-do{margin:0;padding-left:18px;font-size:13.5px;line-height:1.55}.ph-ok{background:#f6f6f2;border-radius:10px;padding:8px 12px;display:grid;gap:3px;font-size:13.5px}.ph-ok b{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}.ph-ok span{color:#2b4a12}
+@media (max-width:900px){.box2{grid-template-columns:1fr}}
 </style></head><body>
 <main class="area" style="max-width:1280px">
 <div id="stepper"></div>
 <div class="hhead"><h1>Roadmap</h1></div>
 <div class="card howcard" id="stage"></div>
 </main>
-<script src="data.js?v=5f8c173"></script><script src="app.js?v=5f8c173"></script><script src="story-shared.js?v=5f8c173"></script>
+<script src="data.js?v=38fd5da"></script><script src="app.js?v=38fd5da"></script><script src="story-shared.js?v=38fd5da"></script>
 <script>
 /* How we build it, in order (PRD section 14, strategy S10, D78, D180). Plain words; no durations on screen (they are placeholders). */
 nav("plan.html", "", { demo: true });
 document.getElementById("stepper").innerHTML = storyStepper(4);
 const STEPS_R = [
-  ["Discovery", "Inventory the pharmacy content and its owners; measure today's wrong-answer rate and handle time as the baseline; agree approvers and sign-off rules with Legal; security, privacy and vendor review; decide build, buy or partner", "Product, Knowledge Operations, Legal, Security", "Baseline measured; approvers named; vendor and data agreements signed"],
-  ["Foundation", "The knowledge store and approval workflow; sign-in and roles from the company's identity system; the audit trail; the test harness, with a golden set built from real advocate questions", "Engineering, Knowledge Operations", "Every safety rule passes on the golden set and the held-out test"],
-  ["Pilot knowledge base", "Move the Pharmacy knowledge base in: AI-assisted extraction, Legal works through the duplicate backlog, drift alerts on; authors and approvers trained", "Knowledge Operations, Legal, authors", "No wrong merges; drift alerts accurate; monitoring plan signed"],
-  ["Advocate search, shadow then live", "Search runs beside today's tools first, so nobody relies on it yet, and its answers are compared with today's; then it goes live for one advocate team", "Advocates, contact-centre operations", "Four weeks with nobody seeing content outside their role; first-contact resolution and handle time at or better than baseline"],
-  ["Agent Assist", "Agent Assist reads approved answers through the read contract, tested against today's experience on a share of calls, with a weekly human review sample", "Advocates, AI governance board", "Almost every claim backed by its cited answer; Legal's words never changed; advocates override less over time"],
-  ["Members, then every channel", "Member chat with member-facing answers approved separately and AI use disclosed, rolled out to a small share first; then texts, the website and more knowledge bases", "Members, Marketing compliance", "Stricter member rules pass; disclosure approved; weekly monitoring stays green"]
+  ["Discovery", "Know where we start", ["List every pharmacy document and its owner", "Measure today's wrong answers and handle time", "Agree approvers with Legal; finish security and vendor review"], ["Baseline numbers agreed", "Every document has an owner", "Build, buy or partner decided"]],
+  ["Foundation", "Build the core safely", ["Knowledge store and approval workflow", "Sign-in and roles from the company's identity system", "Audit trail and the test harness"], ["Every safety rule passes the tests", "Every action lands in the audit trail"]],
+  ["Pilot knowledge base", "Get one knowledge base right", ["Move the Pharmacy content in", "Legal clears the duplicate wordings", "Train authors and approvers"], ["One approved wording per clause", "No wrong merges", "Drift alerts are accurate"]],
+  ["Advocate search", "Advocates trust one answer", ["Run beside today's tools first (shadow)", "Compare its answers with today's", "Go live for one team"], ["Nobody sees content outside their role", "Fewer repeat calls than baseline", "Handle time at or below baseline"]],
+  ["Agent Assist", "AI helps on live calls", ["Agent Assist reads approved answers only", "Test against today on a share of calls", "Review a sample every week"], ["Claims backed by their source", "Legal's words never changed", "Advocates override it less over time"]],
+  ["Members and every channel", "Members get the same answer", ["Member chat to a small group first", "Disclose AI use; stricter member rules", "Then texts, website, more knowledge bases"], ["Same answer on every channel", "Member complaints about wrong answers fall", "Weekly checks stay green"]]
 ];
 document.getElementById("stage").innerHTML = `<p class="eyebrow">Plan to build the future state</p>
   <h2 class="hl">From prototype to production: six phases, each with an owner and a gate it must pass.</h2>
-  <p class="was1"><b>Where we start:</b> the prototype shows the design on made-up data. Production starts with discovery, then one pilot knowledge base on real pharmacy content. <b>Why this order:</b> each phase puts less of a person between the answer and the member, so each one has to pass its checks before the next begins.</p>
-  <div class="rule3"><span>Discover</span><i>→</i><span>Build the foundation</span><i>→</i><span>Migrate one knowledge base</span><i>→</i><span>Staff search, shadow then live</span><i>→</i><span>AI for staff</span><i>→</i><span>Members and every channel</span></div>
-  <ol class="path">${STEPS_R.map((r, i) => `<li class="rp${i === 0 ? " first" : ""}" style="animation-delay:${(i * 0.18).toFixed(2)}s"><span class="dot">${i + 1}</span><div class="box"><h3><small>Phase ${i + 1}</small>${esc(r[0])}</h3><dl><dt>Key work</dt><dd>${esc(r[1])}</dd></dl><dl><dt>Who is involved</dt><dd>${esc(r[2])}</dd></dl><dl><dt>Ready for the next phase when</dt><dd>${esc(r[3])}</dd></dl></div></li>`).join("")}</ol>
+  <p class="was1"><b>Why this order:</b> each phase puts less of a person between the answer and the member, so each one must succeed before the next starts.</p>
+  <ol class="path">${STEPS_R.map((r, i) => `<li class="rp" style="animation-delay:${(i * 0.18).toFixed(2)}s"><span class="dot">${i + 1}</span><div class="box2"><div class="ph-h"><small>Phase ${i + 1}</small><h3>${esc(r[0])}</h3><p>${esc(r[1])}</p></div><ul class="ph-do">${r[2].map(x => `<li>${esc(x)}</li>`).join("")}</ul><div class="ph-ok"><b>Success looks like</b>${r[3].map(x => `<span>✓ ${esc(x)}</span>`).join("")}</div></div></li>`).join("")}</ol>
   <div class="side2"><div class="pilot"><b>Running through every phase</b>Change management and training for authors, approvers and advocates; a governance group that owns the stop rule; the same tests run before every release. Search goes live in phase 4, only over approved answers.</div><div class="stop"><b>Stop rule</b>If anyone sees content outside their role, or Legal's words change, that channel stops serving at once. It restarts only after the fix ships with a new test and the signers agree.</div></div>
   <div class="foot" style="margin-top:18px"><span></span><a class="btn primary" href="choices.html">Next: Trade-offs →</a></div>`;
 document.querySelector("main").insertAdjacentHTML("beforeend", `<p class="small" style="margin-top:14px">Phase gates and order from the PRD, section 14. Discovery, shadow mode and change management are our recommended delivery practice. Timings are left out until discovery sizes them.</p>`);
