@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=83e2dc1">
-<link rel="stylesheet" href="styles.css?v=83e2dc1"><link rel="stylesheet" href="story.css?v=83e2dc1">
+<link rel="stylesheet" href="fonts/fonts.css?v=f79e5be">
+<link rel="stylesheet" href="styles.css?v=f79e5be"><link rel="stylesheet" href="story.css?v=f79e5be">
 <title>Roadmap · Lakewell Knowledge</title>
 <style>
 .rule3{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0 18px}.rule3 span{font-family:Manrope,sans-serif;font-weight:800;font-size:14px;padding:7px 12px;border-radius:99px;background:#f1f1ec;color:#2b2f27;border:1px solid #e2e3db}.rule3 i{font-style:normal;color:var(--muted)}
@@ -60,7 +60,7 @@
 <div class="hhead"><h1>Roadmap</h1></div>
 <div class="card howcard" id="stage"></div>
 </main>
-<script src="data.js?v=83e2dc1"></script><script src="app.js?v=83e2dc1"></script><script src="story-shared.js?v=83e2dc1"></script>
+<script src="data.js?v=f79e5be"></script><script src="app.js?v=f79e5be"></script><script src="story-shared.js?v=f79e5be"></script>
 <script>
 /* How we build it, in order (PRD section 14, strategy S10, D78, D180). Plain words; no durations on screen (they are placeholders). */
 nav("plan.html", "", { demo: true });
@@ -121,6 +121,15 @@ const WHAT = { 1: [["buy", "A document parser and OCR service that reads PDFs an
   8: [["today", "Today's member chat"], ["build", "The crisis and personal-data rules, which run inside our read service"]], 9: [["today", "The company's existing sign-in system"]], 10: [["buy", "A managed search service and a re-ranking model"]],
   11: [["build", "The read service every channel asks: checks role and dates, cites the source or says 'not yet'"]], 12: [["buy", "Agent Assist in today's contact-centre platform, with its speech-to-text"], ["build", "A small connector so it asks our read service"]],
   13: [["build", "The gap log that turns each 'not yet' into Priya's to-do list"]], 14: [["buy", "A monitoring dashboard with alerts"]] };
+/* How each step is built, in one technical line (PRD section 15, "How we build it, technically") */
+const HOW = { 1: "An upload fires an event; the parser returns structured text; lines that give the AI orders are held back",
+  2: "The model proposes topics; code checks Legal's sentences are exact copies of the source", 3: "Embeddings compare every topic; matches come with a word-by-word diff, never an automatic merge",
+  4: "Each tracked passage is compared with the new version; one alert names every affected answer and channel", 5: "A state machine in code: draft, in review, approved; the author's sign-in cannot approve",
+  6: "One record per answer: ID, version, dates, roles, source; Legal's words hashed; every change in an append-only log", 7: "The eval runner runs in CI on every change; one red rule row blocks the deploy",
+  8: "Crisis and personal-data rules run before any search", 9: "Role taken from the company sign-in on every question, never cached for long",
+  10: "Hybrid search (keywords plus meaning) over approved answers only, then re-ranked", 11: "answer(question, role, channel, date): below the bar it says 'not yet'; the template inserts Legal's words and the citation",
+  12: "The connector calls the same answer() API, so Agent Assist never reads its own copy", 13: "Every 'not yet' is logged with the redacted question, clustered by topic, most-asked first",
+  14: "The same runner on a schedule, plus a sample of 30 answers per role labelled by a person" };
 const JS = JOURNEY.flatMap(([lane, st], L) => st.map(x => ({ lane, L, x })));
 const ACT = { 1: "Pharmacy team", 2: "AI", 3: "AI", 4: "AI", 5: "Priya, then an approver", 6: "Lakewell Knowledge", 7: "Renee", 8: "June", 9: "Lakewell Knowledge", 10: "AI", 11: "Lakewell Knowledge", 12: "Dana", 13: "Priya", 14: "A reviewer" };
 const journeyHTML = () => `<div class="jy"><div class="jy-h"><div><p class="eyebrow">Before the phases: who does what</p><h3>One answer, end to end</h3><p class="small">Follow one copay change from a new document to June's answer.</p></div>
@@ -134,7 +143,7 @@ function jyGo(n) { jc = Math.max(0, Math.min(JS.length - 1, n)); const { lane, x
   const c = document.getElementById("jyc"); c.classList.remove("in"); void c.offsetWidth; c.classList.add("in");
   c.innerHTML = `<div class="jy-cl"><span class="jy-big">${jc + 1}</span><div><small>${esc(lane)}</small><h4>${esc(t)}</h4><p>${esc(d)}</p></div></div>
     <div class="jy-cr"><div><b>Who</b><span>${esc(ACT[jc + 1])}</span><div>${who.map(w => `<span class="wh ${w}">${WHO[w]}</span>`).join(" ")}</div></div>
-    <div><b>Tool</b><span>${esc(tool)}</span></div>
+    <div><b>Tool</b><span>${esc(tool)}</span></div><div><b>How it is built</b><span>${esc(HOW[jc + 1])}</span></div>
     <div class="jy-what"><b>What we build or buy</b><ul>${WHAT[jc + 1].map(([k, t]) => `<li><span class="bt ${k}">${TAG[k]}</span> ${esc(t)}</li>`).join("")}</ul></div></div>`;
   document.getElementById("jyk").textContent = `Step ${jc + 1} of ${JS.length}`;
   document.getElementById("jyp").disabled = jc === 0; document.getElementById("jyn").textContent = jc === JS.length - 1 ? "Start again ↺" : "Next step →"; }
