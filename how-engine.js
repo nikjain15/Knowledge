@@ -24,7 +24,7 @@ function audit(who, what) { AUDIT.unshift([hhmmss(), who, what]); const a = docu
 function bell(n) { BELLS += n || 1; const b = document.getElementById("bellN"); if (b) { b.textContent = BELLS; b.hidden = false; b.parentNode.title = bellTitle(); b.parentNode.setAttribute("aria-label", bellTitle()); } }
 setInterval(() => { const c = document.getElementById("clock"); if (c) c.textContent = hhmmss(); }, 1000);
 const bellTitle = () => `${BELLS} decision${BELLS === 1 ? "" : "s"} logged`;
-async function typeInto(root, fast) { for (const el of root.querySelectorAll("[data-type]")) { const text = el.getAttribute("data-type"); if (fast) { el.textContent = text; continue; } el.textContent = ""; const c = document.createElement("span"); c.className = "lv-caret"; el.appendChild(c); for (const ch of text) { c.before(document.createTextNode(ch)); await new Promise(r => setTimeout(r, 12)); } c.remove(); } }
+async function typeInto(root, fast) { for (const el of root.querySelectorAll("[data-type]")) { const text = el.getAttribute("data-type"); if (fast) { el.textContent = text; continue; } el.textContent = ""; const c = document.createElement("span"); c.className = "lv-caret"; el.appendChild(c); for (const w of text.match(/\S+\s*/g) || [text]) { c.before(document.createTextNode(w)); await new Promise(r => setTimeout(r, 45)); } c.remove(); } }
 
 function docView(d, mark, only, kind) {
   const secs = only ? d.sections.filter(x => only.test(x.h)) : d.sections, cut = d.sections.length - secs.length;
