@@ -3,6 +3,13 @@
    each beat moves it one stop or lights one row of "how it runs". Content from strategy S3, S6, S7; the AI
    levels are the brief's three: AI decides (inside rules), AI recommends (a person confirms), only a person. */
 const FM_SOURCES = [["Plan policies", "Renee, Knowledge Operations lead"], ["Knowledge articles", "Priya, author"], ["Legal wording", "Tom, Legal and Compliance"], ["Clinical guidance", "Grace, then Ruth, clinical reviewers"], ["Drafts in progress", "Priya's new answers, not yet approved"]];
+/* Which technique runs at which step of "How it runs", by job and row, so the tags sit on the step that uses them */
+const FM_RUNTECH = [
+  [["PII redaction"], ["Prompt-injection filtering"], ["LLM-based extraction"], ["LLM-based extraction"], ["LLM-based extraction"], ["Semantic deduplication"]],
+  [[], [], ["Semantic deduplication"], [], ["Drift detection", "Knowledge graph"], ["Temporal versioning", "Knowledge graph"]],
+  [[], ["Role-based pre-filter", "Hybrid retrieval", "Knowledge graph retrieval", "Constrained rendering"], ["Temporal versioning"], ["Grounded generation with abstention"], ["Gap clustering"], []],
+  [["Golden set", "Per-group release gates"], ["Sealed holdout"], ["Adversarial probe suites"], [], ["Per-group release gates"], ["LLM-as-judge (not provable yet)"]]
+];
 const FM_CHANNELS = [["Phone bot", "June, calling at night"], ["Member chat", "member website chat, June"], ["Agent Assist", "beside Dana and Luis"], ["Advocate search", "Dana and Luis, at the desk"], ["Texts and calls", "outbound to June"], ["Member website", "plan pages June reads"]];
 const FM_JOBS = [
   { n: "Ingest and structure", line: "long documents split into short answers", take: "Every document is split into topics. Legal's sentences are marked as exact wording, to be quoted word for word and never reworded, and nothing is readable until a person approves it.",
@@ -131,7 +138,7 @@ function fmPanel() {
      <div class="fm-io"><div><b>What comes in</b>${esc(s.inp)}</div><div><b>What goes out</b>${esc(s.out)}</div></div>
      <ul class="fm-bul"><li><b>What it does</b><span>${esc(s.w)}</span></li><li><b>Why it matters</b><span>${esc(s.y)}</span></li><li><b>How we know</b><span>${esc(s.h)}</span></li></ul>
      ${s.loop ? `<div class="fm-loopx"><p class="eyebrow">${esc(s.loop.t)}</p><ol>${s.loop.s.map(x => `<li><b>${esc(x[0])}</b>${esc(x[1])}</li>`).join("")}</ol></div>` : ""}</div>
-     <div class="fm-deep"><p class="eyebrow">How it runs, step by step <span>· the highlighted row is where the topic is now</span></p><ol class="fm-run">${s.run.map((r, k) => `<li class="${k < fmRows ? "show" : ""}${k === fmRows - 1 ? " now" : ""}"><span class="fm-who ${r[0]}">${esc(r[1])}</span><span>${esc(r[2])}</span></li>`).join("")}</ol>
+     <div class="fm-deep"><p class="eyebrow">How it runs, step by step <span>· the highlighted row is where the topic is now</span></p><ol class="fm-run">${s.run.map((r, k) => `<li class="${k < fmRows ? "show" : ""}${k === fmRows - 1 ? " now" : ""}"><span class="fm-who ${r[0]}">${esc(r[1])}</span><span>${esc(r[2])}${((FM_RUNTECH[fmActive] || [])[k] || []).length ? `<span class="fm-rtech">${FM_RUNTECH[fmActive][k].map(t => `<i>${esc(t)}</i>`).join("")}</span>` : ""}</span></li>`).join("")}</ol>
      <p class="eyebrow" style="margin-top:16px">What we check before release</p><ul class="fm-chk">${s.checks.map(c => `<li><span>${esc(c[0])}</span><em>${esc(c[1])}</em></li>`).join("")}</ul>
      <div class="fm-legend2"><span class="fm-who rule">System</span> a fixed rule <span class="fm-who ai">AI decides</span> inside rules <span class="fm-who rec">AI recommends</span> a person confirms <span class="fm-who person">Name</span> only a person</div>
      <details><summary>Techniques used</summary><dl class="fm-tech">${s.tags.map(t => `<dt>${esc(t[0])}</dt><dd>${esc(t[1])}</dd>`).join("")}</dl>${(s.vend || []).length ? `<p class="eyebrow" style="margin-top:10px">What the market already offers (named in the talk, not on screen)</p><ul class="fm-vend">${s.vend.map(v => `<li>${esc(v)}</li>`).join("")}</ul>` : ""}</details></div>
