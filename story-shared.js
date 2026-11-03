@@ -68,6 +68,7 @@ function stepDetail(s, i) {
 /* Solution architecture: four steps on top; tap a step (or turn Detail on) to open its depth in place */
 let OPEN4 = new Set();
 function approachHTML(nextLabel) {
+  if (typeof flowHTML === "function") return flowHTML(nextLabel); /* the flow map (flowmap.js); the cards below remain for pages that do not load it */
   const open = OPEN4;
   return `<div class="appr2"><p class="eyebrow">Solution architecture</p>
     <h2>A governed knowledge layer: one source of truth for every channel, human or AI.</h2>
@@ -80,6 +81,7 @@ function approachHTML(nextLabel) {
     <div class="acts" style="margin-top:22px"><button class="btn primary" id="toNew">${esc(nextLabel)}</button></div></div>`;
 }
 function bindApproach(redraw) {
+  if (typeof flowMount === "function" && document.getElementById("fm")) { flowMount(); return; }
   document.querySelectorAll("[data-s4]").forEach(b => b.onclick = () => { const i = +b.dataset.s4; OPEN4.has(i) ? OPEN4.delete(i) : OPEN4.add(i); if (DETAIL) setDetail(false); redraw(); });
   bindDetail(redraw);
 }
