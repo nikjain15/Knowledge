@@ -164,10 +164,10 @@ function fmPanel() {
    "3. No answer, no guess: says 'not yet', offers a person and logs the question",
    "4. Close the gaps: AI groups unanswered questions and drafts answers; Priya writes, Renee confirms",
    "5. Pin the top answer: AI suggests pinning the approved answer to the most-asked question; Renee confirms"],
-  ["1. Golden set: 21 questions with known answers, checked for every role and channel",
-   "2. Sealed holdout: 11 questions nobody tuned to, run once; a fingerprint proves nobody changed them",
-   "3. Blind probes: 430 questions from someone who never saw the rules, plus 234 repeat checks",
-   "4. Every miss becomes a test: a failure is added as a new test, never fixed quietly",
-   "5. Release gate: one failed rule, on any group, blocks the release",
+  ["1. Golden set: the answer key, 21 questions, checked for every role and channel",
+   "2. Held-out test set: 11 questions kept locked away, run once; a fingerprint proves nobody changed them",
+   "3. Red-team testing: 430 trick questions from someone who never saw the rules, plus 234 regression tests",
+   "4. Regression tests: every failure is added as a new test, never fixed quietly",
+   "5. Release gate: if any safety rule fails, on any group, nothing ships",
    "Last: Renee signs the release; Legal and Engineering sign the monitoring plan"]
 ].forEach((rows, j) => rows.forEach((t, k) => { if (FM_JOBS[j] && FM_JOBS[j].run[k]) FM_JOBS[j].run[k][2] = t; }));

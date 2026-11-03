@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=2d082f3">
-<link rel="stylesheet" href="styles.css?v=2d082f3"><link rel="stylesheet" href="story.css?v=2d082f3">
+<link rel="stylesheet" href="fonts/fonts.css?v=8d6728d">
+<link rel="stylesheet" href="styles.css?v=8d6728d"><link rel="stylesheet" href="story.css?v=8d6728d">
 <title>Prove it · Lakewell Knowledge</title>
 <style>
 .qrow{display:flex;gap:10px;align-items:baseline;padding:6px 0;border-bottom:1px solid #eef0e8;font-size:14px}.qrow:last-child{border:0}
@@ -24,8 +24,8 @@
 <div class="subbar" id="tabs"></div>
 <div class="card howcard" id="stage"><p class="small">Running every test now…</p></div>
 </main>
-<script src="data.js?v=2d082f3"></script><script src="golden.js?v=2d082f3"></script><script src="holdout.js?v=2d082f3"></script><script src="probes.js?v=2d082f3"></script><script src="probes-review.js?v=2d082f3"></script><script src="nearmiss.js?v=2d082f3"></script><script src="probes2.js?v=2d082f3"></script><script src="probes3.js?v=2d082f3"></script>
-<script src="app.js?v=2d082f3"></script><script src="eval-core.js?v=2d082f3"></script><script src="story-shared.js?v=2d082f3"></script>
+<script src="data.js?v=8d6728d"></script><script src="golden.js?v=8d6728d"></script><script src="holdout.js?v=8d6728d"></script><script src="probes.js?v=8d6728d"></script><script src="probes-review.js?v=8d6728d"></script><script src="nearmiss.js?v=8d6728d"></script><script src="probes2.js?v=8d6728d"></script><script src="probes3.js?v=8d6728d"></script>
+<script src="app.js?v=8d6728d"></script><script src="eval-core.js?v=8d6728d"></script><script src="story-shared.js?v=8d6728d"></script>
 <script>
 /* Prove it: every number on this page is computed in this browser, now, by the same code as the full runner (eval-core.js) */
 nav("prove.html", "owner", { demo: true });
@@ -38,13 +38,13 @@ let E = null, cur = Math.min(3, Math.max(0, +(QS.get("s") || 1) - 1)), run = 0, 
 /* A-264: opens on the result; four steps fit the 5-minute slot; each step can still replay */
 const both = (a, b, n) => async c => { await a(c); if (c.live()) await b({ ...c, beat: (i, say) => c.beat(i + n, say) }); };
 const TABS = [
-  { label: "The result" },
-  { label: "Golden set and sealed holdout", line: () => "Every labelled question passes, for every role and channel, and a sealed set nobody tuned to agrees.", without: "A team tests a handful of questions and reports one average, so a broken group hides inside it.",
-    beats: ["Hands over", "Runs each one", "By group", "Checks the seal", "Runs it once", "Counts only", "Result"], play: both(golden, holdout, 3) },
-  { label: "Blind probes and misses", line: () => "Questions from a writer who never saw the rules. Every must-refuse is refused, and every miss is shown.", without: "The people who wrote the rules also write the tests, and a green scorecard hides the misses.",
-    beats: ["Hands over", "Runs every set", "Against the bar", "Still failing", "Found and fixed", "Renee decides", "Result"], play: both(probes, improve, 3) },
-  { label: "Release gate and after launch", line: () => "One red rule row blocks the release; after launch the same checks run every week.", without: "A release ships on a good overall score while one group quietly breaks, then decays unwatched.",
-    beats: ["Checks each rule", "Verdict", "Renee signs", "A week of questions", "What we watch", "Feedback", "Result"], play: both(gate, observe, 3) }
+  { label: "Release decision" },
+  { label: "Accuracy: golden set and held-out test", line: () => "It gives the right answer to every question we wrote the answer for, for every role and channel.", without: "A golden set is the answer key, written before building. A held-out test set is kept locked away and run once, so nobody can tune to it.",
+    beats: ["Answer key", "Runs each question", "By group", "Checks the seal", "Held-out run", "Counts only", "Result"], play: both(golden, holdout, 3) },
+  { label: "Red-team testing", line: () => "We tried to break it with trick questions. It refused every question it must refuse, and every mistake became a new test.", without: "Red-team testing means trying to make the system fail on purpose. Here, someone who never saw the rules wrote the questions; regression tests re-check every past fix.",
+    beats: ["Trick questions", "Runs each set", "Against target", "Still failing", "What testing caught", "Renee decides", "Result"], play: both(probes, improve, 3) },
+  { label: "Release gate and monitoring", line: () => "If any safety rule fails, nothing ships, even if everything else passes.", without: "A release gate is the go or no-go check before launch. Post-launch monitoring runs the same checks every week, so quality cannot quietly slip.",
+    beats: ["Each safety rule", "Go or no-go", "Renee signs", "A week of use", "What we monitor", "Feedback", "Result"], play: both(gate, observe, 3) }
 ];
 /* A-262, G1-19, G1-20: plain display labels per golden row; the query text in golden.js is unchanged */
 const LABEL = { G1: "Pharmacy pricing disclaimer: reads Legal's exact words", G2: "Pricing \"disclamer\" (misspelt on purpose)", G3: "Out-of-network pharmacy: reads Legal's exact words",
@@ -93,9 +93,9 @@ async function holdout(c) {
   c.push("System", "Shows counts only", `<p class="small" style="margin:0">A count, not a rate, at this size. Nobody tunes on it: its hash was recorded before the first run and is checked every run. The file is public; the screen shows counts only.</p>`); await c.T(1500);
 }
 async function gate(c) {
-  const G = [["No answer outside the role", "0 scope leaks", !E.R.some(x => x.leak) && !E.H.some(x => x.leak)], ["Says 'not yet' when nothing approved answers", "every abstention case", E.abs(E.R).every(x => !x.answered)],
-    ["Every answer cites an approved source", `${E.ans(E.R).filter(x => x.cites).length} of ${E.ans(E.R).length}`, E.ans(E.R).every(x => x.cites)], ["Legal's words exact", "0 changed characters", E.verbs(E.R).every(x => x.verb)],
-    ["Routed to the right person or queue", "gap, author, translator, person", E.routes(E.R).every(x => x.routeOK && !x.answered)], ["Identifiers redacted", `${E.t3gaps} gaps in ${E.ev.length} events`, E.t3gaps === 0], ["Probe sets meet their bars", `${E.PS.filter(x => x.pass).length} of ${E.PS.length}`, E.probesPass], ["Holdout sealed and green", `${E.H.filter(x => x.pass).length} of ${E.H.length}`, E.sealedOK && E.holdRulesOK]];
+  const G = [["Nobody sees answers outside their role", "0 times", !E.R.some(x => x.leak) && !E.H.some(x => x.leak)], ["No approved answer means 'not yet', never a guess", "every abstention case", E.abs(E.R).every(x => !x.answered)],
+    ["Every answer cites its approved source", `${E.ans(E.R).filter(x => x.cites).length} of ${E.ans(E.R).length}`, E.ans(E.R).every(x => x.cites)], ["Legal's wording is never changed", "0 changed characters", E.verbs(E.R).every(x => x.verb)],
+    ["Hand-offs go to the right person or team", "gap, author, translator, person", E.routes(E.R).every(x => x.routeOK && !x.answered)], ["Personal details are removed before anything is stored", `${E.t3gaps} gaps in ${E.ev.length} events`, E.t3gaps === 0], ["Red-team results meet their targets", `${E.PS.filter(x => x.pass).length} of ${E.PS.length}`, E.probesPass], ["Held-out test passes, and its seal is intact", `${E.H.filter(x => x.pass).length} of ${E.H.length}`, E.sealedOK && E.holdRulesOK]];
   c.beat(0, "Each rule is checked; any red row blocks the release");
   const el = c.push("System", "Checks every rule row", `<div class="gates">${G.map(([n, v, ok]) => `<div class="gate">${tick(ok)}<b>${esc(n)}</b><span class="gv">${esc(v)}</span></div>`).join("")}</div>`);
   await c.reveal(el, ".gate", 420);
@@ -126,7 +126,7 @@ async function improve(c) {
     <p class="small" style="margin:8px 0 0">${above.length ? `Wrong refusals are above the 2% goal in ${above.map(x => `${esc(PLAIN(x.name))} (${x.falseN} of ${x.ok} general questions, ${x.rate}%)`).join(", ")}. That is inside the 10% launch bar, not yet where we want it.` : "Every set large enough to rate is at or under the 2% goal."}${smallMiss.length ? ` Counts only below 59 questions: ${smallMiss.map(x => `${esc(PLAIN(x.name))} ${x.falseN} of ${x.ok}`).join(", ")}.` : " Sets under 59 questions show counts, not rates."} In production a money-intent classifier replaces the cost word list.</p>`);
   await c.reveal(el, ".qrow", 380);
   c.beat(1, "What earlier runs caught, and how each was fixed");
-  const f = c.push("System", "Found and fixed", `<div class="gates">${FIXED.map(([h, why, fix]) => `<div class="gate" style="align-items:flex-start">${tick(true)}<div style="flex:1"><b style="display:block">${esc(h)}</b><span class="gv">${esc(why)}</span><span class="gv" style="display:block;color:#3b6d11"><b>Fix:</b> ${esc(fix)}</span></div></div>`).join("")}</div>`);
+  const f = c.push("System", "What testing caught", `<div class="gates">${FIXED.map(([h, why, fix]) => `<div class="gate" style="align-items:flex-start">${tick(true)}<div style="flex:1"><b style="display:block">${esc(h)}</b><span class="gv">${esc(why)}</span><span class="gv" style="display:block;color:#3b6d11"><b>Fix:</b> ${esc(fix)}</span></div></div>`).join("")}</div>`);
   await c.reveal(f, ".gate", 650);
   c.beat(2, "Renee decides what happens to today's misses");
   const d = c.push("Renee", "Reviews and decides", `<div class="dec"><button class="btn sm primary fakeb" tabindex="-1" aria-hidden="true">Add misses to the next run</button></div>`); await c.T(1100);
@@ -175,13 +175,13 @@ const FILEIC = `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stro
 
 function takeHTML() {
   const dN = E.PS.flatMap(x => x.disputed).length, N = E.PS.reduce((a, x) => a + x.rows.length, 0), items = [
-    ["search", "Tested by group, not on average", `${E.R.filter(x => x.pass).length} of ${E.R.length} labelled questions pass, for every role and channel.`],
-    ["shield", "Tested two ways: blind, then after every fix", `${N} probe questions: ${PROBES.length} written by someone who never saw the rules, ${N - PROBES.length} regression checks; every must-refuse refused.`],
-    ["lock", "A sealed set nobody tuned to", `${E.H.filter(x => x.pass).length} of ${E.H.length}, run once, seal ${E.sealedOK ? "intact" : "not verified"}.`],
-    ["stamp", "One red row blocks the release", "Renee signs for Knowledge Operations only when every rule row is green; Legal and Engineering co-sign the monitoring plan."],
-    ["zap", "Every miss becomes a test", "A failure is added as a test row, never fixed silently."],
-    ["calendar", "Run again before every release", "Same tests, same bars; the false-refusal bar tightens from 10% toward 2%."]];
-  return `<div class="take new"><p class="eyebrow">Key takeaway</p><h2>Quality is proven before anything ships, and proven again every release.</h2><p class="big2">Every number here was computed in this browser just now, by the same code as the full runner.</p>
+    ["search", "Accuracy, checked group by group", `${E.R.filter(x => x.pass).length} of ${E.R.length} labelled questions pass, for every role and channel.`],
+    ["shield", "Red-team and regression testing", `${N} probe questions: ${PROBES.length} written by someone who never saw the rules, ${N - PROBES.length} regression tests; every question it must refuse, refused.`],
+    ["lock", "Held-out test set", `${E.H.filter(x => x.pass).length} of ${E.H.length}, run once, seal ${E.sealedOK ? "intact" : "not verified"}.`],
+    ["stamp", "Release gate", "Renee signs for Knowledge Operations only when every safety rule passes; Legal and Engineering co-sign the monitoring plan."],
+    ["zap", "Every failure becomes a regression test", "A failure is added to the tests, never fixed quietly."],
+    ["calendar", "Post-launch monitoring", "The same checks run every week; the false-refusal rate target tightens from 10% to 2%."]];
+  return `<div class="take new"><p class="eyebrow">Key takeaway</p><h2>We tested accuracy, tried to break it, and gated the release. It passes as a prototype.</h2><p class="big2">Every number here was computed in this browser just now, by the same code as the full runner.</p>
     <div class="verdict ${E.release ? "pass" : "fail"}"><div class="big">Release: ${E.release ? "Pass" : "Blocked"}</div><div>${E.release ? "Prototype pass on synthetic sets" : "A rule row is red"} · golden ${E.R.filter(x => x.pass).length} of ${E.R.length} · holdout ${E.H.filter(x => x.pass).length} of ${E.H.length}, seal ${E.sealedOK ? "intact" : "not verified"} · general questions wrongly routed by a rule ${E.PS.reduce((a, x) => a + x.falseN, 0)} · no approved answer yet ${E.PS.reduce((a, x) => a + x.noUnit, 0)} · ${dN} label${dN === 1 ? "" : "s"} disputed</div></div>
     <p class="prod">Not provable in a prototype, and named as such: a model judge checked against two human reviewers, real identity-provider revocation, the monthly redaction audit.</p>
     <ol>${items.map(([ic, h, d], i) => `<li class="${i === items.length - 1 ? "last" : ""}"><span class="ticn">${TICON[ic] || ""}</span><div><b>${esc(h)}</b><span>${esc(d)}</span></div></li>`).join("")}</ol>
@@ -189,7 +189,7 @@ function takeHTML() {
 }
 function shell(t) {
   const n = cur + 1, next = TABS[cur + 1] || TABS[0];
-  document.getElementById("stage").innerHTML = `<p class="eyebrow">Renee Caldwell, Knowledge Operations lead</p><h2 class="hl">${esc(t.line())}</h2><p class="was1"><b>Without it:</b> ${esc(t.without)}</p>
+  document.getElementById("stage").innerHTML = `<p class="eyebrow">Renee Caldwell, Knowledge Operations lead</p><h2 class="hl">${esc(t.line())}</h2><p class="was1"><b>What it means:</b> ${esc(t.without)}</p>
     <div class="beats">${t.beats.map((b, i) => `<span data-b="${i}">${esc(b)}</span>`).join("")}</div><p class="narr" id="narr">&nbsp;</p>
     <div class="appwin"><div class="appbar"><i></i><i></i><i></i><span>Lakewell Knowledge · Release check</span><span style="flex:1"></span><button class="btn sm" id="replay">↻ Replay</button><button class="btn sm" id="skip">Skip to result</button></div><div class="feed" id="feed"></div></div>
     <div id="endc" class="endc" hidden><div class="now"><b>Result</b>${esc(t.line())}</div><div class="foot"><span></span>${TABS[cur + 1] ? `<button class="btn primary" id="nextch">Next: ${esc(next.label)} →</button>` : `<a class="btn primary" href="day.html?mode=new">Next: Future state →</a>`}</div></div>`;
