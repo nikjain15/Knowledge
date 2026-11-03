@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=0d70b27">
-<link rel="stylesheet" href="styles.css?v=0d70b27"><link rel="stylesheet" href="story.css?v=0d70b27">
+<link rel="stylesheet" href="fonts/fonts.css?v=25a6536">
+<link rel="stylesheet" href="styles.css?v=25a6536"><link rel="stylesheet" href="story.css?v=25a6536">
 <title>Roadmap · Lakewell Knowledge</title>
 <style>
 .rule3{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0 18px}.rule3 span{font-family:Manrope,sans-serif;font-weight:800;font-size:14px;padding:7px 12px;border-radius:99px;background:#f1f1ec;color:#2b2f27;border:1px solid #e2e3db}.rule3 i{font-style:normal;color:var(--muted)}
@@ -60,7 +60,7 @@
 <div class="hhead"><h1>Roadmap</h1></div>
 <div class="card howcard" id="stage"></div>
 </main>
-<script src="data.js?v=0d70b27"></script><script src="app.js?v=0d70b27"></script><script src="story-shared.js?v=0d70b27"></script>
+<script src="data.js?v=25a6536"></script><script src="app.js?v=25a6536"></script><script src="story-shared.js?v=25a6536"></script>
 <script>
 /* How we build it, in order (PRD section 14, strategy S10, D78, D180). Plain words; no durations on screen (they are placeholders). */
 nav("plan.html", "", { demo: true });
@@ -68,8 +68,8 @@ document.getElementById("stepper").innerHTML = storyStepper(4);
 const STEPS_R = [
   ["Discovery", "Know where we start", ["List every pharmacy document and its owner", "Measure today's wrong answers and handle time", "Agree approvers with Legal; finish security and vendor review"], ["Baseline numbers agreed", "Every document has an owner", "Build, buy or partner decided"]],
   ["Foundation", "Build the safe base that every later phase reuses, before any real content goes in", ["One store for approved answers, with versions and dates: so there is one copy, not three", "An approval step where nobody approves their own work: so nothing is served unchecked", "Roles taken from the company's sign-in system: so Dana and Luis see only their own content", "An audit trail of who changed what, and when: so Compliance can check any answer", "The test runner from Prove it: so every release is tested the same way"], ["Every safety rule passes the tests", "Every action lands in the audit trail", "Nobody sees content outside their role"]],
-  ["Pilot knowledge base", "Get one knowledge base right", ["Move the Pharmacy content in", "Legal clears the duplicate wordings", "Train authors and approvers"], ["One approved wording per clause", "No wrong merges", "Drift alerts are accurate"]],
-  ["Advocate search", "Advocates trust one answer", ["Run beside today's tools first (shadow)", "Compare its answers with today's", "Go live for one team"], ["Nobody sees content outside their role", "Fewer repeat calls than baseline", "Handle time at or below baseline"]],
+  ["Pilot knowledge base", "Get one knowledge base right", ["Move the Pharmacy content in", "Legal clears the duplicate wordings", "Train authors and approvers"], ["One approved wording per clause", "No wrong merges", "Drift alerts are accurate", "Monitoring plan signed"]],
+  ["Advocate search", "Advocates trust one answer", ["Run beside today's tools first (shadow)", "Compare its answers with today's", "Go live for one team"], ["No content outside a role for four weeks", "Repeat calls at or below baseline", "Handle time at or below baseline"]],
   ["Agent Assist", "AI helps on live calls", ["Agent Assist reads approved answers only", "Test against today on a share of calls", "Review a sample every week"], ["Claims backed by their source", "Legal's words never changed", "Advocates override it less over time"]],
   ["Members and every channel", "Members get the same answer", ["Member chat to a small group first", "Disclose AI use; stricter member rules", "Then texts, website, more knowledge bases"], ["Same answer on every channel", "Member complaints about wrong answers fall", "Weekly checks stay green"]]
 ];
@@ -88,7 +88,7 @@ const EXTRA = [
 /* Techniques and tools per phase; tools named by kind, not vendor (D233), with build or buy (strategy S11) */
 const TT = [
   [["Content inventory and owner mapping", "Call sampling to set the error baseline", "Risk and privacy review"], [["Spreadsheet or catalog tool", "use today's"], ["Call recording and QA tool", "use today's"]]],
-  [["Versioned store with effective dates (temporal versioning)", "Role-based access on every read", "Write-once audit log", "Hash check on Legal's exact words", "Golden set and sealed held-out test"], [["Cloud database and object store", "buy, from the cloud in use"], ["Company sign-in (identity provider)", "use today's"], ["Approval workflow, audit log, eval runner", "build", "Off-the-shelf tools let the writer publish their own article and let anyone edit Legal's wording. We need a second person to approve every answer, Legal's words locked, and a test that blocks a bad release. No tool does all three, so we build them"]]],
+  [["Versioned store with effective dates (temporal versioning)", "Role-based access on every read", "Write-once audit log", "Hash check on Legal's exact words", "Golden set and sealed held-out test"], [["Cloud database and object store", "buy, from the cloud in use"], ["Version, date and hash rules on that database", "build", "Each answer carries its version, start and end date, and a hash of Legal's words, so an old or edited answer is never served"], ["Company sign-in (identity provider)", "use today's"], ["Approval workflow, audit log, eval runner", "build", "Knowledge tools approve whole articles, not each answer, and do not lock Legal's exact sentences. We need a second person to approve every answer, Legal's words locked, and a test that blocks a bad release. No product sells these together, so we build them"]]],
   [["Split documents into topics (structure-aware chunking)", "Semantic deduplication", "Drift detection on source changes", "Hidden-instruction scan"], [["Document parser and OCR service", "buy"], ["Large language model for drafting topics", "buy, via the cloud in use"], ["Embedding model for finding copies", "buy"], ["Drift check: compares a changed document with the topics built from it", "build", "No product does this comparison, so we build the check on top of a bought language model"]]],
   [["Hybrid search: keywords plus meaning", "Re-ranking inside approved topics", "Cited answers only; 'not yet' below the bar", "Shadow mode against today's tools"], [["Managed search service with vector index", "buy"], ["Re-ranking model", "buy"], ["Read contract and gap log", "build", "Every channel (search, Agent Assist, chat, text, website) asks one service for the answer. It checks who is asking, that the answer is approved and in date, then shows the source or says 'not yet'. Build it once and every channel gives the same answer"]]],
   [["Real-time suggestion from the live call", "Template insertion for Legal's words", "Weekly human review sample"], [["Agent Assist in the contact-centre platform", "buy, from today's platform"], ["Speech-to-text", "buy"], ["Connector to the read contract", "build", "Agent Assist normally reads its own copy of the documents, which is how old wording creeps back. A small connector makes it ask the same service as every other channel instead"]]],
@@ -101,11 +101,11 @@ const JOURNEY = [
     ["Split into topics", "Legal's sentences marked", ["ai"], "Language model", "buy"],
     ["Find copies", "The two other versions found", ["ai"], "Embedding model", "buy"],
     ["Flag what changed", "New copay against the old topics", ["ai", "rule"], "Drift check, on a bought model", "build"],
-    ["Edit and approve", "Priya edits; a second person approves", ["person", "rule"], "Approval workflow", "build"],
+    ["Edit and approve", "Priya edits; a second person approves", ["person", "rule"], "Knowledge tool, our approval workflow", "build"],
     ["Store once", "Version, dates; Legal's words hashed", ["rule"], "Bought database, our rules", "mix"],
     ["Test and sign", "One red row blocks; Renee signs", ["rule", "person"], "Eval runner, audit log", "build"]]],
   ["June asks a question", [
-    ["June asks", "Crisis and personal-data rules first", ["rule"], "Member chat", "today"],
+    ["June asks", "Crisis and personal-data rules first", ["rule"], "Member chat, our rules", "mix"],
     ["Check who asks", "What this person may see", ["rule"], "Company sign-in", "today"],
     ["Find the topic", "Best approved match", ["ai"], "Managed search, re-ranker", "buy"],
     ["Answer or 'not yet'", "Source cited; Legal's exact words", ["rule"], "Read service", "build"],
@@ -116,14 +116,14 @@ const JOURNEY = [
 const WHO = { ai: "AI", person: "Person", rule: "System" }, TAG = { build: "We build", buy: "We buy", today: "Use today's" };
 /* What exactly we build or buy at each step */
 const WHAT = { 1: [["buy", "A document parser and OCR service that reads PDFs and scans"]], 2: [["buy", "A large language model that drafts the topics"]], 3: [["buy", "An embedding model that spots copies with different wording"]],
-  4: [["buy", "The language model that reads both versions"], ["build", "The check that compares the new document with the topics already approved"]], 5: [["build", "The approval workflow: a second person must approve, never the author"]],
+  4: [["buy", "The language model that reads both versions"], ["build", "The check that compares the new document with the topics already approved"]], 5: [["today", "Priya writes in today's knowledge tool (we partner for the authoring screens)"], ["build", "The approval workflow: a second person must approve, never the author"]],
   6: [["buy", "A cloud database"], ["build", "The rules on top: versions, start and end dates, and the hash on Legal's words"]], 7: [["build", "The test runner and the write-once audit log"]],
-  8: [["today", "Today's member chat"]], 9: [["today", "The company's existing sign-in system"]], 10: [["buy", "A managed search service and a re-ranking model"]],
-  11: [["build", "The read service every channel asks: checks role and dates, cites the source or says 'not yet'"]], 12: [["buy", "Agent Assist in today's contact-centre platform"], ["build", "A small connector so it asks our read service"]],
+  8: [["today", "Today's member chat"], ["build", "The crisis and personal-data rules, which run inside our read service"]], 9: [["today", "The company's existing sign-in system"]], 10: [["buy", "A managed search service and a re-ranking model"]],
+  11: [["build", "The read service every channel asks: checks role and dates, cites the source or says 'not yet'"]], 12: [["buy", "Agent Assist in today's contact-centre platform, with its speech-to-text"], ["build", "A small connector so it asks our read service"]],
   13: [["build", "The gap log that turns each 'not yet' into Priya's to-do list"]], 14: [["buy", "A monitoring dashboard with alerts"]] };
 const JS = JOURNEY.flatMap(([lane, st], L) => st.map(x => ({ lane, L, x })));
 const ACT = { 1: "Pharmacy team", 2: "AI", 3: "AI", 4: "AI", 5: "Priya, then an approver", 6: "Lakewell Knowledge", 7: "Renee", 8: "June", 9: "Lakewell Knowledge", 10: "AI", 11: "Lakewell Knowledge", 12: "Dana", 13: "Priya", 14: "A reviewer" };
-const journeyHTML = () => `<div class="jy"><div class="jy-h"><div><p class="eyebrow">Before the phases: who does what</p><h3>One answer, end to end</h3><p class="small">Follow one copay change from a new document to June's answer. Click a step, or use Next.</p></div>
+const journeyHTML = () => `<div class="jy"><div class="jy-h"><div><p class="eyebrow">Before the phases: who does what</p><h3>One answer, end to end</h3><p class="small">Follow one copay change from a new document to June's answer.</p></div>
   <div class="jy-lg">${Object.entries(TAG).map(([k, v]) => `<span class="bt ${k}">${v}</span>`).join("")}</div></div>
   <div class="jy-track">${JOURNEY.map(([lane, st], L) => `<div class="jy-seg"><span class="jy-ln">${esc(lane)}</span><div class="jy-dots">${st.map((x, i) => { const n = L * 7 + i; return `<button class="jy-d ${x[4] === "mix" ? "build" : x[4]}" data-j="${n}" title="${esc(x[0])}"><i>${n + 1}</i><span>${esc(x[0])}</span></button>`; }).join("")}</div></div>`).join("")}</div>
   <div class="jy-card" id="jyc"></div>
@@ -140,7 +140,7 @@ function jyGo(n) { jc = Math.max(0, Math.min(JS.length - 1, n)); const { lane, x
   document.getElementById("jyp").disabled = jc === 0; document.getElementById("jyn").textContent = jc === JS.length - 1 ? "Start again ↺" : "Next step →"; }
 let shown = 1;
 document.getElementById("stage").innerHTML = `<p class="eyebrow">Plan to build the future state</p>
-  <h2 class="hl">From prototype to production: six phases, each with an owner and a gate it must pass.</h2>
+  <h2 class="hl">From prototype to production: six phases, each with a gate it must pass.</h2>
   <button class="jy-open" id="jyo" aria-expanded="false">Follow one answer through the system: who does each step, and what we build or buy ▾</button><div id="jyb" hidden>${journeyHTML()}</div><p class="eyebrow" style="margin-top:18px">The six phases</p><div class="tl"><div class="tl-line"><i id="tlfill"></i></div>${STEPS_R.map((r, i) => `<button class="tl-n" data-n="${i}"><span class="tl-d">${i + 1}</span><span class="tl-t">${esc(r[0])}</span></button>`).join("")}</div>
   <div id="phcard" class="phcard"></div>
   <div class="foot" style="margin-top:16px"><button class="btn" id="php">← Previous</button><span class="small" id="phc"></span><button class="btn primary" id="phn">Next phase →</button></div>`;
