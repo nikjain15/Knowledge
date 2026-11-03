@@ -145,3 +145,30 @@ function fmPanel() {
      <div class="fm-nav"><button class="btn" data-go="${i - 1}" ${i === 0 ? "disabled" : ""}>← Back a job</button><div class="fm-dots">${FM_JOBS.map((_, j) => `<span class="${j === i ? "on" : ""}"></span>`).join("")}</div>${i < 3 ? `<button class="btn primary" data-go="${i + 1}">Job ${i + 2}: ${esc(FM_JOBS[i + 1].n)} →</button>` : `<button class="btn primary" onclick="document.getElementById('toNew').click()">${esc(FM_NEXT)}</button>`}</div>`; }
   p.querySelectorAll("[data-go]").forEach(b => b.onclick = () => { const j = +b.dataset.go; fmGo(j < 0 ? 0 : FM_BEATS.findIndex(x => x.job === j && x.rows === 0)); });
 }
+/* Plain-words step text, one line each (same steps; "Start", "First" and "Last" run outside the numbered steps) */
+[
+  ["Start: pulls each new or changed document and takes its fingerprint, version and owner, so any later change is spotted",
+   "1. Check: holds back any line that tries to give the AI orders; Renee reviews it",
+   "2. Sort: AI suggests what to keep, skip, flag as out of date, or send to a pharmacist; Priya confirms",
+   "3. Extract: AI splits the document into short topics and marks Legal's exact words; Priya accepts",
+   "4. Date: AI gives every price or fact its year, owner and end date; the owner approves",
+   "5. Find every copy: AI finds the same wording elsewhere and shows the differences; Tom decides which stays"],
+  ["1. Rules check: checks the wording and dates, and that nobody approves their own work; the right approver signs",
+   "2. Clinical sign-off: a pharmacist signs, then the medical director, before it goes live",
+   "3. Resolve conflicts: AI puts two official wordings side by side; Tom picks one",
+   "4. Review clocks: a late review gets a reminder, then goes to a backup reviewer",
+   "5. Catch drift: when a source changes, one alert lists every copy; AI drafts the fix; the approver signs once",
+   "Last: stores the approved version with its start and end dates and who may read it"],
+  ["First: crisis words go straight to 911, 988 and a person, before any search",
+   "1. One cited answer: searches only approved, current answers the asker may see, and shows Legal's exact words with the source",
+   "2. Right date: serves only today's version; drafts and next year's wording stay hidden",
+   "3. No answer, no guess: says 'not yet', offers a person and logs the question",
+   "4. Close the gaps: AI groups unanswered questions and drafts answers; Priya writes, Renee confirms",
+   "5. Pin the top answer: AI suggests pinning the approved answer to the most-asked question; Renee confirms"],
+  ["1. Golden set: 21 questions with known answers, checked for every role and channel",
+   "2. Sealed holdout: 11 questions nobody tuned to, run once; a fingerprint proves nobody changed them",
+   "3. Blind probes: 430 questions from someone who never saw the rules, plus 234 repeat checks",
+   "4. Every miss becomes a test: a failure is added as a new test, never fixed quietly",
+   "5. Release gate: one failed rule, on any group, blocks the release",
+   "Last: Renee signs the release; Legal and Engineering sign the monitoring plan"]
+].forEach((rows, j) => rows.forEach((t, k) => { if (FM_JOBS[j] && FM_JOBS[j].run[k]) FM_JOBS[j].run[k][2] = t; }));
