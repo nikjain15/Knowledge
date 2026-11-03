@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=5d22bb9">
-<link rel="stylesheet" href="styles.css?v=5d22bb9"><link rel="stylesheet" href="story.css?v=5d22bb9">
+<link rel="stylesheet" href="fonts/fonts.css?v=159ad3d">
+<link rel="stylesheet" href="styles.css?v=159ad3d"><link rel="stylesheet" href="story.css?v=159ad3d">
 <title>Roadmap · Lakewell Knowledge</title>
 <style>
 .rule3{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0 18px}.rule3 span{font-family:Manrope,sans-serif;font-weight:800;font-size:14px;padding:7px 12px;border-radius:99px;background:#f1f1ec;color:#2b2f27;border:1px solid #e2e3db}.rule3 i{font-style:normal;color:var(--muted)}
@@ -21,13 +21,17 @@
 .ph-h small{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:800}.ph-h h3{margin:2px 0 4px;font-family:Manrope,sans-serif;font-weight:800;font-size:17px}.ph-h p{margin:0;font-size:14px;color:#2b2f27}
 .ph-do{margin:0;padding-left:18px;font-size:13.5px;line-height:1.55}.ph-ok{background:#f6f6f2;border-radius:10px;padding:8px 12px;display:grid;gap:3px;font-size:13.5px}.ph-ok b{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}.ph-ok span{color:#2b4a12}
 @media (max-width:900px){.box2{grid-template-columns:1fr}}
+.rp{opacity:1;transform:none;animation:none;transition:opacity .45s ease,transform .45s ease}.rp.later{display:none}
+.rp:not(.later){animation:stin .5s ease}
+.ph-x{grid-column:1 / -1;display:grid;grid-template-columns:1fr 1.5fr;gap:8px 22px;border-top:1px dashed #e2e3db;padding-top:8px;font-size:13px;color:#3b3f36}.ph-x b{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+@media (max-width:900px){.ph-x{grid-template-columns:1fr}}
 </style></head><body>
 <main class="area" style="max-width:1280px">
 <div id="stepper"></div>
 <div class="hhead"><h1>Roadmap</h1></div>
 <div class="card howcard" id="stage"></div>
 </main>
-<script src="data.js?v=5d22bb9"></script><script src="app.js?v=5d22bb9"></script><script src="story-shared.js?v=5d22bb9"></script>
+<script src="data.js?v=159ad3d"></script><script src="app.js?v=159ad3d"></script><script src="story-shared.js?v=159ad3d"></script>
 <script>
 /* How we build it, in order (PRD section 14, strategy S10, D78, D180). Plain words; no durations on screen (they are placeholders). */
 nav("plan.html", "", { demo: true });
@@ -40,11 +44,23 @@ const STEPS_R = [
   ["Agent Assist", "AI helps on live calls", ["Agent Assist reads approved answers only", "Test against today on a share of calls", "Review a sample every week"], ["Claims backed by their source", "Legal's words never changed", "Advocates override it less over time"]],
   ["Members and every channel", "Members get the same answer", ["Member chat to a small group first", "Disclose AI use; stricter member rules", "Then texts, website, more knowledge bases"], ["Same answer on every channel", "Member complaints about wrong answers fall", "Weekly checks stay green"]]
 ];
+const EXTRA = [
+  ["Content inventory, baseline report, signed approver list", "No reliable baseline for wrong answers: measure it on a sample of recorded calls"],
+  ["The platform running in a test environment", "Identity and roles integration slips: start it during discovery"],
+  ["The Pharmacy knowledge base, approved end to end", "Legal's review backlog: the AI shows word-by-word differences so each ruling is quick, and late reviews escalate"],
+  ["Search live for one advocate team", "Advocates keep their old habits: shadow comparison first, training, and old tools kept until trust is earned"],
+  ["Agent Assist answering from approved content", "Confident wrong answers: only cited answers and Legal's exact words, with a weekly human review"],
+  ["Member chat and every channel on one source", "Regulatory exposure: AI use disclosed, stricter rules, a small rollout first, and the stop rule"]
+];
+let shown = 1;
 document.getElementById("stage").innerHTML = `<p class="eyebrow">Plan to build the future state</p>
   <h2 class="hl">From prototype to production: six phases, each with an owner and a gate it must pass.</h2>
-  <p class="was1"><b>Why this order:</b> each phase puts less of a person between the answer and the member, so each one must succeed before the next starts.</p>
-  <ol class="path">${STEPS_R.map((r, i) => `<li class="rp" style="animation-delay:${(i * 0.18).toFixed(2)}s"><span class="dot">${i + 1}</span><div class="box2"><div class="ph-h"><small>Phase ${i + 1}</small><h3>${esc(r[0])}</h3><p>${esc(r[1])}</p></div><ul class="ph-do">${r[2].map(x => `<li>${esc(x)}</li>`).join("")}</ul><div class="ph-ok"><b>Success looks like</b>${r[3].map(x => `<span>✓ ${esc(x)}</span>`).join("")}</div></div></li>`).join("")}</ol>
+  
+  <ol class="path">${STEPS_R.map((r, i) => `<li class="rp${i ? " later" : ""}" data-ph="${i}"><span class="dot">${i + 1}</span><div class="box2"><div class="ph-h"><small>Phase ${i + 1}</small><h3>${esc(r[0])}</h3><p>${esc(r[1])}</p></div><ul class="ph-do">${r[2].map(x => `<li>${esc(x)}</li>`).join("")}</ul><div class="ph-ok"><b>Success looks like</b>${r[3].map(x => `<span>✓ ${esc(x)}</span>`).join("")}</div><div class="ph-x"><span><b>Delivers</b>${esc(EXTRA[i][0])}</span><span><b>Biggest risk</b>${esc(EXTRA[i][1])}</span></div></div></li>`).join("")}</ol>
   <div class="side2"><div class="pilot"><b>Running through every phase</b>Change management and training for authors, approvers and advocates; a governance group that owns the stop rule; the same tests run before every release. Search goes live in phase 4, only over approved answers.</div><div class="stop"><b>Stop rule</b>If anyone sees content outside their role, or Legal's words change, that channel stops serving at once. It restarts only after the fix ships with a new test and the signers agree.</div></div>
-  <div class="foot" style="margin-top:18px"><span></span><a class="btn primary" href="choices.html">Next: Trade-offs →</a></div>`;
+  <div class="foot" style="margin-top:18px"><span class="small" id="phc">Phase 1 of 6 · press → for the next phase</span><button class="btn primary" id="phn">Next phase →</button></div>`;
+function showPh(n) { shown = Math.max(1, Math.min(STEPS_R.length, n)); document.querySelectorAll("[data-ph]").forEach(li => li.classList.toggle("later", +li.dataset.ph >= shown)); const side = document.querySelector(".side2"); if (side) side.style.display = shown === STEPS_R.length ? "" : "none"; document.getElementById("phc").textContent = shown < STEPS_R.length ? `Phase ${shown} of ${STEPS_R.length} · press → for the next phase` : "All six phases"; const b = document.getElementById("phn"); b.textContent = shown < STEPS_R.length ? "Next phase →" : "Next: Trade-offs →"; b.onclick = () => { if (shown < STEPS_R.length) { showPh(shown + 1); const li = document.querySelector(`[data-ph="${shown - 1}"]`); if (li) li.scrollIntoView({ block: "nearest", behavior: "smooth" }); } else location.href = "choices.html"; }; }
+showPh(1);
+document.addEventListener("keydown", e => { if (e.key === "ArrowRight") { showPh(shown + 1); e.preventDefault(); } if (e.key === "ArrowLeft") { showPh(shown - 1); e.preventDefault(); } });
 document.querySelector("main").insertAdjacentHTML("beforeend", `<p class="small" style="margin-top:14px">Phase gates and order from the PRD, section 14. Discovery, shadow mode and change management are our recommended delivery practice. Timings are left out until discovery sizes them.</p>`);
 </script></body></html>
