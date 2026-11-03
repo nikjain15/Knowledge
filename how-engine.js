@@ -111,7 +111,7 @@ async function scene(fast) {
     if (b.k === "ai") { if (b.sc.src) { const sv = push(feedItem(b.who, "Reads the document", `<div class="scan">${b.sc.src}</div>`)); if (!fast) { sv.querySelector(".scan").classList.add("go"); await wait(2200); } if (!live()) return; }
       const el = push(feedItem(b.who, b.say, `<div class="think"><i></i><i></i><i></i></div>`));
       await wait(T(1100)); if (!live()) return;
-      const html = b.sc.show || (s.now ? s.now() : ""), R = s.live ? window.LIVE_R : null;
+      const html = (b.sc.show || (s.now ? s.now() : "")) + (b.sc.rec ? b.sc.rec() : ""), R = s.live ? window.LIVE_R : null;
       if (R && R.trace) { const tk = document.createElement("div"); tk.className = "lv-tick"; el.querySelector(".fp").innerHTML = ""; el.querySelector(".fp").appendChild(tk);
         for (const t of R.trace) { const sp = document.createElement("span"); sp.className = "run"; sp.textContent = deCode(t); tk.appendChild(sp); down(); await wait(T(600)); if (!live()) return; sp.classList.remove("run"); }
         tk.insertAdjacentHTML("afterend", html); audit("System", R.kind === "answer" ? `Served ${R.unit.title || unitName(R.unit.id)} v${R.unit.version} to ${R.role} on ${R.channel} · exact wording rendered by template` : R.kind === "person" ? `Handed to a person now · ${R.urgent ? "911 and 988 given" : "no search"}` : `No approved topic answered · abstained · gap log +1`); bell(); }
