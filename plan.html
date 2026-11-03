@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="fonts/fonts.css?v=f39d4dc">
-<link rel="stylesheet" href="styles.css?v=f39d4dc"><link rel="stylesheet" href="story.css?v=f39d4dc">
+<link rel="stylesheet" href="fonts/fonts.css?v=3589ada">
+<link rel="stylesheet" href="styles.css?v=3589ada"><link rel="stylesheet" href="story.css?v=3589ada">
 <title>Roadmap · Lakewell Knowledge</title>
 <style>
 .rule3{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0 18px}.rule3 span{font-family:Manrope,sans-serif;font-weight:800;font-size:14px;padding:7px 12px;border-radius:99px;background:#f1f1ec;color:#2b2f27;border:1px solid #e2e3db}.rule3 i{font-style:normal;color:var(--muted)}
@@ -44,14 +44,14 @@
 <div class="hhead"><h1>Roadmap</h1></div>
 <div class="card howcard" id="stage"></div>
 </main>
-<script src="data.js?v=f39d4dc"></script><script src="app.js?v=f39d4dc"></script><script src="story-shared.js?v=f39d4dc"></script>
+<script src="data.js?v=3589ada"></script><script src="app.js?v=3589ada"></script><script src="story-shared.js?v=3589ada"></script>
 <script>
 /* How we build it, in order (PRD section 14, strategy S10, D78, D180). Plain words; no durations on screen (they are placeholders). */
 nav("plan.html", "", { demo: true });
 document.getElementById("stepper").innerHTML = storyStepper(4);
 const STEPS_R = [
   ["Discovery", "Know where we start", ["List every pharmacy document and its owner", "Measure today's wrong answers and handle time", "Agree approvers with Legal; finish security and vendor review"], ["Baseline numbers agreed", "Every document has an owner", "Build, buy or partner decided"]],
-  ["Foundation", "Build the core safely", ["Knowledge store and approval workflow", "Sign-in and roles from the company's identity system", "Audit trail and the test harness"], ["Every safety rule passes the tests", "Every action lands in the audit trail"]],
+  ["Foundation", "Build the safe base that every later phase reuses, before any real content goes in", ["One store for approved answers, with versions and dates: so there is one copy, not three", "An approval step where nobody approves their own work: so nothing is served unchecked", "Roles taken from the company's sign-in system: so Dana and Luis see only their own content", "An audit trail of who changed what, and when: so Compliance can check any answer", "The test runner from Prove it: so every release is tested the same way"], ["Every safety rule passes the tests", "Every action lands in the audit trail", "Nobody sees content outside their role"]],
   ["Pilot knowledge base", "Get one knowledge base right", ["Move the Pharmacy content in", "Legal clears the duplicate wordings", "Train authors and approvers"], ["One approved wording per clause", "No wrong merges", "Drift alerts are accurate"]],
   ["Advocate search", "Advocates trust one answer", ["Run beside today's tools first (shadow)", "Compare its answers with today's", "Go live for one team"], ["Nobody sees content outside their role", "Fewer repeat calls than baseline", "Handle time at or below baseline"]],
   ["Agent Assist", "AI helps on live calls", ["Agent Assist reads approved answers only", "Test against today on a share of calls", "Review a sample every week"], ["Claims backed by their source", "Legal's words never changed", "Advocates override it less over time"]],
