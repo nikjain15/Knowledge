@@ -279,3 +279,9 @@ details.why{margin-top:10px}details.why>summary{cursor:pointer;font-weight:800;c
 
 .rs-row .fm-who{align-self:start}
 .rs-row{grid-template-columns:92px 1fr}
+
+/* Roomier step list and result footer */
+.howgrid{grid-template-columns:minmax(0,1fr) 430px}
+.rs-row{grid-template-columns:104px 1fr;padding:10px 12px}.rs-row .fm-rtech{margin-top:6px}
+.howcard .meta3{grid-template-columns:1fr 1fr;gap:20px 40px;margin-top:20px;padding-top:4px}.howcard .meta3 span{font-size:13.5px;line-height:1.55}.howcard .meta3 b{margin-bottom:4px}
+.howcard .foot{margin-top:22px}
